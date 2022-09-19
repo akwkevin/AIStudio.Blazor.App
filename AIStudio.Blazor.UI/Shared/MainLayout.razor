@@ -1,0 +1,238 @@
+﻿@using System.Reflection
+@using AIStudio.Blazor.UI.Models.Settings
+@using AIStudio.Util
+@using Blazored.LocalStorage
+@using Microsoft.Extensions.Options
+@inherits DisposeLayoutComponentBase
+
+<Layout Style="min-height:100vh;">
+    @if (IsDrawer)
+    {
+        <Drawer Closable="true" Visible="!Collapsed" Placement="left" Title='GetLogo()' OnClose="_=>DrawerClose()">
+            <HamburgerMenu Theme="MenuTheme.Light" Accordion=Layout.Accordion InlineCollapsed="false" MenuData="MenuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
+        </Drawer>
+    }
+    else
+    {
+        <Sider Collapsible CollapsedWidth="CollapsedWidth" Collapsed=@Collapsed
+           OnCollapse=@OnCollapse NoTrigger Breakpoint="@BreakpointType.Lg"
+           Style="overflow: auto; height: 100vh; position: fixed; left: 0;" Theme="Layout.SiderTheme">
+            @if (!Collapsed)
+            {
+                <div class="logo">
+                    <img src="@LogoImgSrc" width="16" />
+                    <a style="margin:16px 8px">@Layout.Title</a>
+                </div>
+            }
+            else
+            {
+                <div class="logo_Collapse">
+                    <img src="@LogoImgSrc" width="16" />
+                </div>
+            }
+
+            <HamburgerMenu Theme="Layout.MenuTheme" Accordion=Layout.Accordion InlineCollapsed="@Collapsed" MenuData="MenuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
+        </Sider>
+    }
+
+
+    <Layout Style="@HeaderStyle">
+        <Header Style="@Layout.HeaderStyle">
+            @if (Collapsed)
+            {
+                <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="Toggle" />
+            }
+            else
+            {
+                <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="Toggle" />
+            }
+            <div style="float:right;margin-right:20px;">
+                <AIStudio.Blazor.UI.Components.RightContent />
+            </div>
+        </Header>
+        @if (Layout.MultiTab)
+        {
+            <Content Style="@Layout.ContentStyle">
+                <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
+            </Content>
+        }
+        else
+        {
+            <div style="margin: 12px 16px;">
+                <TitleBreadcrumb BreadcrumbItemArr="@BreadcrumbItemArr"></TitleBreadcrumb>
+            </div>
+            <Content Style="@Layout.ContentStyle">
+                @Body
+            </Content>
+        }
+        <AIStudio.Blazor.UI.Components.FooterContent />
+    </Layout>
+</Layout>
+
+<style>
+    .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+        .trigger:hover {
+            color: #1890ff;
+        }
+
+    .logo {
+        height: 16px;
+        margin: 16px 16px 16px 24px;
+    }
+
+    .logo_Collapse {
+        height: 16px;
+        margin: 16px 16px 16px 32px;
+    }
+</style>
+
+@code
+{
+    [Inject]
+    IOptions<LayoutSettings> LayoutSettings { get; set; }
+    [Inject]
+    IJSRuntime JSRuntime { get; set; }
+    [Inject]
+    ILocalStorageService StorageService { get; set; }
+    [Inject]
+    IOperator Operator { get; set; }
+
+    MenuDataItem[] MenuData = { };
+
+    LayoutSettings Layout { get { return LayoutSettings.Value; } }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        MenuData = Operator.MenuTrees.ChangeType<MenuDataItem[]>();
+        var setting = await StorageService.GetItemAsStringAsync(nameof(Layout));
+        if (!string.IsNullOrEmpty(setting))
+        {
+            var temp = setting.ToObject<LayoutSettings>();
+
+            temp.CopyProperties(Layout);
+        }
+
+        Layout.StateChanged += StateChanged;
+    }
+
+    public void StateChanged(string name, object oldvalue, object newvlue)
+    {
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// logo图片地址
+    /// </summary>
+    string LogoImgSrc { get; set; } = "_content/AIStudio.Blazor.UI/images/logo.png";
+
+    string HeaderStyle { get; set; } = "margin-left: 200px";
+
+    /// <summary>
+    /// 面包屑数据同步
+    /// </summary>
+    string[] BreadcrumbItemArr = new string[] { };
+
+    bool _collapsed;
+    /// <summary>
+    /// 控制左侧菜单是否折叠
+    /// </summary>
+    bool Collapsed
+    {
+        set
+        {
+            _collapsed = value;
+            CollapseCallback(value);
+        }
+        get
+        {
+            return _collapsed;
+        }
+    }
+
+    int CollapsedWidth { get; set; } = 0;
+    /// <summary>
+    /// 是否使用遮罩
+    /// </summary>
+    bool IsDrawer { get; set; } = false;
+
+    /// <summary>
+    /// 按钮点击时触发
+    /// </summary>
+    void Toggle()
+    {
+        Collapsed = !Collapsed;
+    }
+
+    /// <summary>
+    /// 只有熔断触发，Toggle不触发
+    /// </summary>
+    /// <param name="collapsed"></param>
+    void OnCollapse(bool collapsed)
+    {
+        Collapsed = collapsed;
+    }
+    /// <summary>
+    /// 菜单栏缩放时百分百触发
+    /// </summary>
+    /// <param name="collapsed"></param>
+    async void CollapseCallback(bool collapsed)
+    {
+        var clientWidth = (await JSRuntime.InvokeAsync<BrowserDimension>("getDimensions")).Width;
+        IsDrawer = clientWidth < 576;
+        if (collapsed)
+        {
+            if (clientWidth >= 576)
+            {
+                HeaderStyle = "margin-left: 80px";
+                CollapsedWidth = 80;
+            }
+            else
+            {
+                HeaderStyle = "margin-left: 0px";
+                CollapsedWidth = 0;
+            }
+        }
+        else
+        {
+            if (!IsDrawer)//是否使用遮罩
+                HeaderStyle = "margin-left: 200px";
+        }
+        StateHasChanged();
+    }
+    /// <summary>
+    /// 刷新布局
+    /// </summary>
+    void Refresh()
+    {
+        StateHasChanged();
+    }
+
+    public RenderFragment GetLogo()
+    {
+        RenderFragment logo =
+    @<div class="logo">
+        <img src="@LogoImgSrc" height="16" />
+    </div>
+        ;
+        return logo;
+    }
+
+    void DrawerClose()
+    {
+        Collapsed = true;
+    }
+
+    public override void Dispose()
+    {
+        Layout.StateChanged -= StateChanged;
+    }
+}

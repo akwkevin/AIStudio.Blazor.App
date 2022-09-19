@@ -1,0 +1,43 @@
+﻿@inherits BaseEditForm<Base_DepartmentDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="部门名">
+        <Input @bind-Value="@context.Name" AutoComplete=false />
+    </FormItem>   
+    <FormItem Label="部门">
+        <TreeSelect  
+            TItem="TreeModel"
+            @bind-Value="@context.ParentId"
+            AllowClear
+            DataSource="Departments"            
+            Placeholder="请选择部门"
+            ChildrenExpression="node=>node.DataItem.Children"
+            TitleExpression="node=>node.DataItem.Text"
+            KeyExpression="node=>node.DataItem.Id"
+            IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+            TreeDefaultExpandAll />
+    </FormItem>    
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+
+    private List<TreeModel> Departments { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetDepartment();
+    }
+
+    private async Task GetDepartment()
+    {
+        Departments = (await UserData.GetBase_DepartmentTree());
+    }
+}

@@ -1,0 +1,119 @@
+﻿@inherits BaseEditForm<Base_CommonFormConfigDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="表名">
+        <Input @bind-Value="@context.Table" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="列头">
+        <Input @bind-Value="@context.Header" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="属性名">
+        <Input @bind-Value="@context.PropertyName" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="属性类型">
+        <Select TItem="string"
+                TItemValue="string"
+                @bind-Value="@context.PropertyType"
+                AllowClear
+                DataSource="PropertyTypes"
+                Placeholder="请选择属性类型">
+        </Select>
+    </FormItem>
+    <FormItem Label="显示索引">
+        <Input @bind-Value="@context.DisplayIndex" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="配置类型">
+        <RadioGroup @bind-Value="@context.Type">
+            <Radio Value="0">查询</Radio>
+            <Radio Value="1">列表</Radio>
+        </RadioGroup>
+    </FormItem>
+    <FormItem Label="格式化">
+        <Input @bind-Value="@context.StringFormat" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="是否显示">
+        <RadioGroup @bind-Value="@context.Visibility">
+            <Radio Value="0">显示</Radio>
+            <Radio Value="2">隐藏</Radio>
+        </RadioGroup>
+    </FormItem>
+    <FormItem Label="控件类型">
+        <EnumSelect TEnum="ControlType"
+                    @bind-Value="@context.ControlType"
+                    AllowClear
+                    Placeholder="请选择控件类型">
+        </EnumSelect>
+    </FormItem>
+    <FormItem Label="只读">
+        <Checkbox @bind-Value="@context.IsReadOnly" />
+    </FormItem>
+    <FormItem Label="必输项">
+        <Checkbox @bind-Value="@context.IsReadOnly" />
+    </FormItem>
+    <FormItem Label="字典名">
+        <Input @bind-Value="@context.ItemSource" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="默认值">
+        <Input @bind-Value="@context.Value" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="排序名">
+        <Input @bind-Value="@context.SortMemberPath" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="转换器">
+        <Input @bind-Value="@context.Converter" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="转换参数">
+        <Input @bind-Value="@context.ConverterParameter" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="对齐方式">
+        <RadioGroup @bind-Value="@context.HorizontalAlignment">
+            <Radio Value="0">Left</Radio>
+            <Radio Value="1">Center</Radio>
+            <Radio Value="2">Right</Radio>
+            <Radio Value="3">Stretch</Radio>
+        </RadioGroup>
+    </FormItem>
+    <FormItem Label="最大宽度">
+        <Input @bind-Value="@context.MaxWidth" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="最小宽度">
+        <Input @bind-Value="@context.MinWidth" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="宽度">
+        <Input @bind-Value="@context.Width" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="是否可以重排">
+        <Checkbox @bind-Value="@context.CanUserReorder" />
+    </FormItem>
+    <FormItem Label="是否可以调整大小">
+        <Checkbox @bind-Value="@context.CanUserResize" />
+    </FormItem>
+    <FormItem Label="是否可以排序">
+        <Checkbox @bind-Value="@context.CanUserSort" />
+    </FormItem>
+    <FormItem Label="背景颜色触发公式">
+        <Input @bind-Value="@context.BackgroundExpression" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="前景颜色触发公式">
+        <Input @bind-Value="@context.ForegroundExpression" AutoComplete=false />
+    </FormItem>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+        
+    }
+
+    string[] PropertyTypes
+    {
+        get
+        {
+            return new string[] { "string", "bool", "int", "long", "double", "decimal", "datetime", "list" };
+        }
+    }
+}

@@ -1,0 +1,101 @@
+﻿@page "/Base_Manage/Base_CommonFormConfig/List"
+
+@inherits BaseListWithEdit<Base_CommonFormConfigDTO, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("Base_CommonFormConfig.Add"))
+    {
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+        </SpaceItem>
+    }
+    @if (Operator.HasPerm("Base_CommonFormConfig.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    }
+    <SpaceItem>
+        <SimpleSelect DefaultValue="Table" @bind-Value="@Condition">
+            <SelectOptions>
+                <SimpleSelectOption Value="Table" Label="表名"></SimpleSelectOption>
+            </SelectOptions>
+        </SimpleSelect>
+    </SpaceItem>
+    <SpaceItem>
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@Keyword" disabled=@Loading OnSearch="()=>Refresh()" />
+    </SpaceItem>
+</Space>
+
+<Table @ref="_table" TItem="Base_CommonFormConfigDTO" DataSource="Data"  Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+        <AntDesign.Column Title="表名" DataIndex="Table" TData="string" />
+        <AntDesign.Column Title="列头" DataIndex="Header" TData="string" />
+        <AntDesign.Column Title="属性名" DataIndex="PropertyName" TData="string" />
+        <AntDesign.Column Title="属性类型" DataIndex="PropertyType" TData="string" />
+        <AntDesign.Column Title="显示索引" DataIndex="DisplayIndex" TData="int" />
+        <AntDesign.Column Title="配置类型" DataIndex="TypeName" TData="int" />
+        <AntDesign.Column Title="格式化" DataIndex="StringFormat" TData="string" />
+        <AntDesign.Column Title="是否显示" DataIndex="VisibilityName" TData="string" />
+        <AntDesign.Column Title="控件类型" DataIndex="ControlType" TData="object" />
+        <AntDesign.Column Title="只读" DataIndex="IsReadOnly" TData="bool" />
+        <AntDesign.Column Title="必输项" DataIndex="IsReadOnly" TData="bool" />
+        <AntDesign.Column Title="字典名" DataIndex="ItemSource" TData="string" />
+        <AntDesign.Column Title="默认值" DataIndex="Value" TData="string" />
+        <AntDesign.Column Title="排序名" DataIndex="SortMemberPath" TData="string" />
+        <AntDesign.Column Title="转换器" DataIndex="Converter" TData="string" />
+        <AntDesign.Column Title="转换参数" DataIndex="ConverterParameter" TData="string" />
+        <AntDesign.Column Title="对齐方式" DataIndex="HorizontalAlignmentName" TData="string" />
+        <AntDesign.Column Title="最大宽度" DataIndex="MaxWidth" TData="double" />
+        <AntDesign.Column Title="最小宽度" DataIndex="MinWidth" TData="double" />
+        <AntDesign.Column Title="列表宽度" DataIndex="Width" TData="string" />
+        <AntDesign.Column Title="是否可以重排" DataIndex="CanUserReorder" TData="bool" />
+        <AntDesign.Column Title="是否可以调整大小" DataIndex="CanUserResize" TData="bool" />
+        <AntDesign.Column Title="是否可以排序" DataIndex="CanUserSort" TData="bool" />
+        <AntDesign.Column Title="背景颜色触发公式" DataIndex="BackgroundExpression" TData="string" />
+        <AntDesign.Column Title="前景颜色触发公式" DataIndex="ForegroundExpression" TData="string" />
+        <ActionColumn Title="Action">
+            <Space Size=@("small")>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+    <PaginationTemplate>
+        <div style="float:right;margin-top:10px">
+            <Pagination Total="Pagination.Total"
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
+        </div>
+    </PaginationTemplate>
+</Table>
+
+
+@code
+{  
+    public List()
+    {
+        Area = "Base_Manage";
+    }
+}

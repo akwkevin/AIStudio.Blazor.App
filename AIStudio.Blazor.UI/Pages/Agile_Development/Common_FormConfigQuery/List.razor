@@ -1,0 +1,90 @@
+﻿@page "/Agile_Development/Common_FormConfigQuery/List/{Para}"
+
+@inherits CommonBaseList
+
+<Space Size=@(("5", "10")) Wrap>
+    @if (QueryConditionItems != null)
+    {
+        @foreach (var item in QueryConditionItems)
+        {
+            <SpaceItem>
+                <EditComponent Item="@item" Loading=@Loading NoneSelectedItems=@NoneSelectedItems OnClick="OnBtnClick" />
+            </SpaceItem>
+        }
+    }
+</Space>
+
+
+<Table @ref="_table"
+       TItem="System.Data.DataRow"
+       DataSource="Data"
+       @bind-SelectedRows="SelectedItems"
+       OnRowClick="OnRowClick"
+       HidePagination
+       PageSize="Pagination.PageRows"
+       PageIndex="Pagination.PageIndex"
+       ScrollY="@BodyHeight.ToString()"
+       ScrollBarWidth="5px"
+       Responsive>
+    <Selection />
+    @if (DataGridColumns != null)
+    {
+        @foreach (var column in DataGridColumns)
+        {
+            @if (column.Visibility == 0)
+            {
+                @if (string.IsNullOrEmpty(column.Converter))
+                {
+                    <AntDesign.Column TData="object" Title="@column.Header.ToString()" DataIndex=@($"['{column.PropertyName}']") Filterable Sortable=@column.CanUserSort Format="@column.StringFormat"></AntDesign.Column>
+                }
+                else
+                {
+                    <AntDesign.Column Title="@column.Header.ToString()" Filterable Sortable=@column.CanUserSort TData="string">
+                        <ConverterComponent Converter="@column.Converter" ConverterParameter="@column.ConverterParameter" Value="@context[column.PropertyName]" />
+                    </AntDesign.Column>
+                }
+            }
+        }
+    }
+</Table>
+<div style="float:right;margin-top:10px">
+    <AntDesign.Pagination Total="Pagination.Total"
+                          ShowTotal="ShowTotal"
+                          ShowSizeChanger
+                          PageSize="Pagination.PageRows"
+                          Current="Pagination.PageIndex"
+                          OnChange="PageIndexChanged"
+                          OnShowSizeChange="PageSizeChanged" />
+</div>
+
+<Space Size=@(("5", "10")) Wrap style="margin-top:10px">
+
+    @if (EditFormItems != null)
+    {   
+        @if (IsReadOnly)
+        {
+            <SpaceItem>
+                <Icon Type="read" Theme="outline" />
+            </SpaceItem>
+        }
+        else if (IsNew)
+        {
+            <SpaceItem>
+                <Icon Type="file" Theme="outline" Style="color: red;" />
+            </SpaceItem>
+        }
+        else
+        {
+            <SpaceItem>
+                <Icon Type="edit" Theme="outline" Style="color: green;" />
+            </SpaceItem>
+        }
+
+        @foreach (var item in EditFormItems)
+        {
+            <SpaceItem>
+                <EditComponent Item="@item" OnClick="OnBtnClick" />
+            </SpaceItem>
+        }
+    }
+</Space>

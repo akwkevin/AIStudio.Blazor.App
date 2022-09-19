@@ -1,0 +1,71 @@
+﻿@page "/Base_Manage/Base_Action/List"
+
+@inherits BaseListWithEdit<Base_ActionTree, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("Base_Action.Add"))
+    {
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+        </SpaceItem>
+    }
+    @if (Operator.HasPerm("Base_Action.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    }
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
+    </SpaceItem>
+</Space>
+
+<Table @ref="_table" TItem="Base_ActionTree" DataSource="Data" TreeChildren="item=>item.Children" DefaultExpandAllRows Loading="Loading" HidePagination @bind-SelectedRows="SelectedItems">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+        <AntDesign.Column Title="菜单名" DataIndex="Text" TData="string" />
+        <AntDesign.Column Title="类型" DataIndex="TypeText" TData="string" />
+        <AntDesign.Column Title="路径" DataIndex="Url" TData="string" />
+        <AntDesign.Column Title="需要权限" DataIndex="NeedActionText" TData="string" />
+        <AntDesign.Column Title="页面权限" TData="string" >
+            @foreach (var item in @context.PermissionValues)
+            {
+                <p>@item</p>
+            }
+        </AntDesign.Column>
+        <AntDesign.Column Title="图标" DataIndex="icon" TData="string" Width="5%" />
+        <AntDesign.Column Title="排序" DataIndex="Sort" TData="int" Width="5%" />
+        <ActionColumn Title="Action" Width="25%">
+            <Space Size=@("small")>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+</Table>
+
+
+@code
+{
+    public List()
+    {
+        Area = "Base_Manage";
+        GetDataList = "GetMenuTreeList";
+    }
+}

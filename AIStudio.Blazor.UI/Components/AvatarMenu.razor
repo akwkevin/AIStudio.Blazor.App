@@ -1,0 +1,32 @@
+﻿@inherits AntDomComponentBase
+
+<Menu Class="menu" OnMenuItemClicked="OnItemSelected">
+    @foreach (var avatarItem in MenuItems)
+    {
+        if (avatarItem.IsDivider)
+        {
+            <MenuDivider />
+        }
+        else
+        {
+            <MenuItem Key="@avatarItem.Key">
+                <Icon Type="@avatarItem.IconType" Theme="@avatarItem.IconTheme" />
+                @avatarItem.Option
+            </MenuItem>
+        }
+    }
+</Menu>
+
+@code {
+    [Parameter] public EventCallback<MenuItem> OnItemSelected { get; set; }
+
+    [Parameter]
+    public IEnumerable<AvatarMenuItem> MenuItems { get; set; } =
+    new AvatarMenuItem[]
+    {
+            new AvatarMenuItem { Key = "center", IconType = "user", Option = "个人中心"},
+            new AvatarMenuItem { Key = "setting", IconType = "setting", Option = "个人中心"},
+            new AvatarMenuItem { IsDivider = true },
+            new AvatarMenuItem { Key = "logout", IconType = "logout", Option = "个人中心"}
+    };
+}

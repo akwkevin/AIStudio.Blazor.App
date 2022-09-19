@@ -1,0 +1,73 @@
+﻿@page "/Base_Manage/Base_Dictionary/List"
+
+@inherits BaseListWithEdit<Base_DictionaryTree, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("Base_Dictionary.Add"))
+    {
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+        </SpaceItem>
+    }
+    @if (Operator.HasPerm("Base_Dictionary.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    } 
+    <SpaceItem>
+        <SimpleSelect DefaultValue="Name" @bind-Value="@Condition">
+            <SelectOptions>
+                <SimpleSelectOption Value="Name" Label="字典名"></SimpleSelectOption>
+            </SelectOptions>
+        </SimpleSelect>
+    </SpaceItem>
+    <SpaceItem>
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@Keyword" disabled=@Loading OnSearch="()=>Refresh()" />
+    </SpaceItem>
+</Space>
+
+<Table @ref="_table" TItem="Base_DictionaryTree" DataSource="Data" TreeChildren="item=>item.Children" DefaultExpandAllRows Loading="Loading" HidePagination @bind-SelectedRows="SelectedItems" >
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+        <AntDesign.Column Title="类型" DataIndex="TypeText" TData="string"/>
+        <AntDesign.Column Title="文本" DataIndex="Text" TData="string"/> 
+        <AntDesign.Column Title="值" DataIndex="Value" TData="string"/>
+        <AntDesign.Column Title="Code" DataIndex="Code" TData="string" />
+        <AntDesign.Column Title="控件类型" DataIndex="ControlType" TData="object"/>
+        <AntDesign.Column Title="备注" DataIndex="Remark" TData="string"/>
+        <AntDesign.Column Title="排序" DataIndex="Sort" TData="int"/>
+        <ActionColumn Title="Action">
+            <Space Size=@("small")>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+</Table>
+
+
+@code
+{  
+    public List()
+    {
+        Area = "Base_Manage";
+        GetDataList = "GetTreeDataList";
+    }
+}

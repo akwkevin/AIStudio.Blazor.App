@@ -1,0 +1,108 @@
+﻿@page "/Home/ChangePwd"
+@using AIStudio.Blazor.UI.Models.Params
+@inherits FeedbackComponent<ChangePasswordParamsType>
+
+<Form @ref="_form"
+      Model="@_model"
+      LabelColSpan="6"
+      WrapperColSpan="16">
+    <FormItem Label="原密码">
+        <InputPassword DebounceMilliseconds="-1" @bind-Value='@context.OldPassword' Placeholder="原密码" />
+    </FormItem>
+    <FormItem Label="新密码">
+        <InputPassword DebounceMilliseconds="-1" @bind-Value='@context.NewPassword' Placeholder="新密码" />
+    </FormItem>
+    <FormItem Label="密码确认">
+        <InputPassword DebounceMilliseconds="-1" @bind-Value='@context.ConfirmPassword' Placeholder="密码确认" />
+    </FormItem>
+</Form>
+
+<br />
+<br />
+
+@code {
+    Form<ChangePasswordParamsType> _form;
+    ChangePasswordParamsType _model { get; set; }
+    [Inject] IDataProvider DataProvider { get; set; }
+    [Inject] MessageService MessageService { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        _model = base.Options ?? new ChangePasswordParamsType();
+        base.OnInitialized();
+    }
+
+
+    private async Task<bool> FormSubmit()
+    {
+        if (_model.ConfirmPassword != _model.NewPassword)
+        {
+            _ = MessageService.Error("密码不一致");
+            return false;
+        }
+        var result = await DataProvider.GetData<string>("/Base_Manage/Home/ChangePwd", (new { oldPwd = _model.OldPassword, newPwd = _model.NewPassword }).ToJson());
+        if (result.Success)
+        {
+            _ = MessageService.Success(result.Msg);
+            return true;
+        }
+        else
+        {
+            _ = MessageService.Error(result.Msg);
+        }
+        _model.NewPassword = null;
+        _model.ConfirmPassword = null;
+        _model.OldPassword = null;
+        StateHasChanged();
+        return false;
+    }
+
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+        try
+        {
+            if (FeedbackRef is ConfirmRef confirmRef)
+            {
+                confirmRef.Config.OkButtonProps.Loading = true;
+                await confirmRef.UpdateConfigAsync();
+            }
+            else if (FeedbackRef is ModalRef modalRef)
+            {
+                modalRef.Config.ConfirmLoading = true;
+                await modalRef.UpdateConfigAsync();
+            }
+
+            if (_form.Validate())
+            {
+                if (await FormSubmit() == true)
+                {
+
+                }
+                else
+                {
+                    args.Cancel = true;
+                }
+            }
+            else
+            {
+                args.Cancel = true;
+            }
+
+            await base.OnFeedbackOkAsync(args);
+        }
+        finally
+        {
+            if (FeedbackRef is ConfirmRef confirmRef)
+            {
+                confirmRef.Config.OkButtonProps.Loading = false;
+                await confirmRef.UpdateConfigAsync();
+            }
+            else if (FeedbackRef is ModalRef modalRef)
+            {
+                modalRef.Config.ConfirmLoading = false;
+                await modalRef.UpdateConfigAsync();
+            }
+        }
+    }
+}

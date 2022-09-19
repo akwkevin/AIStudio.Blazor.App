@@ -1,0 +1,21 @@
+@namespace AIStudio.Blazor.UI.Pages.Exception
+@page "/exception/500"
+
+<Result Status="500"
+        Title="500"
+        SubTitle="Sorry, something went wrong.">
+    <Extra>
+        <Button Type="primary" OnClick="BackHome">Back Home</Button>
+    </Extra>
+</Result>
+
+@code {
+
+    [Inject] NavigationManager NavigationManager { get; set; }
+
+    void BackHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}

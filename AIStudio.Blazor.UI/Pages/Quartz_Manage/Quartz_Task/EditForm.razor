@@ -1,0 +1,38 @@
+﻿@inherits BaseEditForm<Quartz_TaskDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="作业名称">
+        <Input @bind-Value="@context.TaskName" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="分组">
+        <Input @bind-Value="@context.GroupName" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="间隔(Cron)">
+        <Input @bind-Value="@context.Interval" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="ApiUrl">
+        <Input @bind-Value="@context.ApiUrl" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="AuthKey">
+        <Input @bind-Value="@context.AuthKey" AutoComplete=false />
+    </FormItem>   
+    <FormItem Label="AuthValue">
+        <Input @bind-Value="@context.AuthValue" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="RequestType">
+        <Input @bind-Value="@context.RequestType" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="Describe">
+        <Input @bind-Value="@context.Describe" AutoComplete=false />
+    </FormItem>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Quartz_Manage";
+    }
+}

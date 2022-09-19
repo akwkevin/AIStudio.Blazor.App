@@ -1,0 +1,129 @@
+﻿@page "/Base_Manage/BuildCode/List"
+
+@inherits BaseList<DbTableInfo>
+
+<Space Size="@("small")">
+
+
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
+    </SpaceItem>
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()" disabled=@NoneSelectedItems>生成代码</Button>
+    </SpaceItem>
+    <SpaceItem>
+        <Select TItem="Base_DbLinkDTO"
+                TItemValue="string"
+                @bind-Value="LinkId"
+                DataSource="Base_DbLink"
+                Placeholder="请选择角色"
+                LabelName="@nameof(Base_DbLinkDTO.LinkName)"
+                ValueName="@nameof(Base_DbLinkDTO.Id)"
+                OnSelectedItemChanged="OnSelectedItemChanged">
+        </Select>
+    </SpaceItem>
+
+    <SpaceItem>暂未完成，待Server模式完成的时候改进</SpaceItem>
+</Space>
+
+<Table @ref="_table" TItem="DbTableInfo" DataSource="Data" Loading="Loading" HidePagination @bind-SelectedRows="SelectedItems">
+    <ChildContent>
+        <Selection Key="@(context.TableName)" />
+        <AntDesign.Column Title="表名" DataIndex="TableName" TData="string" />
+        <AntDesign.Column Title="描述" DataIndex="Description" TData="string" />
+        <ActionColumn Title="Action">
+
+        </ActionColumn>
+    </ChildContent>
+</Table>
+
+
+@code
+{
+    public List()
+    {
+        Area = "Base_Manage";
+
+    }
+
+    private List<Base_DbLinkDTO> Base_DbLink { get; set; }
+    private string LinkId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {   
+        await GetDbTableInfo();
+        await base.OnInitializedAsync(); 
+    }
+
+    private async Task GetDbTableInfo()
+    {
+        try
+        {
+            var result = await DataProvider.GetData<List<Base_DbLinkDTO>>($"/{Area}/BuildCode/GetAllDbLink");
+            if (!result.Success)
+            {
+                throw new MsgException(result.Msg);
+            }
+            else
+            {
+                Base_DbLink = new List<Base_DbLinkDTO>(result.Data);
+                LinkId = Base_DbLink.FirstOrDefault()?.Id;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+    }
+
+    private async void OnSelectedItemChanged(Base_DbLinkDTO value)
+    {
+        await GetData();
+    }
+
+    protected override async Task GetData()
+    {
+        try
+        {
+            ShowWait();
+
+            var result = await DataProvider.GetData<List<DbTableInfo>>($"/{Area}/BuildCode/GetDbTableList", (new { linkId = LinkId }).ToJson());
+            if (!result.Success)
+            {
+                throw new MsgException(result.Msg);
+            }
+            else
+            {
+                Pagination.Total = result.Total;
+                Data = new List<DbTableInfo>(result.Data);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+        finally
+        {
+            HideWait();
+        }
+    }
+
+    protected async void Edit()
+    {
+        var modalConfig = new ModalOptions();
+        modalConfig.Title = "代码生成";
+        //modalConfig.Style = "top:20px;";
+        // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
+        //modalConfig.BodyStyle += "overflow-y: auto;";
+        modalConfig.Width = 600;
+        modalConfig.DestroyOnClose = true;
+        modalConfig.Centered = true;
+
+        var modalRef = await ModalService.CreateModalAsync<EditForm, BuildInputDTO>(modalConfig, new BuildInputDTO() { linkId = LinkId, tables = SelectedItems.Select(p => p.TableName).ToList() });
+
+        modalRef.OnOk = () =>
+        {
+            return Task.CompletedTask;
+        };
+    }
+}

@@ -1,0 +1,75 @@
+﻿@inherits BaseEditForm<Base_DictionaryDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="文本">
+        <Input @bind-Value="@context.Text" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="值">
+        <Input @bind-Value="@context.Value" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="上级字典">
+        <TreeSelect TItem="Base_DictionaryTree"
+                    @bind-Value="@context.ParentId"
+                    AllowClear
+                    DataSource="ParentIdTreeData"
+                    Placeholder="请选择部门"
+                    ChildrenExpression="node=>node.DataItem.Children"
+                    TitleExpression="node=>node.DataItem.Text"
+                    KeyExpression="node=>node.DataItem.Id"
+                    IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+                    TreeDefaultExpandAll />
+    </FormItem>
+    <FormItem Label="类型">
+        <RadioGroup @bind-Value="@context.Type">
+            <Radio Value="0">字典</Radio>
+            <Radio Value="1">数据</Radio>
+        </RadioGroup>
+    </FormItem>
+    <FormItem Label="数据类型">
+        <EnumRadioGroup TEnum="ControlType" @bind-Value="@context.ControlType" Options="GetRadioOptions<ControlType>()"></EnumRadioGroup>
+    </FormItem>
+    <FormItem Label="描述">
+        <Input @bind-Value="@context.Remark" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="排序">
+        <Input @bind-Value="@context.Sort" Type="number" AutoComplete=false />
+    </FormItem>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+
+    private List<Base_DictionaryTree> ParentIdTreeData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetParentIdTreeData();
+    }
+
+    private async Task GetParentIdTreeData()
+    {
+        try
+        {
+            var result = await DataProvider.GetData<List<Base_DictionaryTree>>($"/Base_Manage/Base_Dictionary/GetTreeDataList");
+            if (!result.Success)
+            {
+                throw new MsgException(result.Msg);
+            }
+            else
+            {
+                ParentIdTreeData = result.Data;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+    }
+}

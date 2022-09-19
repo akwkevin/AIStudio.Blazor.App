@@ -1,0 +1,114 @@
+﻿<div>
+    <InputFile id="@fileInput" OnChange="UploadFiles" hidden multiple=@Multiple disabled=@Disable />
+
+    <Upload Name="files" FileList="fileList" 
+            OnPreview="(file)=> {
+                           previewVisible = true;
+                           previewTitle = file.FileName;
+                           imgUrl = file.Url;
+                       }">
+        <label class="ant-btn" for="@fileInput" disabled=@Disable>
+            <Icon Type="upload" />
+            Click to Upload
+        </label>
+    </Upload>
+
+    <Modal Visible="previewVisible"
+           Title="previewTitle"
+           OnCancel="()=> previewVisible=false">
+        <img style="width: 100%" src="@imgUrl" />
+    </Modal>
+</div>
+@code {
+
+    [Parameter]
+    public int MaxCount { get; set; }
+
+    [Parameter]
+    public List<string> FileList { get; set; } = new List<string>();
+
+    [Parameter]
+    public string File { get; set; }
+
+    [Parameter]
+    public bool Disable { get; set; }
+
+    [Inject]
+    protected IDataProvider DataProvider { get; set; }
+
+    bool Multiple
+    {
+        get { return MaxCount > 1; }
+    }
+
+    List<UploadFileItem> fileList = new List<UploadFileItem>();
+    bool previewVisible = false;
+    string previewTitle = string.Empty;
+    string imgUrl = string.Empty;
+    string fileInput = Guid.NewGuid().ToString();
+
+    protected override void OnParametersSet()
+    {
+        if (MaxCount == 1)
+        {
+            if (!string.IsNullOrEmpty(File))
+            {
+                fileList = new List<UploadFileItem>() { new UploadFileItem { FileName = Path.GetFileName(File), Url = File } };
+            }
+            else
+            {
+                fileList = new List<UploadFileItem>();
+            }
+        }
+        else
+        {
+            if (FileList != null)
+            {
+                fileList = FileList.Select(p => new UploadFileItem { FileName = Path.GetFileName(p), Url = p }).ToList();
+            }
+            else
+            {
+                fileList = new List<UploadFileItem>();
+            }
+        }
+    }
+
+
+    private async void UploadFiles(InputFileChangeEventArgs e)
+    {
+        IList<IBrowserFile> files = new List<IBrowserFile>();
+        foreach (var file in e.GetMultipleFiles())
+        {
+            files.Add(file);
+        }
+        //TODO upload the files to the server
+
+        foreach (var file in files)
+        {
+            var result = await DataProvider.UploadFileByForm(file);
+            if (result.status == "done")
+            {
+                if (fileList.Count + 1 >= MaxCount)
+                {
+                    fileList.RemoveRange(0, fileList.Count - MaxCount + 1);
+                }
+
+                fileList.Add(new UploadFileItem { FileName = result.name, Url = result.url });
+
+                fileList = fileList.ToList();
+
+                if (MaxCount == 1)
+                {
+                    File = fileList.FirstOrDefault().Url;
+                }
+                else
+                {
+                    FileList = fileList.Select(p => p.Url).ToList();
+                }
+                StateHasChanged();
+            }
+        }
+    }
+
+
+}

@@ -1,0 +1,110 @@
+﻿@using AIStudio.Blazor.UI.Models.Settings
+@using Microsoft.Extensions.Options
+@inherits DisposeLayoutComponentBase
+
+
+<AntDesign.ProLayout.BasicLayout Logo="@("_content/AIStudio.Blazor.UI/svgs/logo.svg")"
+                                 MenuData="_menuData">
+    <RightContentRender>
+        <AIStudio.Blazor.UI.Components.RightContent />
+    </RightContentRender>
+    <ChildContent>
+        @if (LayoutSettings.Value.MultiTab)
+        {
+            <Content>
+                <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
+            </Content>
+        }
+        else
+        {
+            @Body
+        }
+
+    </ChildContent>
+    <FooterRender>
+        <FooterView Copyright="2021 Ant Design Blazor" Links="Links"></FooterView>
+    </FooterRender>
+</AntDesign.ProLayout.BasicLayout>
+@*<SettingDrawer />*@
+
+@code
+{
+    private MenuDataItem[] _menuData = { };
+
+    [Inject]
+    IOperator Operator { get; set; }
+
+    [Inject]
+    IOptions<LayoutSettings> LayoutSettings { get; set; }
+
+    [Inject]
+    IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    IUserData UserData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _menuData = Operator.MenuTrees.ChangeType<MenuDataItem[]>();
+
+        ProSettings.Value.OnStateChange += OnProStateChanged;
+        LayoutSettings.Value.StateChanged += StateChanged;
+        await UserData.Init();
+
+        await JSRuntime.InvokeVoidAsync($"window.AddResize", "OnReSize", DotNetObjectReference.Create(this));
+    }
+
+    public void OnProStateChanged()
+    {
+
+    }
+
+    public void StateChanged(string name, object oldvalue, object newvlue)
+    {
+        if (name == nameof(LayoutSettings.Value.MultiTab))
+        {
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable("OnReSize")]
+    public async Task OnReSize()
+    {
+        var dimension = await JSRuntime.InvokeAsync<BrowserDimension>("getDimensions");
+    }
+
+
+
+    public override void Dispose()
+    {
+        ProSettings.Value.OnStateChange -= OnProStateChanged;
+        LayoutSettings.Value.StateChanged -= StateChanged;
+    }
+
+    public LinkItem[] Links { get; set; } =
+    {
+        new LinkItem
+        {
+            Key = "Ant Design Blazor",
+            Title = "项目使用Ant Design Blazor",
+            Href = "https://antblazor.com",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "github",
+            Title = (RenderFragment)(@<Icon Type="gitee" />),
+            Href = "https://gitee.com/akwkevin/AIStudio.BlazorMaui.Client",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "Blazor",
+            Title = "Blazor",
+            Href = "https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor?WT.mc_id=DT-MVP-5003987",
+            BlankTarget = true,
+        }
+    };
+
+}

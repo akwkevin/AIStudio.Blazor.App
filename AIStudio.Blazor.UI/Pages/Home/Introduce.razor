@@ -1,0 +1,47 @@
+﻿@page "/"
+@page "/Home/Introduce"
+@using System.ComponentModel
+@attribute [ReuseTabsPageTitle("框架介绍")]
+
+<Card Bordered="true" Title=@("框架简介") Hoverable="true">
+    <Body>
+        <div>
+            <p>本框架为.NET Core6.0+Blazor（Wasm/Maui/Server(待进行)） </p>
+            <p>本框架旨在极大的提高开发效率</p>
+            <p>
+                使用技术栈：<br />
+                <br />
+                后端：由Colder.Admin.AntdVue改造完成的，请参照（本处不在介绍，请看原作者的介绍，本文重点为Wpf）<br />
+                <a href="https://github.com/Coldairarrow/Colder.Admin.AntdVue"
+                   target="_blank">https://github.com/Coldairarrow/Colder.Admin.AntdVue</a>
+                另外改造后的后端（加群获取地址）扩展了Quartz，WebSocket实现即时聊天及实时消息推送（Blazor端待进行），WorkflowCore实现了OA流程（Blazor端待进行）。<br />
+                <br />
+                前端：Blazor（同功能的Wpf桌面版的见https://gitee.com/akwkevin/aistudio.-wpf.-aclient）
+                <br />
+                具体技术实施：<br />
+                项目采用ant-design-blazor组件，暂无任何封装<br />               
+                1.使用Wpf端相同的后台框架，使用相同的API接口，移植较方便，AIStudio.Wpf.Service与后台交互的逻辑。<br />
+                2.本项目使用ant-design-blazor的风格，与ant-design-vue的风格基本一致（可见本框架的VUE版本）
+                <br />
+                3.借鉴了Caviar Blazor框架<a href="https://gitee.com/Cherryblossoms/caviar" target="_blank">https://gitee.com/Cherryblossoms/caviar</a><br />
+                4.本框架最大特色，一套代码三端运行，同时可以在BS端、CS端、手机端运行。<br />
+                5.代码生成器，可以生成直接可运行的界面，加快开发速度。（待进行）<br />
+                <br />
+                相关链接:<br />
+                本框架链接,欢迎点星支持:<a href="https://github.com/akwkevin/AIStudio.BlazorMaui.Client"
+                                target="_blank">https://github.com/akwkevin/AIStudio.BlazorMaui.Client</a><br />
+                本框架Wpf链接,欢迎点星支持:<a href="https://gitee.com/akwkevin/aistudio.-wpf.-aclient"
+                                target="_blank">https://gitee.com/akwkevin/aistudio.-wpf.-aclient</a><br />
+                本框架Vue链接,欢迎点星支持:<a href="https://gitee.com/akwkevin/aistudio.-vue.-aclient"
+                                   target="_blank">https://gitee.com/akwkevin/aistudio.-vue.-aclient</a><br />
+                个人gitee,欢迎点星支持:<a href="https://gitee.com/akwkevin"
+                                  target="_blank">https://gitee.com/akwkevin</a><br />
+                个人博客:<a href="https://www.cnblogs.com/akwkevin/"
+                        target="_blank">https://www.cnblogs.com/akwkevin/</a><br />             
+                ant-design-blazor:<a href="https://ant-design-blazor.gitee.io/zh-CN/components/overview" target="_blank">https://ant-design-blazor.gitee.io/zh-CN/components/overview</a><br /><br />
+                个人QQ:80267720(欢迎技术交流及技术合作)<br />
+                QQ技术交流群:51286643
+            </p>
+        </div>
+    </Body>
+</Card>

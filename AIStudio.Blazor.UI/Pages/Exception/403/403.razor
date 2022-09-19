@@ -1,0 +1,21 @@
+﻿@namespace AIStudio.Blazor.UI.Pages.Exception
+@page "/exception/403"
+
+<Result Status="403"
+        Title="403"
+        SubTitle="Sorry, you are not authorized to access this page.">
+    <Extra>
+        <Button Type="primary" OnClick="BackHome">Back Home</Button>
+    </Extra>
+</Result>
+
+@code {
+
+    [Inject] NavigationManager NavigationManager { get; set; }
+
+    void BackHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}

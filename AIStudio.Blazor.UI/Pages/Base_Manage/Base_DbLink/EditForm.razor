@@ -1,0 +1,28 @@
+﻿@inherits BaseEditForm<Base_DbLinkDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="连接名">
+        <Input @bind-Value="@context.LinkName" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="连接字符串">
+        <Input @bind-Value="@context.ConnectionStr" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="数据库类型">
+        <RadioGroup @bind-Value="@context.DbType">
+            <Radio RadioButton Value="@("SqlServer")">SqlServer</Radio>
+            <Radio RadioButton Value="@("MySql")">MySql</Radio>
+            <Radio RadioButton Value="@("Oracle")">Oracle</Radio>
+            <Radio RadioButton Value="@("PostgreSql")">PostgreSql</Radio>
+        </RadioGroup>
+    </FormItem>   
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+}

@@ -1,0 +1,118 @@
+﻿@inherits FeedbackComponent<string>
+
+<div>
+    <Timeline>
+        @if (Data != null)
+        {
+            @for (var i = 0; i < Data.Count; i++)
+            {
+                <TimelineItem Color="green">
+                    <Space Size="@("small")">
+                        <SpaceItem>
+                            GetNum(i)
+                        </SpaceItem>
+                        <SpaceItem>
+                            @Data[i].CreateTime
+                        </SpaceItem>
+                        <SpaceItem>
+                            @Data[i].LogContent
+                        </SpaceItem>
+                    </Space>
+                </TimelineItem>
+            }
+        }
+
+    </Timeline>
+
+    <Pagination Total="Pagination.Total"
+                ShowTotal="ShowTotal"
+                ShowSizeChanger
+                PageSize="Pagination.PageRows"
+                Current="Pagination.PageIndex"
+                OnChange="GetData"
+                OnShowSizeChange="GetData" />
+</div>
+
+@code {  
+
+    [Inject]
+    protected IDataProvider DataProvider { get; set; }
+
+    [CascadingParameter]
+    public Error? Error { get; set; }
+
+    bool Loading { get; set; }
+
+    Func<PaginationTotalContext, string> ShowTotal { get; set; } = ctx => $"总数：{ctx.Total}   当前：{ctx.Range.from}-{ctx.Range.to}";
+
+    Util.Common.Pagination Pagination { get; set; } = new Util.Common.Pagination() { PageRows = 100 };
+
+    List<Base_UserLogDTO> Data { get; set; }
+
+    [Parameter]
+    public string FullName { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FullName = this.Options;
+        await GetData();
+
+        await base.OnInitializedAsync();
+    }
+
+    protected void ShowWait()
+    {
+        Loading = true;
+    }
+
+    protected void HideWait()
+    {
+        Loading = false;
+    }
+
+
+
+    private async Task GetData()
+    {
+        try
+        {
+            ShowWait();
+
+            var data = new
+            {
+                PageIndex = Pagination.PageIndex,
+                PageRows = Pagination.PageRows,
+                SortField = Pagination.SortField,
+                SortType = Pagination.SortType,
+                Search = new
+                {
+                    logType = "系统任务",
+                    logContent = FullName,
+                }
+            };
+
+            var result = await DataProvider.GetData<List<Base_UserLogDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
+            if (!result.Success)
+            {
+                throw new MsgException(result.Msg);
+            }
+            Pagination.Total = result.Total;
+            Data = new List<Base_UserLogDTO>(result.Data);
+
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+        finally
+        {
+            HideWait();
+        }
+    }
+
+    int GetNum(int index)
+    {
+        return (Pagination.PageIndex - 1) * Pagination.PageCount + index + 1;
+    }
+
+}

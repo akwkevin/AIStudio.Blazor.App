@@ -1,0 +1,3 @@
+dotnet new antdesign --host=server --full -o AIStudio.BlazorServer.Client
+
+dotnet new antdesign --host=wasm --full -o AIStudio.BlazorWasm.Client

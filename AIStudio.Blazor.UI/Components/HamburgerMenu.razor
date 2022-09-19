@@ -1,0 +1,130 @@
+﻿@using AIStudio.Blazor.UI.Models.Settings
+<Menu Mode="MenuMode.Inline"
+      Accordion=Accordion
+      Theme="Theme"
+      @bind-OpenKeys="OpenKeysNav"
+      @bind-SelectedKeys="SelectedKeys"
+      InlineCollapsed="InlineCollapsed"
+      Selectable="false"
+      OnMenuItemClicked="OnMenuItemClickedNav"
+      @ref="AntDesignMenu">
+    @if (MenuData != null)
+    {
+        var menu = GetSubMenu(MenuData);
+        @menu
+    }
+</Menu>
+
+@code {
+
+    bool _inlineCollapsed;
+    [Parameter]
+    public bool InlineCollapsed
+    {
+        get { return _inlineCollapsed; }
+        set
+        {
+            OnCollapsed(value);
+            _inlineCollapsed = value;
+        }
+    }
+
+    [Parameter]
+    public string[] BreadcrumbItemArr { get; set; }
+
+    [Parameter]
+    public EventCallback<string[]> BreadcrumbItemArrChanged { get; set; }
+
+    [Parameter]
+    public MenuTheme Theme { get; set; } = MenuTheme.Dark;
+
+    [Parameter] public MenuDataItem[] MenuData { get; set; } = { };
+
+    [Parameter] public bool Accordion { get; set; }
+
+    public Menu AntDesignMenu { get; set; }
+
+    public string[] OpenKeysNav { get; set; } = Array.Empty<string>();
+
+    public string[] SelectedKeys { get; set; }
+
+    string[] _openKeysNae;
+
+    /// <summary>
+    /// 创建面包屑信息
+    /// </summary>
+    /// <param name="menuItem"></param>
+    /// <returns></returns>
+    List<string> CreatBreadcrumbItemCav(MenuItem menuItem)
+    {
+        if (menuItem == null) return null;
+        var breadcrumbItemArr = new List<string>();
+        var parent = menuItem.ParentMenu;
+        while (parent != null)
+        {
+            var name = parent.Key;
+            breadcrumbItemArr.Insert(0, name);
+            parent = parent.Parent;
+        }
+        var menuName = menuItem.Key;
+        breadcrumbItemArr.Add(menuName);
+        return breadcrumbItemArr;
+    }
+
+    public void OnMenuItemClickedNav(MenuItem menuItem)
+    {
+        BreadcrumbItemArr = CreatBreadcrumbItemCav(menuItem)?.ToArray();
+        if (BreadcrumbItemArrChanged.HasDelegate)
+        {
+            BreadcrumbItemArrChanged.InvokeAsync(BreadcrumbItemArr);
+        }
+    }
+
+    /// <summary>
+    /// 当收缩时候将打开的菜单关闭，防止出现第二菜单。
+    /// </summary>
+    /// <param name="collapsed"></param>
+    public void OnCollapsed(bool collapsed)
+    {
+        if (collapsed == _inlineCollapsed) return;
+        if (collapsed)
+        {
+            _openKeysNae = OpenKeysNav;
+            OpenKeysNav = Array.Empty<string>();
+        }
+        else
+        {
+            OpenKeysNav = _openKeysNae;
+        }
+    }
+
+    RenderFragment GetSubMenu(MenuDataItem[] ViewMenus)
+    {
+        RenderFragment ViewSubMenu = null;
+        if (ViewMenus == null) return ViewSubMenu;
+        foreach (var viewMenu in ViewMenus)
+        {
+            RenderFragment subTitle =
+    @<span style="font-size:15px">
+        @if (!string.IsNullOrEmpty(viewMenu.Icon))
+        {
+            <Icon Style="font-size:15px" Type="@viewMenu.Icon" Theme="outline"></Icon>
+        }
+        <span>@viewMenu.Name</span>
+    </span>
+        ;
+            if (viewMenu.Children != null && !viewMenu.HideChildrenInMenu)
+            {
+                ViewSubMenu +=
+    @<SubMenu Key="@viewMenu.Key" TitleTemplate="subTitle">
+        @GetSubMenu(viewMenu.Children)
+    </SubMenu>;
+            }
+            else
+            {
+                ViewSubMenu += @<MenuItem Key="@viewMenu.Key" ChildContent="@subTitle" RouterLink="@viewMenu.Path"></MenuItem>;
+            }
+        };
+        return ViewSubMenu;
+    }
+}

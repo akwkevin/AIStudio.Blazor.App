@@ -1,0 +1,72 @@
+﻿@page "/Base_Manage/Base_DbLink/List"
+
+@inherits BaseListWithEdit<Base_DbLinkDTO, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("Base_DbLink.Add"))
+    {
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+        </SpaceItem>
+    }
+    @if (Operator.HasPerm("Base_DbLink.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    }
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
+    </SpaceItem>
+</Space>
+
+<Table @ref="_table" TItem="Base_DbLinkDTO" DataSource="Data"  Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+        <AntDesign.Column Title="连接名" DataIndex="LinkName" TData="string" />
+        <AntDesign.Column Title="连接字符串" DataIndex="ConnectionStr" TData="string"/>
+        <AntDesign.Column Title="数据库类型" DataIndex="DbType" TData="string"/>
+        <ActionColumn Title="Action">
+            <Space Size=@("small")>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+    <PaginationTemplate>
+        <div style="float:right;margin-top:10px">
+            <Pagination Total="Pagination.Total"
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
+        </div>
+    </PaginationTemplate>
+</Table>
+
+
+@code
+{  
+    public List()
+    {
+        Area = "Base_Manage";
+    }
+}

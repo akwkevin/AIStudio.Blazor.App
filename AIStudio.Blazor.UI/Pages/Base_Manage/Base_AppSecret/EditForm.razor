@@ -1,0 +1,24 @@
+﻿@inherits BaseEditForm<Base_AppSecretDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="应用Id">
+        <Input @bind-Value="@context.AppId" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="密钥">
+        <Input @bind-Value="@context.AppSecret" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="应用名">
+        <Input @bind-Value="@context.AppName" AutoComplete=false />
+    </FormItem>
+  
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+}

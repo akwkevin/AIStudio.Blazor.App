@@ -1,0 +1,59 @@
+﻿@inherits BaseEditForm<Base_RoleDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="角色名">
+        <Input @bind-Value="@context.RoleName" AutoComplete=false />
+    </FormItem>
+    <Card Title="权限" Bordered=false>
+        <div Style="height:500px;">
+            <Tree TItem="Base_ActionTree"
+                  DefaultCheckedKeys="@context.Actions"
+                  @bind-CheckedKeys="@context.Actions"
+                  Checkable
+                  DataSource="ActionsTreeData"
+                  ChildrenExpression="node=>node.DataItem.Children"
+                  IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+                  TitleExpression="node=>node.DataItem.Text"
+                  KeyExpression="node=>node.DataItem.Id"
+                  DefaultExpandAll />
+        </div>
+    </Card>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+
+    private List<Base_ActionTree> ActionsTreeData { get; set; } = new List<Base_ActionTree>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetActionsTreeData();
+    }
+
+    private async Task GetActionsTreeData()
+    {
+        try
+        {
+            var result = await DataProvider.GetData<List<Base_ActionTree>>($"/Base_Manage/Base_Action/GetActionTreeList");
+            if (!result.Success)
+            {
+                throw new MsgException(result.Msg);
+            }
+            else
+            {
+                ActionsTreeData = result.Data;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+    }
+}

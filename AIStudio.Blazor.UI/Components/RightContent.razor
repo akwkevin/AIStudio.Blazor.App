@@ -1,0 +1,105 @@
+﻿@namespace AIStudio.Blazor.UI.Components
+@using AIStudio.Blazor.UI.Models.Params
+@using AIStudio.Blazor.UI.Pages.Home
+@inherits AntDomComponentBase
+
+<Space Class="@ClassMapper.Class" Size="@("24")">
+@*    <SpaceItem>
+        <AIStudio.Blazor.UI.Components.AvatarDropdown Name="@Operator.UserName"
+            Avatar="@Operator.Avatar"
+            MenuItems="@AvatarMenuItems"
+            OnItemSelected="HandleSelectUser" />
+    </SpaceItem>*@
+
+    <SpaceItem>
+        <Popover ContentTemplate="@_popoverMenu" Placement="Placement.Bottom">
+            <Button Type="@ButtonType.Text">
+                <span class="action account">
+                    <Avatar Size="small" Class="avatar" Src="@Operator.Avatar" Alt="avatar" />
+                    <span class="name anticon">@Operator.UserName</span>
+                </span>
+            </Button>
+        </Popover>
+    </SpaceItem>
+</Space>
+
+@code{
+    RenderFragment _popoverMenu;
+
+    RenderFragment CreateMenu()
+    {
+        RenderFragment menu = @<AvatarMenu MenuItems="@AvatarMenuItems" OnItemSelected="HandleSelectUser"></AvatarMenu>;
+        return menu;
+    }
+
+    public AvatarMenuItem[] AvatarMenuItems { get; set; } = new AvatarMenuItem[]
+    {
+            new() { Key = "center", IconType = "user", Option = "个人中心"},
+            new() { Key = "setting", IconType = "setting", Option = "个人设置"},
+            new() { Key = "layoutsetting", IconType = "tool", Option = "布局设置"},
+            new() { Key = "changePwd", IconType = "lock", Option = "修改密码"},
+            new() { IsDivider = true },
+            new() { Key = "logout", IconType = "logout", Option = "退出登录"}
+    };
+
+    [Inject] 
+    NavigationManager NavigationManager { get; set; }
+
+    [Inject] 
+    MessageService MessageService { get; set; }
+
+    [Inject] 
+    ModalService ModalService { get; set; }
+
+    [Inject] 
+    IOperator Operator { get; set; }
+
+    [Inject]
+    JwtAuthenticationStateProvider AuthStateProvider { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        SetClassMap();
+        _popoverMenu = CreateMenu();
+    }
+
+    protected void SetClassMap()
+    {
+        ClassMapper
+            .Clear()
+            .Add("right");
+    }
+
+    public async void HandleSelectUser(MenuItem item)
+    {
+        switch (item.Key)
+        {
+            case "center":
+                NavigationManager.NavigateTo("/account/center");
+                break;
+            case "setting":
+                NavigationManager.NavigateTo("/account/settings");
+                break;
+            case "layoutsetting":
+                NavigationManager.NavigateTo("/Setting/MainLayoutSetting");
+                break;
+            case "changePwd":
+                {
+                    var modalConfig = new ModalOptions();
+                    modalConfig.Title = "修改密码";
+                    //modalConfig.Style = "top:20px;";
+                    // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
+                    modalConfig.BodyStyle += "overflow-y: auto;";
+                    modalConfig.DestroyOnClose = true;
+                    modalConfig.Centered = true;
+                    var modalRef = await ModalService.CreateModalAsync<ChangePwd, ChangePasswordParamsType>(modalConfig, new ChangePasswordParamsType());
+                    break;
+                }
+            case "logout":
+                await AuthStateProvider.Logout();
+                NavigationManager.NavigateTo("/Home/Login");
+                break;
+        }
+    }
+}

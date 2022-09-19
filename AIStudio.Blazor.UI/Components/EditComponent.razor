@@ -1,0 +1,248 @@
+﻿@using AIStudio.Blazor.UI.Models.CommonForms
+@if (Item.Visibility == 0)
+{
+    @if (Item.ControlType == ControlType.TextBox)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <Input @bind-Value="@Item.ValueString" ReadOnly=@Item.IsReadOnly AllowClear />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.ComboBox)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <Select TItem="SelectOption"
+                TItemValue="string"
+                @bind-Value="@Item.ValueString"
+                DataSource="@Item.ItemSource"
+                LabelName="@nameof(SelectOption.Text)"
+                ValueName="@nameof(SelectOption.Value)"
+                AllowClear
+                Disabled=@Item.IsReadOnly
+                Style="min-width: 200px;max-width:400px">
+                </Select>
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.PasswordBox)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <InputPassword @bind-Value="@Item.ValueString" ReadOnly=@Item.IsReadOnly AllowClear />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.DatePicker)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <DatePicker @bind-Value="@Item.ValueDateTime" TValue="DateTime?" Picker="@DatePickerType.Date" Format="yyyy-MM-dd" AllowClear Disabled=@Item.IsReadOnly />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.MultiComboBox)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <Select TItem="SelectOption"
+                TItemValue="string"
+                @bind-Values="@Item.ValueList"
+                DataSource="@Item.ItemSource"
+                LabelName="@nameof(SelectOption.Text)"
+                ValueName="@nameof(SelectOption.Value)"
+                AllowClear
+                Mode="multiple"
+                Disabled=@Item.IsReadOnly
+                Style="min-width: 200px;max-width:400px">
+                </Select>
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.TreeSelect)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <TreeSelect TItem="TreeModel"
+                    @bind-Value="@Item.ValueString"
+                    DataSource="@Item.ItemSourceTree"
+                    ChildrenExpression="node=>node.DataItem.Children"
+                    TitleExpression="node=>node.DataItem.Text"
+                    KeyExpression="node=>node.DataItem.Id"
+                    IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+                    TreeDefaultExpandAll
+                    AllowClear
+                    Disabled=@Item.IsReadOnly
+                    Style="min-width: 200px;max-width:400px">
+                </TreeSelect>
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.MultiTreeSelect)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <TreeSelect TItem="TreeModel"
+                    @bind-Values="@Item.ValueList"
+                    DataSource="@Item.ItemSourceTree"
+                    ChildrenExpression="node=>node.DataItem.Children"
+                    TitleExpression="node=>node.DataItem.Text"
+                    KeyExpression="node=>node.DataItem.Id"
+                    IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+                    TreeDefaultExpandAll
+                    AllowClear
+                    Mode="multiple"
+                    Disabled=@Item.IsReadOnly
+                    Style="min-width: 200px;max-width:400px">
+                </TreeSelect>
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.CheckBox)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <Checkbox @bind-Checked="@Item.ValueBool" Disabled=@Item.IsReadOnly />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.ToggleButton)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <Switch @bind-Checked="@Item.ValueBool" Disabled=@Item.IsReadOnly />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.IntegerUpDown)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <AntDesign.InputNumber @bind-Value="@Item.ValueInt" Formatter="(value) => {return value?.ToString(Item.StringFormat);}" Disabled=@Item.IsReadOnly Style="min-width: 200px;max-width:400px" />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.LongUpDown)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <AntDesign.InputNumber @bind-Value="@Item.ValueLong" Formatter="(value) => {return value?.ToString(Item.StringFormat);}" Disabled=@Item.IsReadOnly Style="min-width: 200px;max-width:400px" />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.DecimalUpDown)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <AntDesign.InputNumber @bind-Value="@Item.ValueDecimal" Formatter="(value) => {return value?.ToString(Item.StringFormat);}" Disabled=@Item.IsReadOnly Style="min-width: 200px;max-width:400px" />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.DoubleUpDown)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <AntDesign.InputNumber @bind-Value="@Item.ValueDouble" Formatter="(value) => {return value?.ToString(Item.StringFormat);}" Disabled=@Item.IsReadOnly Style="min-width: 200px;max-width:400px" />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.DateTimeUpDown)
+    {
+        <Space Size="@("small")">
+            <SpaceItem>
+                @Item.Header?.ToString()
+            </SpaceItem>
+            <SpaceItem>
+                <DatePicker @bind-Value="@Item.ValueDateTime" TValue="DateTime?" ShowTime="@true" Format="yyyy-MM-dd HH:mm:ss" AllowClear Disabled=@Item.IsReadOnly />
+            </SpaceItem>
+        </Space>
+    }
+    else if (Item.ControlType == ControlType.Add)
+    {
+        <Button Type="@ButtonType.Primary" Icon="plus" OnClick="() => OnBtnClick(Item.ControlType)" Disabled=@Loading>@Item.Header?.ToString()</Button>
+    }
+    else if (Item.ControlType == ControlType.Copy)
+    {
+        <Button Type="@ButtonType.Primary" Icon="copy" OnClick="() => OnBtnClick(Item.ControlType)" Loading=@Loading>@Item.Header?.ToString()</Button>
+    }
+    else if (Item.ControlType == ControlType.Delete)
+    {
+        <Popconfirm Title="确认删除选中项吗?"
+            OnConfirm="()=>OnBtnClick(Item.ControlType)"
+            OnCancel="()=>{}"
+            OkText="确定"
+            CancelText="取消"
+            disabled=@NoneSelectedItems>
+            <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>@Item.Header?.ToString()</Button>
+        </Popconfirm>
+
+    }
+    else if (Item.ControlType == ControlType.Query)
+    {
+        <Button Type="@ButtonType.Primary" Icon="search" OnClick="() => OnBtnClick(Item.ControlType)" Loading=@Loading>@Item.Header?.ToString()</Button>
+    }
+    else if (Item.ControlType == ControlType.Submit)
+    {
+        <Button Type="@ButtonType.Primary" Icon="check" OnClick="() => OnBtnClick(Item.ControlType)" Loading=@Loading>@Item.Header?.ToString()</Button>
+    }
+}
+@code {
+    [Parameter]
+    public BaseControlItem Item { get; set; }
+
+    [Parameter]
+    public bool Loading { get; set; }
+
+    [Parameter]
+    public bool NoneSelectedItems { get; set; }
+
+    [Parameter]
+    public EventCallback<ControlType> OnClick { get; set; }
+
+
+    void OnBtnClick(ControlType type)
+    {
+        if (OnClick.HasDelegate)
+            OnClick.InvokeAsync(type);
+    }
+}

@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <!--<Nullable>enable</Nullable>-->
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Core\ComponentBaseEditForm.cs" />
+    <Compile Remove="Core\ComponentBaseListBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Shared\AntDesignMainLayout.razor" />
+    <Content Remove="wwwroot\data\fake_chart_data.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\data\fake_chart_data.json" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AntDesign.Charts" Version="0.2.3" />
+    <PackageReference Include="AntDesign" Version="0.12.2" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Base_Manage\Base_AppSecret\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_AppSecret\List.razor" />
+    <None Include="Pages\Base_Manage\Base_CommonFormConfig\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_CommonFormConfig\List.razor" />
+    <None Include="Pages\Base_Manage\Base_DbLink\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_DbLink\List.razor" />
+    <None Include="Pages\Base_Manage\Base_Department\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_Department\List.razor" />
+    <None Include="Pages\Base_Manage\Base_Dictionary\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_Dictionary\List.razor" />
+    <None Include="Pages\Base_Manage\Base_Role\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_Role\List.razor" />
+    <None Include="Pages\Base_Manage\Base_UserLog\List.razor" />
+    <None Include="Pages\Base_Manage\Base_User\EditForm.razor" />
+    <None Include="Pages\Base_Manage\Base_User\List.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\Bar\Bar.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\ChartCard\ChartCard.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\Field\Field.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\Gauge\Gauge.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\MiniArea\MiniArea.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\MiniBar\MiniBar.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\MiniProgress\MiniProgress.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\Pie\Pie.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\TagCloud\TagCloud.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\TimelineChart\TimelineChart.razor" />
+    <None Include="Pages\Home\Analysis\Components\Charts\WaterWave\WaterWave.razor" />
+    <None Include="Pages\Home\Analysis\Components\NumberInfo\NumberInfo.razor" />
+    <None Include="Pages\Home\Analysis\Components\PageLoading\PageLoading.razor" />
+    <None Include="Pages\Home\Analysis\Components\SalesCard.razor" />
+    <None Include="Pages\Home\Analysis\Components\Trend\Trend.razor" />
+    <None Include="Pages\Home\Analysis\Index.razor" />
+    <None Include="Pages\Quartz_Manage\Quartz_Task\EditForm.razor" />
+    <None Include="Pages\Quartz_Manage\Quartz_Task\List.razor" />
+    <None Include="Pages\Quartz_Manage\Quartz_Task\LogForm.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AIStudio.Business\AIStudio.Business.csproj" />
+    <ProjectReference Include="..\AIStudio.Entity\AIStudio.Entity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Components\ThemeColor.razor">
+      <Pack>false</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>

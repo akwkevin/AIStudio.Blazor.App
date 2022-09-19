@@ -1,0 +1,81 @@
+﻿@inherits BaseEditForm<Base_UserDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="用户名">
+        <Input @bind-Value="@context.UserName" AutoComplete=false/>
+    </FormItem>
+    <FormItem Label="密码">
+        <InputPassword @bind-Value="@context.Password" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="姓名">
+        <Input @bind-Value="@context.RealName" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="性别">
+         <EnumRadioGroup TEnum="Sex" @bind-Value="@context.Sex" Options="GetRadioOptions<Sex>()"></EnumRadioGroup>
+    </FormItem>
+    <FormItem Label="生日">
+        <DatePicker @bind-Value="@context.Birthday" Format="yyyy-MM-dd" />
+    </FormItem> 
+    <FormItem Label="部门">
+        <TreeSelect  
+            TItem="TreeModel"
+            @bind-Value="@context.DepartmentId" 
+        	AllowClear
+            DataSource="Departments"            
+            Placeholder="请选择部门"
+            ChildrenExpression="node=>node.DataItem.Children"
+            TitleExpression="node=>node.DataItem.Text"
+            KeyExpression="node=>node.DataItem.Id"
+            IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+            TreeDefaultExpandAll />
+    </FormItem> 
+     <FormItem Label="角色">
+        <Select 
+            TItem="SelectOption"
+            TItemValue="string"
+            @bind-Values="@context.RoleIdList"
+            @bind-Value="@role"
+            AllowClear
+            DataSource="Roles"
+            Placeholder="请选择角色"
+            LabelName="@nameof(SelectOption.Text)"
+            ValueName="@nameof(SelectOption.Value)"
+            Mode="multiple">
+        </Select>
+    </FormItem>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+
+    private List<SelectOption> Roles { get; set; }
+    private List<TreeModel> Departments { get; set; }
+    private string role{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetRoles();
+        await GetDepartment();
+    }
+
+    private async Task GetRoles()
+    {
+        Roles = await UserData.GetBase_Role();
+    }
+
+    private async Task GetDepartment()
+    {
+        Departments = await UserData.GetBase_DepartmentTree();
+    }
+    protected override async Task SaveData(Base_UserDTO para)
+    {
+        await base.SaveData(para);
+    }
+}

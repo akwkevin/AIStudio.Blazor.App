@@ -1,0 +1,29 @@
+﻿<FooterView Copyright="2019 蚂蚁金服体验技术部出品" Links="Links" />
+
+@code
+{
+    LinkItem[] Links { get; set; } =
+    {
+        new LinkItem
+        {
+            Key = "Ant Design Pro",
+            Title = "Ant Design Pro",
+            Href = "https://pro.ant.design",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "github",
+            Title = (RenderFragment)(@<Icon Type="github" />),
+            Href = "https://github.com/ant-design-blazor/ant-design-pro-blazor",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "Ant Design",
+            Title = "Ant Design",
+            Href = "https://ant.design",
+            BlankTarget = true,
+        }
+    };
+}

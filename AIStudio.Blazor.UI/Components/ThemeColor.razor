@@ -1,0 +1,59 @@
+@inherits AntDomComponentBase
+
+<Space>
+    @foreach (var item in Colors)
+    {
+        <SpaceItem>
+            <div class="theme-color-block" style="background-color: @item.Color" @onclick="@(async x=> await HandleClickAsync(item.Key))">
+                @if (Value == item.Key)
+                {
+                    <Icon Type="check" Theme="outline" />
+                }
+            </div>
+        </SpaceItem>
+    }
+</Space>
+
+<style>
+    .theme-color-block {
+        float: left;
+        width: 20px;
+        height: 20px;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    private string _value;
+    [Parameter] public ColorItem[] Colors { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public EventCallback<string> OnChange { get; set; }
+
+    [Parameter]
+    public string Value
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+        }
+    }
+
+    private async Task HandleClickAsync(string value)
+    {
+        Value = value;
+        if (OnChange.HasDelegate)
+        {
+            await OnChange.InvokeAsync(value);
+        }
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(value);
+        }
+    }
+}

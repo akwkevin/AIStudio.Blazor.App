@@ -1,0 +1,29 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:53775",
+      "sslPort": 44358
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "AIStudio.BlazorServer.Client": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "hotReloadEnabled": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:6001;http://localhost:6000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

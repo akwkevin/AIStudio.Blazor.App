@@ -1,0 +1,87 @@
+﻿@inherits BaseEditForm<Base_ActionDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="菜单名">
+        <Input @bind-Value="@context.Name" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="上级菜单">
+        <TreeSelect TItem="Base_ActionTree"
+                    @bind-Value="@context.ParentId"
+                    AllowClear
+                    DataSource="ParentIdTreeData"
+                    Placeholder="请选择部门"
+                    ChildrenExpression="node=>node.DataItem.Children"
+                    TitleExpression="node=>node.DataItem.Text"
+                    KeyExpression="node=>node.DataItem.Id"
+                    IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+                    TreeDefaultExpandAll />
+    </FormItem>
+    <FormItem Label="类型">
+        <RadioGroup @bind-Value="@context.Type">
+            <Radio Value="ActionType.菜单">菜单</Radio>
+            <Radio Value="ActionType.页面">页面</Radio>
+        </RadioGroup>
+    </FormItem>
+    <FormItem Label="路径">
+        <Input @bind-Value="@context.Url" />
+    </FormItem>
+    <FormItem Label="是否需要权限">
+        <RadioGroup @bind-Value="@context.NeedAction">
+            <Radio Value="false">否</Radio>
+            <Radio Value="true">是</Radio>
+        </RadioGroup>
+    </FormItem>
+    <FormItem Label="图标">
+        <Input @bind-Value="@context.Icon" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="排序">
+        <Input @bind-Value="@context.Sort" Type="number" AutoComplete=false />
+    </FormItem>
+    <Card Title="页面权限" Bordered=false>
+        <PermissionList @ref="_permissionList" ParentId="@context.Id" />
+    </Card>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "Base_Manage";
+    }
+    private List<Base_ActionTree> ParentIdTreeData { get; set; }
+    private PermissionList _permissionList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetParentIdTreeData();
+    }
+
+    private async Task GetParentIdTreeData()
+    {
+        try
+        {
+            var result = await DataProvider.GetData<List<Base_ActionTree>>($"/Base_Manage/Base_Action/GetMenuTreeList");
+            if (!result.Success)
+            {
+                throw new MsgException(result.Msg);
+            }
+            else
+            {
+                ParentIdTreeData = new List<Base_ActionTree>(result.Data);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+    }
+
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+        Data.permissionList = _permissionList.permissionList;
+        await base.OnFeedbackOkAsync(args);
+    }
+}

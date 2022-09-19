@@ -1,0 +1,113 @@
+﻿<Space Size="@("small")">
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Add()">添加权限</Button>
+    </SpaceItem>
+</Space>
+
+<Table TItem="Base_ActionDTO" DataSource="permissionList" HidePagination>
+    <ChildContent>
+        <AntDesign.Column TData="string" Title="权限名">
+            @if (!@context.editable)
+            {
+                @context.Name
+            }
+            else
+            {
+                <Input @bind-Value="@context.Name" />
+            }
+        </AntDesign.Column>
+        <AntDesign.Column TData="string" Title="权限值(唯一)">
+            @if (!@context.editable)
+            {
+                @context.Value
+            }
+            else
+            {
+                <Input @bind-Value="@context.Value" />
+            }
+        </AntDesign.Column>
+        <ActionColumn Title="Action" >
+            <Space Size=@("small")>
+                <SpaceItem>
+                    @if (!@context.editable)
+                    {
+                        <Button Type="@ButtonType.Link" OnClick="()=>startEdit(context)">Edit</Button>
+                    }
+                    else
+                    {
+                        <Button Type="@ButtonType.Link" OnClick="()=>saveEdit(context)">Save</Button>
+                    }
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+</Table>
+
+@code
+{
+    [Parameter]
+    public string ParentId { get; set; }
+
+    [Inject]
+    protected IDataProvider DataProvider { get; set; }
+
+    [CascadingParameter]
+    public Error? Error { get; set; }
+
+    public List<Base_ActionDTO> permissionList { get; set; } = new List<Base_ActionDTO>();
+
+    private void Add()
+    {
+        permissionList.Add(new Base_ActionDTO() { Name = "权限名", Value = $"权限值{permissionList.Count + 1}", ParentId = ParentId, Type = ActionType.权限, editable = true });
+    }
+
+    private void Delete(Base_ActionDTO para)
+    {
+        permissionList.Remove(para);
+    }
+
+    void startEdit(Base_ActionDTO para)
+    {
+        para.editable = true;
+    }
+
+    void saveEdit(Base_ActionDTO para)
+    {
+        para.editable = false;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetpermissionList();
+    }
+
+    private async Task GetpermissionList()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(ParentId))
+            {
+                var result = await DataProvider.GetData<List<Base_ActionDTO>>($"/Base_Manage/Base_Action/GetpermissionList", (new { parentId = ParentId }).ToJson());
+                if (!result.Success)
+                {
+                    throw new MsgException(result.Msg);
+                }
+                else
+                {
+                    permissionList = new List<Base_ActionDTO>(result.Data);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+    }
+}
