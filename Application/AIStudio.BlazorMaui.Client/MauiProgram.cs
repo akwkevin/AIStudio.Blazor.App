@@ -26,8 +26,6 @@ namespace AIStudio.BlazorMaui.Client
 		    builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
-            builder.Services.AddHttpClient();
-
             //方法1：只适合window平台，并且wwwroot/appsettings.json需要为内容
             //var config = new ConfigurationBuilder().AddJsonFile("wwwroot/appsettings.json").Build();
 
@@ -61,6 +59,7 @@ namespace AIStudio.BlazorMaui.Client
             var assembly = Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream("AIStudio.BlazorMaui.Client.wwwroot.appsettings.json");
             var config =  new ConfigurationBuilder().AddJsonStream(stream).Build();
+
             builder.Configuration.AddConfiguration(config);
             builder.Services.AddServices(builder.Configuration);    // 第2外：添加扩展方法引入服务
 

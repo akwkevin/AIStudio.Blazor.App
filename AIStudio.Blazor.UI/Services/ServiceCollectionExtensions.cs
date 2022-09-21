@@ -28,7 +28,7 @@ namespace AIStudio.Blazor.UI.Services
 
             services.AddAuthorizationCore();
             services.AddBlazoredLocalStorage();
-
+            
             services.AddScoped<JwtAuthenticationStateProvider>();
             services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<JwtAuthenticationStateProvider>());
             services.AddScoped<IOperator, Operator>();
