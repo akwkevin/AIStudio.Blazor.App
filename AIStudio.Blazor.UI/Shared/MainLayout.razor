@@ -9,7 +9,7 @@
     @if (IsDrawer)
     {
         <Drawer Closable="true" Visible="!Collapsed" Placement="left" Title='GetLogo()' OnClose="_=>DrawerClose()">
-            <HamburgerMenu Theme="MenuTheme.Light" Accordion=Layout.Accordion InlineCollapsed="false" MenuData="MenuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
+            <HamburgerMenu Theme="MenuTheme.Light" Accordion=Layout.Accordion InlineCollapsed="false" MenuData="_menuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
         </Drawer>
     }
     else
@@ -31,7 +31,7 @@
                 </div>
             }
 
-            <HamburgerMenu Theme="Layout.MenuTheme" Accordion=Layout.Accordion InlineCollapsed="@Collapsed" MenuData="MenuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
+            <HamburgerMenu Theme="Layout.MenuTheme" Accordion=Layout.Accordion InlineCollapsed="@Collapsed" MenuData="_menuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
         </Sider>
     }
 
@@ -104,7 +104,7 @@
     [Inject]
     IOperator Operator { get; set; }
 
-    MenuDataItem[] MenuData = { };
+    MenuDataItem[] _menuData = { };
 
     LayoutSettings Layout { get { return LayoutSettings.Value; } }
 
@@ -112,7 +112,7 @@
     {
         await base.OnInitializedAsync();
 
-        MenuData = Operator.MenuTrees.ChangeType<MenuDataItem[]>();
+        _menuData = Operator.MenuTrees.ChangeType<MenuDataItem[]>();
         var setting = await StorageService.GetItemAsStringAsync(nameof(Layout));
         if (!string.IsNullOrEmpty(setting))
         {

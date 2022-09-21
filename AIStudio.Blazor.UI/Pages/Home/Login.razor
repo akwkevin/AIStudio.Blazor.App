@@ -2,6 +2,7 @@
 @layout UserLayout
 @page "/Home/Login"
 @using AIStudio.Blazor.UI.Models.Params
+@using Blazored.LocalStorage
 
 <div class="main__b__0">
     <div class="login">
@@ -21,21 +22,11 @@
                 </TabPane>
             </Tabs>
             <div>
-                <Checkbox Checked="@context.AutoLogin">
+                <Checkbox @bind-Checked="@context.AutoLogin">
                     Auto Login
                 </Checkbox>
-                <a style="float: right;">
-                    Forgot Password
-                </a>
             </div>
             <Button Type="primary" HtmlType="submit" Class="submit" Size="large" Block>Log in </Button>
-            <div class="other">
-                Other Login Methods
-                <Icon Class="icon" Type="alipay-circle" />
-                <Icon Class="icon" Type="taobao-circle" />
-                <Icon Class="icon" Type="weibo-circle" />
-                <a class="register" href="/user/register">Register Account</a>
-            </div>
         </Form>
     </div>
 </div>
@@ -50,8 +41,25 @@
     [Inject] 
     public JwtAuthenticationStateProvider AuthStateProvider { get; set; }
 
+    [Inject]
+    ILocalStorageService StorageService { get; set; }
+
     [Inject] 
     public MessageService Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var loginParamsType = await StorageService.GetItemAsStringAsync(nameof(LoginParamsType));
+        if (!string.IsNullOrEmpty(loginParamsType))
+        {
+            var temp = loginParamsType.ToObject<LoginParamsType>();
+
+            temp.CopyProperties(_model);
+        }
+    }
+
     public async void HandleSubmit()
     {
         try
@@ -59,18 +67,27 @@
             loading = true;
             var result = await AuthStateProvider.Login(_model.UserName, _model.Password);
             if (result.Success)
-            {
-                await Message.Success("登录成功");
+            {           
+                if (_model.AutoLogin)
+                {
+                    await StorageService.SetItemAsStringAsync(nameof(LoginParamsType), _model.ToJson());
+                }
+                else
+                {
+                    await StorageService.RemoveItemAsync(nameof(LoginParamsType));
+                }
                 NavigationManager.NavigateTo("/");
+                await Message.Success("登录成功");
             }
             else
             {
+                loading = false;
                 await Message.Warning(result.Msg);
             }
         }
         finally
         {
-            loading = false;
+          
         }
     }
 }
