@@ -17,35 +17,32 @@ namespace AIStudio.BlazorWpf.Client
     /// </summary>
     public partial class App : Application
     {
-        public IServiceProvider ServiceProvider { get; private set; }
-        public IConfiguration Configuration { get; private set; }
-
         protected override void OnStartup(StartupEventArgs e)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("wwwroot/appsettings.json", optional: false, reloadOnChange: true);
-
-            Configuration = builder.Build();
-
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
+            var builder = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("wwwroot/appsettings.json", optional: false, reloadOnChange: true);
+
+            var configuration = builder.Build();
+            services.AddSingleton<IConfiguration>(configuration);
+
             services.AddWpfBlazorWebView();
 #if DEBUG
             services.AddBlazorWebViewDeveloperTools();
-#endif
-            services.AddSingleton<IConfiguration>(Configuration);
+#endif           
         
-            services.AddServices(Configuration);    // 第2外：添加扩展方法引入服务
+            services.AddServices(configuration);    // 第2外：添加扩展方法引入服务
             services.AddTransient(typeof(MainWindow));
 
             Resources.Add("services", services.BuildServiceProvider());

@@ -26,17 +26,6 @@ namespace AIStudio.BlazorWpf.Client
         public MainWindow()
         {
             InitializeComponent();
-
-            //var serviceCollection = new ServiceCollection();
-            //serviceCollection.AddWpfBlazorWebView();
-            //Resources.Add("services", serviceCollection.BuildServiceProvider());
-
-            //serviceCollection.AddHttpClient();
-
-            //var config = new ConfigurationBuilder().AddJsonFile("wwwroot/appsettings.json").Build();
-
-            ////builder.Configuration.AddConfiguration(config);
-            //serviceCollection.AddServices(null);    // 第2外：添加扩展方法引入服务
         }
     }
 }
