@@ -1,0 +1,53 @@
+<TreeSelect TItem="Data"
+            Style="width:100%;"
+            DataSource="treeData"
+            @bind-Value="@value"
+            Placeholder="Please select"
+            AllowClear
+            Multiple
+            TreeDefaultExpandAll
+            ChildrenExpression="node=>node.DataItem.Children"
+            TitleExpression="node=>node.DataItem.Title"
+            KeyExpression="node=>node.DataItem.Key"
+            IsLeafExpression="node=>node.DataItem.Children==null">
+</TreeSelect>
+
+
+@code {
+  private string value;
+
+  Data[] treeData = new Data[]
+  {
+        new()
+        {
+            Title = "Node1",
+            Key = "0-0",
+            Children = new Data[]
+            {
+                new()
+                {
+                    Title = "Child Node1",
+                    Key = "0-0-1",
+                },
+                new()
+                {
+                    Title = "Child Node2",
+                    Key = "0-0-2",
+                }
+            }
+        },
+        new()
+        {
+            Title = "Node2",
+            Key = "0-1",
+        }
+  };
+
+  public class Data : ITreeData<Data>
+  {
+    public string Key { get; set; }
+    public Data Value => this;
+    public string Title { get; set; }
+    public IEnumerable<Data> Children { get; set; }
+  }
+}

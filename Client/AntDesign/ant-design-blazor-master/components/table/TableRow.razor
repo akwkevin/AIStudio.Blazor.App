@@ -1,0 +1,39 @@
+﻿@namespace AntDesign
+@inherits AntDomComponentBase
+@typeparam TItem
+@using AntDesign.TableModels
+
+@if (IsBody)
+{
+    <tr @attributes="RowAttributes"
+        data-row-key="@(RowData.RowIndex-1)" 
+        class="ant-table-row ant-table-row-level-@RowData.Level @(RowData.Selected ? "ant-table-row-selected" : "") @RowClassName @RowAttributes?.GetValueOrDefault("class")">
+        @ChildContent
+    </tr>
+}
+else if (IsHeader)
+{
+    <tr @attributes="RowAttributes">
+        @ChildContent
+    </tr>
+}
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [CascadingParameter(Name = "IsHeader")]
+    public bool IsHeader { get; set; }
+
+    [CascadingParameter(Name = "IsBody")]
+    public bool IsBody { get; set; }
+
+    [CascadingParameter(Name = "RowData")]
+    public RowData<TItem> RowData { get; set; }
+
+    [CascadingParameter(Name = "AntDesign.TableRow.RowAttributes")]
+    public Dictionary<string, object> RowAttributes { get; set; }
+
+    [CascadingParameter(Name = "AntDesign.TableRow.RowClassName")]
+    public string RowClassName { get; set; }
+}

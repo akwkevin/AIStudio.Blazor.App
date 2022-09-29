@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net5;net6</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
+    <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <Description>🌈 A set of enterprise-class UI components based on Ant Design and Blazor WebAssembly.</Description>
+    <PackageProjectUrl>https://github.com/ant-design-blazor/ant-design-blazor</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ant-design-blazor/ant-design-blazor</RepositoryUrl>
+    <PackageTags>blazor,ant-design,antd,design,razor,components</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>.NET Foundation and Contributors</Copyright>
+    <Authors>James Yeung</Authors>
+    <PackageIcon>logo.png</PackageIcon>
+    <NoWarn>CA2007</NoWarn>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>AntDesign.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The nuget package icon -->
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+    <None Include="logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ignore the tsconfig.json file in package -->
+    <Content Remove="tsconfig.json" />
+    <None Include="tsconfig.json" CopyToOutputDirectory="Never"></None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="locales\*.json" />
+    <EmbeddedResource Include="locales\*.json" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.1'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'net5'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'net6'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
+    <PackageReference Include="OneOf" Version="2.1.155" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="**\*.razor">
+      <Pack>false</Pack>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="DebugMessage" BeforeTargets="Build">
+    <Message Importance="high" Text="If you have modified the style, documentation or added a new demo, please rebuild the entire solution." />
+    <Message Importance="high" Text="如果您修改了样式、文档或者新增了Demo，请重新构建整个解决方案。" />
+  </Target>
+</Project>

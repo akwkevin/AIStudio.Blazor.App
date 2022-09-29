@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <title>Ant Design Blazor</title>
+    <meta name="author" content="Chris Mills">
+    <meta name="description" content="🌈A set of enterprise-class UI components based on Ant Design and Blazor WebAssembly.">
+    <base href="/" />
+    <link rel="icon" href="logo.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://C9UTAZSOWW-dsn.algolia.net" crossorigin />
+    <link rel="stylesheet" href="https://unpkg.com/@docsearch/css@3.0.0/dist/style.css" crossorigin />
+    <link href="_content/AntDesign.Docs/css/default.css?v={version}" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="stylesheet/less" type="text/css" href="_content/AntDesign.Docs/color.less" />
+    <link rel="stylesheet" type="text/css" href="./css/toast.css" />
+</head>
+
+<body>
+    <noscript>Out-of-the-box mid-stage front/design solution!</noscript>
+    <app>
+        <div id="root">
+            <style>
+                html,
+                body,
+                #root {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                #root {
+                    background-image: url("_content/AntDesign.Docs/home_bg.png");
+                    background-repeat: no-repeat;
+                    background-size: 100% auto;
+                }
+
+                .page-loading-warp {
+                    padding: 98px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .ant-spin {
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                    color: rgba(0, 0, 0, 0.65);
+                    font-size: 14px;
+                    font-variant: tabular-nums;
+                    line-height: 1.5;
+                    list-style: none;
+                    -webkit-font-feature-settings: 'tnum';
+                    font-feature-settings: 'tnum';
+                    position: absolute;
+                    display: none;
+                    color: #1890ff;
+                    text-align: center;
+                    vertical-align: middle;
+                    opacity: 0;
+                    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+                    transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+                    transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+                    transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86), -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+                }
+
+                .ant-spin-spinning {
+                    position: static;
+                    display: inline-block;
+                    opacity: 1;
+                }
+
+                .ant-spin-dot {
+                    position: relative;
+                    display: inline-block;
+                    font-size: 20px;
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .ant-spin-dot-item {
+                    position: absolute;
+                    display: block;
+                    width: 9px;
+                    height: 9px;
+                    background-color: #1890ff;
+                    border-radius: 100%;
+                    -webkit-transform: scale(0.75);
+                    -ms-transform: scale(0.75);
+                    transform: scale(0.75);
+                    -webkit-transform-origin: 50% 50%;
+                    -ms-transform-origin: 50% 50%;
+                    transform-origin: 50% 50%;
+                    opacity: 0.3;
+                    -webkit-animation: antSpinMove 1s infinite linear alternate;
+                    animation: antSpinMove 1s infinite linear alternate;
+                }
+
+                    .ant-spin-dot-item:nth-child(1) {
+                        top: 0;
+                        left: 0;
+                    }
+
+                    .ant-spin-dot-item:nth-child(2) {
+                        top: 0;
+                        right: 0;
+                        -webkit-animation-delay: 0.4s;
+                        animation-delay: 0.4s;
+                    }
+
+                    .ant-spin-dot-item:nth-child(3) {
+                        right: 0;
+                        bottom: 0;
+                        -webkit-animation-delay: 0.8s;
+                        animation-delay: 0.8s;
+                    }
+
+                    .ant-spin-dot-item:nth-child(4) {
+                        bottom: 0;
+                        left: 0;
+                        -webkit-animation-delay: 1.2s;
+                        animation-delay: 1.2s;
+                    }
+
+                .ant-spin-dot-spin {
+                    -webkit-transform: rotate(45deg);
+                    -ms-transform: rotate(45deg);
+                    transform: rotate(45deg);
+                    -webkit-animation: antRotate 1.2s infinite linear;
+                    animation: antRotate 1.2s infinite linear;
+                }
+
+                .ant-spin-lg .ant-spin-dot {
+                    font-size: 32px;
+                    width: 32px;
+                    height: 32px;
+                }
+
+                    .ant-spin-lg .ant-spin-dot i {
+                        width: 14px;
+                        height: 14px;
+                    }
+
+                @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                    .ant-spin-blur {
+                        background: #fff;
+                        opacity: 0.5;
+                    }
+                }
+
+                @-webkit-keyframes antSpinMove {
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @keyframes antSpinMove {
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @-webkit-keyframes antRotate {
+                    to {
+                        -webkit-transform: rotate(405deg);
+                        transform: rotate(405deg);
+                    }
+                }
+
+                @keyframes antRotate {
+                    to {
+                        -webkit-transform: rotate(405deg);
+                        transform: rotate(405deg);
+                    }
+                }
+            </style>
+            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 420px; height: 100%;">
+                <img src="logo.png" alt="logo" width="256">
+                <div class="page-loading-warp">
+                    <div class="ant-spin ant-spin-lg ant-spin-spinning">
+                        <span class="ant-spin-dot ant-spin-dot-spin">
+                            <i class="ant-spin-dot-item"></i>
+                            <i class="ant-spin-dot-item"></i>
+                            <i class="ant-spin-dot-item"></i>
+                            <i class="ant-spin-dot-item"></i>
+                        </span>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="logo.png" width="32" style="margin-right: 8px;"> Ant Design of Blazor
+                </div>
+            </div>
+        </div>
+    </app>
+    <div id="toast-zh" class="toast ">文档已更新，请点击 <a class="reload" onclick="reload()">此处</a> 更新。</div>
+    <div id="toast-en" class="toast ">A new version of this app is available. Click <a class="reload" onclick="reload()">here</a> to update.</div>
+
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+        // Single Page Apps for GitHub Pages
+        // https://github.com/rafrex/spa-github-pages
+        // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+        // ----------------------------------------------------------------------
+        // This script checks to see if a redirect is present in the query string
+        // and converts it back into the correct url and adds it to the
+        // browser's history using window.history.replaceState(...),
+        // which won't cause the browser to attempt to load the new url.
+        // When the single page app is loaded further down in this file,
+        // the correct url will be waiting in the browser's history for
+        // the single page app to route accordingly.
+        (function (l) {
+            if (l.search) {
+                var q = {};
+                l.search.slice(1).split('&').forEach(function (v) {
+                    var a = v.split('=');
+                    q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+                });
+                if (q.p !== undefined) {
+                    window.history.replaceState(null, null,
+                        l.pathname.slice(0, -1) + (q.p || '') +
+                        (q.q ? ('?' + q.q) : '') +
+                        l.hash
+                    );
+                }
+            }
+        }(window.location))
+    </script>
+    <!-- End Single Page Apps for GitHub Pages -->
+
+    <script src="/_content/AntDesign.Charts/g2plot.js?v={version}"></script>
+    <script src="/_content/AntDesign.Charts/ant-design-charts-blazor.js?v={version}"></script>
+    <script src="/_content/AntDesign/js/ant-design-blazor.js?v={version}"></script>
+    <script src="/_content/AntDesign.Docs/js/prism.js?v={version}"></script>
+    <script>
+        window.AntDesign.Prism = {};
+        window.AntDesign.Prism.highlight = function (code, language) {
+            return Prism.highlight(code, Prism.languages[language], language);
+        }
+
+        window.AntDesign.Prism.highlightAll = function () {
+            Prism.highlightAll();
+        }
+
+        window.changeColor = function (hex, ref) {
+            window.less
+                .modifyVars({
+                    '@primary-color': hex
+                }).then(() => ref.invokeMethodAsync('OnColorChanged'))
+        }
+
+        //fetch("/version.json?t=" + new Date().getTime())
+        //    .then(response => response.json())
+        //    .then(data => {
+        //        console.log('Latest version is:' + data.version);
+        //        if (data.version != '{version}') {
+        //            showUpdateBar();
+        //        }
+        //    });
+    </script>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js" crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/@docsearch/js@3.0.0/dist/umd/index.js" crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="_content/AntDesign.Docs/js/docsearch.js"></script>
+    <script>
+        let newWorker;
+
+        function showUpdateBar() {
+            var lang = navigator.language || navigator.userLanguage;
+            lang = lang.substr(0, 2);
+            let toast = lang == 'zh' ? document.getElementById('toast-zh') : document.getElementById('toast-en');
+            toast.classList.add('show');
+        }
+
+        function hideUpdateBar() {
+            var lang = navigator.language || navigator.userLanguage;
+            lang = lang.substr(0, 2);
+            let toast = lang == 'zh' ? document.getElementById('toast-zh') : document.getElementById('toast-en');
+            toast.classList.remove('show');
+        }
+
+        function reload() {
+            if (newWorker) {
+                newWorker.postMessage({ action: 'skipWaiting' });
+            } else {
+                navigator.serviceWorker.getRegistration().then(reg => {
+                    if (reg.waiting) {
+                        reg.waiting.postMessage({ action: 'skipWaiting' });
+                    }
+                });
+            }
+            hideUpdateBar();
+        }
+
+        if ('serviceWorker' in navigator) {
+            // The click event on the pop up notification
+
+            navigator.serviceWorker.register('/service-worker.js').then(reg => {
+                if (reg.waiting) {
+                    newWorker = reg.waiting;
+                    showUpdateBar();
+                    return;
+                }
+
+                reg.onupdatefound = function () {
+                    newWorker = reg.installing;
+                    newWorker.onstatechange = function () {
+                        switch (newWorker.state) {
+                            case 'installed':
+                                if (navigator.serviceWorker.controller) {
+                                    showUpdateBar();
+                                }
+                                break;
+                        }
+                    };
+                };
+            });
+
+            let refreshing;
+            navigator.serviceWorker.addEventListener('controllerchange', function () {
+                if (refreshing) return;
+                window.location.reload();
+                refreshing = true;
+            });
+        }
+    </script>
+</body>
+</html>

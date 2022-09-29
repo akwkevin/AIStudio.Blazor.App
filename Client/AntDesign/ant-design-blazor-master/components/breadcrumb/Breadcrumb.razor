@@ -1,0 +1,11 @@
+@namespace AntDesign
+@inherits AntDomComponentBase
+
+<CascadingValue Value="this" IsFixed="@true">
+    <nav class="@ClassMapper.Class" id="@Id" @ref="Ref" style="@Style">
+        <ol>
+            @ChildContent
+        </ol>
+    </nav>
+</CascadingValue>
+

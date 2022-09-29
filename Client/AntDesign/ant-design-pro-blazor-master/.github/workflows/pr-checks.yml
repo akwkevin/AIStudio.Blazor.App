@@ -1,0 +1,40 @@
+﻿name: Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.101
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Check Building ⚙
+        run: |
+          npm install
+          cp -rf .github/deploy/gh-pages/* .github/deploy/gh-pages/.nojekyll .github/deploy/gh-pages/.spa ./src/AntDesign.Pro/wwwroot
+          dotnet build ./AntDesign.Pro.sln
+          dotnet publish ./AntDesign.Pro.sln -c Release -o cargo
+
+      - name: Test Package
+        run: |
+            dotnet pack templates.csproj -c Release -o pack
+            dotnet new -i ./pack/AntDesign.Templates.1.0.0.nupkg
+            dotnet new antdesign -n wasm --host wasm --full
+            dotnet new antdesign -n server --host server --full
+            dotnet new antdesign -n hosted --host hosted --full
+            dotnet build ./wasm
+            dotnet build ./server
+            dotnet build ./hosted
