@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Json\**" />
+    <Content Remove="Json\**" />
+    <EmbeddedResource Remove="Json\**" />
+    <None Remove="Json\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Core\ComponentBaseEditForm.cs" />
     <Compile Remove="Core\ComponentBaseListBase.cs" />
   </ItemGroup>

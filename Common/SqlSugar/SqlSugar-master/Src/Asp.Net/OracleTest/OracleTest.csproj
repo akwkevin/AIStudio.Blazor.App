@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4177D054-D113-4F8A-9E01-642E072F9C87}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OracleTest</RootNamespace>
+    <AssemblyName>OracleTest</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bugs\BugTest1.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Demo\Demo0_SqlSugarClient.cs" />
+    <Compile Include="Demo\Demo1_Queryable.cs" />
+    <Compile Include="Demo\Demo2_Updateable.cs" />
+    <Compile Include="Demo\Demo3_Insertable.cs" />
+    <Compile Include="Demo\Demo4_Deleteable.cs" />
+    <Compile Include="Demo\Demo5_SqlQueryable.cs" />
+    <Compile Include="Demo\Demo6_Queue.cs" />
+    <Compile Include="Demo\Demo7_Ado.cs" />
+    <Compile Include="Demo\Demo8_Saveable.cs" />
+    <Compile Include="Demo\Demo9_EntityMain.cs" />
+    <Compile Include="Demo\DemoA_DbMain.cs" />
+    <Compile Include="Demo\DemoB_Aop.cs" />
+    <Compile Include="Demo\Democ_GobalFilter.cs" />
+    <Compile Include="Demo\DemoD_DbFirst.cs" />
+    <Compile Include="Demo\DemoE_CodeFirst.cs" />
+    <Compile Include="Demo\DemoF_Utilities.cs" />
+    <Compile Include="Demo\DemoG_SimpleClient.cs" />
+    <Compile Include="Demo\DemoJ_Report.cs" />
+    <Compile Include="Demo\DemoN_SplitTable.cs" />
+    <Compile Include="Models\AttributeTable.cs" />
+    <Compile Include="Models\CarType.cs" />
+    <Compile Include="Models\Custom.cs" />
+    <Compile Include="Models\EntityMapper.cs" />
+    <Compile Include="Models\Mapper.cs" />
+    <Compile Include="Models\MyCustomAttributeTable.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\SubInsertTest.cs" />
+    <Compile Include="Models\TestTree.cs" />
+    <Compile Include="Models\Tree.cs" />
+    <Compile Include="Models\ViewOrder.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest\UnitStorageableBool.cs" />
+    <Compile Include="UnitTest\UCustom03.cs" />
+    <Compile Include="UnitTest\Main.cs" />
+    <Compile Include="UnitTest\UAdo.cs" />
+    <Compile Include="UnitTest\UCodeFirst.cs" />
+    <Compile Include="UnitTest\UCustom01.cs" />
+    <Compile Include="UnitTest\UCustom011.cs" />
+    <Compile Include="UnitTest\UCustom02.cs" />
+    <Compile Include="UnitTest\UDelete.cs" />
+    <Compile Include="UnitTest\UJson.cs" />
+    <Compile Include="UnitTest\Updateable.cs" />
+    <Compile Include="UnitTest\UQueryable.cs" />
+    <Compile Include="UnitTest\UQueryableAsync.cs" />
+    <Compile Include="UnitTest\UThread.cs" />
+    <Compile Include="UnitTest\UThread2.cs" />
+    <Compile Include="UnitTest\UThread3.cs" />
+    <Compile Include="UnitTest\UValidate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SqlSugar\SqlSugar.csproj">
+      <Project>{489bb790-226c-4fad-8d1e-51d72a7ff8e5}</Project>
+      <Name>SqlSugar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

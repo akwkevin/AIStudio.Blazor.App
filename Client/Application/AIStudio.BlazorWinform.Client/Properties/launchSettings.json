@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "AIStudio.BlazorWinform.Client": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56949;http://localhost:56952"
+    }
+  }
+}
