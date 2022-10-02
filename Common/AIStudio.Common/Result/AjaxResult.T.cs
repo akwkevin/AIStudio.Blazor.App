@@ -14,7 +14,7 @@ namespace AIStudio.Common.Result
 
         public AjaxResult(int code = StatusCodes.Status200OK, string? message = AjaxResultMessage.Status200OK, T data = default(T), bool success = true)
         {
-            ErrorCode = code;
+            Code = code;
             Msg = message;
             Data = data;
             Success = success;

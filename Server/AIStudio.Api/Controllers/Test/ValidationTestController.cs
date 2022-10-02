@@ -1,5 +1,6 @@
 using AIStudio.Common.Swagger;
 using Microsoft.AspNetCore.Mvc;
+using NLog.Fluent;
 using System.ComponentModel.DataAnnotations;
 
 namespace AIStudio.Api.Controllers.Test;
@@ -12,6 +13,12 @@ namespace AIStudio.Api.Controllers.Test;
 [Route("[controller]/[action]")]
 public class ValidationTestController : ControllerBase
 {
+    private readonly ILogger _logger;
+    public ValidationTestController(ILogger<ValidationTestController> logger)
+    {
+        _logger = logger;
+    }
+
     /// <summary>
     /// 1.使用代码校验
     /// </summary>
@@ -21,14 +28,14 @@ public class ValidationTestController : ControllerBase
     public string TraditionValidation(TestModel model)
     {
         if (string.IsNullOrEmpty(model.Name))
-        {
+        {   
             return "名字不能为空！";
         }
         if (model.Name.Length > 10)
         {
             return "名字长度不能超过10个字符！";
         }
-
+        _logger.LogError("验证通过！");
         return "验证通过！";
     }
 

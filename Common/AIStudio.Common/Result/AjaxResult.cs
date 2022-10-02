@@ -15,7 +15,7 @@ namespace AIStudio.Common.Result
         /// <summary>
         /// 错误代码
         /// </summary>
-        public int ErrorCode { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// 返回消息
@@ -31,7 +31,7 @@ namespace AIStudio.Common.Result
 
         public AjaxResult(int code = StatusCodes.Status200OK, string? message = AjaxResultMessage.Status200OK, object? data = null, bool success = true)
         {
-            ErrorCode = code;
+            Code = code;
             Msg = message;
             Data = data;
             Success = success;

@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.Autofac.Lifetime;
+using AIStudio.Common.CurrentUser;
 using AIStudio.Common.Types;
 using Autofac;
 using Autofac.Builder;
@@ -58,7 +59,8 @@ namespace AIStudio.Common.Autofac
                                 interfaces.ForEach(aInterface =>
                                 {
                                     //注入AOP
-                                    builder.RegisterTypeLifetime(aType, aInterface, aMap.Value);
+                                    //builder.RegisterTypeLifetime(aType, aInterface, aMap.Value);
+                                    builder.RegisterType<Operator>().As<IOperator>();
                                 });
                             }
                             //无接口则注入自己
