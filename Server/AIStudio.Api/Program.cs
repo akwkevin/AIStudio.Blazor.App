@@ -1,36 +1,85 @@
+using AIStudio.Api.Controllers.Test;
+using AIStudio.Common.AppSettings;
+using AIStudio.Common.Authentication.Jwt;
+using AIStudio.Common.Authorization;
+using AIStudio.Common.Autofac;
+using AIStudio.Common.Cache;
+using AIStudio.Common.Filter;
 using AIStudio.Common.Json.SystemTextJson;
-using System.Text.Encodings.Web;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using System.Text.Unicode;
+using AIStudio.Common.Mapper;
+using AIStudio.Common.Quartz;
+using AIStudio.Common.Swagger;
+using AIStudio.Common.Types;
+using Autofac;
+using Autofac.Core;
+using Autofac.Extras.DynamicProxy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//读取配置文件appsettings
+AppSettingsConfig.Configure(builder.Configuration);
 
+//默认事件总线
+builder.Services.AddEventBusDefault();
+//添加事件总线(Local)
+builder.Services.AddEventBusLocal().AddSubscriber(subscribers =>
+{
+    //subscribers.Add<TestEventModel, TestEventHandler>();
+    //subscribers.Add<ExceptionEvent, ExceptionEventHandler>();
+    //subscribers.Add<RequestEvent, RequestEventHandler>();
+});
+
+////数据过滤与Json配置
 builder.Services.AddControllers()
-    //全局配置Json序列化处理
-    .AddJsonOptions(options =>
-    {
-        // 驼峰命名
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-
-        // Unicode 编码
-        options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-
-        // 忽略循环引用
-        // https://docs.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json-preserve-references
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-
-        // 自定义 Converter
-        options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
-        options.JsonSerializerOptions.Converters.Add(new EnumJsonConverter());
-    });
+    .AddDataValidation() //数据验证
+    .AddFilter()    //过滤器
+    .AddTextJsonOptions();//Json配置
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//swagger
+builder.Services.AddSwaggerGen_();
+
+//在 var app = builder.Build(); 前加入使用 Autofac 相关代码
+builder.AddAutoface(GlobalType.AllTypes, builder =>
+{
+    builder.RegisterType<ValuesService>().As<IValuesService>().EnableInterfaceInterceptors();
+});
+
+//jwt Authentication 
+builder.Services.AddJwtAuthentication(builder.Configuration);
+// 授权
+builder.Services.AddAuthorization_();
+// 替换默认 PermissionChecker,测试使用
+builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(TestPermissionChecker), ServiceLifetime.Transient));
+
+//使用AutoMapper自动映射拥有MapAttribute的类
+builder.Services.AddMapper(GlobalType.AllTypes, GlobalType.AllAssemblies);
+
+// 缓存
+builder.Services.AddCache(builder.Configuration);
+
+// 跨域
+builder.Services.AddCors_(builder.Configuration);
+
+// 定时任务
+//builder.Services.AddJobScheduling(options =>
+//{
+//    options.StartHandle = async sp =>
+//    {
+//        var jobService = sp.GetService<IJobService>();
+//        if (jobService == null) return;
+//        await jobService.StartAll();
+//    };
+//});
 
 var app = builder.Build();
 
@@ -38,11 +87,31 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        //如果使用了版本控制，别忘了修改此处
+        foreach (var field in ApiVersionInfo.GetFieldValues())
+        {
+            c.SwaggerEndpoint($"/swagger/{field.Key}/swagger.json", $"{field.Key}");
+        }
+    });
 }
 
 app.UseHttpsRedirection();
 
+// UseCors 必须在 UseRouting 之后，UseResponseCaching、UseAuthorization 之前
+app.UseCors();
+
+// 添加自定义中间件（包含：Body重复读取、异常处理）
+app.UseMiddleware_();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ServeUnknownFileTypes = true,
+    DefaultContentType = "application/octet-stream"
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using AIStudio.Common.Result;
+using System.Threading.Tasks;
 
 namespace AIStudio.Client.Business
 {

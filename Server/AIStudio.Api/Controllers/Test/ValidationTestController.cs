@@ -1,0 +1,61 @@
+using AIStudio.Common.Swagger;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace AIStudio.Api.Controllers.Test;
+
+/// <summary>
+/// 测试数据校验
+/// </summary>
+[ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.Test))]
+[ApiController]
+[Route("[controller]/[action]")]
+public class ValidationTestController : ControllerBase
+{
+    /// <summary>
+    /// 1.使用代码校验
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public string TraditionValidation(TestModel model)
+    {
+        if (string.IsNullOrEmpty(model.Name))
+        {
+            return "名字不能为空！";
+        }
+        if (model.Name.Length > 10)
+        {
+            return "名字长度不能超过10个字符！";
+        }
+
+        return "验证通过！";
+    }
+
+    /// <summary>
+    /// 2.使用模型校验
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public TestModel ModelValidation(TestModel model)
+    {
+        return model;
+    }
+
+    [HttpPost("List")]
+    public List<TestModel> List(List<TestModel> models)
+    {
+        return models;
+    }
+}
+
+public class TestModel
+{
+    [Required(ErrorMessage = "名字不能为空！")]
+    [StringLength(10, ErrorMessage = "名字长度不能超过10个字符！")]
+    public string? Name { get; set; }
+
+    [EmailAddress(ErrorMessage = "邮箱格式错误！")]
+    public string? Email { get; set; }
+}
