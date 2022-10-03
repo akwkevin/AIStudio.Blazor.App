@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+﻿using AIStudio.Common.AppSettings;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -11,13 +12,13 @@ public static class CorsServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="setupAction"></param>
     /// <returns></returns>
-    public static IServiceCollection AddCors_(this IServiceCollection services, IConfiguration configuration, Action<CorsOptions>? setupAction = null)
+    public static IServiceCollection AddCors_(this IServiceCollection services, Action<CorsOptions>? setupAction = null)
     {
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
-                if(configuration.GetSection("AllowCors").Get<string[]>().Any(c => c == "*"))
+                if(AppSettingsConfig.AllowCors.Any(c => c == "*"))
                 {
                     // 允许任意跨域
                     policy.AllowAnyOrigin();
@@ -25,7 +26,7 @@ public static class CorsServiceCollectionExtensions
                 else
                 {
                     // 允许指定域名
-                    policy.WithOrigins(configuration.GetSection("AllowCors").Get<string[]>()); 
+                    policy.WithOrigins(AppSettingsConfig.AllowCors); 
                 }
             });
         });

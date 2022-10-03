@@ -2,8 +2,8 @@ using AIStudio.Api.Controllers.Test;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.Authorization;
-using AIStudio.Common.Autofac;
 using AIStudio.Common.Cache;
+using AIStudio.Common.DI;
 using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Core;
 using AIStudio.Common.EventBus.EventHandlers;
@@ -12,6 +12,8 @@ using AIStudio.Common.Filter;
 using AIStudio.Common.Json.SystemTextJson;
 using AIStudio.Common.Mapper;
 using AIStudio.Common.Quartz;
+using AIStudio.Common.Service;
+using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
 using Autofac;
@@ -24,6 +26,8 @@ using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
 using System.Reflection;
+using Yitter.IdGenerator;
+using static AIStudio.Common.AppSettings.AppSettingsConfig;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("启动中……");
@@ -65,6 +69,12 @@ try
         })   //过滤器
         .AddTextJsonOptions();//Json配置
 
+    var workerId = (ushort)(AppSettingsConfig.SnowIdOptions.WorkerId);
+    // 设置雪花id的workerId，确保每个实例workerId都应不同
+    YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
+
+    builder.Services.AddSqlSugar();
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
 
@@ -74,14 +84,10 @@ try
     //注册 IHttpContextAccessor
     builder.Services.AddHttpContextAccessor();
 
-    //在 var app = builder.Build(); 前加入使用 Autofac 相关代码
-    builder.AddAutoface(GlobalType.AllTypes, builder =>
-    {
-        builder.RegisterType<ValuesService>().As<IValuesService>().EnableInterfaceInterceptors();
-    });
+    builder.Services.AddServices(GlobalType.AllTypes);
 
     //jwt Authentication 
-    builder.Services.AddJwtAuthentication(builder.Configuration);
+    builder.Services.AddJwtAuthentication();
     // 授权
     builder.Services.AddAuthorization_();
     // 替换默认 PermissionChecker,测试使用
@@ -91,10 +97,10 @@ try
     builder.Services.AddMapper(GlobalType.AllTypes, GlobalType.AllAssemblies);
 
     // 缓存
-    builder.Services.AddCache(builder.Configuration);
+    builder.Services.AddCache();
 
     // 跨域
-    builder.Services.AddCors_(builder.Configuration);
+    builder.Services.AddCors_();
 
     // 定时任务
     //builder.Services.AddJobScheduling(options =>
@@ -106,6 +112,8 @@ try
     //        await jobService.StartAll();
     //    };
     //});
+
+    ServiceLocator.Instance = builder.Services.BuildServiceProvider();
 
     var app = builder.Build();
 

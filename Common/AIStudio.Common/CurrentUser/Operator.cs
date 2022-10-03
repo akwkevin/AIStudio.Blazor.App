@@ -1,13 +1,12 @@
-﻿using AIStudio.Common.Autofac.Lifetime;
+﻿using AIStudio.Common.DI;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AIStudio.Common.CurrentUser
 {
     /// <summary>
     /// 操作者
     /// </summary>
-    public class Operator : IOperator, IInstancePerLifetimeScope
+    public class Operator : IOperator, IScopedDependency
     {
         readonly IServiceProvider _serviceProvider;
         public Operator(IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider)

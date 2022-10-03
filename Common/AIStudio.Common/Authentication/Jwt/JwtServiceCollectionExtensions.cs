@@ -16,12 +16,12 @@ namespace AIStudio.Common.Authentication.Jwt
 {
     public static class JwtServiceCollectionExtensions
     {
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
         {
             // 读取配置
-            var symmetricKeyAsBase64 = configuration["Jwt:SecretKey"];
-            var issuer = configuration["Jwt:Issuer"];
-            var audience = configuration["Jwt:Audience"];
+            var symmetricKeyAsBase64 = AppSettingsConfig.JwtOptions.SecretKey;
+            var issuer = AppSettingsConfig.JwtOptions.Issuer;
+            var audience = AppSettingsConfig.JwtOptions.Audience;
 
             // 获取密钥
             var keyByteArray = Encoding.UTF8.GetBytes(symmetricKeyAsBase64);
@@ -77,8 +77,6 @@ namespace AIStudio.Common.Authentication.Jwt
                 options.TokenValidationParameters = tokenValidationParameters;
                 options.Events = jwtBearerEvents;
             });
-
-            services.AddSingleton<JwtHelper>();
 
             return services;
         }

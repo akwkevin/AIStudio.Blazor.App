@@ -1,4 +1,5 @@
-﻿using AIStudio.Common.Authentication.Jwt;
+﻿using AIStudio.Common.AppSettings;
+using AIStudio.Common.Authentication.Jwt;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,23 +18,18 @@ namespace AIStudio.Common.Cache
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddCache(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCache(this IServiceCollection services)
         {
             // 根据情况，启用 Redis 或 DistributedMemoryCache
-            if (configuration.GetValue<bool>("Redis:Enabled"))
+            if (AppSettingsConfig.RedisOptions.Enabled)
             {
-                services.AddStackExchangeRedisCache(options =>
-                {
-                    options.Configuration = configuration["Redis:ConnectionString"];
-                    options.InstanceName = configuration["Redis:Instance"] ?? "Default";
-                });
+                services.AddSingleton<ICache, RedisCache> ();
             }
             else
             {
-                services.AddDistributedMemoryCache();
+                services.AddMemoryCache();
+                services.AddSingleton<ICache, MemoryCache>();
             }
-
-            services.AddSingleton<CacheHelper>();
             return services;
         }
     }

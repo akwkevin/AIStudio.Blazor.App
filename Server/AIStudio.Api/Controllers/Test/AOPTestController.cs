@@ -1,4 +1,4 @@
-﻿using AIStudio.Common.Autofac;
+﻿using AIStudio.Common.DI.AOP;
 using AIStudio.Common.Swagger;
 using Autofac.Extras.DynamicProxy;
 using Microsoft.AspNetCore.Mvc;
@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace AIStudio.Api.Controllers.Test
 {
     /// <summary>
-    /// 测试Autofac注入.
+    /// 测试TestAOP注入.
     /// </summary>
     /// <seealso cref="Controller" />
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.Test))]
     [Route("api/[controller]")]
-    public class AutofacTestController : Controller
+    public class AOPTestController : Controller
     {
         private readonly IValuesService _valuesService;
 
-        public AutofacTestController(IValuesService valuesService)
+        public AOPTestController(IValuesService valuesService)
         {
             _valuesService = valuesService;
         }
@@ -42,7 +42,7 @@ namespace AIStudio.Api.Controllers.Test
         }
     }
 
-    [Intercept(typeof(AutofacAOP))]
+    [TestAOP]
     public interface IValuesService
     {
         IEnumerable<string> FindAll();

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\AIStudio.Common\AIStudio.Common.csproj" />
+    <ProjectReference Include="..\..\Common\AIStudio.Entity\AIStudio.Entity.csproj" />
+    <ProjectReference Include="..\AIStudio.IBusiness\AIStudio.IBusiness.csproj" />
+  </ItemGroup>
+
+</Project>

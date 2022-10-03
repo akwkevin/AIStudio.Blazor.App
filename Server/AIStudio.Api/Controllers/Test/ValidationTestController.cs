@@ -1,5 +1,6 @@
 using AIStudio.Common.Swagger;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using NLog.Fluent;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,10 +51,26 @@ public class ValidationTestController : ControllerBase
         return model;
     }
 
+    /// <summary>
+    /// 使用模型校验
+    /// </summary>
+    /// <param name="models"></param>
+    /// <returns></returns>
     [HttpPost("List")]
     public List<TestModel> List(List<TestModel> models)
     {
         return models;
+    }
+
+    /// <summary>
+    /// 异常测试
+    /// </summary>
+    /// <param name="models"></param>
+    /// <returns></returns>
+    [HttpPost("Exception")]
+    public void Exception()
+    {
+       throw new System.Exception("异常测试");
     }
 }
 

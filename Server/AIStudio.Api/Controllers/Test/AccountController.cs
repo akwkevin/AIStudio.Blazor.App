@@ -13,12 +13,6 @@ namespace AIStudio.Api.Controllers.Test
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly JwtHelper _jwtHelper;
-
-        public AccountController(JwtHelper jwtHelper)
-        {
-            _jwtHelper = jwtHelper;
-        }
 
         /// <summary>
         /// 获取token
@@ -27,7 +21,7 @@ namespace AIStudio.Api.Controllers.Test
         [HttpGet]
         public ActionResult<string> GetToken()
         {
-            return _jwtHelper.CreateToken();
+            return JwtHelper.CreateToken();
         }
 
         /// <summary>

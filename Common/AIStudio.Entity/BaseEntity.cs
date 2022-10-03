@@ -61,8 +61,8 @@ namespace AIStudio.Entity
         [MaxLength(50)]
         public virtual TPrimaryKey TenantId { get; set; }
 
-        [SqlSugar.SugarColumn(IsEnableUpdateVersionValidation = true)]//标识版本字段
-        public long Ver { get; set; }
+        //[SqlSugar.SugarColumn(IsEnableUpdateVersionValidation = true)]//标识版本字段
+        //public long Ver { get; set; }
     }
 
     /// <summary>

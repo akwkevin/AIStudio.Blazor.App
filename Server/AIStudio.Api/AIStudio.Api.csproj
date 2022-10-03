@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\AIStudio.Common\AIStudio.Common.csproj" />
+    <ProjectReference Include="..\AIStudio.Business\AIStudio.Business.csproj" />
   </ItemGroup>
 
 </Project>

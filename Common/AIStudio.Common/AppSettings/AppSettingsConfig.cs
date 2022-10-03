@@ -69,6 +69,8 @@ namespace AIStudio.Common.AppSettings
             public static string SecretKey => Configuration["Jwt:SecretKey"];
             public static string Issuer => Configuration["Jwt:Issuer"];
             public static string Audience => Configuration["Jwt:Audience"];
+            public static double AccessExpireHours => Configuration.GetValue<double>("Jwt:AccessExpireHours");
+            public static double RefreshExpireHours => Configuration.GetValue<double>("Jwt:RefreshExpireHours");
         }
 
         /// <summary>
@@ -79,6 +81,32 @@ namespace AIStudio.Common.AppSettings
             public static bool Enabled => Configuration.GetValue<bool>("Redis:Enabled");
             public static string ConnectionString => Configuration["Redis:ConnectionString"];
             public static string Instance => Configuration["Redis:Instance"] ?? "Default";
+        }
+
+        public static class ConnectionStringsOptions
+        {
+            /// <summary>
+            /// 默认数据库编号
+            /// </summary>
+            public static string DefaultDbNumber => Configuration["ConnectionStrings:DefaultDbNumber"];
+            /// <summary>
+            /// 默认数据库类型
+            /// </summary>
+            public static string DefaultDbType => Configuration["ConnectionStrings:DefaultDbType"];
+            /// <summary>
+            /// 默认数据库连接字符串
+            /// </summary>
+
+            public static string DefaultDbString => Configuration["ConnectionStrings:DefaultDbString"];
+            /// <summary>
+            /// 业务库集合
+            /// </summary>
+            public static List<DbConfig> DbConfigs => Configuration.GetValue<List<DbConfig>>("ConnectionStrings:DbConfigs");
+        }
+
+        public static class SnowIdOptions
+        {
+            public static int WorkerId => Configuration.GetValue<int>("SnowId:WorkerId");
         }
     }
 }

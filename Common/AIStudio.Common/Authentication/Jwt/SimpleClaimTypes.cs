@@ -8,34 +8,47 @@ namespace AIStudio.Common.Jwt
 {
     public static class SimpleClaimTypes
     {
-        public const string UserName = "un";
+        public const string Role = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
-        public const string Role = "rol";
+        public const string Sid = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid";
+
+        public const string Version = "http://schemas.microsoft.com/ws/2008/06/identity/claims/version";
+
+        public const string Name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+
+        public const string Email = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+
+        public const string Expiration = "http://schemas.microsoft.com/ws/2008/06/identity/claims/expiration";
+
+        public const string Expired = "http://schemas.microsoft.com/ws/2008/06/identity/claims/expired";
+
+        public const string UserName = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/username";
+
+        public const string UserId = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/uid";
+
+        public const string Actor = "http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor";
+
+        /// <summary>
+        /// 是否超级管理
+        /// </summary>
+        public const string SuperAdmin = "SuperAdmin";
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public const string TenantId = "TenantId";
+
+        /// <summary>
+        /// 租户类型
+        /// </summary>
+        public const string TenantType = "TenantType";
+        /// <summary>
+        /// 租户名称
+        /// </summary>
+        public const string TenantName = "TenantName";
 
 
-        public const string JwtId = "jti";
 
-        public const string Audience = "aud";
-
-        public const string Issuer = "iss";
-
-        public const string IssuedAt = "iat";
-
-        public const string NotBefore = "nbf";
-
-        public const string Expiration = "exp";
-
-
-        public const string UserId = "uid";
-
-        public const string Name = "nam";
-
-        public const string Email = "email";
-
-        public const string Phone = "phone";
-
-        public const string Tenant = "tenant";
-
-        public const string AdminType = "admintype";
+     
     }
 }

@@ -1,5 +1,5 @@
-﻿using AIStudio.Entity.Base_Manage;
-using AIStudio.Entity.Map;
+﻿using AIStudio.Common.Mapper;
+using AIStudio.Entity.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using System.Collections.Generic;
