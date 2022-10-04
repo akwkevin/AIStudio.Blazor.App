@@ -1,5 +1,7 @@
 ﻿using AIStudio.Common.DI;
+using AIStudio.Common.Jwt;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace AIStudio.Common.CurrentUser
 {
@@ -12,33 +14,32 @@ namespace AIStudio.Common.CurrentUser
         public Operator(IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            UserId = httpContextAccessor?.HttpContext?.User.Claims
-                .Where(x => x.Type == "userId").FirstOrDefault()?.Value;
-
-            UserName = httpContextAccessor?.HttpContext?.User.Claims
-               .Where(x => x.Type == "userName").FirstOrDefault()?.Value;
+            User = httpContextAccessor.HttpContext.User;
         }
 
-        private object _lockObj = new object();
-
+        public readonly ClaimsPrincipal User;
         /// <summary>
         /// 当前操作者UserId
         /// </summary>
-        public string UserId { get; }
+        public virtual string UserId => FindClaimValue(SimpleClaimTypes.UserId);
 
-        public string UserName { get; }
+        public virtual string UserName => FindClaimValue(SimpleClaimTypes.UserName);
 
-        /// <summary>
-        /// 判断是否为超级管理员
-        /// </summary>
-        /// <returns></returns>
-        public bool IsAdmin()
+        public virtual bool IsSuperAdmin => FindClaimValue(SimpleClaimTypes.SuperAdmin) == SimpleClaimTypes.SuperAdmin;
+        public virtual string TenantId => FindClaimValue(SimpleClaimTypes.TenantId);
+        public virtual Claim? FindClaim(string claimType)
         {
-            //var role = Property.RoleType;
-            //if (UserId == GlobalData.ADMINID || role.HasFlag(RoleTypes.超级管理员))
-            //    return true;
-            //else
-                return false;
+            return User.Claims.FirstOrDefault(c => c.Type == claimType);
+        }
+
+        public virtual Claim[] FindClaims(string claimType)
+        {
+            return User.Claims.Where(c => c.Type == claimType).ToArray();
+        }
+
+        public virtual string? FindClaimValue(string claimType)
+        {
+            return FindClaim(claimType)?.Value;
         }
 
         //public void WriteUserLog(UserLogType userLogType, string msg)

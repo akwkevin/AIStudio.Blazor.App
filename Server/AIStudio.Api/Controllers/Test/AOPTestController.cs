@@ -1,6 +1,5 @@
 ﻿using AIStudio.Common.DI.AOP;
 using AIStudio.Common.Swagger;
-using Autofac.Extras.DynamicProxy;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIStudio.Api.Controllers.Test

@@ -1,7 +1,8 @@
 ﻿using AIStudio.Common.EventBus.Abstract;
-using AIStudio.Common.Json.SystemTextJson;
+using AIStudio.Util;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -130,7 +131,7 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
 
         using var channel = Connection.CreateModel();
 
-        var message = TextJsonHelper.Serialize(@event);
+        var message = @event.ToJson();
         var body = Encoding.UTF8.GetBytes(message);
 
         var properties = channel.CreateBasicProperties();
@@ -155,7 +156,7 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
             // 获取消息
             //var eventName = e.RoutingKey;
             var message = Encoding.UTF8.GetString(e.Body.Span);
-            var @event = TextJsonHelper.Deserialize(message, eventType);
+            var @event = JsonConvert.DeserializeObject(message, eventType);
 
             // 处理消息
             if (@event != null) await processEvent.Invoke(@event);

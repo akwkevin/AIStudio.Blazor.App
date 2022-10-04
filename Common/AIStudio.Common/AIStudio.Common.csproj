@@ -9,8 +9,11 @@
 
   <ItemGroup>
     <Compile Remove="Autofac\**" />
+    <Compile Remove="Json\SystemTextJson\**" />
     <EmbeddedResource Remove="Autofac\**" />
+    <EmbeddedResource Remove="Json\SystemTextJson\**" />
     <None Remove="Autofac\**" />
+    <None Remove="Json\SystemTextJson\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,11 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="CSRedisCore" Version="3.8.3" />
@@ -38,6 +40,15 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.20" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
     <PackageReference Include="SqlSugarCore" Version="5.1.3.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Json\" />
   </ItemGroup>
 
 </Project>

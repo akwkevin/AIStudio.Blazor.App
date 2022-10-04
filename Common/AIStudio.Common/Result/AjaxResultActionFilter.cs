@@ -1,5 +1,5 @@
-﻿using AIStudio.Common.CustomAttribute;
-using AIStudio.Common.Json.SystemTextJson;
+﻿using AIStudio.Util;
+using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
@@ -54,7 +54,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="json">json字符串</param>
     /// <returns></returns>
-    public ContentResult JsonContent(string json)
+    public static ContentResult JsonContent(string json)
     {
         return new ContentResult { Content = json, StatusCode = 200, ContentType = "application/json; charset=utf-8" };
     }
@@ -63,7 +63,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// 返回成功
     /// </summary>
     /// <returns></returns>
-    public ContentResult Success()
+    public static ContentResult Success()
     {
         AjaxResult res = new AjaxResult
         {
@@ -79,7 +79,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="msg">消息</param>
     /// <returns></returns>
-    public ContentResult Success(string msg)
+    public static ContentResult Success(string msg)
     {
         AjaxResult res = new AjaxResult
         {
@@ -95,7 +95,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="data">返回的数据</param>
     /// <returns></returns>
-    public ContentResult Success<T>(T data)
+    public static ContentResult Success<T>(T data)
     {
         AjaxResult<T> res = new AjaxResult<T>
         {
@@ -111,7 +111,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// 返回错误
     /// </summary>
     /// <returns></returns>
-    public ContentResult Error()
+    public static ContentResult Error()
     {
         AjaxResult res = new AjaxResult
         {
@@ -127,7 +127,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="msg">错误提示</param>
     /// <returns></returns>
-    public ContentResult Error(string msg)
+    public static ContentResult Error(string msg)
     {
         AjaxResult res = new AjaxResult
         {
@@ -144,7 +144,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// <param name="msg">错误提示</param>
     /// <param name="errorCode">错误代码</param>
     /// <returns></returns>
-    public ContentResult Error(string msg, int errorCode)
+    public static ContentResult Error(string msg, int errorCode)
     {
         AjaxResult res = new AjaxResult
         {

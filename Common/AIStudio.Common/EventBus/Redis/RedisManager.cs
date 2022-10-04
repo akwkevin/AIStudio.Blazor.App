@@ -1,7 +1,8 @@
 ﻿using AIStudio.Common.EventBus.Abstract;
-using AIStudio.Common.Json.SystemTextJson;
+using AIStudio.Util;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace AIStudio.Common.EventBus.Redis;
@@ -152,7 +153,7 @@ public class RedisManager : IRedisManager, IDisposable
         await ConnectAsync(token);
 
         var eventName = @event.GetType().Name;
-        var message = TextJsonHelper.Serialize(@event);
+        var message = @event.ToJson();
 
         await Subscriber.PublishAsync(eventName, message);
     }
@@ -164,7 +165,7 @@ public class RedisManager : IRedisManager, IDisposable
         Action<RedisChannel, RedisValue> handler = async (channel, message) =>
         {
             // 获取消息
-            var @event = TextJsonHelper.Deserialize(message.ToString(), eventType);
+            var @event = JsonConvert.DeserializeObject(message.ToString(), eventType);
 
             // 处理消息
             if (@event != null) await processEvent.Invoke(@event).ConfigureAwait(false);

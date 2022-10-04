@@ -4,8 +4,8 @@ using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Extensions;
-using AIStudio.Common.Json.SystemTextJson;
-using AIStudio.Common.Result;
+using AIStudio.Util;
+using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -78,11 +78,15 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         if (actionContext.Result is ObjectResult objectResult)
         {
             // 正常接口都是 ObjectResult
-            result = TextJsonHelper.Serialize(objectResult.Value);
+            result = objectResult.Value.ToJson();
             if (objectResult.Value is AjaxResult appResult)
             {
                 message = appResult.Msg ?? "";
             }
+        }
+        else if (actionContext.Result is ContentResult contentResult)
+        {
+            result = contentResult.Content;
         }
 
         //if(actionContext.Exception is AjaxResultException appResultException)
@@ -96,7 +100,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         //    result = JsonHelper.Serialize(jsonResult.Value);
         //}
 
-       
+
 
         var @event = new RequestEvent()
         {
@@ -121,6 +125,6 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         await _publisher.PublishAsync(@event);
 
         var testEventModel = new TestEventModel() { Message = @event.ToJson() };
-        await _publisher.PublishAsync(testEventModel);       
+        await _publisher.PublishAsync(testEventModel);
     }
 }

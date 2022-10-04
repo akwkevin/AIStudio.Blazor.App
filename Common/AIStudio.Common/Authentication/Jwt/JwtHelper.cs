@@ -1,12 +1,9 @@
 ﻿using AIStudio.Common.AppSettings;
-using AIStudio.Common.Helpers;
 using AIStudio.Common.Jwt;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using static AIStudio.Common.AppSettings.AppSettingsConfig;
 
 namespace AIStudio.Common.Authentication.Jwt;
 

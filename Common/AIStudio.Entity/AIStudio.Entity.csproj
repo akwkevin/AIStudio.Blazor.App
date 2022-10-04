@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AIStudio.Common\AIStudio.Common.csproj" />
-    <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
   </ItemGroup>
 
 </Project>

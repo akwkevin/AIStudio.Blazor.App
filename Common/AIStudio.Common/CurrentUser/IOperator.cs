@@ -11,13 +11,12 @@
         string UserId { get; }
 
         string UserName { get; }
+
+        bool IsSuperAdmin { get; }
+        string TenantId { get; }
         #region 操作方法
 
-        /// <summary>
-        /// 判断是否为超级管理员
-        /// </summary>
-        /// <returns></returns>
-        bool IsAdmin();
+
 
         /// <summary>
         /// 记录操作日志

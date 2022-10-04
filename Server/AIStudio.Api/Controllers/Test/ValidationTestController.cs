@@ -82,4 +82,6 @@ public class TestModel
 
     [EmailAddress(ErrorMessage = "ÓÊÏä¸ñÊ½´íÎó£¡")]
     public string? Email { get; set; }
+
+    public string? Other { get; set; }
 }

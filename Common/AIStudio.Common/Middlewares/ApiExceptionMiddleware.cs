@@ -1,12 +1,11 @@
-﻿using System.Runtime.ExceptionServices;
-using AIStudio.Common.EventBus.Abstract;
+﻿using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Models;
-using AIStudio.Common.Json.SystemTextJson;
-using AIStudio.Common.Result;
+using AIStudio.Util;
+using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System.Runtime.ExceptionServices;
 
 namespace Simple.Common.Middlewares;
 
@@ -76,7 +75,7 @@ public class ApiExceptionMiddleware
 
         // 响应
         var result = AjaxResult.Status500InternalServerError($"系统异常，异常Id: {eventId}，请联系管理员", edi.SourceException.Message);
-        await context.Response.WriteAsync(TextJsonHelper.Serialize(result));
+        await context.Response.WriteAsync(result.ToJson());
     }
 
     /// <summary>

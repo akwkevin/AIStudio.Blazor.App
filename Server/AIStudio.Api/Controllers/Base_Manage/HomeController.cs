@@ -1,15 +1,9 @@
-﻿using AIStudio.Common.Authentication.Jwt;
-using AIStudio.Common.CurrentUser;
-using AIStudio.Common.Jwt;
+﻿using AIStudio.Common.CurrentUser;
 using AIStudio.Common.Swagger;
-using Coldairarrow.Business.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.IBusiness.Base_Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace AIStudio.Api.Controllers.Base_Manage
 {
@@ -18,15 +12,23 @@ namespace AIStudio.Api.Controllers.Base_Manage
     /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
+    [Authorize]
 
-    public class HomeController : ControllerBase
+    public class HomeController : ApiControllerBase
     {
         readonly IHomeBusiness _homeBus;
+        readonly IPermissionBusiness _permissionBus;
+        readonly IBase_UserBusiness _userBus;
         readonly IOperator _operator;
 
-        public HomeController(IHomeBusiness homeBus, IOperator @operator)
+        public HomeController(IHomeBusiness homeBus,
+            IPermissionBusiness permissionBus,
+            IBase_UserBusiness userBus,
+            IOperator @operator)
         {
             _homeBus = homeBus;
+            _permissionBus = permissionBus;
+            _userBus = userBus;
             _operator = @operator;
         }
 
@@ -48,37 +50,38 @@ namespace AIStudio.Api.Controllers.Base_Manage
             await _homeBus.ChangePwdAsync(input);
         }
 
-        //[HttpPost]
-        //public async Task<object> GetOperatorInfo()
-        //{
-        //    var theInfo = await _userBus.GetTheDataAsync(_operator.UserId);
-        //    var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
-        //    var resObj = new
-        //    {
-        //        UserInfo = theInfo,
-        //        Permissions = permissions
-        //    };
+        [HttpPost]
+        public async Task<object> GetOperatorInfo()
+        {
+            var theInfo = await _userBus.GetTheDataAsync(_operator.UserId);
+            var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
+            var resObj = new
+            {
+                UserInfo = theInfo,
+                Permissions = permissions
+            };
 
-        //    return resObj;
-        //}
-        //[HttpPost]
-        //public async Task<object> GetOperatorClientInfo()
-        //{
-        //    var theInfo = await _userBus.GetTheDataAsync(_operator.UserId);
-        //    var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
-        //    var resObj = new
-        //    {
-        //        UserInfo = theInfo,
-        //        Permissions = permissions
-        //    };
+            return resObj;
+        }
+        [HttpPost]
+        public async Task<object> GetOperatorClientInfo()
+        {
+            var theInfo = await _userBus.GetTheDataAsync(_operator.UserId);
+            var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
+            var resObj = new
+            {
+                UserInfo = theInfo,
+                Permissions = permissions
+            };
 
-        //    return resObj;
-        //}
+            return resObj;
+        }
 
-        //[HttpPost]
-        //public async Task<List<Base_ActionDTO>> GetOperatorMenuList()
-        //{
-        //    return await _permissionBus.GetUserMenuListAsync(_operator.UserId);
-        //}
+        [HttpPost]
+        public async Task<List<Base_ActionTree>> GetOperatorMenuList()
+        {
+            var xx = await _permissionBus.GetUserMenuListAsync(_operator.UserId);
+            return xx;
+        }
     }
 }

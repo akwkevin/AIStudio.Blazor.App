@@ -1,5 +1,4 @@
-﻿using System.Runtime;
-using AIStudio.Common.Json.SystemTextJson;
+﻿using AIStudio.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -75,7 +74,7 @@ public class QuartzManager : IQuartzManager
     {
         var scheduler = await GetScheduler();
 
-        _logger.LogInformation($"AddJob: {TextJsonHelper.Serialize(jobInfo)}");
+        _logger.LogInformation($"AddJob: {jobInfo.ToJson()}");
 
         var jobKey = new JobKey(jobInfo.Name);
         var job = JobBuilder.Create(jobType)

@@ -10,12 +10,10 @@ public class SimpleAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvi
     { }
 
     public new Task<AuthorizationPolicy> GetDefaultPolicyAsync()
-    {
-        var policyBuilder = new AuthorizationPolicyBuilder(Array.Empty<string>());
-        policyBuilder.AddRequirements(new SimpleAuthorizationRequirement(""));
-        var policy = policyBuilder.Build();
-        return Task.FromResult(policy);
-    }
+        => base.GetDefaultPolicyAsync();
+
+    public new Task<AuthorizationPolicy?> GetFallbackPolicyAsync()
+        => base.GetFallbackPolicyAsync();
 
     public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {

@@ -11,4 +11,9 @@ namespace AIStudio.Entity
         超级管理员 = 1,
         部门管理员 = 2
     }
+
+    public enum AdminTypes
+    {
+        Admin
+    }
 }

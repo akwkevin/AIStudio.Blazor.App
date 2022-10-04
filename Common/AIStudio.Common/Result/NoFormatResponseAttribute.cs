@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Common.CustomAttribute
+namespace AIStudio.Common.Result
 {
     /// <summary>
     /// 返回结果不进行格式化

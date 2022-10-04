@@ -1,5 +1,4 @@
 ﻿using AIStudio.Common.DI.AOP;
-using Autofac;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection;
 

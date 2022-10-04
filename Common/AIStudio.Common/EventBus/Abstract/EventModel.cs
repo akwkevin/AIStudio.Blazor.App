@@ -1,4 +1,4 @@
-﻿using AIStudio.Common.Helpers;
+﻿using AIStudio.Util.Helper;
 
 namespace AIStudio.Common.EventBus.Abstract;
 

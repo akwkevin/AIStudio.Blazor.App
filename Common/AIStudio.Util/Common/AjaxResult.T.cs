@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace AIStudio.Common.Result
+﻿namespace AIStudio.Util.Common
 {
     /// <summary>
     /// Ajax请求结果

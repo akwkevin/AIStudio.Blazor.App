@@ -1,6 +1,6 @@
 ﻿using AIStudio.Common.Extensions;
-using AIStudio.Common.Json.SystemTextJson;
-using AIStudio.Common.Result;
+using AIStudio.Util;
+using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 
@@ -20,6 +20,6 @@ public static class HttpResponseExtensions
 
         response.StatusCode = result.Code;
         response.ContentType = encoding == Encoding.UTF8 ? "application/json; charset=utf-8" : "application/json";
-        await response.WriteAsync(TextJsonHelper.Serialize(result), encoding);
+        await response.WriteAsync(result.ToJson(), encoding);
     }
 }

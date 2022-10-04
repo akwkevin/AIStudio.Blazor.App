@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Entity.DTO.Base_Manage
+namespace AIStudio.Util.Common
 {
     public class DbTableInfo : IIdObject
     {   /// <summary>

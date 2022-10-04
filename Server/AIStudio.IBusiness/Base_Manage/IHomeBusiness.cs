@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-namespace Coldairarrow.Business.Base_Manage
+namespace AIStudio.IBusiness.Base_Manage
 {
     public interface IHomeBusiness
     {

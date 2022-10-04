@@ -1,16 +1,16 @@
 ﻿using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
-using AIStudio.Common.Helpers;
 using AIStudio.Common.Jwt;
+using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AutoMapper;
-using Coldairarrow.Business.Base_Manage;
 using Simple.Common;
 using SqlSugar;
-using StackExchange.Redis;
+using System.Data;
 using System.Security.Claims;
 
 namespace AIStudio.Business.Base_Manage
@@ -19,26 +19,30 @@ namespace AIStudio.Business.Base_Manage
     {
         private readonly IOperator _operator;
         private readonly IMapper _mapper;
-        private readonly ISqlSugarClient Su;
-        public HomeBusiness(ISqlSugarClient su, IOperator @operator, IMapper mapper)
+        private readonly ISqlSugarClient Db;
+        private readonly IBase_UserBusiness _userBusiness;
+        public HomeBusiness(ISqlSugarClient db, IOperator @operator, IMapper mapper, IBase_UserBusiness userBusiness)
         {
             _operator = @operator;
             _mapper = mapper;
-            Su = su;
+            _userBusiness = userBusiness;
+            Db = db;
         }
 
         public async Task<string> SubmitLoginAsync(LoginInputDTO input)
-        {
-            var password = input.password;
-            input.password = HashHelper.Md5(input.password);
-            var theUser = await Su.Queryable<Base_User>().Select<Base_UserDTO>()
-                .Where(x => x.UserName == input.userName && (x.Password == input.password || x.Password == password))
+        { 
+            if (!input.password.IsNullOrEmpty() && !input.password.IsMd5())
+            {
+                input.password = input.password.ToMD5String();
+            }
+            var theUser = await Db.Queryable<Base_User>().Select<Base_UserDTO>()
+                .Where(x => x.UserName == input.userName && x.Password == input.password)
                 .FirstAsync();
 
             if (theUser.IsNullOrEmpty())
                 throw AjaxResultException.Status401Unauthorized("账号或密码不正确！");
 
-            var userRoles = await Su.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] { JoinType.Left, a.RoleId == b.Id})
+            var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] { JoinType.Left, a.RoleId == b.Id})
                 .Where(a => a.UserId == theUser.Id)
                 .Select((a, b) => new
                 {
@@ -49,7 +53,7 @@ namespace AIStudio.Business.Base_Manage
 
             theUser.RoleIdList = userRoles.Select(x => x.RoleId).ToList();
             theUser.RoleNameList = userRoles.Select(x => x.RoleName).ToList();
-
+            
             List<Claim> claims = new List<Claim>
             {
                 new Claim(SimpleClaimTypes.UserId,theUser.Id),
@@ -64,10 +68,17 @@ namespace AIStudio.Business.Base_Manage
                 if (string.IsNullOrEmpty(role)) continue;
                 claims.Add(new Claim(SimpleClaimTypes.Role, role));
             }
+
+        
             foreach (var rolename in theUser.RoleNameList)
             {
                 if (string.IsNullOrEmpty(rolename)) continue;
                 claims.Add(new Claim(SimpleClaimTypes.Actor, rolename));
+
+                if (rolename == RoleTypes.超级管理员.ToString())
+                {
+                    claims.Add(new Claim(SimpleClaimTypes.SuperAdmin, rolename));
+                }
             }
 
             var jwtToken = JwtHelper.CreateToken(claims);
@@ -77,16 +88,12 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task ChangePwdAsync(ChangePwdInputDTO input)
         {
-            //var theUser = _operator.UserId;
-            //if (theUser.Password != input.oldPwd?.ToMD5String())
-            //    throw AjaxResultException.Status401Unauthorized("原密码错误!");
+            var theUser = await _userBusiness.GetTheDataAsync(_operator.UserId);
+            if (theUser?.Password != input.oldPwd?.ToMD5String())
+                throw AjaxResultException.Status401Unauthorized("原密码错误!");
 
-            //theUser.Password = input.newPwd.ToMD5String();
-            //await Su.Updateable<Base_User>(_mapper.Map<Base_User>(theUser)).ExecuteCommandAsync();
-
-            ////更新缓存
-            //await _base_UserCache.UpdateCacheAsync(theUser.Id);
-            throw new NotImplementedException();
+            theUser.Password = input.newPwd.ToMD5String();
+            await Db.Updateable<Base_User>(_mapper.Map<Base_User>(theUser)).ExecuteCommandAsync();
         }
     }
 }

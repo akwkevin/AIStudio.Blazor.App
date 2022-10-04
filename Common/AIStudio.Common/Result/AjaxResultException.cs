@@ -1,5 +1,4 @@
-﻿using AIStudio.Common.Result;
-using Microsoft.AspNetCore.Http;
+﻿using AIStudio.Util.Common;
 
 namespace Simple.Common;
 

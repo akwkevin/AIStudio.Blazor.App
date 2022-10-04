@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Common.Helpers
+namespace AIStudio.Util.Helper
 {
     public static class DateTimeExtensions
     {/// <summary>

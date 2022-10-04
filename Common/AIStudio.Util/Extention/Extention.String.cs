@@ -48,6 +48,28 @@ namespace AIStudio.Util
         }
 
         /// <summary>
+        /// 验证指定长度的MD5
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="length">MD5长度（默认32）</param>
+        /// <returns></returns>
+        public static bool IsMd5(this string str, int length = 32)
+        {
+            if (str.Length < length || str.Length > length)
+                return false;
+
+            int count = 0;
+            var charArray = "0123456789abcdefABCDEF".ToCharArray();
+
+            foreach (var c in str.ToCharArray())
+            {
+                if (charArray.Any(x => x == c))
+                    ++count;
+            }
+            return count == length;
+        }
+
+        /// <summary>
         /// 转换为MD5加密后的字符串（16位）
         /// </summary>
         /// <param name="str"></param>

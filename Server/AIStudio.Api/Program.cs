@@ -1,33 +1,21 @@
-using AIStudio.Api.Controllers.Test;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.Authorization;
 using AIStudio.Common.Cache;
 using AIStudio.Common.DI;
-using AIStudio.Common.EventBus.Abstract;
-using AIStudio.Common.EventBus.Core;
 using AIStudio.Common.EventBus.EventHandlers;
-using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Filter;
-using AIStudio.Common.Json.SystemTextJson;
 using AIStudio.Common.Mapper;
-using AIStudio.Common.Quartz;
 using AIStudio.Common.Service;
 using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
-using Autofac;
-using Autofac.Core;
-using Autofac.Extras.DynamicProxy;
+using AIStudio.Util;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
-using System.Reflection;
 using Yitter.IdGenerator;
-using static AIStudio.Common.AppSettings.AppSettingsConfig;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("启动中……");
@@ -67,7 +55,14 @@ try
                 return objectResult;
             };
         })   //过滤器
-        .AddTextJsonOptions();//Json配置
+        .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.GetType().GetProperties().ForEach(aProperty =>
+            {
+                var value = aProperty.GetValue(JsonExtention.DefaultJsonSetting);
+                aProperty.SetValue(options.SerializerSettings, value);
+            });
+        });
 
     var workerId = (ushort)(AppSettingsConfig.SnowIdOptions.WorkerId);
     // 设置雪花id的workerId，确保每个实例workerId都应不同
