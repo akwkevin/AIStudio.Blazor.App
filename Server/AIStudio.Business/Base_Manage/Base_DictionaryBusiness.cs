@@ -38,16 +38,15 @@ namespace AIStudio.Business.Base_Manage
                 Id = x.Id,
                 Code = x.Code,
                 ParentId = x.ParentId,
-                //Type = x.Type,
+                Type = x.Type,
                 ControlType = x.ControlType,
                 Text = x.Text,
                 Value = x.Value,  
                 Sort = x.Sort,
                 Remark = x.Remark,
-                //selectable = input.selectable
             }).ToList();
 
-            return TreeHelper.BuildTree(treeList);
+            return TreeHelper.BuildGenericsTree(treeList);
         }
 
         public override async Task AddDataAsync(Base_Dictionary data)
