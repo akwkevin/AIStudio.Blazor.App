@@ -1,6 +1,4 @@
-﻿using AIStudio.Util;
-using AIStudio.Util.Common;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace AIStudio.DbFactory.DataAccess
@@ -67,7 +65,7 @@ namespace AIStudio.DbFactory.DataAccess
         /// <returns></returns>
         public override List<DbTableInfo> GetDbAllTables(string schemaName = null)
         {
-            if (schemaName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(schemaName))
                 schemaName = "dbo";
 
             string sql = @"select

@@ -1,6 +1,4 @@
-﻿using AIStudio.Util.Common;
-
-namespace AIStudio.DbFactory.DataAccess
+﻿namespace AIStudio.DbFactory.DataAccess
 {
     /// <summary>
     /// 数据库帮助类工厂

@@ -1,13 +1,6 @@
-﻿using AIStudio.Util.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AIStudio.Util.Common
+﻿namespace AIStudio.DbFactory.DataAccess
 {
-    public class DbTableInfo : IIdObject
+    public class DbTableInfo 
     {   /// <summary>
         /// 表名
         /// </summary>

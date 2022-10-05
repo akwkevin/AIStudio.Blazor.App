@@ -40,10 +40,10 @@ namespace AIStudio.Business.Base_Manage
         /// </summary>
         /// <param name="linkId">数据库连接Id</param>
         /// <returns></returns>
-        public List<Util.Common.DbTableInfo> GetDbTableList(string linkId)
+        public List<DbFactory.DataAccess.DbTableInfo> GetDbTableList(string linkId)
         {
             if (linkId.IsNullOrEmpty())
-                return new List<Util.Common.DbTableInfo>();
+                return new List<DbFactory.DataAccess.DbTableInfo>();
             else
                 return GetTheDbHelper(linkId).GetDbAllTables();
         }
@@ -216,7 +216,7 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
             return resObj;
         }
         private DbHelper _dbHelper { get; set; }
-        private Dictionary<string, Util.Common.DbTableInfo> _dbTableInfoDic { get; set; } = new Dictionary<string, Util.Common.DbTableInfo>();
+        private Dictionary<string, DbFactory.DataAccess.DbTableInfo> _dbTableInfoDic { get; set; } = new Dictionary<string, DbFactory.DataAccess.DbTableInfo>();
         private void WriteCode(Dictionary<string, string> paramters, string templateFileName, string savePath)
         {
             string content = File.ReadAllText(Path.Combine(_solutionPath, "Coldairarrow.Api", "BuildCodeTemplate", templateFileName));

@@ -1,4 +1,4 @@
-﻿namespace AIStudio.Util.Common
+﻿namespace AIStudio.DbFactory.DataAccess
 {
     /// <summary>
     /// 数据库表信息
@@ -37,7 +37,7 @@
         {
             get
             {
-                return _description.IsNullOrEmpty() ? Name : _description;
+                return string.IsNullOrEmpty(_description) ? Name : _description;
             }
             set
             {

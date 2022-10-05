@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Util.Common
+namespace AIStudio.DbFactory.DataAccess
 {
     /// <summary>
     /// 数据库类型

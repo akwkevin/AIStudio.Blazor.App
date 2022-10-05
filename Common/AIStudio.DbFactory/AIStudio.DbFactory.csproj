@@ -15,8 +15,4 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.116" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
-  </ItemGroup>
-
 </Project>

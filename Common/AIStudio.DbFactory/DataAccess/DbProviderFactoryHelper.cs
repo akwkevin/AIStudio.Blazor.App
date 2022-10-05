@@ -1,6 +1,4 @@
-﻿using AIStudio.Util;
-using AIStudio.Util.Common;
-using MySqlConnector;
+﻿using MySqlConnector;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
@@ -87,7 +85,7 @@ namespace AIStudio.DbFactory.DataAccess
         /// <returns></returns>
         public static DatabaseType DbTypeStrToDbType(string dbTypeStr)
         {
-            if (dbTypeStr.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(dbTypeStr))
                 throw new Exception("请输入数据库类型字符串！");
             else
             {
@@ -108,7 +106,7 @@ namespace AIStudio.DbFactory.DataAccess
         /// <returns></returns>
         public static string DbTypeToDbTypeStr(DatabaseType dbType)
         {
-            if (dbType.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(dbType.ToString()))
                 throw new Exception("请输入数据库类型！");
             else
             {

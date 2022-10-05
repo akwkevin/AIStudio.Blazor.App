@@ -1,6 +1,4 @@
-﻿using AIStudio.Util;
-using AIStudio.Util.Common;
-using Npgsql;
+﻿using Npgsql;
 using NpgsqlTypes;
 using System.Collections;
 using System.Data.Common;
@@ -95,7 +93,7 @@ namespace AIStudio.DbFactory.DataAccess
         /// <returns></returns>
         public override List<DbTableInfo> GetDbAllTables(string schemaName = null)
         {
-            if (schemaName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(schemaName))
                 schemaName = "public";
             string sql = @"(select 
 	relname as ""TableName"",

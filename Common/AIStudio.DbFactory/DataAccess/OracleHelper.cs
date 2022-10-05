@@ -1,5 +1,4 @@
-﻿using AIStudio.Util.Common;
-using Oracle.ManagedDataAccess.Client;
+﻿using Oracle.ManagedDataAccess.Client;
 using System.Data.Common;
 
 namespace AIStudio.DbFactory.DataAccess

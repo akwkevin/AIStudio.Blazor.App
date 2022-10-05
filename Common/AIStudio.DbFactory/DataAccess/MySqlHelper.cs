@@ -1,5 +1,4 @@
-﻿using AIStudio.Util.Common;
-using MySqlConnector;
+﻿using MySqlConnector;
 using System.Data.Common;
 
 namespace AIStudio.DbFactory.DataAccess

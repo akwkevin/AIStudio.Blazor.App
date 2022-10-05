@@ -1,5 +1,6 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
+using AIStudio.DbFactory.DataAccess;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
