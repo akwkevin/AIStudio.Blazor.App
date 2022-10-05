@@ -249,6 +249,57 @@ namespace AIStudio.DbFactory.DataAccess
             return type;
         }
 
+
+        /// <summary>
+        /// 生成实体类string
+        /// </summary>
+        /// <param name="infos"></param>
+        /// <param name="tableName"></param>
+        /// <param name="tableDescription"></param>
+        /// <param name="nameSpace"></param>
+        /// <param name="schemaName"></param>
+        /// <returns></returns>
+        public virtual string GetEntityString(List<TableInfo> infos, string tableName, string tableDescription, string nameSpace, string schemaName = null)
+        {
+            string properties = "";
+            string schema = "";
+            if (!string.IsNullOrEmpty(schemaName))
+                schema = $@", Schema = ""{schemaName}""";
+            infos.ForEach((item, index) =>
+            {
+                string isKey = item.IsKey ? $@"
+        [Key, Column(Order = {index + 1})]" : "";
+                Type type = DbTypeStr_To_CsharpType(item.Type);
+                string isNullable = item.IsNullable && type.IsValueType ? "?" : "";
+                string description = string.IsNullOrEmpty(item.Description) ? item.Name : item.Description;
+                string newPropertyStr =
+                    $@"
+        /// <summary>
+        /// {description}
+        /// </summary>{isKey}
+        public {type.Name}{isNullable} {item.Name} {{ get; set; }}
+";
+                properties += newPropertyStr;
+            });
+            string fileStr =
+                $@"using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+{_extraUsingNamespace}
+namespace {nameSpace}
+{{
+    /// <summary>
+    /// {tableDescription}
+    /// </summary>
+    [Table(""{tableName}""{schema})]
+    public class {tableName}
+    {{
+{properties}
+    }}
+}}";
+            return fileStr;
+        }
+
         /// <summary>
         /// 生成实体文件
         /// </summary>
