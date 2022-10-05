@@ -254,6 +254,7 @@ namespace AIStudio.IBusiness
 
 
         #region 常规操作
+        Task<List<T>> GetDataListAsync(SearchInput input);
         Task<PageResult<T>> GetDataListAsync(PageInput input);
         Task<T> GetTheDataAsync(string id);
         Task<DTO> GetTheDataDTOAsync<DTO>(string id) where DTO : T;

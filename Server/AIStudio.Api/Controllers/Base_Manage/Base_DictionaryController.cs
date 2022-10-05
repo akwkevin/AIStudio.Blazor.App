@@ -3,6 +3,7 @@ using AIStudio.Common.Swagger;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -32,17 +33,14 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         [HttpPost]
-        public async Task<List<Base_Dictionary>> GetDataList(Base_DictionaryInputDTO input)
+        public async Task<List<Base_Dictionary>> GetDataList(SearchInput input)
         {
             return await _base_DictionaryBus.GetDataListAsync(input);
         }
 
         [HttpPost]
-        public async Task<List<Base_DictionaryTree>> GetTreeDataList(Base_DictionaryInputDTO input)
+        public async Task<List<Base_DictionaryTree>> GetTreeDataList(SearchInput input)
         {
-            input.selectable = true;
-            input.types = new DictionaryType[] { DictionaryType.字典项, DictionaryType.数据集 };
-
             return await _base_DictionaryBus.GetTreeDataListAsync(input);
         }
 

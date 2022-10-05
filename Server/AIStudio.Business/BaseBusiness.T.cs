@@ -486,7 +486,7 @@ namespace AIStudio.Business
             };
 
             return res;
-        }      
+        }
 
         #endregion
 
@@ -495,6 +495,34 @@ namespace AIStudio.Business
         #endregion
 
         #region 常规操作
+        /// <summary>
+        /// 全部数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<T>> GetDataListAsync(SearchInput input)
+        {
+            var q = GetIQueryable();
+
+            //按字典筛选
+            if (input.SearchKeyValues != null)
+            {
+                foreach (var keyValuePair in input.SearchKeyValues)
+                {
+                    var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
+                    q = q.Where(newWhere);
+                }
+            }
+
+            return await q.OrderBy($@"{input.SortField} {input.SortType} ").ToListAsync();
+        }
+
+        /// <summary>
+        /// 分页数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public virtual async Task<PageResult<T>> GetDataListAsync(PageInput input)
         {
             var q = GetIQueryable();

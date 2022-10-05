@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util.Common;
 using SqlSugar;
@@ -16,21 +17,9 @@ namespace AIStudio.Business.Base_Manage
         }
 
         #region 外部接口
-
-        public async Task<List<Base_Dictionary>> GetDataListAsync(Base_DictionaryInputDTO input)
+        public async Task<List<Base_DictionaryTree>> GetTreeDataListAsync(SearchInput input)
         {
-            var q = GetIQueryable();
-            //q = q
-            //    .WhereIf(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
-            //    .WhereIf(input.types?.Length > 0, x => input.types.Contains(x.Type))
-            //    .WhereIf(input.ActionIds?.Length > 0, x => input.ActionIds.Contains(x.Id))
-            //    ;
-
-            return await q.OrderBy(x => x.Sort).ToListAsync();
-        }
-
-        public async Task<List<Base_DictionaryTree>> GetTreeDataListAsync(Base_DictionaryInputDTO input)
-        {
+            input.SortField = "Sort";
             var qList = await GetDataListAsync(input);
 
             var treeList = qList.Select(x => new Base_DictionaryTree
