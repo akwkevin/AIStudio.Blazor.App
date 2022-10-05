@@ -1,6 +1,6 @@
 ﻿@page "/Home/ChangePwd"
-@using AIStudio.Blazor.UI.Models.Params
-@inherits FeedbackComponent<ChangePasswordParamsType>
+
+@inherits FeedbackComponent<ChangePwdInputDTO>
 
 <Form @ref="_form"
       Model="@_model"
@@ -21,15 +21,15 @@
 <br />
 
 @code {
-    Form<ChangePasswordParamsType> _form;
-    ChangePasswordParamsType _model { get; set; }
+    Form<ChangePwdInputDTO> _form;
+    ChangePwdInputDTO _model { get; set; }
     [Inject] IDataProvider DataProvider { get; set; }
     [Inject] MessageService MessageService { get; set; }
 
 
     protected override void OnInitialized()
     {
-        _model = base.Options ?? new ChangePasswordParamsType();
+            _model = base.Options ?? new ChangePwdInputDTO();
         base.OnInitialized();
     }
 

@@ -32,7 +32,7 @@
 </div>
 
 @code {
-    private readonly LoginParamsType _model = new LoginParamsType();
+    private readonly Models.Params.LoginInputDTO _model = new Models.Params.LoginInputDTO();
     bool loading = false;
 
     [Inject] 
@@ -51,10 +51,10 @@
     {
         await base.OnInitializedAsync();
 
-        var loginParamsType = await StorageService.GetItemAsStringAsync(nameof(LoginParamsType));
+        var loginParamsType = await StorageService.GetItemAsStringAsync(nameof(LoginInputDTO));
         if (!string.IsNullOrEmpty(loginParamsType))
         {
-            var temp = loginParamsType.ToObject<LoginParamsType>();
+            var temp = loginParamsType.ToObject<LoginInputDTO>();
 
             temp.CopyProperties(_model);
         }
@@ -70,11 +70,11 @@
             {           
                 if (_model.AutoLogin)
                 {
-                    await StorageService.SetItemAsStringAsync(nameof(LoginParamsType), _model.ToJson());
+                    await StorageService.SetItemAsStringAsync(nameof(LoginInputDTO), _model.ToJson());
                 }
                 else
                 {
-                    await StorageService.RemoveItemAsync(nameof(LoginParamsType));
+                    await StorageService.RemoveItemAsync(nameof(LoginInputDTO));
                 }
                 NavigationManager.NavigateTo("/");
                 await Message.Success("登录成功");

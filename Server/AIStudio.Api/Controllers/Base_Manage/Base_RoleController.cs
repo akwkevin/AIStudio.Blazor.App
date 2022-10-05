@@ -1,5 +1,6 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -14,7 +15,6 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_RoleController : ApiControllerBase
     {
         #region DI
@@ -31,15 +31,15 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         [HttpPost]
-        public async Task<PageResult<Base_RoleInfoDTO>> GetDataList(PageInput<RolesInputDTO> input)
+        public async Task<PageResult<Base_RoleEditInputDTO>> GetDataList(PageInput<Base_RoleInputDTO> input)
         {
             return await _roleBus.GetDataListAsync(input);
         }
 
         [HttpPost]
-        public async Task<Base_RoleInfoDTO> GetTheData(IdInputDTO input)
+        public async Task<Base_RoleEditInputDTO> GetTheData(IdInputDTO input)
         {
-            return await _roleBus.GetTheDataDTOAsync(input.id) ?? new Base_RoleInfoDTO();
+            return await _roleBus.GetTheDataDTOAsync(input.id) ?? new Base_RoleEditInputDTO();
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         [HttpPost]
-        public async Task SaveData(Base_RoleInfoDTO input)
+        public async Task SaveData(Base_RoleEditInputDTO input)
         {
             if (input.Id.IsNullOrEmpty())
             {

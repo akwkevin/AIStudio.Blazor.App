@@ -5,6 +5,7 @@ using AIStudio.Common.Jwt;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;  
 using AutoMapper;
@@ -31,12 +32,12 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task<string> SubmitLoginAsync(LoginInputDTO input)
         { 
-            if (!input.password.IsNullOrEmpty() && !input.password.IsMd5())
+            if (!input.Password.IsNullOrEmpty() && !input.Password.IsMd5())
             {
-                input.password = input.password.ToMD5String();
+                input.Password = input.Password.ToMD5String();
             }
             var theUser = await Db.Queryable<Base_User>().Select<Base_UserDTO>()
-                .Where(x => x.UserName == input.userName && x.Password == input.password)
+                .Where(x => x.UserName == input.UserName && x.Password == input.Password)
                 .FirstAsync();
 
             if (theUser.IsNullOrEmpty())
@@ -89,10 +90,10 @@ namespace AIStudio.Business.Base_Manage
         public async Task ChangePwdAsync(ChangePwdInputDTO input)
         {
             var theUser = await _userBusiness.GetTheDataAsync(_operator.UserId);
-            if (theUser?.Password != input.oldPwd?.ToMD5String())
+            if (theUser?.Password != input.OldPassword?.ToMD5String())
                 throw AjaxResultException.Status401Unauthorized("原密码错误!");
 
-            theUser.Password = input.newPwd.ToMD5String();
+            theUser.Password = input.NewPassword.ToMD5String();
             await Db.Updateable<Base_User>(_mapper.Map<Base_User>(theUser)).ExecuteCommandAsync();
         }
     }

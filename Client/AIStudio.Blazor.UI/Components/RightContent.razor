@@ -93,7 +93,7 @@
                     modalConfig.BodyStyle += "overflow-y: auto;";
                     modalConfig.DestroyOnClose = true;
                     modalConfig.Centered = true;
-                    var modalRef = await ModalService.CreateModalAsync<ChangePwd, ChangePasswordParamsType>(modalConfig, new ChangePasswordParamsType());
+                    var modalRef = await ModalService.CreateModalAsync<ChangePwd, Models.Params.ChangePwdInputDTO>(modalConfig, new Models.Params.ChangePwdInputDTO());
                     break;
                 }
             case "logout":

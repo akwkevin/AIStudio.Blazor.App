@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Entity.DTO.Base_Manage
+namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
 {
     public class BuildInputDTO : IIdObject
     {

@@ -2,6 +2,7 @@
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -16,7 +17,6 @@ namespace AIStudio.Api.Controllers.Base_Manage
     
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_ActionController : ApiControllerBase
     {
         #region DI
@@ -77,7 +77,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         #region 提交
 
         [HttpPost]
-        public async Task SaveData(ActionEditInputDTO input)
+        public async Task SaveData(Base_ActionEditInputDTO input)
         {
             if (input.Id.IsNullOrEmpty())
             {

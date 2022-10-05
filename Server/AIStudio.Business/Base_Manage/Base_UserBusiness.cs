@@ -3,6 +3,7 @@ using AIStudio.Common.DI;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -111,13 +112,13 @@ namespace AIStudio.Business.Base_Manage
             }
         }
 
-        public async Task AddDataAsync(UserEditInputDTO input)
+        public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
             await Db.Insertable<Base_User>(_mapper.Map<Base_User>(input)).ExecuteCommandAsync();
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
 
-        public async Task UpdateDataAsync(UserEditInputDTO input)
+        public async Task UpdateDataAsync(Base_UserEditInputDTO input)
         {
             if (input.Id == AdminTypes.Admin.ToString() && _operator?.UserId != input.Id)
                 throw AjaxResultException.Status403Forbidden("禁止更改超级管理员！");

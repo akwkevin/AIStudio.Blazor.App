@@ -1,5 +1,5 @@
 ﻿using AIStudio.Entity.Base_Manage;
-using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.Util.Common;
 
 namespace AIStudio.IBusiness.Base_Manage
@@ -15,8 +15,5 @@ namespace AIStudio.IBusiness.Base_Manage
         Dictionary<string, List<TableInfo>> GetDbTableInfo(BuildInputDTO input);
     }
 
-    public class DbTablesInputDTO
-    {
-        public string linkId { get; set; }
-    }
+   
 }

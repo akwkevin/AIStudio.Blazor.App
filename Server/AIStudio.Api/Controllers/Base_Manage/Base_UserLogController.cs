@@ -1,6 +1,7 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
 using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.Entity.Enum;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util.Common;
@@ -10,9 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
+    /// <summary>
+    /// 系统日志
+    /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_UserLogController : ApiControllerBase
     {
         #region DI
@@ -29,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         [HttpPost]
-        public async Task<PageResult<Base_UserLog>> GetLogList(PageInput<UserLogsInputDTO> input)
+        public async Task<PageResult<Base_UserLog>> GetLogList(PageInput<Base_UserLogsInputDTO> input)
         {
             input.SortField = "CreateTime";
             input.SortType = "desc";

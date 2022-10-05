@@ -1,6 +1,7 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -10,9 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
+    /// <summary>
+    /// 系统用户
+    /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_UserController : ApiControllerBase
     {
         #region DI
@@ -57,7 +60,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         [HttpPost]
-        public async Task SaveData(UserEditInputDTO input)
+        public async Task SaveData(Base_UserEditInputDTO input)
         {
             if (!input.newPwd.IsNullOrEmpty())
                 input.Password = input.newPwd.ToMD5String();

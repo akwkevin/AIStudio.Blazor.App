@@ -7,9 +7,4 @@ namespace AIStudio.IBusiness.Base_Manage
     {
 
     }
-
-    public class AppSecretsInputDTO
-    {
-        public string? keyword { get; set; }
-    }
 }

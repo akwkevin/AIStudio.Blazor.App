@@ -1,6 +1,8 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
 using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -14,7 +16,6 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_DepartmentController : ApiControllerBase
     {
         #region DI
@@ -37,7 +38,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         [HttpPost]
-        public async Task<List<Base_DepartmentTreeDTO>> GetTreeDataList(DepartmentsTreeInputDTO input)
+        public async Task<List<Base_DepartmentTree>> GetTreeDataList(Base_DepartmentTreeInputDTO input)
         {
             return await _departmentBus.GetTreeDataListAsync(input);
         }

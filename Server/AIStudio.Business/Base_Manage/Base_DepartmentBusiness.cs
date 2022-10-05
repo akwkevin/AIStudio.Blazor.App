@@ -1,5 +1,7 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -18,11 +20,11 @@ namespace AIStudio.Business.Base_Manage
 
         #region 外部接口
 
-        public async Task<List<Base_DepartmentTreeDTO>> GetTreeDataListAsync(DepartmentsTreeInputDTO input)
+        public async Task<List<Base_DepartmentTree>> GetTreeDataListAsync(Base_DepartmentTreeInputDTO input)
         {
             var P = await Db.Queryable<Base_Department>().WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId).ToListAsync();
             var treeList = P
-                .Select(x => new Base_DepartmentTreeDTO
+                .Select(x => new Base_DepartmentTree
                 {
                     Id = x.Id,
                     ParentId = x.ParentId,
@@ -31,7 +33,7 @@ namespace AIStudio.Business.Base_Manage
                     Value = x.Id
                 }).ToList();
 
-            return TreeHelper.BuildTree(treeList);
+            return TreeHelper.BuildGenericsTree(treeList);
         }
 
         public async Task<List<string>> GetChildrenIdsAsync(string departmentId)

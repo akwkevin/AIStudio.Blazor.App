@@ -1,5 +1,6 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -15,7 +16,7 @@ namespace AIStudio.Business.Base_Manage
             
         }
 
-        public async Task<PageResult<Base_UserLog>> GetLogListAsync(PageInput<UserLogsInputDTO> input)
+        public async Task<PageResult<Base_UserLog>> GetLogListAsync(PageInput<Base_UserLogsInputDTO> input)
         {
             var search = input.Search;
             RefAsync<int> total = 0;

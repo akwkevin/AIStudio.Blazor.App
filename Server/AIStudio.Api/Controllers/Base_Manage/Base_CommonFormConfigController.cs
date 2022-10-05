@@ -11,7 +11,6 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 {
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_CommonFormConfigController : ApiControllerBase
     {
         #region DI

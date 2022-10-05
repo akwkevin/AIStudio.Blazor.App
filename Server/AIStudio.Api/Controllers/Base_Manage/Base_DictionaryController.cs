@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
+    /// <summary>
+    /// 系统字典
+    /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_DictionaryController : ApiControllerBase
     {
         #region DI

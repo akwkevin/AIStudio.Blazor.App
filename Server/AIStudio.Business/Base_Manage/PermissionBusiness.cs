@@ -2,6 +2,7 @@
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using SqlSugar;
 

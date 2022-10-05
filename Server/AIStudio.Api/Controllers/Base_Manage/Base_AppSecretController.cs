@@ -15,7 +15,6 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class Base_AppSecretController : ApiControllerBase
     {
         #region DI
@@ -32,7 +31,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         [HttpPost]
-        public async Task<PageResult<Base_AppSecret>> GetDataList(PageInput<AppSecretsInputDTO> input)
+        public async Task<PageResult<Base_AppSecret>> GetDataList(PageInput input)
         {
             return await _appSecretBus.GetDataListAsync(input);
         }

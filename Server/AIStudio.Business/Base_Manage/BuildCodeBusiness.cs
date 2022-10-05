@@ -1,6 +1,5 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
-using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -9,6 +8,7 @@ using SqlSugar;
 using System.Text;
 using System.Linq;
 using AIStudio.DbFactory.DataAccess;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 
 namespace AIStudio.Business.Base_Manage
 {

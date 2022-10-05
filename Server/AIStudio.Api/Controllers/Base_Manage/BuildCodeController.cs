@@ -1,7 +1,7 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
 using AIStudio.Entity.Base_Manage;
-using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
+    /// <summary>
+    /// 代码生成
+    /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class BuildCodeController : ApiControllerBase
     {
         #region DI

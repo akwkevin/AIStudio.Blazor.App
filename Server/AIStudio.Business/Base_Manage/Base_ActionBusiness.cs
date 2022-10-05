@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -52,7 +53,7 @@ namespace AIStudio.Business.Base_Manage
 
             await SetProperty(treeList);
 
-            return TreeHelper.BuildTree2(treeList);
+            return TreeHelper.BuildGenericsTree(treeList);
 
             async Task SetProperty(List<Base_ActionTree> _list)
             {
@@ -74,14 +75,14 @@ namespace AIStudio.Business.Base_Manage
         }
 
 
-        public async Task AddDataAsync(ActionEditInputDTO input)
+        public async Task AddDataAsync(Base_ActionEditInputDTO input)
         {
             await Db.Insertable(_mapper.Map<Base_Action>(input)).ExecuteCommandAsync();
             await SavePermissionAsync(input.Id, input.permissionList);
         }
 
 
-        public async Task UpdateDataAsync(ActionEditInputDTO input)
+        public async Task UpdateDataAsync(Base_ActionEditInputDTO input)
         {
             await Db.Updateable(_mapper.Map<Base_Action>(input)).ExecuteCommandAsync();
             await SavePermissionAsync(input.Id, input.permissionList);

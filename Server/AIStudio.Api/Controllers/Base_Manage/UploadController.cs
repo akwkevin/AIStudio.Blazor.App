@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
+    /// <summary>
+    /// 文件上传
+    /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
     public class UploadController : ApiControllerBase
     {
         readonly IConfiguration _configuration;

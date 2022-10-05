@@ -65,7 +65,12 @@ namespace AIStudio.Util.Common
 
     public class TreeHelper
     {
-
+        /// <summary>
+        /// 构建树
+        /// </summary>
+        /// <param name="trees"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static TreeModel GetTreeModel(IEnumerable<TreeModel> trees, string id)
         {
             TreeModel treemodel = null;
@@ -87,23 +92,11 @@ namespace AIStudio.Util.Common
             return treemodel;
         }
 
-        public static List<T> GetTreeToList<T>(IEnumerable<T> trees) where T : TreeModel<T>
-        {
-            List<T> treemodels = new List<T>();
-            if (trees != null)
-            {
-                foreach (var tree in trees)
-                {
-                    treemodels.Add(tree);
-
-                    if (tree.Children != null)
-                    {
-                        treemodels.AddRange(GetTreeToList<T>(tree.Children));
-                    }
-                }
-            }
-            return treemodels;
-        }
+        /// <summary>
+        /// 获取所有树的节点
+        /// </summary>
+        /// <param name="trees"></param>
+        /// <returns></returns>
 
         public static List<TreeModel> GetTreeToList(IEnumerable<TreeModel> trees)
         {
@@ -144,58 +137,7 @@ namespace AIStudio.Util.Common
             return resData;
         }
 
-        /// <summary>
-        /// 建造树结构
-        /// </summary>
-        /// <param name="allNodes">所有的节点</param>
-        /// <returns></returns>
-        public static List<T> BuildTree2<T>(List<T> allNodes) where T : TreeModel<T>, new()
-        {
-            List<T> resData = new List<T>();
-            var rootNodes = allNodes.Where(x => x.ParentId == "0" || x.ParentId.IsNullOrEmpty()).ToList();
-            resData = rootNodes;
-            resData.ForEach(aRootNode =>
-            {
-                if (HaveChildren(allNodes, aRootNode.Id))
-                    aRootNode.Children = _GetChildren2(allNodes, aRootNode);
-            });
-
-            return resData;
-        }
-
-        /// <summary>
-        /// 获取所有子节点
-        /// </summary>
-        /// <typeparam name="T">树模型（TreeModel或继承它的模型）</typeparam>
-        /// <param name="nodes">所有节点列表</param>
-        /// <param name="parentNode">父节点Id</param>
-        /// <returns></returns>
-        private static List<T> _GetChildren2<T>(List<T> nodes, T parentNode) where T : TreeModel<T>, new()
-        {
-            Type type = typeof(T);
-            var properties = type.GetProperties().ToList();
-            List<T> resData = new List<T>();
-            var children = nodes.Where(x => x.ParentId == parentNode.Id).ToList();
-            children.ForEach(aChildren =>
-            {
-                T newNode = new T();
-                resData.Add(newNode);
-
-                //赋值属性
-                properties.Where(x => x.CanWrite).ForEach(aProperty =>
-                {
-                    var value = aProperty.GetValue(aChildren, null);
-                    aProperty.SetValue(newNode, value);
-                });
-                //设置深度
-                newNode.Level = parentNode.Level + 1;
-
-                if (HaveChildren(nodes, aChildren.Id))
-                    newNode.Children = _GetChildren2(nodes, newNode);
-            });
-
-            return resData;
-        }
+       
 
         /// <summary>
         /// 获取所有子节点
@@ -274,6 +216,81 @@ namespace AIStudio.Util.Common
         private static bool HaveChildren<T>(List<T> nodes, string nodeId) where T : TreeModel, new()
         {
             return nodes.Exists(x => x.ParentId == nodeId);
+        }
+
+        #endregion
+
+        #region 泛型类使用
+
+        public static List<T> GetTreeToList<T>(IEnumerable<T> trees) where T : TreeModel<T>
+        {
+            List<T> treemodels = new List<T>();
+            if (trees != null)
+            {
+                foreach (var tree in trees)
+                {
+                    treemodels.Add(tree);
+
+                    if (tree.Children != null)
+                    {
+                        treemodels.AddRange(GetTreeToList<T>(tree.Children));
+                    }
+                }
+            }
+            return treemodels;
+        }
+
+        /// <summary>
+        /// 建造树结构，继承TreeModel<T>的模型使用使用
+        /// </summary>
+        /// <param name="allNodes">所有的节点</param>
+        /// <returns></returns>
+        public static List<T> BuildGenericsTree<T>(List<T> allNodes) where T : TreeModel<T>, new()
+        {
+            List<T> resData = new List<T>();
+            var rootNodes = allNodes.Where(x => x.ParentId == "0" || x.ParentId.IsNullOrEmpty()).ToList();
+            resData = rootNodes;
+            resData.ForEach(aRootNode =>
+            {
+                if (HaveChildren(allNodes, aRootNode.Id))
+                    aRootNode.Children = _GetGenericsChildren(allNodes, aRootNode);
+            });
+
+            return resData;
+        }
+
+        /// <summary>
+        /// 获取所有子节点，继承TreeModel<T>的模型使用使用
+        /// </summary>
+        /// <typeparam name="T">树模型（TreeModel或继承它的模型）</typeparam>
+        /// <param name="nodes">所有节点列表</param>
+        /// <param name="parentNode">父节点Id</param>
+        /// <returns></returns>
+        private static List<T> _GetGenericsChildren<T>(List<T> nodes, T parentNode) where T : TreeModel<T>, new()
+        {
+            Type type = typeof(T);
+            var properties = type.GetProperties().ToList();
+            List<T> resData = new List<T>();
+            var children = nodes.Where(x => x.ParentId == parentNode.Id).ToList();
+            children.ForEach(aChildren =>
+            {
+                T newNode = new T();
+                resData.Add(newNode);
+
+                //赋值属性
+                properties.Where(x => x.CanWrite).ForEach(aProperty =>
+                {
+                    var value = aProperty.GetValue(aChildren, null);
+                    aProperty.SetValue(newNode, value);
+                });
+                //设置深度
+                newNode.Level = parentNode.Level + 1;
+
+                if (HaveChildren(nodes, aChildren.Id))
+                    newNode.Children = _GetGenericsChildren(nodes, newNode);
+            });
+
+            return resData;
         }
 
         #endregion

@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Blazor.UI.Models.Params
+namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
 {
-    public class ChangePasswordParamsType
+    public class ChangePwdInputDTO
     {
         [Required]
         public string OldPassword { get; set; }
+
         [Required]
         public string NewPassword { get; set; }
+
         [Required]
         public string ConfirmPassword { get; set; }
     }

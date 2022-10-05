@@ -1,8 +1,10 @@
-﻿using AIStudio.Entity.Base_Manage;
+﻿using AIStudio.Common.Mapper;
+using AIStudio.Entity.Base_Manage;
 using AIStudio.Util.Common;
 
 namespace AIStudio.Entity.DTO.Base_Manage
 {
+    [Map(typeof(Base_CommonFormConfig))]
     public class Base_CommonFormConfigDTO : Base_CommonFormConfig, IIdObject
     {
         public string VisibilityName

@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.CurrentUser;
 using AIStudio.Common.Swagger;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,6 @@ namespace AIStudio.Api.Controllers.Base_Manage
     /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    [Authorize]
 
     public class HomeController : ApiControllerBase
     {
