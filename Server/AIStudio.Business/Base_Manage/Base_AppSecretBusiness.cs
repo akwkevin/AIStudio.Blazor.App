@@ -1,5 +1,6 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.Enum;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util.Common;
 using AutoMapper;
@@ -16,7 +17,19 @@ namespace AIStudio.Business.Base_Manage
         }
 
         #region 外部接口
+        [DataRepeatValidate(new string[] { "AppId" }, new string[] { "应用Id" })]
 
+        public override async Task AddDataAsync(Base_AppSecret newData)
+        {
+            await base.AddDataAsync(newData);
+        }
+
+        [DataRepeatValidate(new string[] { "AppId" }, new string[] { "应用Id" })]
+
+        public override async Task UpdateDataAsync(Base_AppSecret theData)
+        {
+            await base.UpdateAsync(theData);
+        }
 
         #endregion
 

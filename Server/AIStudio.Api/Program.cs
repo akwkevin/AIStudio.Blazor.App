@@ -68,6 +68,9 @@ try
     // 设置雪花id的workerId，确保每个实例workerId都应不同
     YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
 
+    // 缓存
+    builder.Services.AddCache();
+
     builder.Services.AddSqlSugar();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -91,9 +94,6 @@ try
     //使用AutoMapper自动映射拥有MapAttribute的类
     builder.Services.AddMapper(GlobalType.AllTypes, GlobalType.AllAssemblies);
 
-    // 缓存
-    builder.Services.AddCache();
-
     // 跨域
     builder.Services.AddCors_();
 
@@ -108,7 +108,7 @@ try
     //    };
     //});
 
-    ServiceLocator.Instance = builder.Services.BuildServiceProvider();
+    ServiceLocator.Instance = builder.Services.BuildServiceProvider(false);
 
     var app = builder.Build();
 

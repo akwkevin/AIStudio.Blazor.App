@@ -22,8 +22,8 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task<List<Base_DepartmentTree>> GetTreeDataListAsync(Base_DepartmentTreeInputDTO input)
         {
-            var P = await Db.Queryable<Base_Department>().WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId).ToListAsync();
-            var treeList = P
+            var data = await Db.Queryable<Base_Department>().WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId).ToListAsync();
+            var treeList = data
                 .Select(x => new Base_DepartmentTree
                 {
                     Id = x.Id,
@@ -58,15 +58,20 @@ namespace AIStudio.Business.Base_Manage
         {
             return await Db.Queryable<Base_Department>().FirstAsync(x => x.Id.Equals(id));
         }
-        public async Task AddDataAsync(Base_Department newData)
+
+        [DataRepeatValidate(new string[] { "Name" }, new string[] { "部门名" })]
+        public override async Task AddDataAsync(Base_Department newData)
         {
-            await Db.Insertable(newData).ExecuteCommandAsync();
+            await base.AddDataAsync(newData);
         }
-        public async Task UpdateDataAsync(Base_Department theData)
+
+        [DataRepeatValidate(new string[] { "Name" }, new string[] { "部门名" })]
+        public override async Task UpdateDataAsync(Base_Department theData)
         {
-            await Db.Updateable<Base_Department>().SetColumns(x => new Base_Department { Name = theData.Name, ParentId = theData.ParentId }).Where(x => x.Id.Equals(theData.Id)).ExecuteCommandAsync();
+            await base.UpdateDataAsync(theData);
         }
-        public async Task DeleteDataAsync(List<string> ids)
+
+        public override async Task DeleteDataAsync(List<string> ids)
         {
             if (await Db.Queryable<Base_Department>().AnyAsync(x => ids.Contains(x.ParentId)))
                 throw AjaxResultException.Status403Forbidden("禁止删除！请先删除所有子级！");

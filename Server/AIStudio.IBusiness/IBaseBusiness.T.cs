@@ -250,6 +250,7 @@ namespace AIStudio.IBusiness
         /// <returns></returns>
         ISugarQueryable<T> GetIQueryable();
 
+        ISugarQueryable<dynamic> GetIQueryableDynamic();
         #endregion
 
 

@@ -9,9 +9,9 @@ namespace AIStudio.IBusiness.Base_Manage
 {
     public interface IBase_UserBusiness : IBaseBusiness<Base_User>
     {
-        Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput<Base_UsersInputDTO> input);
+        new Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput input);
         Task<object> GetDataListByDepartmentAsync(string departmentid);
-        Task<Base_UserDTO> GetTheDataDTOAsync(string id);
+        new Task<Base_UserDTO> GetTheDataAsync(string id);
         Task AddDataAsync(Base_UserEditInputDTO input);
         Task UpdateDataAsync(Base_UserEditInputDTO input);
         Task SetUserRoleAsync(string userId, List<string> roleIds);

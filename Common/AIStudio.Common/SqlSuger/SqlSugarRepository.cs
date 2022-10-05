@@ -15,7 +15,7 @@ namespace AIStudio.Common.SqlSuger;
 public partial class SqlSugarRepository<TEntity>
 where TEntity : class, new()
 {
-    private readonly string[] UpdateIgnoreColumns = new string[] { "CreatedTime", "CreatedUserId", "CreatedUserName" };
+    private readonly string[] UpdateIgnoreColumns = new string[] { "CreateTime", "CreatorId", "CreatorName" };
 
     #region 属性
     /// <summary>

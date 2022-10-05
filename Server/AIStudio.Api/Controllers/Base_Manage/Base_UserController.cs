@@ -32,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         [HttpPost]
-        public async Task<PageResult<Base_UserDTO>> GetDataList(PageInput<Base_UsersInputDTO> input)
+        public async Task<PageResult<Base_UserDTO>> GetDataList(PageInput input)
         {
             return await _userBus.GetDataListAsync(input);
         }
@@ -46,7 +46,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<Base_UserDTO> GetTheData(IdInputDTO input)
         {
-            return await _userBus.GetTheDataDTOAsync(input.id) ?? new Base_UserDTO();
+            return await _userBus.GetTheDataAsync(input.id) ?? new Base_UserDTO();
         }
 
         [HttpPost]
@@ -71,14 +71,10 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
             if (input.Id.IsNullOrEmpty())
             {
-                //InitEntity(input);
-
                 await _userBus.AddDataAsync(input);
             }
             else
             {
-                //UpdateEntity(input);
-
                 await _userBus.UpdateDataAsync(input);
             }
         }

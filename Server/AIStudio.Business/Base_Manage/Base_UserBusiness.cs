@@ -10,6 +10,7 @@ using AIStudio.Util.Common;
 using AutoMapper;
 using Simple.Common;
 using SqlSugar;
+using System.Linq.Dynamic.Core;
 using Yitter.IdGenerator;
 
 namespace AIStudio.Business.Base_Manage
@@ -35,14 +36,24 @@ namespace AIStudio.Business.Base_Manage
 
         #region 外部接口
 
-        public async Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput<Base_UsersInputDTO> input)
+        public new async Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput input)
         {
-            var search = input.Search;
+
             RefAsync<int> total = 0;
-            var P = await Db.Queryable<Base_User, Base_Department>((x, b) => new object[] {
-            JoinType.Left,x.DepartmentId==b.Id})
-                .WhereIF(!search.keyword.IsNullOrEmpty(), x => x.UserName.Contains(search.keyword) || x.RealName.Contains(search.keyword))
-                .Select(x => new Base_UserDTO
+            var q = GetIQueryable();
+
+            //按字典筛选
+            if (input.SearchKeyValues != null)
+            {
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
+                {
+                    var newWhere = DynamicExpressionParser.ParseLambda<Base_User, bool>(
+                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
+                    q = q.Where(newWhere);
+                }
+            }
+
+            var data = await q.LeftJoin<Base_Department>((x, d) => x.DepartmentId == d.Id).Select(x => new Base_UserDTO
                 {
                     UserName = x.UserName,
                     Id = x.Id,
@@ -61,7 +72,7 @@ namespace AIStudio.Business.Base_Manage
                     Sex = x.Sex,
                     TenantId = x.TenantId
                 }).ToPageListAsync(input.PageIndex, input.PageRows, total);
-            var list = new PageResult<Base_UserDTO> { Data = P, Total = total };
+            var list = new PageResult<Base_UserDTO> { Data = data, Total = total };
             await SetProperty(list.Data);
 
             return list;
@@ -100,24 +111,27 @@ namespace AIStudio.Business.Base_Manage
             return users;
         }
 
-        public async Task<Base_UserDTO> GetTheDataDTOAsync(string id)
+        public new async Task<Base_UserDTO> GetTheDataAsync(string id)
         {
             if (id.IsNullOrEmpty())
                 return null;
             else
             {
                 RefAsync<int> total = 0;
-                var P = await Db.Queryable<Base_User>().Where(x => x.Id.Equals(id)).Select<Base_UserDTO>().ToListAsync();
-                return new PageResult<Base_UserDTO> { Data = P, Total = total }.Data.FirstOrDefault();
+                var data = await Db.Queryable<Base_User>().Where(x => x.Id.Equals(id)).Select<Base_UserDTO>().ToListAsync();
+                return new PageResult<Base_UserDTO> { Data = data, Total = total }.Data.FirstOrDefault();
             }
         }
 
+        [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
         public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
+
             await Db.Insertable<Base_User>(_mapper.Map<Base_User>(input)).ExecuteCommandAsync();
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
 
+        [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
         public async Task UpdateDataAsync(Base_UserEditInputDTO input)
         {
             if (input.Id == AdminTypes.Admin.ToString() && _operator?.UserId != input.Id)
@@ -161,7 +175,7 @@ namespace AIStudio.Business.Base_Manage
             if (string.IsNullOrEmpty(userId))
                 return null;
 
-            var user = await GetTheDataAsync(userId);
+            var user = await base.GetTheDataAsync(userId);
 
             return user?.Avatar;
         }

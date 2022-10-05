@@ -22,12 +22,12 @@ namespace AIStudio.Business.Base_Manage
 
         async Task<string[]> GetUserActionIds(string userId)
         {
-            var theUser = await _userBus.GetTheDataDTOAsync(userId);
-            var P = await Db.Queryable<Base_UserRole, Base_RoleAction>((x, r) => new object[] {
+            var theUser = await _userBus.GetTheDataAsync(userId);
+            var data = await Db.Queryable<Base_UserRole, Base_RoleAction>((x, r) => new object[] {
                 JoinType.Inner,x.RoleId.Equals(r.RoleId)
                 }).WhereIF(userId != AdminTypes.Admin.ToString() || !theUser.RoleType.HasFlag(RoleTypes.超级管理员), (x, r) => x.UserId.Equals(userId))
             .Select((x, r) => r.ActionId).ToListAsync();
-            return await Db.Queryable<Base_Action>().Where(x => P.Contains(x.Id)).Select(x => x.Id).ToArrayAsync();
+            return await Db.Queryable<Base_Action>().Where(x => data.Contains(x.Id)).Select(x => x.Id).ToArrayAsync();
         }
         public async Task<List<Base_ActionTree>> GetUserMenuListAsync(string userId)
         {

@@ -24,7 +24,7 @@ namespace AIStudio.Business.Base_Manage
             //按字典筛选
             if (input.SearchKeyValues != null)
             {
-                foreach(var keyValuePair in input.SearchKeyValues)
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
                 {
                     var newWhere = DynamicExpressionParser.ParseLambda<Base_CommonFormConfig, bool>(
                         ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);

@@ -1,6 +1,10 @@
 ﻿using AIStudio.Common.AppSettings;
 using AIStudio.Common.Cache;
+using AIStudio.Common.CurrentUser;
+using AIStudio.Common.Jwt;
+using AIStudio.Common.Service;
 using AIStudio.Common.Types;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
@@ -12,6 +16,25 @@ namespace AIStudio.Common.SqlSuger
 {
     public static class SqlsugarServiceCollectionExtensions
     {
+        public static void AddSqlSugarTest(this IServiceCollection services)
+        {
+            SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
+            {
+                DbType = SqlSugar.DbType.SqlServer,
+                ConnectionString = "Data Source=.;Initial Catalog=Colder.Admin.AntdVue;Integrated Security=True",
+                IsAutoCloseConnection = true,
+            },
+           db =>
+           {
+               //单例参数配置，所有上下文生效
+               db.Aop.OnLogExecuting = (sql, pars) =>
+               {
+                   Console.WriteLine(sql);//输出sql
+               };
+
+           });
+            services.AddSingleton<ISqlSugarClient>(sqlSugar);//这边是SqlSugarScope用AddSingleton
+        }
         /// <summary>
         /// SqlsugarScope的配置
         /// Scope必须用单例注入
@@ -20,24 +43,6 @@ namespace AIStudio.Common.SqlSuger
         /// <param name="services"></param>
         public static void AddSqlSugar(this IServiceCollection services)
         {
-            // SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
-            // {
-            //     DbType = SqlSugar.DbType.SqlServer,
-            //     ConnectionString = "Data Source=.;Initial Catalog=Colder.Admin.AntdVue;Integrated Security=True",
-            //     //ConnectionString = "Data Source=.,1433;Initial Catalog=sdtcapt;User ID=sa;Password=Yj123456",
-            //     IsAutoCloseConnection = true,
-            // },
-            //db =>
-            //{
-            //    //单例参数配置，所有上下文生效
-            //    db.Aop.OnLogExecuting = (sql, pars) =>
-            //    {
-            //        //Console.WriteLine(sql);//输出sql
-            //    };
-
-            //});
-            // services.AddSingleton<ISqlSugarClient>(sqlSugar);//这边是SqlSugarScope用AddSingleton
-
             //数据库序号从0开始,默认数据库为0
 
             //默认数据库
@@ -50,10 +55,13 @@ namespace AIStudio.Common.SqlSuger
             };
             dbList.Add(defaultdb);
             //业务数据库集合
-            //foreach (var item in configuration.GetValue<List<DbConfig>>("ConnectionStrings:DbConfigs"))
-            //{
-            //    dbList.Add(item);
-            //}
+            if (AppSettingsConfig.ConnectionStringsOptions.DbConfigs != null)
+            {
+                foreach (var item in AppSettingsConfig.ConnectionStringsOptions.DbConfigs)
+                {
+                    dbList.Add(item);
+                }
+            }
 
             List<ConnectionConfig> connectConfigList = new List<ConnectionConfig>();
 
@@ -69,16 +77,16 @@ namespace AIStudio.Common.SqlSuger
                     ConnectionString = item.DbString,
                     DbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), item.DbType)),
                     IsAutoCloseConnection = true,
-                    //ConfigId = item.DbNumber,
-                    //InitKeyType = InitKeyType.Attribute,
-                    //MoreSettings = new ConnMoreSettings()
-                    //{
-                    //    IsAutoRemoveDataCache = true//自动清理缓存
+                    ConfigId = item.DbNumber,
+                    InitKeyType = InitKeyType.Attribute,
+                    MoreSettings = new ConnMoreSettings()
+                    {
+                        IsAutoRemoveDataCache = true//自动清理缓存
 
-                    //},
+                    },
                     ConfigureExternalServices = new ConfigureExternalServices()
                     {
-                        //DataInfoCacheService = new SqlSugarCache(services.BuildServiceProvider().GetService<ICache>()),
+                        DataInfoCacheService = new SqlSugarCache(services.BuildServiceProvider().GetService<ICache>()),
                         EntityNameService = (type, entity) =>
                         {
                             var attributes = type.GetCustomAttributes(true);
@@ -107,7 +115,7 @@ namespace AIStudio.Common.SqlSuger
                 });
             }
 
-            //List<Type> types = GlobalType.AllTypes.Where(a => !a.IsAbstract && a.IsClass && a.GetCustomAttributes(typeof(SugarTable), true)?.FirstOrDefault() != null).ToList();
+            List<Type> types = GlobalType.AllTypes.Where(a => !a.IsAbstract && a.IsClass && a.GetCustomAttributes(typeof(SugarTable), true)?.FirstOrDefault() != null).ToList();
 
             SqlSugarScope sqlSugarScope = new SqlSugarScope(connectConfigList,
                 //全局上下文生效
@@ -116,111 +124,121 @@ namespace AIStudio.Common.SqlSuger
                     /*
                      * 默认只会配置到第一个数据库，这里按照官方文档进行多数据库/多租户文档的说明进行循环配置
                      */
-                    //foreach (var c in connectConfigList)
-                    //{
-                    //    var dbProvider = db.GetConnectionScope((string)c.ConfigId);
-                    //    //执行超时时间
-                    //    dbProvider.Ado.CommandTimeOut = 30;
+                    foreach (var c in connectConfigList)
+                    {
+                        var dbProvider = db.GetConnectionScope((string)c.ConfigId);
+                        //执行超时时间
+                        dbProvider.Ado.CommandTimeOut = 30;
 
-                    //    dbProvider.Aop.OnLogExecuting = (sql, pars) =>
-                    //    {
-                    //        if (sql.StartsWith("SELECT"))
-                    //        {
-                    //            Console.ForegroundColor = ConsoleColor.Green;
-                    //        }
-                    //        if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
-                    //        {
-                    //            Console.ForegroundColor = ConsoleColor.White;
-                    //        }
-                    //        if (sql.StartsWith("DELETE"))
-                    //        {
-                    //            Console.ForegroundColor = ConsoleColor.Blue;
-                    //        }
-                    //        Console.WriteLine("Sql:" + "\r\n\r\n" + UtilMethods.GetSqlString(c.DbType, sql, pars));
-                    //        //App.PrintToMiniProfiler("SqlSugar", "Info", UtilMethods.GetSqlString(c.DbType, sql, pars));
-                    //        //$"DB:{c.ConfigId}, Sql:\r\n\r\n {UtilMethods.GetSqlString(c.DbType, sql, pars)}".LogInformation();
-
-
-                    //    };
-
-                    //    dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
-                    //    {
-                    //        //// 新增操作
-                    //        //if (entityInfo.OperationType == DataFilterType.InsertByObject)
-                    //        //{
-                    //        //    // 主键(long)-赋值雪花Id
-                    //        //    if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
-                    //        //    {
-                    //        //        var id = ((dynamic)entityInfo.EntityValue).Id;
-                    //        //        if (id == null || id == 0)
-                    //        //            entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
-                    //        //    }
+                        dbProvider.Aop.OnLogExecuting = (sql, pars) =>
+                        {
+                            if (sql.StartsWith("SELECT"))
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            }
+                            if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            if (sql.StartsWith("DELETE"))
+                            {
+                                Console.ForegroundColor = ConsoleColor.Blue;
+                            }
+                            Console.WriteLine("Sql:" + "\r\n\r\n" + UtilMethods.GetSqlString(c.DbType, sql, pars));
+                            //App.PrintToMiniProfiler("SqlSugar", "Info", UtilMethods.GetSqlString(c.DbType, sql, pars));
+                            //$"DB:{c.ConfigId}, Sql:\r\n\r\n {UtilMethods.GetSqlString(c.DbType, sql, pars)}".LogInformation();
 
 
-                    //        //    if (entityInfo.PropertyName == "CreatedTime")
-                    //        //        entityInfo.SetValue(DateTime.Now);
-                    //        //    if (App.User != null)
-                    //        //    {
-                    //        //        if (entityInfo.PropertyName == "TenantId")
-                    //        //        {
-                    //        //            var tenantId = ((dynamic)entityInfo.EntityValue).TenantId;
-                    //        //            if (tenantId == null || tenantId == 0)
-                    //        //                entityInfo.SetValue(App.User.FindFirst(SimpleClaimTypes.TENANT_ID)?.Value);
-                    //        //        }
-                    //        //        if (entityInfo.PropertyName == "CreatedUserId")
-                    //        //        {
-                    //        //            var createUserId = ((dynamic)entityInfo.EntityValue).CreatedUserId;
-                    //        //            if (createUserId == null || createUserId == 0)
-                    //        //                entityInfo.SetValue(App.User.FindFirst(SimpleClaimTypes.CLAINM_USERID)?.Value);
-                    //        //        }
+                        };
 
-                    //        //        if (entityInfo.PropertyName == "CreatedUserName")
-                    //        //            entityInfo.SetValue(App.User.FindFirst(SimpleClaimTypes.CLAINM_NAME)?.Value);
-                    //        //    }
-                    //        //}
-                    //        //// 更新操作
-                    //        //if (entityInfo.OperationType == DataFilterType.UpdateByObject)
-                    //        //{
-                    //        //    if (entityInfo.PropertyName == "UpdatedTime")
-                    //        //        entityInfo.SetValue(DateTime.Now);
-                    //        //    if (entityInfo.PropertyName == "UpdatedUserId")
-                    //        //        entityInfo.SetValue(App.User?.FindFirst(SimpleClaimTypes.CLAINM_USERID)?.Value);
-                    //        //    if (entityInfo.PropertyName == "UpdatedUserName")
-                    //        //        entityInfo.SetValue(App.User?.FindFirst(SimpleClaimTypes.CLAINM_NAME)?.Value);
+                        dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
+                        {
 
-                    //        //}
-                    //    };
+                            // 新增操作
+                            if (entityInfo.OperationType == DataFilterType.InsertByObject)
+                            {
+                                // 主键(long)-赋值雪花Id
+                                if (entityInfo.EntityColumnInfo.IsPrimarykey)
+                                {
+                                    if (entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(string))
+                                    {
+                                        var id = ((dynamic)entityInfo.EntityValue).Id;
+                                        if (id == null || id == "")
+                                            entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId().ToString());
+                                    }
+                                    else if (entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
+                                    {
+                                        var id = ((dynamic)entityInfo.EntityValue).Id;
+                                        if (id == null || id == 0)
+                                            entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
+                                    }                                    
+                                }
 
-                    //    ////全局过滤器
-                    //    //var superAdminViewAllData = Convert.ToBoolean(App.GetOptions<SystemSettingsOptions>().SuperAdminViewAllData);
-                    //    //foreach (var entityType in types)
-                    //    //{
-                    //    //    // 配置多租户全局过滤器
-                    //    //    if (!entityType.GetProperty(SimpleClaimTypes.TENANT_ID).IsEmpty())
-                    //    //    { //判断实体类中包含TenantId属性
-                    //    //      //构建动态Lambda
-                    //    //        var lambda = DynamicExpressionParser.ParseLambda
-                    //    //        (new[] { Expression.Parameter(entityType, "it") },
-                    //    //         typeof(bool), $"{nameof(BaseEntity.TenantId)} ==  @0 or (@1 and @2)",
-                    //    //          GetTenantId(), IsSuperAdmin(), superAdminViewAllData);
-                    //    //        dbProvider.QueryFilter.Add(new TableFilterItem<object>(entityType, lambda)); //将Lambda传入过滤器
-                    //    //    }
-                    //    //    // 配置加删除全局过滤器
-                    //    //    if (!entityType.GetProperty(CommonConst.DELETE_FIELD).IsEmpty())
-                    //    //    { //判断实体类中包含IsDeleted属性
-                    //    //      //构建动态Lambda
-                    //    //        var lambda = DynamicExpressionParser.ParseLambda
-                    //    //        (new[] { Expression.Parameter(entityType, "it") },
-                    //    //         typeof(bool), $"{nameof(BaseEntity.Deleted)} ==  @0",
-                    //    //          false);
-                    //    //        dbProvider.QueryFilter.Add(new TableFilterItem<object>(entityType, lambda)
-                    //    //        {
-                    //    //            IsJoinQuery = true
-                    //    //        }); //将Lambda传入过滤器
-                    //    //    }
-                    //    //}
 
-                    //}
+                                if (entityInfo.PropertyName == "CreateTime")
+                                    entityInfo.SetValue(DateTime.Now);
+
+                                var user = ServiceLocator.Instance.GetService<IOperator>();
+                                if (user != null)
+                                {
+                                    if (entityInfo.PropertyName == "TenantId")
+                                        entityInfo.SetValue(user.TenantId);
+
+                                    if (entityInfo.PropertyName == "CreatorId")
+                                        entityInfo.SetValue(user.UserId);
+
+                                    if (entityInfo.PropertyName == "CreatorName")
+                                        entityInfo.SetValue(user.UserName);
+                                }
+                            }
+                            // 更新操作
+                            if (entityInfo.OperationType == DataFilterType.UpdateByObject)
+                            {
+                                if (entityInfo.PropertyName == "ModifyTime")
+                                    entityInfo.SetValue(DateTime.Now);
+
+                                var user = ServiceLocator.Instance.GetService<IOperator>();
+                                if (user != null)
+                                {
+                                    if (entityInfo.PropertyName == "ModifyId")
+                                        entityInfo.SetValue(user.UserId);
+
+                                    if (entityInfo.PropertyName == "ModifyName")
+                                        entityInfo.SetValue(user.UserName);
+                                }
+                            }
+                        };
+
+                        //全局过滤器
+                        //var superAdminViewAllData = Convert.ToBoolean(App.GetOptions<SystemSettingsOptions>().SuperAdminViewAllData);
+                        //foreach (var entityType in types)
+                        //{
+                        //    // 配置多租户全局过滤器
+                        //    if (!entityType.GetProperty(SimpleClaimTypes.TenantId).IsEmpty())
+                        //    { //判断实体类中包含TenantId属性
+                        //      //构建动态Lambda
+                        //        var lambda = DynamicExpressionParser.ParseLambda
+                        //        (new[] { Expression.Parameter(entityType, "it") },
+                        //         typeof(bool), $"{nameof(BaseEntity.TenantId)} ==  @0 or (@1 and @2)",
+                        //          GetTenantId(), IsSuperAdmin(), superAdminViewAllData);
+                        //        dbProvider.QueryFilter.Add(new TableFilterItem<object>(entityType, lambda)); //将Lambda传入过滤器
+                        //    }
+                        //    // 配置加删除全局过滤器
+                        //    if (!entityType.GetProperty(CommonConst.DELETE_FIELD).IsEmpty())
+                        //    { //判断实体类中包含IsDeleted属性
+                        //      //构建动态Lambda
+                        //        var lambda = DynamicExpressionParser.ParseLambda
+                        //        (new[] { Expression.Parameter(entityType, "it") },
+                        //         typeof(bool), $"{nameof(BaseEntity.Deleted)} ==  @0",
+                        //          false);
+                        //        dbProvider.QueryFilter.Add(new TableFilterItem<object>(entityType, lambda)
+                        //        {
+                        //            IsJoinQuery = true
+                        //        }); //将Lambda传入过滤器
+                        //    }
+                        //}
+
+                    }
                 });
             services.AddSingleton<ISqlSugarClient>(sqlSugarScope);
             // 注册 SqlSugar 仓储

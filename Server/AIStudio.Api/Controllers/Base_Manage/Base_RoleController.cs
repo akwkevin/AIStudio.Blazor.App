@@ -39,7 +39,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<Base_RoleEditInputDTO> GetTheData(IdInputDTO input)
         {
-            return await _roleBus.GetTheDataDTOAsync(input.id) ?? new Base_RoleEditInputDTO();
+            return await _roleBus.GetTheDataAsync(input.id) ?? new Base_RoleEditInputDTO();
         }
 
         [HttpPost]

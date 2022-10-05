@@ -1,4 +1,5 @@
 ﻿using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness;
 using AIStudio.Util;
 using AIStudio.Util.Common;
@@ -24,6 +25,7 @@ namespace AIStudio.Business
         public BaseBusiness(ISqlSugarClient db)
         {
             Db = db;
+            EntityName = typeof(T).Name;
         }
 
         #endregion
@@ -42,7 +44,9 @@ namespace AIStudio.Business
         /// 注：若需要访问逻辑删除的数据,请使用IDbAccessor.FullRepository
         /// 注：仅支持单线程操作
         /// </summary>
-        protected ISqlSugarClient Db { get; }
+        public ISqlSugarClient Db { get; }
+
+        public string EntityName { get; }
 
         #endregion
 
@@ -399,6 +403,10 @@ namespace AIStudio.Business
             return Db.Queryable<T>();
         }
 
+        public virtual ISugarQueryable<dynamic> GetIQueryableDynamic()
+        {
+            return Db.Queryable<dynamic>().AS($"{EntityName} ");
+        }
         #endregion
 
         #region 执行Sql语句
@@ -507,7 +515,7 @@ namespace AIStudio.Business
             //按字典筛选
             if (input.SearchKeyValues != null)
             {
-                foreach (var keyValuePair in input.SearchKeyValues)
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
                 {
                     var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
                         ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
@@ -530,7 +538,7 @@ namespace AIStudio.Business
             //按字典筛选
             if (input.SearchKeyValues != null)
             {
-                foreach (var keyValuePair in input.SearchKeyValues)
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
                 {
                     var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
                         ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
@@ -544,7 +552,7 @@ namespace AIStudio.Business
         public virtual async Task<T> GetTheDataAsync(string id)
         {
             return await GetIQueryable().In(id).FirstAsync();
-        }        
+        }
 
         public virtual async Task<DTO> GetTheDataDTOAsync<DTO>(string id) where DTO : T
         {
@@ -555,7 +563,7 @@ namespace AIStudio.Business
         {
             await Db.Insertable(newData).ExecuteCommandAsync();
         }
-   
+
         public virtual async Task UpdateDataAsync(T theData)
         {
             await Db.Updateable(theData).ExecuteCommandAsync();
@@ -592,7 +600,7 @@ namespace AIStudio.Business
             //按字典筛选
             if (input.SearchKeyValues != null)
             {
-                foreach (var keyValuePair in input.SearchKeyValues)
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
                 {
                     var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
                         ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);

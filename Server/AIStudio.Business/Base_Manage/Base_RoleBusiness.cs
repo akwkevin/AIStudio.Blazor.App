@@ -27,12 +27,12 @@ namespace AIStudio.Business.Base_Manage
         {
             var search = input.Search;
             RefAsync<int> total = 0;
-            var P = await Db.Queryable<Base_Role>()
+            var data = await Db.Queryable<Base_Role>()
                 .WhereIF(!search.roleId.IsNullOrEmpty(), x => x.Id == search.roleId)
                 .WhereIF(!search.roleName.IsNullOrEmpty(), x => x.RoleName.Contains(search.roleName))
                 .Select<Base_RoleEditInputDTO>()
                 .ToPageListAsync(input.PageIndex, input.PageRows, total);
-            var page = new PageResult<Base_RoleEditInputDTO> { Data = P, Total = total };
+            var page = new PageResult<Base_RoleEditInputDTO> { Data = data, Total = total };
             await SetProperty(page.Data);
             return page;
 
@@ -54,17 +54,19 @@ namespace AIStudio.Business.Base_Manage
             }
         }
 
-        public async Task<Base_RoleEditInputDTO> GetTheDataDTOAsync(string id)
+        public new async Task<Base_RoleEditInputDTO> GetTheDataAsync(string id)
         {
             return (await GetDataListAsync(new PageInput<Base_RoleInputDTO> { Search = new Base_RoleInputDTO { roleId = id } })).Data.FirstOrDefault();
         }
+
+        [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]
         public async Task AddDataAsync(Base_RoleEditInputDTO input)
         {
-
             await Db.Insertable(_mapper.Map<Base_Role>(input)).ExecuteCommandAsync();
             await SetRoleActionAsync(input.Id, input.Actions);
         }
 
+        [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]
         public async Task UpdateDataAsync(Base_RoleEditInputDTO input)
         {
             await Db.Updateable<Base_Role>().SetColumns(x => new Base_Role { RoleName = input.RoleName }).Where(x => x.Id.Equals(input.Id)).ExecuteCommandAsync();

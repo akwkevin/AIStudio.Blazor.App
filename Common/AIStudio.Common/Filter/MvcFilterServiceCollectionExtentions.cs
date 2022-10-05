@@ -50,6 +50,9 @@ namespace AIStudio.Common.Filter
             // 默认 AjaxResultOptions 配置
             builder.Services.AddTransient<IConfigureOptions<AjaxResultOptions>, AjaxResultOptionsSetup>();
 
+            // 如果有自定义配置
+            if (setupAction != null) builder.Services.Configure(setupAction);
+
             return builder;
         }     
     }

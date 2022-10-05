@@ -10,7 +10,7 @@ namespace AIStudio.IBusiness.Base_Manage
     public interface IBase_RoleBusiness : IBaseBusiness<Base_Role>
     {
         Task<PageResult<Base_RoleEditInputDTO>> GetDataListAsync(PageInput<Base_RoleInputDTO> input);
-        Task<Base_RoleEditInputDTO> GetTheDataDTOAsync(string id);
+        new Task<Base_RoleEditInputDTO> GetTheDataAsync(string id);
         Task AddDataAsync(Base_RoleEditInputDTO input);
         Task UpdateDataAsync(Base_RoleEditInputDTO input);
     }
