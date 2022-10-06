@@ -17,6 +17,6 @@ namespace AIStudio.Blazor.UI.Models
         /// 表描述说明
         /// </summary>
         public string Description { get; set; }
-        public string Id { get  { return TableName; } }
+        public string Id { get  { return TableName; } set { TableName = value; } }
     }
 }
