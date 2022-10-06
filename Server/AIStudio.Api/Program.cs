@@ -45,16 +45,7 @@ try
     ////数据过滤与Json配置
     builder.Services.AddControllers()
         .AddDataValidation() //数据验证
-        .AddFilter(options =>
-        {
-            options.ResultFactory = resultException =>
-            {
-                // AppResultException 都返回 200 状态码
-                var objectResult = new ObjectResult(resultException.AjaxResult);
-                objectResult.StatusCode = StatusCodes.Status200OK;
-                return objectResult;
-            };
-        })   //过滤器
+        .AddFilter()   //过滤器
         .AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.GetType().GetProperties().ForEach(aProperty =>
