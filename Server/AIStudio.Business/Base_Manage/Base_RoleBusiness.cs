@@ -23,13 +23,10 @@ namespace AIStudio.Business.Base_Manage
 
         #region 外部接口
 
-        public async Task<PageResult<Base_RoleEditInputDTO>> GetDataListAsync(PageInput<Base_RoleInputDTO> input)
-        {
-            var search = input.Search;
+        public async Task<PageResult<Base_RoleEditInputDTO>> GetDataListAsync(PageInput input)
+        {   
             RefAsync<int> total = 0;
-            var data = await Db.Queryable<Base_Role>()
-                .WhereIF(!search.roleId.IsNullOrEmpty(), x => x.Id == search.roleId)
-                .WhereIF(!search.roleName.IsNullOrEmpty(), x => x.RoleName.Contains(search.roleName))
+            var data = await GetIQueryable(input.SearchKeyValues)
                 .Select<Base_RoleEditInputDTO>()
                 .ToPageListAsync(input.PageIndex, input.PageRows, total);
             var page = new PageResult<Base_RoleEditInputDTO> { Data = data, Total = total };
@@ -56,7 +53,7 @@ namespace AIStudio.Business.Base_Manage
 
         public new async Task<Base_RoleEditInputDTO> GetTheDataAsync(string id)
         {
-            return (await GetDataListAsync(new PageInput<Base_RoleInputDTO> { Search = new Base_RoleInputDTO { roleId = id } })).Data.FirstOrDefault();
+            return (await GetDataListAsync(new PageInput { SearchKeyValues = new Dictionary<string, object>{{ "Id", id }}})).Data?.FirstOrDefault();
         }
 
         [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]

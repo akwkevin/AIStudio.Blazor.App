@@ -38,7 +38,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         [HttpPost]
-        public async Task<List<Base_DepartmentTree>> GetTreeDataList(Base_DepartmentTreeInputDTO input)
+        public async Task<List<Base_DepartmentTree>> GetTreeDataList(SearchInput input)
         {
             return await _departmentBus.GetTreeDataListAsync(input);
         }

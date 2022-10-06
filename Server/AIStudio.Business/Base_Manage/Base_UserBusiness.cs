@@ -19,18 +19,15 @@ namespace AIStudio.Business.Base_Manage
     {
         readonly IOperator _operator;
         readonly IMapper _mapper;
-        readonly IBase_DepartmentBusiness _departmentBusiness;
 
         public Base_UserBusiness(
             IOperator @operator,
             IMapper mapper,
-            IBase_DepartmentBusiness departmentBusiness,
             ISqlSugarClient db
             ) : base(db)
         {
             _operator = @operator;
             _mapper = mapper;
-            _departmentBusiness = departmentBusiness;
         }
         protected override string _textField => "UserName";
 
@@ -38,20 +35,8 @@ namespace AIStudio.Business.Base_Manage
 
         public new async Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput input)
         {
-
             RefAsync<int> total = 0;
-            var q = GetIQueryable();
-
-            //按字典筛选
-            if (input.SearchKeyValues != null)
-            {
-                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
-                {
-                    var newWhere = DynamicExpressionParser.ParseLambda<Base_User, bool>(
-                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
-                    q = q.Where(newWhere);
-                }
-            }
+            var q = GetIQueryable(input.SearchKeyValues);//按字典筛选
 
             var data = await q.LeftJoin<Base_Department>((x, d) => x.DepartmentId == d.Id).Select(x => new Base_UserDTO
                 {
@@ -82,8 +67,8 @@ namespace AIStudio.Business.Base_Manage
                 //补充用户角色属性
                 List<string> userIds = users.Select(x => x.Id).ToList();
 
-                var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] {
-              JoinType.Left,a.RoleId==b.Id})
+               var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] {
+               JoinType.Left,a.RoleId==b.Id})
                .Select((a, b) => new
                {
                    a.UserId,
@@ -98,18 +83,6 @@ namespace AIStudio.Business.Base_Manage
                 });
             }
         }
-        public async Task<object> GetDataListByDepartmentAsync(string departmentid)
-        {
-            var departments = await Db.Queryable<Base_Department>().Where(p => p.ParentIds.Contains(departmentid)).Select(p => p.Id).ToListAsync();
-            departments.Add(departmentid);
-
-            List<Base_User> users = new List<Base_User>();
-            foreach (var department in departments)
-            {
-                users.AddRange(await Db.Queryable<Base_User>().Where(p => p.DepartmentId == department).ToListAsync());
-            }
-            return users;
-        }
 
         public new async Task<Base_UserDTO> GetTheDataAsync(string id)
         {
@@ -118,7 +91,7 @@ namespace AIStudio.Business.Base_Manage
             else
             {
                 RefAsync<int> total = 0;
-                var data = await Db.Queryable<Base_User>().Where(x => x.Id.Equals(id)).Select<Base_UserDTO>().ToListAsync();
+                var data = await GetIQueryable().Where(x => x.Id.Equals(id)).Select<Base_UserDTO>().ToListAsync();
                 return new PageResult<Base_UserDTO> { Data = data, Total = total }.Data.FirstOrDefault();
             }
         }
@@ -126,7 +99,6 @@ namespace AIStudio.Business.Base_Manage
         [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
         public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
-
             await Db.Insertable<Base_User>(_mapper.Map<Base_User>(input)).ExecuteCommandAsync();
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }

@@ -1,5 +1,6 @@
 ﻿using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Models;
+using AIStudio.Common.Result;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Http;
@@ -74,7 +75,7 @@ public class ApiExceptionMiddleware
         context.Response.Headers.ETag = default;
 
         // 响应
-        var result = AjaxResult.Status500InternalServerError($"系统异常，异常Id: {eventId}，请联系管理员", edi.SourceException.Message);
+        var result = AjaxResult.Status500InternalServerError($"系统异常，异常Id: {eventId}，异常信息：{edi.SourceException.Message}，请联系管理员。");
         await context.Response.WriteAsync(result.ToJson());
     }
 

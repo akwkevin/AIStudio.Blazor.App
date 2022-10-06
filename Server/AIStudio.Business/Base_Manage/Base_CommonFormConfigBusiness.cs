@@ -15,45 +15,7 @@ namespace AIStudio.Business.Base_Manage
         {
         }
 
-        #region 外部接口
-
-        public async Task<PageResult<Base_CommonFormConfig>> GetDataListAsync(PageInput input)
-        {
-            var q = GetIQueryable();
-
-            //按字典筛选
-            if (input.SearchKeyValues != null)
-            {
-                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
-                {
-                    var newWhere = DynamicExpressionParser.ParseLambda<Base_CommonFormConfig, bool>(
-                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
-                    q = q.Where(newWhere);
-                }
-            }
-
-            return await q.GetPageResultAsync(input);
-        }
-
-        public async Task<Base_CommonFormConfig> GetTheDataAsync(string id)
-        {
-            return await GetEntityAsync(id);
-        }
-
-        public async Task AddDataAsync(Base_CommonFormConfig data)
-        {
-            await InsertAsync(data);
-        }
-
-        public async Task UpdateDataAsync(Base_CommonFormConfig data)
-        {
-            await UpdateAsync(data);
-        }
-
-        public async Task DeleteDataAsync(List<string> ids)
-        {
-            await DeleteAsync(ids);
-        }
+        #region 外部接口       
 
         #endregion
 

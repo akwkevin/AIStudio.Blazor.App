@@ -1101,5 +1101,17 @@ namespace AIStudio.Util
 
             return str.Left(maxLength - postfix.Length) + postfix;
         }
+
+        public static string ObjToString(this object obj)
+        {
+            if (obj is Enum)
+            {
+                return ((int)obj).ToString();
+            }
+            else
+            {
+                return obj?.ToString();
+            }
+        }
     }
 }

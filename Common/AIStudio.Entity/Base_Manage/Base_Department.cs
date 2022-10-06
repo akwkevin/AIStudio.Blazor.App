@@ -18,11 +18,5 @@ namespace AIStudio.Entity.Base_Manage
         /// 上级部门Id
         /// </summary>
         public String ParentId { get; set; }
-
-        public String ParentIds { get; set; }
-        public string ParentNames { get; set; }
-
-        public int Level { get; set; }
-
     }
 }

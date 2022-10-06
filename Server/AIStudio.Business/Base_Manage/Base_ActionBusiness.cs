@@ -23,7 +23,7 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task<List<Base_Action>> GetDataListAsync(Base_ActionsInputDTO input)
         {
-            var q = await Db.Queryable<Base_Action>()
+            var q = await GetIQueryable()
                .WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
                 .WhereIF(input.types?.Length > 0, x => input.types.Contains(x.Type))
                  .WhereIF(input.ActionIds?.Length > 0, x => input.ActionIds.Contains(x.Id))
@@ -58,7 +58,7 @@ namespace AIStudio.Business.Base_Manage
             async Task SetProperty(List<Base_ActionTree> _list)
             {
                 var ids = _list.Select(x => x.Id).ToList();
-                var allPermissions = await Db.Queryable<Base_Action>()
+                var allPermissions = await GetIQueryable()
                     .Where(x => ids.Contains(x.ParentId) && (int)x.Type == 2)
                     .ToListAsync();
 
@@ -104,7 +104,7 @@ namespace AIStudio.Business.Base_Manage
             await Db.Insertable(permissionList).ExecuteCommandAsync();
 
             //权限值必须唯一
-            var repeatValues = await Db.Queryable<Base_Action>()
+            var repeatValues = await GetIQueryable()
                 .GroupBy(x => x.Value)
                 .Having(x => SqlFunc.AggregateCount(x.Value) > 1)
                 .Select(x => x.Value)

@@ -124,7 +124,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         };
         await _publisher.PublishAsync(@event);
 
-        var testEventModel = new TestEventModel() { Message = @event.ToJson() };
-        await _publisher.PublishAsync(testEventModel);
+        //var testEventModel = new TestEventModel() { Message = @event.ToJson() };
+        //await _publisher.PublishAsync(testEventModel);
     }
 }

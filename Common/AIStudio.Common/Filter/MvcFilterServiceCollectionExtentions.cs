@@ -33,7 +33,7 @@ namespace AIStudio.Common.Filter
 
 
 
-        public static IMvcBuilder AddFilter(this IMvcBuilder builder)
+        public static IMvcBuilder AddFilter(this IMvcBuilder builder, Action<AjaxResultOptions>? setupAction = null)
         {
             // 添加过滤器
             builder.AddMvcOptions(options =>
@@ -46,6 +46,12 @@ namespace AIStudio.Common.Filter
                 // ActionFilter 实现，Order = -6000，这个过滤器会标记 AppResultException 被处理，故而 ExceptionFilter 将无法捕捉到
                 options.Filters.Add<AjaxResultActionFilter>();
             });
+
+            // 默认 AjaxResultOptions 配置
+            builder.Services.AddTransient<IConfigureOptions<AjaxResultOptions>, AjaxResultOptionsSetup>();
+
+            // 如果有自定义配置,修改AjaxResultOptions的默认处理方法
+            if (setupAction != null) builder.Services.Configure(setupAction);
 
             return builder;
         }     

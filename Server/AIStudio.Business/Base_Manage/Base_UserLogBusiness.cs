@@ -20,7 +20,7 @@ namespace AIStudio.Business.Base_Manage
         {
             var search = input.Search;
             RefAsync<int> total = 0;
-            var data = await Db.Queryable<Base_UserLog>()
+            var data = await GetIQueryable()
                 .WhereIF(!search.logContent.IsNullOrEmpty(), x => x.LogContent.Contains(search.logContent))
                 .WhereIF(!search.logType.IsNullOrEmpty(), x => x.LogType == search.logType)
                 .WhereIF(!search.opUserName.IsNullOrEmpty(), x => x.CreatorName.Contains(search.opUserName))
@@ -32,7 +32,7 @@ namespace AIStudio.Business.Base_Manage
         public async Task<PageResult<Base_UserLog>> GetLogList(PageInput input)
         {
             RefAsync<int> total = 0;
-            var data = await Db.Queryable<Base_UserLog>()
+            var data = await GetIQueryable()
                  .ToPageListAsync(input.PageIndex, input.PageRows, total);
             return new PageResult<Base_UserLog> { Data = data, Total = total }; ;
         }

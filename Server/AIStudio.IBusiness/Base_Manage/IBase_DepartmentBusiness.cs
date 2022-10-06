@@ -7,7 +7,7 @@ namespace AIStudio.IBusiness.Base_Manage
 {
     public interface IBase_DepartmentBusiness : IBaseBusiness<Base_Department>
     {
-        Task<List<Base_DepartmentTree>> GetTreeDataListAsync(Base_DepartmentTreeInputDTO input);
+        Task<List<Base_DepartmentTree>> GetTreeDataListAsync(SearchInput input);
         Task<List<string>> GetChildrenIdsAsync(string departmentId);
     }
 

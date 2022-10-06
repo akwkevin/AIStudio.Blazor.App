@@ -7,6 +7,8 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using Simple.Common;
 using SqlSugar;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace AIStudio.Business.Base_Manage
 {
@@ -20,25 +22,41 @@ namespace AIStudio.Business.Base_Manage
 
         #region 外部接口
 
-        public async Task<List<Base_DepartmentTree>> GetTreeDataListAsync(Base_DepartmentTreeInputDTO input)
+        public async Task<List<Base_DepartmentTree>> GetTreeDataListAsync(SearchInput input)
         {
-            var data = await Db.Queryable<Base_Department>().WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId).ToListAsync();
+            var data = await GetIQueryable().ToListAsync();
             var treeList = data
                 .Select(x => new Base_DepartmentTree
                 {
                     Id = x.Id,
                     ParentId = x.ParentId,
-                    ParentIds = x.ParentIds,
+                    Name = x.Name,
                     Text = x.Name,
                     Value = x.Id
                 }).ToList();
 
-            return TreeHelper.BuildGenericsTree(treeList);
+            var tree = TreeHelper.BuildGenericsTree(treeList);
+            
+            //按字典筛选
+            if (input.SearchKeyValues?.Count > 0)
+            {
+                IEnumerable<Base_DepartmentTree> treeList2 = TreeHelper.GetTreeToList(tree);
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
+                {
+                    var newWhere = DynamicExpressionParser.ParseLambda<Base_DepartmentTree, bool>(
+                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
+                    treeList2 = treeList2.Where(newWhere.Compile());
+                }
+
+                tree = treeList2.ToList();
+            }
+
+            return tree;
         }
 
         public async Task<List<string>> GetChildrenIdsAsync(string departmentId)
         {
-            var allNode = await Db.Queryable<Base_Department>().Select(x => new TreeModel
+            var allNode = await GetIQueryable().Select(x => new TreeModel
             {
                 Id = x.Id,
                 ParentId = x.ParentId,
@@ -56,7 +74,7 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task<Base_Department> GetTheDataAsync(string id)
         {
-            return await Db.Queryable<Base_Department>().FirstAsync(x => x.Id.Equals(id));
+            return await GetIQueryable().FirstAsync(x => x.Id.Equals(id));
         }
 
         [DataRepeatValidate(new string[] { "Name" }, new string[] { "部门名" })]
@@ -73,7 +91,7 @@ namespace AIStudio.Business.Base_Manage
 
         public override async Task DeleteDataAsync(List<string> ids)
         {
-            if (await Db.Queryable<Base_Department>().AnyAsync(x => ids.Contains(x.ParentId)))
+            if (await GetIQueryable().AnyAsync(x => ids.Contains(x.ParentId)))
                 throw AjaxResultException.Status403Forbidden("禁止删除！请先删除所有子级！");
 
             await Db.Deleteable<Base_Department>().Where(x => ids.Contains(x.Id)).ExecuteCommandAsync();

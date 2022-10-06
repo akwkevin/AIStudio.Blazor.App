@@ -251,6 +251,8 @@ namespace AIStudio.IBusiness
         ISugarQueryable<T> GetIQueryable();
 
         ISugarQueryable<dynamic> GetIQueryableDynamic();
+
+        ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues);
         #endregion
 
 

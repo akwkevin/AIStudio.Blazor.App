@@ -405,7 +405,24 @@ namespace AIStudio.Business
 
         public virtual ISugarQueryable<dynamic> GetIQueryableDynamic()
         {
-            return Db.Queryable<dynamic>().AS($"{EntityName} ");
+            return Db.Queryable<dynamic>().AS($"{EntityName}");
+        }
+
+        public virtual ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues)
+        {
+            var q = GetIQueryable();
+            //按字典筛选
+            if (searchKeyValues != null)
+            {
+                foreach (var keyValuePair in searchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
+                {
+                    var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
+                    q = q.Where(newWhere);
+                }
+            }
+
+            return q;
         }
         #endregion
 
@@ -510,18 +527,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<List<T>> GetDataListAsync(SearchInput input)
         {
-            var q = GetIQueryable();
-
-            //按字典筛选
-            if (input.SearchKeyValues != null)
-            {
-                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
-                {
-                    var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
-                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
-                    q = q.Where(newWhere);
-                }
-            }
+            var q = GetIQueryable(input.SearchKeyValues);
 
             return await q.OrderBy($@"{input.SortField} {input.SortType} ").ToListAsync();
         }
@@ -533,18 +539,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public virtual async Task<PageResult<T>> GetDataListAsync(PageInput input)
         {
-            var q = GetIQueryable();
-
-            //按字典筛选
-            if (input.SearchKeyValues != null)
-            {
-                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
-                {
-                    var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
-                        ParsingConfig.Default, false, $@"{keyValuePair.Key}.Contains(@0)", keyValuePair.Value);
-                    q = q.Where(newWhere);
-                }
-            }
+            var q = GetIQueryable(input.SearchKeyValues);          
 
             return await q.GetPageResultAsync(input);
         }

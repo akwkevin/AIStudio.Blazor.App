@@ -38,11 +38,23 @@ namespace AIStudio.Business
             var q = context.InvocationTarget.GetType().GetMethod("GetIQueryableDynamic").Invoke(context.InvocationTarget, new object[] { }) as ISugarQueryable<dynamic>;
 
             var conModels = new List<IConditionalModel>();
-            conModels.Add(new ConditionalModel() { FieldName = "Id", ConditionalType = ConditionalType.NoEqual, FieldValue = data.GetPropertyValue("Id")?.ToString() });
+            if (data.GetPropertyValue("Id").IsNullOrEmpty())
+            {
+                conModels.Add(new ConditionalModel() { FieldName = "Id", ConditionalType = ConditionalType.IsNot });
+            }
+            else
+            {
+                conModels.Add(new ConditionalModel() { FieldName = "Id", ConditionalType = ConditionalType.NoEqual, FieldValue = data.GetPropertyValue("Id").ObjToString() });
+            }
             var conditionalList = new List<KeyValuePair<WhereType, SqlSugar.ConditionalModel>>();
             foreach (var aProperty in properties)
             {
-                conditionalList.Add(new KeyValuePair<WhereType, ConditionalModel>(_matchOr ? WhereType.Or : WhereType.And, new ConditionalModel() { FieldName = aProperty.Key, ConditionalType = ConditionalType.Equal, FieldValue = data.GetPropertyValue(aProperty.Key)?.ToString() }));
+                WhereType whereType = _matchOr ? WhereType.Or : WhereType.And;
+                if (properties.IndexOf(aProperty) == 0)
+                {
+                    whereType = WhereType.And;
+                }
+                conditionalList.Add(new KeyValuePair<WhereType, ConditionalModel>(whereType, new ConditionalModel() { FieldName = aProperty.Key, ConditionalType = ConditionalType.Equal, FieldValue = data.GetPropertyValue(aProperty.Key).ObjToString() }));
             }
             conModels.Add(new ConditionalCollections() { ConditionalList = conditionalList });            
 
@@ -54,7 +66,7 @@ namespace AIStudio.Business
                     .Select(x => x.Value)
                     .ToList();
 
-                throw AjaxResultException.Status403Forbidden($"{string.Join(_matchOr ? "或" : "与", repeatList)}已存在!");
+                throw AjaxResultException.Status403Forbidden($"数据重复：{string.Join(_matchOr ? "或" : "与", repeatList)}已存在!");
             }
 
             await Task.CompletedTask;

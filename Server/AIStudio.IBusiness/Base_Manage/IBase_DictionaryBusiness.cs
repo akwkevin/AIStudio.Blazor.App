@@ -10,6 +10,4 @@ namespace AIStudio.IBusiness.Base_Manage
     {
         Task<List<Base_DictionaryTree>> GetTreeDataListAsync(SearchInput input);
     }
-
-
 }

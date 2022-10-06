@@ -38,32 +38,34 @@ namespace AIStudio.Business.Base_Manage
             return TreeHelper.BuildGenericsTree(treeList);
         }
 
+        [DataRepeatValidate(new string[] { "Type", "Text", "Value" }, new string[] { "类型", "文本", "值" }, false)]
         public override async Task AddDataAsync(Base_Dictionary data)
         {
-            if (data.Type == Entity.DictionaryType.字典项)
-            {
-                //权限值必须唯一
-                var repeatCount = GetIQueryable()
-                    .Where(x => x.Type == Entity.DictionaryType.字典项 && x.Value == data.Value)
-                    .Count();
-                if (repeatCount > 0)
-                    throw new Exception($"以下字典项值重复:{data.Value}");
-            }
-            await InsertAsync(data);
+            //if (data.Type == Entity.DictionaryType.字典项)
+            //{
+            //    //权限值必须唯一
+            //    var repeatCount = GetIQueryable()
+            //        .Where(x => x.Type == Entity.DictionaryType.字典项 && x.Value == data.Value)
+            //        .Count();
+            //    if (repeatCount > 0)
+            //        throw new Exception($"以下字典项值重复:{data.Value}");
+            //}
+            await base.AddDataAsync(data);
         }
 
-        public async Task UpdateDataAsync(Base_Dictionary data)
+        [DataRepeatValidate(new string[] { "Type", "Text", "Value" }, new string[] { "类型", "文本", "值" }, false)]
+        public override async Task UpdateDataAsync(Base_Dictionary data)
         {
-            if (data.Type == Entity.DictionaryType.字典项)
-            {
-                //权限值必须唯一
-                var repeatCount = GetIQueryable()
-                    .Where(x => x.Type == Entity.DictionaryType.字典项 && x.Value == data.Value && x.Id != data.Id)
-                    .Count();
-                if (repeatCount > 0)
-                    throw new Exception($"以下字典项值重复:{data.Value}");
-            }
-            await UpdateAsync(data);
+            //if (data.Type == Entity.DictionaryType.字典项)
+            //{
+            //    //权限值必须唯一
+            //    var repeatCount = GetIQueryable()
+            //        .Where(x => x.Type == Entity.DictionaryType.字典项 && x.Value == data.Value && x.Id != data.Id)
+            //        .Count();
+            //    if (repeatCount > 0)
+            //        throw new Exception($"以下字典项值重复:{data.Value}");
+            //}
+            await base.UpdateDataAsync(data);
         }
         #endregion
 

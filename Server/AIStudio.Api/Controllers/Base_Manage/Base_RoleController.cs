@@ -31,7 +31,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         [HttpPost]
-        public async Task<PageResult<Base_RoleEditInputDTO>> GetDataList(PageInput<Base_RoleInputDTO> input)
+        public async Task<PageResult<Base_RoleEditInputDTO>> GetDataList(PageInput input)
         {
             return await _roleBus.GetDataListAsync(input);
         }
@@ -57,14 +57,10 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         {
             if (input.Id.IsNullOrEmpty())
             {
-                //InitEntity(input);
-
                 await _roleBus.AddDataAsync(input);
             }
             else
             {
-                //UpdateEntity(input);
-
                 await _roleBus.UpdateDataAsync(input);
             }
         }
