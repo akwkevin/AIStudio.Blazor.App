@@ -1,3 +1,4 @@
+using AIStudio.Business.Quartz_Manage;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.Authorization;
@@ -6,6 +7,7 @@ using AIStudio.Common.DI;
 using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.Filter;
 using AIStudio.Common.Mapper;
+using AIStudio.Common.Quartz;
 using AIStudio.Common.Service;
 using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
@@ -90,15 +92,15 @@ try
     builder.Services.AddCors_();
 
     // 定时任务
-    //builder.Services.AddJobScheduling(options =>
-    //{
-    //    options.StartHandle = async sp =>
-    //    {
-    //        var jobService = sp.GetService<IJobService>();
-    //        if (jobService == null) return;
-    //        await jobService.StartAll();
-    //    };
-    //});
+    builder.Services.AddJobScheduling(options =>
+    {
+        options.StartHandle = async sp =>
+        {
+            var jobService = sp.GetService<IQuartz_TaskBusiness>();
+            if (jobService == null) return;
+            await jobService.StartAllAsync();
+        };
+    });
 
     ServiceLocator.Instance = builder.Services.BuildServiceProvider(false);
 

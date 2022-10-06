@@ -1,5 +1,5 @@
-﻿using Quartz;
-using Simple.Common.Quartz.Models;
+﻿using AIStudio.Common.Quartz.Models;
+using Quartz;
 
 namespace AIStudio.Common.Quartz;
 
@@ -11,16 +11,17 @@ public interface IQuartzManager
 
     Task Shutdown(CancellationToken token = default);
 
-    Task<bool> CheckExists(string jobName, CancellationToken token = default);
+    Task<bool> CheckExists(string jobName, string groupName, CancellationToken token = default);
 
-    Task AddJob<T>(JobInfo jobInfo, CancellationToken token = default)
-        where T : IJob;
+    Task<JobExcuteResult> AddJob<T>(JobInfo jobInfo, CancellationToken token = default)  where T : IJob;
 
-    Task AddJob(Type jobType, JobInfo jobInfo, CancellationToken token = default);
+    Task<JobExcuteResult> AddJob(Type jobType, JobInfo jobInfo, CancellationToken token = default);
 
-    Task<bool> DeleteJob(string jobName, CancellationToken token = default);
+    Task<JobExcuteResult> DeleteJob(string jobName, string groupName, CancellationToken token = default);
 
-    Task PauseJob(string jobName, CancellationToken token = default);
+    Task<JobExcuteResult> PauseJob(string jobName, string groupName, CancellationToken token = default);
 
-    Task ResumeJob(string jobName, CancellationToken token = default);
+    Task<JobExcuteResult> ResumeJob(string jobName, string groupName, CancellationToken token = default);
+
+    Task<JobExcuteResult> DoJob(string jobName, string groupName, CancellationToken token = default);
 }

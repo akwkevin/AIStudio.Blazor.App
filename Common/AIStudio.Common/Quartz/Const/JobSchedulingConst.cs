@@ -1,4 +1,4 @@
-﻿namespace Simple.Common.Quartz.Const;
+﻿namespace AIStudio.Common.Quartz.Const;
 
 public static class JobSchedulingConst
 {

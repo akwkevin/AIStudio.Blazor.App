@@ -10,6 +10,5 @@
         /// 表描述说明
         /// </summary>
         public string Description { get; set; }
-        public string Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
