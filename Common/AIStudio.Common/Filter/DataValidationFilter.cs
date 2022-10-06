@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.Result;
+using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -31,10 +32,10 @@ public class DataValidationFilter : IActionFilter, IOrderedFilter
                                .ToArray();
 
         // 统一返回
-        var result = AjaxResult.Status400BadRequest("数据验证不通过！", errors);
+        var result = AjaxResult.Status400BadRequest($"数据验证不通过:{ string.Join(",", errors)}");
 
         // 设置结果
-        context.Result = new BadRequestObjectResult(result); // ObjectResult(result);
+        context.Result = AjaxResultActionFilter.JsonContent(result.ToJson());
     }
 
     public void OnActionExecuted(ActionExecutedContext context)

@@ -25,7 +25,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 姓名
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "姓名不能为空")]
         public String RealName { get; set; }
 
         /// <summary>

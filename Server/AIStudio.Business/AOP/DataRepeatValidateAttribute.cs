@@ -14,7 +14,7 @@ namespace AIStudio.Business
         public DataRepeatValidateAttribute(string[] validateFields, string[] validateFieldNames, bool matchOr = true)
         {
             if (validateFields.Length != validateFieldNames.Length)
-                throw new Exception("校验列与列描述信息不对应!");
+                throw AjaxResultException.Status500InternalServerError("校验列与列描述信息不对应!");
 
             _matchOr = matchOr;
             for (int i = 0; i < validateFields.Length; i++)

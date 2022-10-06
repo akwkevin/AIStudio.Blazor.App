@@ -82,6 +82,7 @@ try
     //注册 IHttpContextAccessor
     builder.Services.AddHttpContextAccessor();
 
+    //自动注册服务
     builder.Services.AddServices(GlobalType.AllTypes);
 
     //jwt Authentication 
