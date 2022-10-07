@@ -27,11 +27,6 @@ namespace AIStudio.Entity
         public DateTime CreateTime { get; set; }
 
         /// <summary>
-        /// 修改时间
-        /// </summary>
-        public DateTime? ModifyTime { get; set; }
-
-        /// <summary>
         /// 创建人Id
         /// </summary>
         [MaxLength(50)]
@@ -42,6 +37,11 @@ namespace AIStudio.Entity
         /// </summary>
         [MaxLength(255)]
         public string CreatorName { get; set; }
+
+        /// <summary>
+        /// 修改时间
+        /// </summary>
+        public DateTime? ModifyTime { get; set; }
 
         /// <summary>
         /// 修改人Id

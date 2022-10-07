@@ -7,7 +7,7 @@ using StackExchange.Redis;
 using System.Dynamic;
 using System.Linq.Dynamic.Core;
 
-namespace AIStudio.Business
+namespace AIStudio.Business.AOP
 {
     public class DataRepeatValidateAttribute : BaseAOPAttribute
     {
@@ -28,7 +28,6 @@ namespace AIStudio.Business
 
         public override async Task Befor(IAOPContext context)
         {
-            Type entityType = context.Arguments[0].GetType();
             var data = context.Arguments[0];
             List<string> whereList = new List<string>();
             var properties = _validateFields

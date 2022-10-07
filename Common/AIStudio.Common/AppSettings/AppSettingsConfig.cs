@@ -98,6 +98,8 @@ namespace AIStudio.Common.AppSettings
             /// </summary>
 
             public static string DefaultDbString => Configuration["ConnectionStrings:DefaultDbString"];
+
+            public static string DefaultDbName => Configuration["ConnectionStrings:DefaultDbName"];
             /// <summary>
             /// 业务库集合
             /// </summary>

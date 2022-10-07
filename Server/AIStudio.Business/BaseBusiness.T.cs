@@ -39,11 +39,6 @@ namespace AIStudio.Business
 
         #region 外部属性
 
-        /// <summary>
-        /// 业务仓储接口(支持软删除),支持联表操作
-        /// 注：若需要访问逻辑删除的数据,请使用IDbAccessor.FullRepository
-        /// 注：仅支持单线程操作
-        /// </summary>
         public ISqlSugarClient Db { get; }
 
         public string EntityName { get; }
@@ -54,13 +49,54 @@ namespace AIStudio.Business
 
         public (bool Success, Exception ex) RunTransaction(Action action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            throw new Exception("暂未实现");
+            bool success = true;
+            Exception resEx = null;
+            try
+            {
+                Db.Ado.BeginTran(isolationLevel);
+
+                action();
+
+                Db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                resEx = ex;
+                Db.Ado.RollbackTran();
+            }
+            finally
+            {
+              
+            }
+
+            return (success, resEx);
         }
         public async Task<(bool Success, Exception ex)> RunTransactionAsync(Func<Task> action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            throw new Exception("暂未实现");
-        }
+            bool success = true;
+            Exception resEx = null;
+            try
+            {
+                Db.Ado.BeginTran(isolationLevel);
 
+                await action();
+
+                Db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                resEx = ex;
+                Db.Ado.RollbackTran();
+            }
+            finally
+            {
+               
+            }
+
+            return (success, resEx);
+        }
         #endregion
 
         #region 增加数据

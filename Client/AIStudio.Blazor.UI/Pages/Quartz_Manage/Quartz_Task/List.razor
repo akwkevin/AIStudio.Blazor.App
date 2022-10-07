@@ -46,33 +46,8 @@
         <AntDesign.Column Title="分组" DataIndex="GroupName" TData="string" />
         <AntDesign.Column Title="最后执行时间" DataIndex="LastRunTime" TData="DateTime" />
         <AntDesign.Column Title="间隔(Cron)" DataIndex="Interval" TData="string" />
-        <AntDesign.Column Title="状态" TData="int">
-            @if (context.Status == 0)
-            {
-                <Badge Status="processing" Text="运行中" />
-            }
-            else if (context.Status == 1)
-            {
-                <Badge Status="default" Text="关闭" />
-            }
-            else if (context.Status == 2)
-            {
-                <Badge Status="success" Text="完成" />
-            }
-            else if (context.Status == 3)
-            {
-                <Badge Status="error" Text="异常" />
-            }
-            else if (context.Status == 4)
-            {
-                <Badge Status="error" Text="堵塞" />
-            }
-            else if (context.Status == 5)
-            {
-                <Badge Status="default" Text="未知" />
-            }
-        </AntDesign.Column>
-        <AntDesign.Column Title="描述" DataIndex="Describe" TData="string" />
+        <AntDesign.Column Title="状态" DataIndex="IsEnable" TData="bool" />         
+        <AntDesign.Column Title="描述" DataIndex="Remark" TData="string" />
         <AntDesign.Column Title="ApiUrl" DataIndex="ApiUrl" TData="string" />
         <AntDesign.Column Title="请求方式" DataIndex="RequestType" TData="string" />
         <ActionColumn Title="Action">

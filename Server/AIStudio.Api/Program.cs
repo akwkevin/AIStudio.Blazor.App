@@ -1,3 +1,4 @@
+using AIStudio.Api;
 using AIStudio.Business.Quartz_Manage;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
@@ -6,6 +7,7 @@ using AIStudio.Common.Cache;
 using AIStudio.Common.DI;
 using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.Filter;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Mapper;
 using AIStudio.Common.Quartz;
 using AIStudio.Common.Service;
@@ -14,6 +16,7 @@ using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
 using AIStudio.Util;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
 using NLog.Web;
@@ -57,9 +60,9 @@ try
             });
         });
 
-    var workerId = (ushort)(AppSettingsConfig.SnowIdOptions.WorkerId);
     // 设置雪花id的workerId，确保每个实例workerId都应不同
-    YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
+    var workerId = (ushort)(AppSettingsConfig.SnowIdOptions.WorkerId);
+    IdHelper.SetWorkId(workerId);
 
     // 缓存
     builder.Services.AddCache();
@@ -96,13 +99,25 @@ try
     {
         options.StartHandle = async sp =>
         {
+            bool withoutTestJob = true;
+#if DEBUG
+            //初始化测试数据
+            SeedData.EnsureSeedQuartzData(sp);
+            withoutTestJob = false;
+#endif
             var jobService = sp.GetService<IQuartz_TaskBusiness>();
             if (jobService == null) return;
-            await jobService.StartAllAsync();
+
+            await jobService.StartAllAsync(withoutTestJob);
         };
     });
 
+    //服务提供器
     ServiceLocator.Instance = builder.Services.BuildServiceProvider(false);
+
+    //初始化数据
+    SeedData.EnsureSeedData(ServiceLocator.Instance);
+
 
     var app = builder.Build();
 
@@ -128,6 +143,7 @@ try
     // 添加自定义中间件（包含：Body重复读取、异常处理）
     app.UseMiddleware_();
 
+    //开启静态文件功能
     app.UseStaticFiles(new StaticFileOptions
     {
         ServeUnknownFileTypes = true,

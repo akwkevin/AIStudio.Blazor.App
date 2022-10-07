@@ -1,13 +1,10 @@
-﻿using AIStudio.Common.Quartz.Const;
-using AIStudio.Common.Quartz.Extensions;
+﻿using AIStudio.Common.Quartz.Extensions;
 using AIStudio.Common.Quartz.Models;
 using AIStudio.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quartz;
-using Quartz.Impl.Matchers;
-using System.Runtime;
 
 namespace AIStudio.Common.Quartz;
 
@@ -114,14 +111,8 @@ public class QuartzManager : IQuartzManager
 
     public async Task<JobExcuteResult> AddJob(Type jobType, JobInfo jobInfo, CancellationToken token = default)
     {
-
         try
         {
-            //if (await CheckExists(jobInfo.Name, jobInfo.GroupName))
-            //{
-            //    return new JobExcuteResult(false, $"任务[{jobInfo.Name}-{jobInfo.GroupName}]已经存在");
-            //}
-
             //先删除重复的任务
             await DeleteJob(jobInfo.Name, jobInfo.GroupName);
 
@@ -130,7 +121,7 @@ public class QuartzManager : IQuartzManager
             var jobKey = new JobKey(jobInfo.Name, jobInfo.GroupName);
             var job = JobBuilder.Create(jobType)
                             .WithIdentity(jobKey)
-                            .UsingJobData(JobSchedulingConst.JobNameKey, jobInfo.Name)
+                            .UsingJobData(jobInfo.JobDataMap)
                             .Build();
 
             var triggers = new List<ITrigger>();
@@ -194,7 +185,8 @@ public class QuartzManager : IQuartzManager
         }
         else
         {
-            return new JobExcuteResult(false, $"任务[{jobName}-{groupName}]任务不存在");
+            //任务没有启动，直接返回成功
+            return new JobExcuteResult(true, $"任务[{jobName}-{groupName}]任务不存在无需删除");
         }
     }
 

@@ -15,14 +15,20 @@ namespace AIStudio.Common.AppSettings
         /// 数据库编号
         /// </summary>
         public string DbNumber { get; set; }
+
         /// <summary>
         /// 数据库类型
         /// </summary>
         public string DbType { get; set; }
+
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
-
         public string DbString { get; set; }
+
+        /// <summary>
+        /// 数据库名
+        /// </summary>
+        public string DbName { get; set; }
     }
 }

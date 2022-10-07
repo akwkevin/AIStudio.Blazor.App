@@ -1,5 +1,7 @@
-﻿using AIStudio.Common.CurrentUser;
+﻿using AIStudio.Business.AOP;
+using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
@@ -97,6 +99,7 @@ namespace AIStudio.Business.Base_Manage
         }
 
         [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
+        [Transactional]
         public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
             await Db.Insertable<Base_User>(_mapper.Map<Base_User>(input)).ExecuteCommandAsync();
@@ -104,6 +107,7 @@ namespace AIStudio.Business.Base_Manage
         }
 
         [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
+        [Transactional]
         public async Task UpdateDataAsync(Base_UserEditInputDTO input)
         {
             if (input.Id == AdminTypes.Admin.ToString() && _operator?.UserId != input.Id)
@@ -130,7 +134,7 @@ namespace AIStudio.Business.Base_Manage
             roleIds = roleIds ?? new List<string>();
             var userRoleList = roleIds.Select(x => new Base_UserRole
             {
-                Id = YitIdHelper.NextId().ToString(),
+                Id = IdHelper.GetId(),
                 CreateTime = DateTime.Now,
                 UserId = userId,
                 RoleId = x

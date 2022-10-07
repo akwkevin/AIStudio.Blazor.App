@@ -1,4 +1,6 @@
-﻿using AIStudio.Common.DI;
+﻿using AIStudio.Business.AOP;
+using AIStudio.Common.DI;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
@@ -74,14 +76,14 @@ namespace AIStudio.Business.Base_Manage
             }
         }
 
-
+        [Transactional]
         public async Task AddDataAsync(Base_ActionEditInputDTO input)
         {
             await Db.Insertable(_mapper.Map<Base_Action>(input)).ExecuteCommandAsync();
             await SavePermissionAsync(input.Id, input.permissionList);
         }
 
-
+        [Transactional]
         public async Task UpdateDataAsync(Base_ActionEditInputDTO input)
         {
             await Db.Updateable(_mapper.Map<Base_Action>(input)).ExecuteCommandAsync();
@@ -92,7 +94,7 @@ namespace AIStudio.Business.Base_Manage
         {
             permissionList.ForEach(aData =>
             {
-                aData.Id = YitIdHelper.NextId().ToString();
+                aData.Id = IdHelper.GetId();
                 aData.CreateTime = DateTime.Now;
                 aData.CreatorId = null;
                 aData.ParentId = parentId;

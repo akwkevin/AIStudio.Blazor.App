@@ -1,4 +1,6 @@
-﻿using AIStudio.Common.DI;
+﻿using AIStudio.Business.AOP;
+using AIStudio.Common.DI;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
@@ -57,6 +59,7 @@ namespace AIStudio.Business.Base_Manage
         }
 
         [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]
+        [Transactional]
         public async Task AddDataAsync(Base_RoleEditInputDTO input)
         {
             await Db.Insertable(_mapper.Map<Base_Role>(input)).ExecuteCommandAsync();
@@ -64,13 +67,14 @@ namespace AIStudio.Business.Base_Manage
         }
 
         [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]
+        [Transactional]
         public async Task UpdateDataAsync(Base_RoleEditInputDTO input)
         {
             await Db.Updateable<Base_Role>().SetColumns(x => new Base_Role { RoleName = input.RoleName }).Where(x => x.Id.Equals(input.Id)).ExecuteCommandAsync();
             await SetRoleActionAsync(input.Id, input.Actions);
         }
 
-
+        [Transactional]
         public override async Task DeleteDataAsync(List<string> ids)
         {
             await Db.Deleteable<Base_Role>().Where(x => ids.Contains(x.Id)).ExecuteCommandAsync();
@@ -86,7 +90,7 @@ namespace AIStudio.Business.Base_Manage
             var roleActions = (actions ?? new List<string>())
                 .Select(x => new Base_RoleAction
                 {
-                    Id = YitIdHelper.NextId().ToString(),
+                    Id = IdHelper.GetId(),
                     ActionId = x,
                     CreateTime = DateTime.Now,
                     RoleId = roleId

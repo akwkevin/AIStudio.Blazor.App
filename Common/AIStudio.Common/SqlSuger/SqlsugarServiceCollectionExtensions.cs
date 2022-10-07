@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.AppSettings;
 using AIStudio.Common.Cache;
 using AIStudio.Common.CurrentUser;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Jwt;
 using AIStudio.Common.Service;
 using AIStudio.Common.Types;
@@ -35,6 +36,7 @@ namespace AIStudio.Common.SqlSuger
            });
             services.AddSingleton<ISqlSugarClient>(sqlSugar);//这边是SqlSugarScope用AddSingleton
         }
+
         /// <summary>
         /// SqlsugarScope的配置
         /// Scope必须用单例注入
@@ -102,6 +104,11 @@ namespace AIStudio.Common.SqlSuger
                             {
                                 column.IsPrimarykey = true; //有哪些特性可以看 1.2 特性明细
                             }
+                            else
+                            {
+                                column.IsNullable = true;  //除了主键都默认可空
+                            }
+
                             if (attributes.Any(it => it is ColumnAttribute))
                             {
                                 var name = (attributes.First(it => it is ColumnAttribute) as ColumnAttribute).Name;
@@ -110,12 +117,20 @@ namespace AIStudio.Common.SqlSuger
                                     column.DbColumnName = name;
                                 }
                             }
+                            if(attributes.Any(it => it is MaxLengthAttribute))
+                            {
+                                var length = (attributes.First(it => it is MaxLengthAttribute) as MaxLengthAttribute).Length;
+                                column.Length = length;
+                            }
                         }
                     }
                 });
             }
 
-            List<Type> types = GlobalType.AllTypes.Where(a => !a.IsAbstract && a.IsClass && a.GetCustomAttributes(typeof(SugarTable), true)?.FirstOrDefault() != null).ToList();
+            //获取所有表类型
+            List<Type> types = GlobalType.AllTypes.Where(a => !a.IsAbstract && a.IsClass && 
+                (a.GetCustomAttributes(typeof(TableAttribute), true)?.FirstOrDefault() != null 
+                || a.GetCustomAttributes(typeof(SugarTable), true)?.FirstOrDefault() != null)).ToList();
 
             SqlSugarScope sqlSugarScope = new SqlSugarScope(connectConfigList,
                 //全局上下文生效
@@ -164,13 +179,13 @@ namespace AIStudio.Common.SqlSuger
                                     {
                                         var id = ((dynamic)entityInfo.EntityValue).Id;
                                         if (id == null || id == "")
-                                            entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId().ToString());
+                                            entityInfo.SetValue(IdHelper.GetId());
                                     }
                                     else if (entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
                                     {
                                         var id = ((dynamic)entityInfo.EntityValue).Id;
                                         if (id == null || id == 0)
-                                            entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
+                                            entityInfo.SetValue(IdHelper.GetlongId());
                                     }                                    
                                 }
 
@@ -243,29 +258,14 @@ namespace AIStudio.Common.SqlSuger
             services.AddSingleton<ISqlSugarClient>(sqlSugarScope);
             // 注册 SqlSugar 仓储
             //services.AddScoped(typeof(SqlSugarRepository<>));
+
+            //If no exist create datebase 
+            sqlSugarScope.DbMaintenance.CreateDatabase();
+
+            //Create tables
+            sqlSugarScope.CodeFirst.InitTables(types.ToArray());
         }
 
-
-
-        ///// <summary>
-        ///// 获取当前租户id
-        ///// </summary>
-        ///// <returns></returns>
-        //private static object GetTenantId()
-        //{
-        //    if (App.User == null) return null;
-        //    return App.User.FindFirst(SimpleClaimTypes.TENANT_ID)?.Value;
-        //}
-
-        ///// <summary>
-        ///// 判断是不是超级管理员
-        ///// </summary>
-        ///// <returns></returns>
-        //private static bool IsSuperAdmin()
-        //{
-        //    if (App.User == null) return false;
-        //    return App.User.FindFirst(SimpleClaimTypes.CLAINM_SUPERADMIN)?.Value == AdminType.SuperAdmin.GetHashCode().ToString();
-        //}
         /// <summary>
         /// 添加 SqlSugar 拓展
         /// </summary>
