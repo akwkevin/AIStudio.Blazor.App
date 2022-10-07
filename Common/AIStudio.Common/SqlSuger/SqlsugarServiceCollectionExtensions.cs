@@ -8,6 +8,7 @@ using AIStudio.Common.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Asn1.X509.Qualified;
 using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -108,7 +109,7 @@ namespace AIStudio.Common.SqlSuger
                             {
                                 column.IsNullable = true;  //除了主键都默认可空
                             }
-
+                           
                             if (attributes.Any(it => it is ColumnAttribute))
                             {
                                 var name = (attributes.First(it => it is ColumnAttribute) as ColumnAttribute).Name;
@@ -117,10 +118,23 @@ namespace AIStudio.Common.SqlSuger
                                     column.DbColumnName = name;
                                 }
                             }
+
                             if(attributes.Any(it => it is MaxLengthAttribute))
                             {
                                 var length = (attributes.First(it => it is MaxLengthAttribute) as MaxLengthAttribute).Length;
                                 column.Length = length;
+                            }   
+
+                            if (type.PropertyType == typeof(string))
+                            {
+                                if (column.Length == 0)
+                                {
+                                    column.DataType = "Nvarchar(Max)";
+                                }
+                                else
+                                {
+                                    column.DataType = "Nvarchar";
+                                }
                             }
                         }
                     }
@@ -262,7 +276,8 @@ namespace AIStudio.Common.SqlSuger
             //If no exist create datebase 
             sqlSugarScope.DbMaintenance.CreateDatabase();
 
-            //Create tables
+            //Create tables 
+            //SetStringDefaultLength(int.MaxValue)
             sqlSugarScope.CodeFirst.InitTables(types.ToArray());
         }
 

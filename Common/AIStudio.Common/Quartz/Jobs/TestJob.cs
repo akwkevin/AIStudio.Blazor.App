@@ -16,8 +16,8 @@ namespace AIStudio.Common.Quartz
         }
         public async Task Execute(IJobExecutionContext context)
         {
-            AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;           
-            _logger.LogInformation($"{trigger.FullName} Execute TestJob");
+            var trigger = context.Trigger;           
+            _logger.LogInformation($"{trigger.JobKey.Name}-{trigger.JobKey.Group} Execute TestJob");
         }
     }
 }

@@ -29,13 +29,22 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #endregion
 
         #region 获取
-
+        /// <summary>
+        /// 获取数据列表Base_DbLink
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<AjaxResult<List<Base_DbLink>>> GetDataList(PageInput input)
         {
             return await _dbLinkBus.GetDataListAsync(input);
         }
 
+        /// <summary>
+        /// 获取数据Base_DbLink
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<Base_DbLink> GetTheData(IdInputDTO input)
         {
@@ -47,7 +56,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         /// <summary>
-        /// 保存
+        /// 保存数据Base_DbLink
         /// </summary>
         /// <param name="theData">保存的数据</param>
         [HttpPost]
@@ -68,7 +77,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 删除数据
+        /// 删除数据Base_DbLink
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [HttpPost]

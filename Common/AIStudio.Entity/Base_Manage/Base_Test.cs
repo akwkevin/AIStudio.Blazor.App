@@ -15,6 +15,7 @@ namespace AIStudio.Entity.Base_Manage
         /// 自然主键
         /// </summary>
         [Key, Column(Order = 1)]
+        [MaxLength(50)]
         public String Id { get; set; }
 
         /// <summary>

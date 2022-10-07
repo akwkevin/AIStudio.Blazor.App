@@ -4,7 +4,7 @@ using AIStudio.Util.Common;
 
 namespace AIStudio.IBusiness.Base_Manage
 {
-    public interface IBase_UserLogBusiness
+    public interface IBase_UserLogBusiness : IBaseBusiness<Base_UserLog>
     {
         Task<PageResult<Base_UserLog>> GetLogListAsync(PageInput<Base_UserLogsInputDTO> input);
         Task<PageResult<Base_UserLog>> GetLogList(PageInput input);

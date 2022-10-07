@@ -87,7 +87,7 @@ public class RequestEvent : EventModel
     /// <summary>
     /// 耗时
     /// </summary>
-    public long? ElapsedTime { get; set; }
+    public long ElapsedTime { get; set; }
 
     /// <summary>
     /// 操作时间

@@ -1,4 +1,5 @@
 using AIStudio.Api;
+using AIStudio.Business.Base_Manage;
 using AIStudio.Business.Quartz_Manage;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
@@ -6,6 +7,7 @@ using AIStudio.Common.Authorization;
 using AIStudio.Common.Cache;
 using AIStudio.Common.DI;
 using AIStudio.Common.EventBus.EventHandlers;
+using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Filter;
 using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Mapper;
@@ -43,8 +45,8 @@ try
     builder.Services.AddEventBusLocal().AddSubscriber(subscribers =>
     {
         subscribers.Add<TestEventModel, TestEventHandler>();
-        //subscribers.Add<ExceptionEvent, ExceptionEventHandler>();
-        //subscribers.Add<RequestEvent, RequestEventHandler>();
+        subscribers.Add<ExceptionEvent, Base_LogExceptionBusiness>();
+        subscribers.Add<RequestEvent, Base_LogOperatingBusiness>();
     });
 
     ////数据过滤与Json配置

@@ -6,6 +6,7 @@ using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Extensions;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -56,7 +57,6 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             return;
         }
 
-        //request.Body.Position = 0;
         request.Body.Seek(0, SeekOrigin.Begin);
         var reader = new StreamReader(request.Body, Encoding.UTF8);
         string body = await reader.ReadToEndAsync();
@@ -81,26 +81,15 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             result = objectResult.Value.ToJson();
             if (objectResult.Value is AjaxResult appResult)
             {
-                message = appResult.Msg ?? "";
+                message = appResult.Msg;
             }
         }
         else if (actionContext.Result is ContentResult contentResult)
         {
+            var appResult = contentResult.Content.ToObject<AjaxResult>();
+            message = appResult?.Msg;
             result = contentResult.Content;
         }
-
-        //if(actionContext.Exception is AjaxResultException appResultException)
-        //{
-        //    // 如果是 AjaxResultException 说明是统一返回
-        //    result = JsonHelper.Serialize(appResultException.AjaxResult);
-        //    message = appResultException.AjaxResult.Message ?? "";
-        //}
-        //else if (actionContext.Result is JsonResult jsonResult)
-        //{
-        //    result = JsonHelper.Serialize(jsonResult.Value);
-        //}
-
-
 
         var @event = new RequestEvent()
         {
@@ -115,8 +104,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             Path = request.Path,
             ClassName = context.Controller.ToString(),
             MethodName = actionDescriptor?.ActionName,
-            RequestMethod = request.Method,
-            //Parameter = context.ActionArguments.Count < 1 ? string.Empty : JsonHelper.Serialize(context.ActionArguments),
+            RequestMethod = request.Method,          
             Body = body,
             Result = result,
             ElapsedTime = sw.ElapsedMilliseconds,

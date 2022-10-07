@@ -18,7 +18,7 @@ namespace AIStudio.Common.Quartz
         {
             JobDataMap jobdatamap = context.MergedJobDataMap;
             string httpMessage = "";
-            AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
+            var trigger = context.Trigger;
 
             var requestType = jobdatamap.Get("RequestType") as string;
             var apiurl = jobdatamap.Get("ApiUrl") as string;
@@ -26,7 +26,7 @@ namespace AIStudio.Common.Quartz
             var authValue = jobdatamap.Get("AuthValue") as string;
             if (string.IsNullOrEmpty(apiurl) || apiurl == "/")
             {
-                _logger.LogWarning($"{trigger.FullName}未配置url");
+                _logger.LogWarning($"{trigger.JobKey.Name}-{trigger.JobKey.Group}未配置url");
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace AIStudio.Common.Quartz
                 httpMessage = ex.Message;
             }
 
-            _logger.LogInformation($"{trigger.FullName} Execute:{httpMessage}");
+            _logger.LogInformation($"{trigger.JobKey.Name}-{trigger.JobKey.Group} Execute:{httpMessage}");
         }
     }
 }

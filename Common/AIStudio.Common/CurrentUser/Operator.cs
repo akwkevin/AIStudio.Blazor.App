@@ -23,7 +23,7 @@ namespace AIStudio.Common.CurrentUser
         /// </summary>
         public virtual string UserId => FindClaimValue(SimpleClaimTypes.UserId);
 
-        public virtual string UserName => FindClaimValue(SimpleClaimTypes.UserName);
+        public virtual string UserName => FindClaimValue(SimpleClaimTypes.Name);
 
         public virtual bool IsSuperAdmin => FindClaimValue(SimpleClaimTypes.SuperAdmin) == SimpleClaimTypes.SuperAdmin;
         public virtual string TenantId => FindClaimValue(SimpleClaimTypes.TenantId);
