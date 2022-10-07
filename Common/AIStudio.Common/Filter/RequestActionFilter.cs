@@ -42,9 +42,19 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         if (actionDescriptor == null) isSkipRecord = true;
         if (AppSettingsConfig.RecordRequestOptions.IsSkipGetMethod && request.Method.ToUpper() == "GET") isSkipRecord = true;
 
-        foreach (var metadata in actionDescriptor!.EndpointMetadata)
+        if (isSkipRecord == false)
         {
-            if (metadata is DisabledRequestRecordAttribute)
+            bool hasRequestRecord = false;           
+            foreach (var metadata in actionDescriptor!.EndpointMetadata)
+            {
+                if (metadata is RequestRecordAttribute)
+                {
+                    hasRequestRecord = true;
+                    break;
+                }
+            }
+
+            if (hasRequestRecord == false)
             {
                 isSkipRecord = true;
             }

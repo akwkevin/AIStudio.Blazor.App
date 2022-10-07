@@ -5,6 +5,7 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
 using Quartz;
+using Simple.Common.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,6 +53,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// </summary>
         /// <param name="theData"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task SaveData(Quartz_Task theData)
         {
@@ -71,6 +73,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {
@@ -82,6 +85,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task PauseData(List<string> ids)
         {
@@ -93,6 +97,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task StartData(List<string> ids)
         {
@@ -104,6 +109,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task TodoData(List<string> ids)
         {

@@ -8,6 +8,7 @@ using AIStudio.Util.Common;
 using AIStudio.Util.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Simple.Common.Filters;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
@@ -73,6 +74,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task SaveData(Base_UserEditInputDTO input)
         {
@@ -98,6 +100,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {

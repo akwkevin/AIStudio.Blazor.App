@@ -6,6 +6,7 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Simple.Common.Filters;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
@@ -61,18 +62,16 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// 保存数据Base_AppSecret
         /// </summary>
         /// <param name="theData">保存的数据</param>
+        [RequestRecord]
         [HttpPost]
         public async Task SaveData(Base_AppSecret theData)
         {
             if (theData.Id.IsNullOrEmpty())
             {
-                //InitEntity(theData);
-
                 await _appSecretBus.AddDataAsync(theData);
             }
             else
             {
-                //UpdateEntity(theData);
                 await _appSecretBus.UpdateDataAsync(theData);
             }
         }
@@ -81,6 +80,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// 删除数据Base_AppSecret
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
+        [RequestRecord]
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {

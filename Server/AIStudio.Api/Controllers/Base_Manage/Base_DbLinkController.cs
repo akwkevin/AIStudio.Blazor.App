@@ -6,6 +6,7 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Simple.Common.Filters;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
@@ -61,6 +62,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// 保存数据Base_DbLink
         /// </summary>
         /// <param name="theData">保存的数据</param>
+        [RequestRecord]
         [HttpPost]
         public async Task SaveData(Base_DbLink theData)
         {
@@ -82,6 +84,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// 删除数据Base_DbLink
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
+        [RequestRecord]
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {

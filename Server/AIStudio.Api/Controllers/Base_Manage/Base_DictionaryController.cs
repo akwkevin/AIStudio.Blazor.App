@@ -9,6 +9,7 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Simple.Common.Filters;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
@@ -75,6 +76,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task SaveData(Base_Dictionary data)
         {
@@ -97,6 +99,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {
