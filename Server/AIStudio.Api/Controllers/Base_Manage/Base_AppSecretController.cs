@@ -18,24 +18,35 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     public class Base_AppSecretController : ApiControllerBase
     {
         #region DI
+        IBase_AppSecretBusiness _appSecretBus { get; }
 
+        /// <summary>
+        /// Base_AppSecretController
+        /// </summary>
+        /// <param name="appSecretBus"></param>
         public Base_AppSecretController(IBase_AppSecretBusiness appSecretBus)
         {
             _appSecretBus = appSecretBus;
         }
-
-        IBase_AppSecretBusiness _appSecretBus { get; }
-
         #endregion
 
         #region 获取
-
+        /// <summary>
+        /// 获取数据列表Base_AppSecret
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<PageResult<Base_AppSecret>> GetDataList(PageInput input)
         {
             return await _appSecretBus.GetDataListAsync(input);
         }
 
+        /// <summary>
+        /// 获取数据Base_AppSecret
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<Base_AppSecret> GetTheData(IdInputDTO input)
         {
@@ -47,7 +58,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         /// <summary>
-        /// 保存
+        /// 保存数据Base_AppSecret
         /// </summary>
         /// <param name="theData">保存的数据</param>
         [HttpPost]
@@ -67,7 +78,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 删除数据
+        /// 删除数据Base_AppSecret
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [HttpPost]

@@ -18,14 +18,16 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     public class Base_DbLinkController : ApiControllerBase
     {
         #region DI
+        IBase_DbLinkBusiness _dbLinkBus { get; }
 
+        /// <summary>
+        /// Base_DbLinkController
+        /// </summary>
+        /// <param name="dbLinkBus"></param>
         public Base_DbLinkController(IBase_DbLinkBusiness dbLinkBus)
         {
             _dbLinkBus = dbLinkBus;
-        }
-
-        IBase_DbLinkBusiness _dbLinkBus { get; }
-
+        }     
         #endregion
 
         #region 获取

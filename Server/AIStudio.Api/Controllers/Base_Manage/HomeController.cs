@@ -21,6 +21,13 @@ namespace AIStudio.Api.Controllers.Base_Manage
         readonly IBase_UserBusiness _userBus;
         readonly IOperator _operator;
 
+        /// <summary>
+        /// HomeController
+        /// </summary>
+        /// <param name="homeBus"></param>
+        /// <param name="permissionBus"></param>
+        /// <param name="userBus"></param>
+        /// <param name="operator"></param>
         public HomeController(IHomeBusiness homeBus,
             IPermissionBusiness permissionBus,
             IBase_UserBusiness userBus,
@@ -44,12 +51,22 @@ namespace AIStudio.Api.Controllers.Base_Manage
 
             return token;
         }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task ChangePwd(ChangePwdInputDTO input)
         {
             await _homeBus.ChangePwdAsync(input);
         }
 
+        /// <summary>
+        /// 获取操作员信息
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<object> GetOperatorInfo()
         {
@@ -63,20 +80,11 @@ namespace AIStudio.Api.Controllers.Base_Manage
 
             return resObj;
         }
-        [HttpPost]
-        public async Task<object> GetOperatorClientInfo()
-        {
-            var theInfo = await _userBus.GetTheDataAsync(_operator.UserId);
-            var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
-            var resObj = new
-            {
-                UserInfo = theInfo,
-                Permissions = permissions
-            };
-
-            return resObj;
-        }
-
+     
+        /// <summary>
+        /// 获取操作员菜单
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetOperatorMenuList()
         {

@@ -20,32 +20,24 @@ namespace AIStudio.Api.Controllers.Base_Manage
     public class Base_ActionController : ApiControllerBase
     {
         #region DI
+        IBase_ActionBusiness _actionBus { get; }
 
+        /// <summary>
+        /// Base_ActionController
+        /// </summary>
+        /// <param name="actionBus"></param>
         public Base_ActionController(IBase_ActionBusiness actionBus)
         {
             _actionBus = actionBus;
         }
-
-        IBase_ActionBusiness _actionBus { get; }
-
         #endregion
 
-        #region 获取
-
-        [HttpPost]
-        public async Task<Base_Action> GetTheData(IdInputDTO input)
-        {
-            return await _actionBus.GetTheDataAsync(input.id) ?? new Base_Action();
-        }
-
-        [HttpPost]
-        public async Task<List<Base_Action>> GetPermissionList(Base_ActionsInputDTO input)
-        {
-            input.types = new ActionType[] { Entity.ActionType.权限 };
-
-            return await _actionBus.GetDataListAsync(input);
-        }
-
+        #region 获取     
+        /// <summary>
+        /// 获取数据列表Base_Action
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_Action>> GetAllActionList()
         {
@@ -55,6 +47,11 @@ namespace AIStudio.Api.Controllers.Base_Manage
             });
         }
 
+        /// <summary>
+        /// 获取数据树Base_ActionTree
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetMenuTreeList(Base_ActionsInputDTO input)
         {
@@ -64,6 +61,11 @@ namespace AIStudio.Api.Controllers.Base_Manage
             return await _actionBus.GetTreeDataListAsync(input);
         }
 
+        /// <summary>
+        /// 获取数据树Base_ActionTree
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetActionTreeList(Base_ActionsInputDTO input)
         {
@@ -72,10 +74,37 @@ namespace AIStudio.Api.Controllers.Base_Manage
             return await _actionBus.GetTreeDataListAsync(input);
         }
 
+        /// <summary>
+        /// 获取数据Base_Action
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<Base_Action> GetTheData(IdInputDTO input)
+        {
+            return await _actionBus.GetTheDataAsync(input.id) ?? new Base_Action();
+        }
+
+        /// <summary>
+        /// 获取权限
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<Base_Action>> GetPermissionList(Base_ActionsInputDTO input)
+        {
+            input.types = new ActionType[] { Entity.ActionType.权限 };
+
+            return await _actionBus.GetDataListAsync(input);
+        }
         #endregion
 
         #region 提交
-
+        /// <summary>
+        /// 保存数据Base_Action
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task SaveData(Base_ActionEditInputDTO input)
         {
@@ -93,6 +122,11 @@ namespace AIStudio.Api.Controllers.Base_Manage
             }
         }
 
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {

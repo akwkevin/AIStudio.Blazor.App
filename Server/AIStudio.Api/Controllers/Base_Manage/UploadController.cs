@@ -15,11 +15,19 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     public class UploadController : ApiControllerBase
     {
         readonly IConfiguration _configuration;
+        /// <summary>
+        /// UploadController
+        /// </summary>
+        /// <param name="configuration"></param>
         public UploadController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult UploadFileByForm()
         {
@@ -49,6 +57,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
             return AjaxResultActionFilter.JsonContent(res.ToJson());
         }
 
+        /// <summary>
+        /// 获取路径
+        /// </summary>
+        /// <param name="virtualPath"></param>
+        /// <returns></returns>
         protected string GetAbsolutePath(string virtualPath)
         {
             string path = virtualPath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
