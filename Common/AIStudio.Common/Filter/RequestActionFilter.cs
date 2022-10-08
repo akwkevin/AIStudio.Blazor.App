@@ -1,12 +1,11 @@
 ﻿using AIStudio.Common.AppSettings;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.EventBus.Abstract;
-using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Extensions;
+using AIStudio.Common.Filter.FilterAttribute;
 using AIStudio.Util;
 using AIStudio.Util.Common;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -42,23 +41,8 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         if (actionDescriptor == null) isSkipRecord = true;
         if (AppSettingsConfig.RecordRequestOptions.IsSkipGetMethod && request.Method.ToUpper() == "GET") isSkipRecord = true;
 
-        if (isSkipRecord == false)
-        {
-            bool hasRequestRecord = false;           
-            foreach (var metadata in actionDescriptor!.EndpointMetadata)
-            {
-                if (metadata is RequestRecordAttribute)
-                {
-                    hasRequestRecord = true;
-                    break;
-                }
-            }
-
-            if (hasRequestRecord == false)
-            {
-                isSkipRecord = true;
-            }
-        }
+        //如果没有请求记录属性则跳过
+        if (!context.ContainsFilter<RequestRecordAttribute>()) isSkipRecord =true;   
 
         // 进入管道的下一个过滤器，并跳过剩下动作
         if (isSkipRecord)

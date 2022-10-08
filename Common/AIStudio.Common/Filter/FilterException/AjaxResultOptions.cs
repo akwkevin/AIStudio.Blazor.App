@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Simple.Common;
 
-namespace AIStudio.Common.Result;
+namespace AIStudio.Common.Filter.FilterException;
 
 public class AjaxResultOptions
 {

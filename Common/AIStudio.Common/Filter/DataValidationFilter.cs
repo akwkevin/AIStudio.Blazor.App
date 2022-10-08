@@ -1,5 +1,4 @@
-﻿using AIStudio.Common.Result;
-using AIStudio.Util;
+﻿using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

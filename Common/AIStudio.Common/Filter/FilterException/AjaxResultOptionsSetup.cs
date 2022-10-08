@@ -6,7 +6,7 @@ using Microsoft.Net.Http.Headers;
 using MySqlX.XDevAPI.Common;
 using Simple.Common;
 
-namespace AIStudio.Common.Result;
+namespace AIStudio.Common.Filter.FilterException;
 
 internal class AjaxResultOptionsSetup : IConfigureOptions<AjaxResultOptions>
 {

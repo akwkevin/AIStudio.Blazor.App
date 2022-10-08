@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Common.Result
+namespace AIStudio.Common.Filter.FilterAttribute
 {
     /// <summary>
     /// 返回结果不进行格式化

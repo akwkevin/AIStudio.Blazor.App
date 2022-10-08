@@ -1,5 +1,5 @@
 ﻿using AIStudio.Api.Controllers;
-using AIStudio.Common.Result;
+using AIStudio.Common.Filter;
 using AIStudio.Common.Swagger;
 using AIStudio.Util;
 using Microsoft.AspNetCore.Authorization;

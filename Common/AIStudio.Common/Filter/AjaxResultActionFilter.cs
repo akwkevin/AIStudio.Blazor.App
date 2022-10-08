@@ -1,11 +1,13 @@
-﻿using AIStudio.Util;
+﻿using AIStudio.Common.Filter.FilterAttribute;
+using AIStudio.Common.Filter.FilterException;
+using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using Simple.Common;
 
-namespace AIStudio.Common.Result;
+namespace AIStudio.Common.Filter;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFilter

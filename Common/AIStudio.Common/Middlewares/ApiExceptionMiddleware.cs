@@ -1,6 +1,5 @@
 ﻿using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Models;
-using AIStudio.Common.Result;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Http;

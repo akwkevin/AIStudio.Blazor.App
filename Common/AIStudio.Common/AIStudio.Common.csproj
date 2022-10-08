@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Compile Remove="Filter\GlobalExceptionFilter.cs" />
+    <Compile Remove="Result\AjaxResultExceptionFilter.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +49,7 @@
 
   <ItemGroup>
     <Folder Include="Json\" />
+    <Folder Include="Result\" />
   </ItemGroup>
 
 </Project>
