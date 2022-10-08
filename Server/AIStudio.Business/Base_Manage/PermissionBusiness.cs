@@ -8,17 +8,15 @@ using SqlSugar;
 
 namespace AIStudio.Business.Base_Manage
 {
-    class PermissionBusiness : IPermissionBusiness, ITransientDependency
+    class PermissionBusiness : BaseBusiness<Base_Action>, IPermissionBusiness, ITransientDependency
     {
-        ISqlSugarClient Db;
-        public PermissionBusiness(IBase_ActionBusiness actionBus, IBase_UserBusiness userBus, ISqlSugarClient su)
+        IBase_ActionBusiness _actionBus { get; }
+        IBase_UserBusiness _userBus { get; }
+        public PermissionBusiness(IBase_ActionBusiness actionBus, IBase_UserBusiness userBus, ISqlSugarClient db) : base(db)
         {
             _actionBus = actionBus;
             _userBus = userBus;
-            Db = su;
         }
-        IBase_ActionBusiness _actionBus { get; }
-        IBase_UserBusiness _userBus { get; }
 
         async Task<string[]> GetUserActionIds(string userId)
         {
@@ -27,7 +25,7 @@ namespace AIStudio.Business.Base_Manage
                 JoinType.Inner,x.RoleId.Equals(r.RoleId)
                 }).WhereIF(userId != AdminTypes.Admin.ToString() || !theUser.RoleType.HasFlag(RoleTypes.超级管理员), (x, r) => x.UserId.Equals(userId))
             .Select((x, r) => r.ActionId).ToListAsync();
-            return await Db.Queryable<Base_Action>().Where(x => data.Contains(x.Id)).Select(x => x.Id).ToArrayAsync();
+            return await GetIQueryable().Where(x => data.Contains(x.Id)).Select(x => x.Id).ToArrayAsync();
         }
         public async Task<List<Base_ActionTree>> GetUserMenuListAsync(string userId)
         {

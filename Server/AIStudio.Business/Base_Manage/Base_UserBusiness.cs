@@ -102,7 +102,7 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
-            await Db.Insertable<Base_User>(_mapper.Map<Base_User>(input)).ExecuteCommandAsync();
+            await InsertAsync(_mapper.Map<Base_User>(input));
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
 
@@ -113,7 +113,7 @@ namespace AIStudio.Business.Base_Manage
             if (input.Id == AdminTypes.Admin.ToString() && _operator?.UserId != input.Id)
                 throw AjaxResultException.Status403Forbidden("禁止更改超级管理员！");
 
-            await Db.Updateable<Base_User>(_mapper.Map<Base_User>(input)).ExecuteCommandAsync();
+            await UpdateAsync(_mapper.Map<Base_User>(input));
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
 
@@ -122,7 +122,7 @@ namespace AIStudio.Business.Base_Manage
             if (ids.Contains(AdminTypes.Admin.ToString()))
                 throw AjaxResultException.Status403Forbidden("超级管理员是内置账号,禁止删除！");
 
-            await base.DeleteDataAsync(ids);
+            await DeleteAsync(ids);
         }
 
         #endregion

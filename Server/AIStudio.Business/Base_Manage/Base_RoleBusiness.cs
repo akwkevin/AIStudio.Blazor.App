@@ -62,7 +62,7 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task AddDataAsync(Base_RoleEditInputDTO input)
         {
-            await Db.Insertable(_mapper.Map<Base_Role>(input)).ExecuteCommandAsync();
+            await InsertAsync(_mapper.Map<Base_Role>(input));
             await SetRoleActionAsync(input.Id, input.Actions);
         }
 
@@ -70,15 +70,15 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task UpdateDataAsync(Base_RoleEditInputDTO input)
         {
-            await Db.Updateable<Base_Role>().SetColumns(x => new Base_Role { RoleName = input.RoleName }).Where(x => x.Id.Equals(input.Id)).ExecuteCommandAsync();
+            await UpdateAsync(_mapper.Map<Base_Role>(input));
             await SetRoleActionAsync(input.Id, input.Actions);
         }
 
         [Transactional]
         public override async Task DeleteDataAsync(List<string> ids)
         {
-            await Db.Deleteable<Base_Role>().Where(x => ids.Contains(x.Id)).ExecuteCommandAsync();
-            await Db.Deleteable<Base_RoleAction>().Where(x => ids.Contains(x.Id)).ExecuteCommandAsync();
+            await DeleteAsync(ids);
+            await Db.Deleteable<Base_RoleAction>().Where(x => ids.Contains(x.RoleId)).ExecuteCommandAsync();
         }
 
         #endregion

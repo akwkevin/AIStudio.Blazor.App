@@ -107,7 +107,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public int Insert(T entity)
         {
-            return Db.Insertable(entity).ExecuteReturnIdentity();
+            return Db.Insertable(entity).ExecuteCommand();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public async Task<int> InsertAsync(T entity)
         {
-            return await Db.Insertable(entity).ExecuteReturnIdentityAsync();
+            return await Db.Insertable(entity).ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -436,17 +436,17 @@ namespace AIStudio.Business
         /// <returns></returns>
         public virtual ISugarQueryable<T> GetIQueryable()
         {
-            return Db.Queryable<T>();
+            return Db.Queryable<T>().WithCache();
         }
 
         public virtual ISugarQueryable<dynamic> GetIQueryableDynamic()
         {
-            return Db.Queryable<dynamic>().AS($"{EntityName}");
+            return Db.Queryable<dynamic>().AS($"{EntityName}").WithCache();
         }
 
         public virtual ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues)
         {
-            var q = GetIQueryable();
+            var q = GetIQueryable().WithCache();
             //按字典筛选
             if (searchKeyValues != null)
             {
@@ -463,91 +463,6 @@ namespace AIStudio.Business
         #endregion
 
         #region 执行Sql语句
-
-        #endregion
-
-        #region 业务返回
-
-        /// <summary>
-        /// 返回成功
-        /// </summary>
-        /// <returns></returns>
-        public AjaxResult Success()
-        {
-            AjaxResult res = new AjaxResult
-            {
-                Success = true,
-                Msg = "请求成功！",
-            };
-
-            return res;
-        }
-
-        /// <summary>
-        /// 返回成功
-        /// </summary>
-        /// <param name="data">返回数据</param>
-        /// <returns></returns>
-        public AjaxResult<U> Success<U>(U data)
-        {
-            AjaxResult<U> res = new AjaxResult<U>
-            {
-                Success = true,
-                Msg = "操作成功",
-                Data = data
-            };
-
-            return res;
-        }
-
-        /// <summary>
-        /// 返回成功
-        /// </summary>
-        /// <param name="data">返回数据</param>
-        /// <param name="msg">返回消息</param>
-        /// <returns></returns>
-        public AjaxResult<U> Success<U>(U data, string msg)
-        {
-            AjaxResult<U> res = new AjaxResult<U>
-            {
-                Success = true,
-                Msg = msg,
-                Data = data
-            };
-
-            return res;
-        }
-
-        /// <summary>
-        /// 返回错误
-        /// </summary>
-        /// <returns></returns>
-        public AjaxResult Error()
-        {
-            AjaxResult res = new AjaxResult
-            {
-                Success = false,
-                Msg = "请求失败！",
-            };
-
-            return res;
-        }
-
-        /// <summary>
-        /// 返回错误
-        /// </summary>
-        /// <param name="msg">错误提示</param>
-        /// <returns></returns>
-        public AjaxResult Error(string msg)
-        {
-            AjaxResult res = new AjaxResult
-            {
-                Success = false,
-                Msg = msg,
-            };
-
-            return res;
-        }
 
         #endregion
 

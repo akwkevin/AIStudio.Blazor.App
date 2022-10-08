@@ -79,16 +79,23 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task AddDataAsync(Base_ActionEditInputDTO input)
         {
-            await Db.Insertable(_mapper.Map<Base_Action>(input)).ExecuteCommandAsync();
+            await InsertAsync(_mapper.Map<Base_Action>(input));
             await SavePermissionAsync(input.Id, input.permissionList);
-        }
+        }      
 
         [Transactional]
         public async Task UpdateDataAsync(Base_ActionEditInputDTO input)
         {
-            await Db.Updateable(_mapper.Map<Base_Action>(input)).ExecuteCommandAsync();
+            await UpdateAsync(_mapper.Map<Base_Action>(input));
             await SavePermissionAsync(input.Id, input.permissionList);
-        }    
+        }
+
+        [Transactional]
+        public override async Task DeleteDataAsync(List<string> ids)
+        {
+            await DeleteAsync(ids);
+            await DeleteAsync(x => ids.Contains(x.ParentId));
+        }
 
         public async Task SavePermissionAsync(string parentId, List<Base_Action> permissionList)
         {
@@ -101,9 +108,9 @@ namespace AIStudio.Business.Base_Manage
                 aData.NeedAction = true;
             });
             //删除原来
-            await Db.Deleteable<Base_Action>().Where(x => x.ParentId == parentId && (int)x.Type == 2).ExecuteCommandAsync();
+            await DeleteAsync(x => x.ParentId == parentId && (int)x.Type == 2);
             //新增
-            await Db.Insertable(permissionList).ExecuteCommandAsync();
+            await InsertAsync(permissionList);
 
             //权限值必须唯一
             var repeatValues = await GetIQueryable()

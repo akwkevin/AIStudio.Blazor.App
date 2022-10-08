@@ -95,7 +95,7 @@ namespace AIStudio.Business.Base_Manage
             if (await GetIQueryable().AnyAsync(x => ids.Contains(x.ParentId)))
                 throw AjaxResultException.Status403Forbidden("禁止删除！请先删除所有子级！");
 
-            await Db.Deleteable<Base_Department>().Where(x => ids.Contains(x.Id)).ExecuteCommandAsync();
+            await DeleteAsync(ids);
         }
 
         #endregion
