@@ -65,7 +65,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// 返回成功
     /// </summary>
     /// <returns></returns>
-    public static ContentResult Success()
+    public static ObjectResult Success()
     {
         AjaxResult res = new AjaxResult
         {
@@ -73,7 +73,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
             Msg = "请求成功！"
         };
 
-        return JsonContent(res.ToJson());
+        return new ObjectResult(res);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="msg">消息</param>
     /// <returns></returns>
-    public static ContentResult Success(string msg)
+    public static ObjectResult Success(string msg)
     {
         AjaxResult res = new AjaxResult
         {
@@ -89,7 +89,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
             Msg = msg
         };
 
-        return JsonContent(res.ToJson());
+        return new ObjectResult(res);
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="data">返回的数据</param>
     /// <returns></returns>
-    public static ContentResult Success<T>(T data)
+    public static ObjectResult Success<T>(T data)
     {
         AjaxResult<T> res = new AjaxResult<T>
         {
@@ -106,14 +106,14 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
             Data = data
         };
 
-        return JsonContent(res.ToJson());
+        return new ObjectResult(res);
     }
 
     /// <summary>
     /// 返回错误
     /// </summary>
     /// <returns></returns>
-    public static ContentResult Error()
+    public static ObjectResult Error()
     {
         AjaxResult res = new AjaxResult
         {
@@ -121,7 +121,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
             Msg = "请求失败！"
         };
 
-        return JsonContent(res.ToJson());
+        return new ObjectResult(res);
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// </summary>
     /// <param name="msg">错误提示</param>
     /// <returns></returns>
-    public static ContentResult Error(string msg)
+    public static ObjectResult Error(string msg)
     {
         AjaxResult res = new AjaxResult
         {
@@ -137,7 +137,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
             Msg = msg,
         };
 
-        return JsonContent(res.ToJson());
+        return new ObjectResult(res);
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// <param name="msg">错误提示</param>
     /// <param name="errorCode">错误代码</param>
     /// <returns></returns>
-    public static ContentResult Error(string msg, int errorCode)
+    public static ObjectResult Error(string msg, int errorCode)
     {
         AjaxResult res = new AjaxResult
         {
@@ -155,6 +155,6 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
             Code = errorCode
         };
 
-        return JsonContent(res.ToJson());
+        return new ObjectResult(res);
     }
 }

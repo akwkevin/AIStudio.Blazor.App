@@ -80,8 +80,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         }
         else if (actionContext.Result is ContentResult contentResult)
         {
-            var appResult = contentResult.Content.ToObject<AjaxResult>();
-            message = appResult?.Msg;
+            message = contentResult.StatusCode.ToString();
             result = contentResult.Content;
         }
 

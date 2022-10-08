@@ -33,7 +33,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         {
             var file = Request.Form.Files.FirstOrDefault();
             if (file == null)
-                return AjaxResultActionFilter.JsonContent(new { status = "error" }.ToJson());
+                return AjaxResultActionFilter.Error();
 
             string path = $"/Upload/{Guid.NewGuid().ToString("N")}/{file.FileName}";
             string physicPath = GetAbsolutePath($"~{path}");
@@ -54,7 +54,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
                 url = url
             };
 
-            return AjaxResultActionFilter.JsonContent(res.ToJson());
+            return AjaxResultActionFilter.Success(res);
         }
 
         /// <summary>

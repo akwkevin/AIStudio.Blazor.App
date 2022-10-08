@@ -34,7 +34,7 @@ public class DataValidationFilter : IActionFilter, IOrderedFilter
         var result = AjaxResult.Status400BadRequest($"数据验证不通过:{ string.Join(",", errors)}");
 
         // 设置结果
-        context.Result = AjaxResultActionFilter.JsonContent(result.ToJson());
+        context.Result = new ObjectResult(result);
     }
 
     public void OnActionExecuted(ActionExecutedContext context)
