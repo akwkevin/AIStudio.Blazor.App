@@ -6,6 +6,7 @@ using AIStudio.Common.Jwt;
 using AIStudio.Common.Service;
 using AIStudio.Common.Types;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Org.BouncyCastle.Asn1.X509.Qualified;
@@ -89,7 +90,7 @@ namespace AIStudio.Common.SqlSuger
                     },
                     ConfigureExternalServices = new ConfigureExternalServices()
                     {
-                        DataInfoCacheService = new SqlSugarCache(services.BuildServiceProvider().GetService<ICache>()),
+                        DataInfoCacheService = new SqlSugarCache(services.BuildServiceProvider().GetService<IDistributedCache>()),
                         EntityNameService = (type, entity) =>
                         {
                             var attributes = type.GetCustomAttributes(true);

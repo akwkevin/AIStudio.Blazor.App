@@ -23,12 +23,15 @@ namespace AIStudio.Common.Cache
             // 根据情况，启用 Redis 或 DistributedMemoryCache
             if (AppSettingsConfig.RedisOptions.Enabled)
             {
-                services.AddSingleton<ICache, RedisCache> ();
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = AppSettingsConfig.RedisOptions.ConnectionString;
+                    options.InstanceName = AppSettingsConfig.RedisOptions.Instance;
+                });
             }
             else
             {
-                services.AddMemoryCache();
-                services.AddSingleton<ICache, MemoryCache>();
+                services.AddDistributedMemoryCache();
             }
             return services;
         }
