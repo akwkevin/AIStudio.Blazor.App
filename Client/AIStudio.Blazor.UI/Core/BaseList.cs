@@ -1,11 +1,9 @@
 ﻿using AIStudio.Client.Business;
-using AIStudio.Common.Result;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using AntDesign;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Xml.Linq;
 
 namespace AIStudio.Blazor.UI.Core
 {

@@ -1,6 +1,4 @@
-﻿using AIStudio.Common.Result;
-using AIStudio.Entity;
-using AIStudio.Entity.DTO;
+﻿using AIStudio.Entity;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Util.Common;
 using System;
