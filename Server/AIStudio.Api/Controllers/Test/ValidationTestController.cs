@@ -15,6 +15,10 @@ namespace AIStudio.Api.Controllers.Test;
 public class ValidationTestController : ControllerBase
 {
     private readonly ILogger _logger;
+    /// <summary>
+    /// ValidationTestController
+    /// </summary>
+    /// <param name="logger"></param>
     public ValidationTestController(ILogger<ValidationTestController> logger)
     {
         _logger = logger;
@@ -65,8 +69,6 @@ public class ValidationTestController : ControllerBase
     /// <summary>
     /// 异常测试
     /// </summary>
-    /// <param name="models"></param>
-    /// <returns></returns>
     [HttpPost("Exception")]
     public void Exception()
     {
@@ -74,14 +76,26 @@ public class ValidationTestController : ControllerBase
     }
 }
 
+/// <summary>
+/// 测试模型
+/// </summary>
 public class TestModel
 {
+    /// <summary>
+    /// 名字
+    /// </summary>
     [Required(ErrorMessage = "名字不能为空！")]
     [StringLength(10, ErrorMessage = "名字长度不能超过10个字符！")]
     public string? Name { get; set; }
 
+    /// <summary>
+    /// 邮箱
+    /// </summary>
     [EmailAddress(ErrorMessage = "邮箱格式错误！")]
     public string? Email { get; set; }
 
+    /// <summary>
+    /// 其它
+    /// </summary>
     public string? Other { get; set; }
 }

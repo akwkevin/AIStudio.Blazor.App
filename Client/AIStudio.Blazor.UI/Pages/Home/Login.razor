@@ -1,7 +1,6 @@
 ﻿@namespace AIStudio.Blazor.UI.Pages.User
 @layout UserLayout
 @page "/Home/Login"
-@using AIStudio.Blazor.UI.Models.Params
 @using Blazored.LocalStorage
 
 <div class="main__b__0">
@@ -32,7 +31,7 @@
 </div>
 
 @code {
-    private readonly Models.Params.LoginInputDTO _model = new Models.Params.LoginInputDTO();
+    private readonly LoginInputDTO _model = new LoginInputDTO();
     bool loading = false;
 
     [Inject] 

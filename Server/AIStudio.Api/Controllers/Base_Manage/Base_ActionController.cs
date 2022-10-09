@@ -38,8 +38,6 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <summary>
         /// 获取数据列表Base_Action
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_Action>> GetAllActionList()
         {

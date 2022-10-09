@@ -13,7 +13,10 @@ namespace AIStudio.Api.Controllers.Test
     public class AOPTestController : Controller
     {
         private readonly IValuesService _valuesService;
-
+        /// <summary>
+        /// AOPTestController
+        /// </summary>
+        /// <param name="valuesService"></param>
         public AOPTestController(IValuesService valuesService)
         {
             _valuesService = valuesService;
@@ -41,6 +44,9 @@ namespace AIStudio.Api.Controllers.Test
         }
     }
 
+    /// <summary>
+    /// IValuesService
+    /// </summary>
     [TestAOP]
     public interface IValuesService
     {
@@ -49,15 +55,26 @@ namespace AIStudio.Api.Controllers.Test
         string Find(int id);
     }
 
+    /// <summary>
+    /// ValuesService
+    /// </summary>
     public class ValuesService : IValuesService
     {
         private readonly ILogger<ValuesService> _logger;
 
+        /// <summary>
+        /// ValuesService
+        /// </summary>
+        /// <param name="logger"></param>
         public ValuesService(ILogger<ValuesService> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// FindAll
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> FindAll()
         {
             _logger.LogDebug("{method} called", nameof(FindAll));
@@ -65,6 +82,11 @@ namespace AIStudio.Api.Controllers.Test
             return new[] { "value1", "value2" };
         }
 
+        /// <summary>
+        /// Find
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string Find(int id)
         {
             _logger.LogDebug("{method} called with {id}", nameof(Find), id);

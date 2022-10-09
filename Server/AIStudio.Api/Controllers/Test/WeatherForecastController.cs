@@ -57,6 +57,7 @@ namespace AIStudio.Api.Controllers.Test
 
         /// <summary>
         /// ÎÂ¶ÈF
+        /// </summary>
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
         /// <summary>

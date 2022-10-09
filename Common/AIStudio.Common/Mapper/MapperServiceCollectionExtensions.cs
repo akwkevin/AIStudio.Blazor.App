@@ -1,4 +1,5 @@
 ﻿using AIStudio.Util;
+using AIStudio.Util.Mapper;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;

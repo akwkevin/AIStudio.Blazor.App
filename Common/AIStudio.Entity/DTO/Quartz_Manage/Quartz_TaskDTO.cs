@@ -1,4 +1,4 @@
-﻿using AIStudio.Common.Mapper;
+﻿using AIStudio.Util.Mapper;
 using AIStudio.Entity.Quartz_Manage;
 using AIStudio.Util.Common;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.Common.Mapper
+namespace AIStudio.Util.Mapper
 {
     public class MapAttribute : Attribute
     {

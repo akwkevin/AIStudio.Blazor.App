@@ -1,5 +1,4 @@
 ﻿@namespace AIStudio.Blazor.UI.Components
-@using AIStudio.Blazor.UI.Models.Params
 @using AIStudio.Blazor.UI.Pages.Home
 @inherits AntDomComponentBase
 
@@ -93,7 +92,7 @@
                     modalConfig.BodyStyle += "overflow-y: auto;";
                     modalConfig.DestroyOnClose = true;
                     modalConfig.Centered = true;
-                    var modalRef = await ModalService.CreateModalAsync<ChangePwd, Models.Params.ChangePwdInputDTO>(modalConfig, new Models.Params.ChangePwdInputDTO());
+                    var modalRef = await ModalService.CreateModalAsync<ChangePwd, ChangePwdInputDTO>(modalConfig, new ChangePwdInputDTO());
                     break;
                 }
             case "logout":

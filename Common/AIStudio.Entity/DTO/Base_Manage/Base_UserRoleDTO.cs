@@ -1,10 +1,4 @@
-﻿using AIStudio.Common.Mapper;
-using AIStudio.Entity.DTO.Base_Manage;
-using Org.BouncyCastle.Crypto;
-using SqlSugar;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using AIStudio.Util.Mapper;
 
 namespace AIStudio.Entity.Base_Manage
 {

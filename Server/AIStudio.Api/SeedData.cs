@@ -13,9 +13,15 @@ using Yitter.IdGenerator;
 
 namespace AIStudio.Api
 {
-    //astudio edit
+    /// <summary>
+    /// 初始化数据
+    /// </summary>
     public class SeedData
     {
+        /// <summary>
+        /// 开始初始化
+        /// </summary>
+        /// <param name="provider"></param>
         public static void EnsureSeedData(IServiceProvider provider)
         {
             var logger = provider.GetRequiredService<ILogger<SeedData>>();
@@ -350,6 +356,10 @@ namespace AIStudio.Api
             }
         }
 
+        /// <summary>
+        /// 初始化调度作业数据
+        /// </summary>
+        /// <param name="provider"></param>
         public static void EnsureSeedQuartzData(IServiceProvider provider)
         {
             var logger = provider.GetRequiredService<ILogger<SeedData>>();

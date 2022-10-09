@@ -19,7 +19,10 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     public class Base_UserLogController : ApiControllerBase
     {
         #region DI
-
+        /// <summary>
+        /// Base_UserLogController
+        /// </summary>
+        /// <param name="logBus"></param>
         public Base_UserLogController(IBase_UserLogBusiness logBus)
         {
             _logBus = logBus;
@@ -30,7 +33,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #endregion
 
         #region 获取
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<PageResult<Base_UserLog>> GetLogList(PageInput<Base_UserLogsInputDTO> input)
         {
@@ -40,6 +47,10 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
             return await _logBus.GetLogListAsync(input);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public List<SelectOption> GetLogTypeList()
         {
