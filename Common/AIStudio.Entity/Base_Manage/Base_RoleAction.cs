@@ -12,12 +12,12 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 用户Id
         /// </summary>
-        public String RoleId { get; set; }
+        public string? RoleId { get; set; }
 
         /// <summary>
         /// 权限Id
         /// </summary>
-        public String ActionId { get; set; }
+        public string? ActionId { get; set; }
 
     }
 }

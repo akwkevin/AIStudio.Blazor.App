@@ -16,12 +16,12 @@ namespace AIStudio.Entity.Base_Manage
         /// </summary>
         [Key, Column(Order = 1)]
         [MaxLength(50)]
-        public String Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// 父级Id
         /// </summary>
-        public String ParentId { get; set; }
+        public string? ParentId { get; set; }
 
         /// <summary>
         /// 类型,菜单=0,页面=1,权限=2
@@ -31,17 +31,17 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 权限名/菜单名
         /// </summary>
-        public String Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 菜单地址
         /// </summary>
-        public String Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// 权限值
         /// </summary>
-        public String Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// 是否需要权限(仅页面有效)
@@ -51,7 +51,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 图标
         /// </summary>
-        public String Icon { get; set; }
+        public string? Icon { get; set; }
 
         /// <summary>
         /// 排序
@@ -76,27 +76,27 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 创建人Id
         /// </summary>
-        public String CreatorId { get; set; }
+        public string? CreatorId { get; set; }
 
         /// <summary>
         /// 创建人
         /// </summary>
-        public String CreatorName { get; set; }
+        public string? CreatorName { get; set; }
 
         /// <summary>
         /// 修改人Id
         /// </summary>
-        public String ModifyId { get; set; }
+        public string? ModifyId { get; set; }
 
         /// <summary>
         /// 修改人
         /// </summary>
-        public String ModifyName { get; set; }
+        public string? ModifyName { get; set; }
 
         /// <summary>
         /// 租户Id
         /// </summary>
-        public String TenantId { get; set; }
+        public string? TenantId { get; set; }
 
     }
 }

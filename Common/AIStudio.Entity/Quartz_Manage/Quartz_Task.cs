@@ -15,10 +15,10 @@ namespace AIStudio.Entity.Quartz_Manage
         /// 作业名称
         /// </summary>
         [MaxLength(255)]
-        public string TaskName { get; set; }
+        public string? TaskName { get; set; }
 
         [MaxLength(255)]
-        public string GroupName { get; set; }
+        public string? GroupName { get; set; }
 
         /// <summary>
         /// 启用状态
@@ -29,29 +29,29 @@ namespace AIStudio.Entity.Quartz_Manage
         /// Cron表达式
         /// </summary>
         [MaxLength(50)]
-        public string Cron { get; set; }
+        public string? Cron { get; set; }
 
         /// <summary>
         /// 任务类名
         /// </summary>
         [MaxLength(500)]
-        public string ActionClass { get; set; }
+        public string? ActionClass { get; set; }
 
         [MaxLength(500)]
-        public string Remark { get; set; }
+        public string? Remark { get; set; }
 
         #region HttpResultfulJob 使用
         [MaxLength(50)]
-        public string RequestType { get; set; }
+        public string? RequestType { get; set; }
 
         [MaxLength(500)]
-        public string ApiUrl { get; set; }
+        public string? ApiUrl { get; set; }
 
         [MaxLength(50)]
-        public string AuthKey { get; set; }
+        public string? AuthKey { get; set; }
 
         [MaxLength(500)]
-        public string AuthValue { get; set; }
+        public string? AuthValue { get; set; }
         #endregion
 
         /// <summary>

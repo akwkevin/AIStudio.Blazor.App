@@ -14,7 +14,7 @@ namespace AIStudio.Entity.Base_Manage
         /// </summary>
         [Key, Column(Order = 1)]
         [MaxLength(50)]
-        public String Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// 操作人账号

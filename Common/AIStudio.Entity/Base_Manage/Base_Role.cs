@@ -15,7 +15,7 @@ namespace AIStudio.Entity.Base_Manage
         /// 角色名
         /// </summary    
         [Required(ErrorMessage = "角色名不能为空")]
-        public String RoleName { get; set; }
+        public string? RoleName { get; set; }
 
     }
 }

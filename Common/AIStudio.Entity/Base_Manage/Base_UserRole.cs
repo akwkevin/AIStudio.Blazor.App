@@ -16,7 +16,7 @@ namespace AIStudio.Entity.Base_Manage
         /// </summary>
         [Key, Column(Order = 1)]
         [MaxLength(50)]
-        public String Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -26,7 +26,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 创建人Id
         /// </summary>
-        public String CreatorId { get; set; }
+        public string? CreatorId { get; set; }
 
         /// <summary>
         /// 否已删除
@@ -36,12 +36,12 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 用户Id
         /// </summary>
-        public String UserId { get; set; }
+        public string? UserId { get; set; }
 
         /// <summary>
         /// 角色Id
         /// </summary>
-        public String RoleId { get; set; }
+        public string? RoleId { get; set; }
 
     }
 }

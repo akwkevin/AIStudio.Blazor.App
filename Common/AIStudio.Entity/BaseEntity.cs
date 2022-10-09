@@ -15,7 +15,7 @@ namespace AIStudio.Entity
         /// </summary>
         [Key, Column(Order = 1)]
         [MaxLength(50)]
-        public virtual TPrimaryKey Id { get; set; }
+        public virtual TPrimaryKey? Id { get; set; }
 
         /// <summary>
         /// 否已删除
@@ -30,13 +30,13 @@ namespace AIStudio.Entity
         /// 创建人Id
         /// </summary>
         [MaxLength(50)]
-        public TPrimaryKey CreatorId { get; set; }
+        public TPrimaryKey? CreatorId { get; set; }
 
         /// <summary>
         /// 创建人
         /// </summary>
         [MaxLength(255)]
-        public string CreatorName { get; set; }
+        public string? CreatorName { get; set; }
 
         /// <summary>
         /// 修改时间
@@ -47,19 +47,19 @@ namespace AIStudio.Entity
         /// 修改人Id
         /// </summary>
         [MaxLength(50)]
-        public TPrimaryKey ModifyId { get; set; }
+        public TPrimaryKey? ModifyId { get; set; }
 
         /// <summary>
         /// 修改人
         /// </summary>
         [MaxLength(255)]
-        public string ModifyName { get; set; }
+        public string? ModifyName { get; set; }
 
         /// <summary>
         /// 租户Id
         /// </summary>
         [MaxLength(50)]
-        public virtual TPrimaryKey TenantId { get; set; }
+        public virtual TPrimaryKey? TenantId { get; set; }
 
         //[SqlSugar.SugarColumn(IsEnableUpdateVersionValidation = true)]//标识版本字段
         //public long Ver { get; set; }
@@ -73,13 +73,6 @@ namespace AIStudio.Entity
     {
 
 
-    }
-
-    public abstract class MessageBaseEntity : BaseEntity
-    {
-        public string UserIds { get; set; }
-        public string UserNames { get; set; }
-        public string Text { get; set; }
     }
 
 }

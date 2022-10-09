@@ -9,8 +9,8 @@ namespace AIStudio.Entity.DTO.Base_Manage
         public int Sort { get; set; }
 
         public string TypeText { get => ((DictionaryType)Type).ToString(); }
-        public string Code { get; set; }
+        public string? Code { get; set; }
  
-        public string Remark { get; set; }
+        public string? Remark { get; set; }
     }
 }

@@ -15,18 +15,18 @@ namespace AIStudio.Entity.Base_Manage
         /// 用户名
         /// </summary>
         [Required(ErrorMessage = "用户名不能为空")]
-        public String UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public String Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// 姓名
         /// </summary>
         [Required(ErrorMessage = "姓名不能为空")]
-        public String RealName { get; set; }
+        public string? RealName { get; set; }
 
         /// <summary>
         /// 性别
@@ -42,7 +42,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 所属部门Id
         /// </summary>
-        public String DepartmentId { get; set; }
+        public string? DepartmentId { get; set; }
 
         [MaxLength(255)]
         public string PhoneNumber { get; set; }

@@ -14,18 +14,18 @@ namespace AIStudio.Entity.Base_Manage
         /// 连接名
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        public String LinkName { get; set; }
+        public string? LinkName { get; set; }
 
         /// <summary>
         /// 连接字符串
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        public String ConnectionStr { get; set; }
+        public string? ConnectionStr { get; set; }
 
         /// <summary>
         /// 数据库类型
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        public String DbType { get; set; }
+        public string? DbType { get; set; }
     }
 }

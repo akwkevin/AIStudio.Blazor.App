@@ -8,47 +8,50 @@ namespace AIStudio.Entity.OA_Manage
     /// OA表单流程
     /// </summary>
     [Table("OA_UserForm")]
-    public class OA_UserForm : MessageBaseEntity
+    public class OA_UserForm : BaseEntity
     {
         [MaxLength(50)]
-        public string DefFormId { get; set; }
+        public string? DefFormId { get; set; }
         [MaxLength(255)]
-        public string DefFormName { get; set; }
+        public string? DefFormName { get; set; }
         [MaxLength(50)]
-        public string DefFormJsonId { get; set; }
+        public string? DefFormJsonId { get; set; }
         public int DefFormJsonVersion { get; set; }
         public int Grade { get; set; }
         public double Flag { get; set; }
-        public string Remarks { get; set; }
-        public string Appendix { get; set; }
-        public string ExtendJSON { get; set; }
+        public string? Remarks { get; set; }
+        public string? Appendix { get; set; }
+        public string? ExtendJSON { get; set; }
         [MaxLength(255)]
-        public string ApplicantUser { get; set; }
+        public string? ApplicantUser { get; set; }
         [MaxLength(50)]
-        public string ApplicantUserId { get; set; }
+        public string? ApplicantUserId { get; set; }
         [MaxLength(255)]
-        public string ApplicantDepartment { get; set; }
+        public string? ApplicantDepartment { get; set; }
         [MaxLength(50)]
-        public string ApplicantDepartmentId { get; set; }
+        public string? ApplicantDepartmentId { get; set; }
         [MaxLength(255)]
-        public string ApplicantRole { get; set; }
+        public string? ApplicantRole { get; set; }
         [MaxLength(50)]
-        public string ApplicantRoleId { get; set; }
+        public string? ApplicantRoleId { get; set; }
 
-        public string UserRoleNames { get; set; }
-        public string UserRoleIds { get; set; }
-        public string AlreadyUserNames { get; set; }
-        public string AlreadyUserIds { get; set; }
+        public string? UserRoleNames { get; set; }
+        public string? UserRoleIds { get; set; }
+        public string? AlreadyUserNames { get; set; }
+        public string? AlreadyUserIds { get; set; }
         public int Status { get; set; }
         [MaxLength(50)]
-        public string Type { get; set; }
+        public string? Type { get; set; }
         [MaxLength(50)]
-        public string SubType { get; set; }
+        public string? SubType { get; set; }
         [MaxLength(50)]
-        public string Unit { get; set; }
+        public string? Unit { get; set; }
         public DateTime? ExpectedDate { get; set; }
         [MaxLength(500)]
-        public string CurrentNode { get; set; }
+        public string? CurrentNode { get; set; }
 
+        public string? UserIds { get; set; }
+        public string? UserNames { get; set; }
+        public string? Text { get; set; }
     }
 }

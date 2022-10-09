@@ -12,11 +12,11 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 部门名
         /// </summary>
-        public String Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 上级部门Id
         /// </summary>
-        public String ParentId { get; set; }
+        public string? ParentId { get; set; }
     }
 }

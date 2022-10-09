@@ -13,7 +13,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 父级Id
         /// </summary>
-        public String ParentId { get; set; }
+        public string? ParentId { get; set; }
 
         /// <summary>
         /// 类型,菜单=0,页面=1,权限=2
@@ -25,17 +25,17 @@ namespace AIStudio.Entity.Base_Manage
         /// 权限名/菜单名
         /// </summary>
         [Required(ErrorMessage = "请输入菜单名")]
-        public String Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 菜单地址
         /// </summary>
-        public String Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// 权限值
         /// </summary>
-        public String Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// 是否需要权限(仅页面有效)
@@ -46,7 +46,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 图标
         /// </summary>
-        public string Icon { get; set; }
+        public string? Icon { get; set; }
 
         /// <summary>
         /// 排序

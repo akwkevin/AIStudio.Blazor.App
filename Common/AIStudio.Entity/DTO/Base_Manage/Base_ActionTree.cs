@@ -8,8 +8,8 @@ namespace AIStudio.Entity.DTO.Base_Manage
     {
         public ActionType Type { get; set; }
 
-        private string _url;
-        public string Url
+        private string? _url;
+        public string? Url
         {
             get { return _url; }
             set
@@ -28,17 +28,17 @@ namespace AIStudio.Entity.DTO.Base_Manage
                 }
             }
         }
-        public string PageUrl { get; set; }
+        public string? PageUrl { get; set; }
         public bool NeedAction { get; set; }
-        public string ValueInfo { get; set; }
+        public string? ValueInfo { get; set; }
         public string TypeText { get => Type.ToString(); }
         public string NeedActionText { get => NeedAction ? "是" : "否"; }
-        public string Icon { get; set; }
+        public string? Icon { get; set; }
         public int Sort { get; set; }
-        public List<string> PermissionValues { get; set; }
+        public List<string>? PermissionValues { get; set; }
 
-        public string Name { get { return Text; } }
-        public string Key { get { return Name + Path; } }
-        public string Path { get { return Url; } }
+        public string? Name { get { return Text; } }
+        public string? Key { get { return Name + Path; } }
+        public string? Path { get { return Url; } }
     }
 }

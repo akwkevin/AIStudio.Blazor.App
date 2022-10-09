@@ -6,9 +6,9 @@ namespace AIStudio.Entity.Base_Manage
     public class Base_UserRoleDTO : Base_UserRole
     {
   
-        public Base_User User { get; set; }
+        public Base_User? User { get; set; }
   
-        public Base_Role Role { get; set; }
+        public Base_Role? Role { get; set; }
 
     }
 }
