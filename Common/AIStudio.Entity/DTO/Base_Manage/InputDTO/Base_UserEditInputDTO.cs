@@ -12,7 +12,7 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
     [Map(typeof(Base_User))]
     public class Base_UserEditInputDTO : Base_User
     {
-        public string newPwd { get; set; }
-        public List<string> RoleIdList { get; set; }
+        public string? newPwd { get; set; }
+        public List<string>? RoleIdList { get; set; }
     }
 }

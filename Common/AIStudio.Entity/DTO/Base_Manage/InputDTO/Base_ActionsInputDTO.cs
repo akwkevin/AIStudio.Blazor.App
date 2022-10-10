@@ -11,9 +11,9 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
 
     public class Base_ActionsInputDTO
     {
-        public string[] ActionIds { get; set; }
-        public string parentId { get; set; }
-        public ActionType[] types { get; set; }
+        public string[]? ActionIds { get; set; }
+        public string? parentId { get; set; }
+        public ActionType[]? types { get; set; }
         public bool selectable { get; set; }
         public bool checkEmptyChildren { get; set; }
     }

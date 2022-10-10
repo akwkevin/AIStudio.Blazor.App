@@ -13,6 +13,6 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
     public class Base_RoleEditInputDTO : Base_Role
     {
         public RoleTypes? RoleType { get { try { return RoleName?.ToEnum<RoleTypes>(); } catch { return null; } } }
-        public List<string> Actions { get; set; } = new List<string>();
+        public List<string>? Actions { get; set; } = new List<string>();
     }
 }

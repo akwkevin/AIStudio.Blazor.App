@@ -21,12 +21,18 @@ public static class CorsServiceCollectionExtensions
                 if(AppSettingsConfig.AllowCors.Any(c => c == "*"))
                 {
                     // 允许任意跨域
-                    policy.AllowAnyOrigin();
+                    policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .DisallowCredentials();
                 }
                 else
                 {
                     // 允许指定域名
-                    policy.WithOrigins(AppSettingsConfig.AllowCors); 
+                    policy.WithOrigins(AppSettingsConfig.AllowCors)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .DisallowCredentials();
                 }
             });
         });

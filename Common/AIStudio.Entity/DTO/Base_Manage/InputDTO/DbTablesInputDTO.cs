@@ -8,6 +8,6 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
 {
     public class DbTablesInputDTO
     {
-        public string linkId { get; set; }
+        public string? linkId { get; set; }
     }
 }

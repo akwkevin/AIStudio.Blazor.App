@@ -145,8 +145,6 @@ try
     // 添加自定义中间件（包含：Body重复读取、异常处理）
     app.UseMiddleware_();
 
-
-
     //开启静态文件功能
     app.UseStaticFiles(new StaticFileOptions
     {
@@ -158,6 +156,9 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+
+    //添加Blazor wasm的重定位
+    //app.MapFallbackToFile("index.html");
 
     app.Run();
 }

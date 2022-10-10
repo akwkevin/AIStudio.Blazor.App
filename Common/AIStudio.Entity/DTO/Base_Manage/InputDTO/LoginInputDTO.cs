@@ -10,12 +10,12 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
     public class LoginInputDTO
     {
         [Required]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        public string LoginType { get; set; }
+        public string? LoginType { get; set; }
 
         public bool AutoLogin { get; set; }
     }
