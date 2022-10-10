@@ -7,8 +7,9 @@ namespace AIStudio.Client.Business
     public interface IOperator
     {
         bool IsAuthenticated { get; set; }
-        Dictionary<string, string> Claims { get; set; }
-        List<string> Roles { get; set; }
+        //Dictionary<string, string> Claims { get; set; }
+        IEnumerable<string> RoleNameList { get; set; }
+        IEnumerable<string> RoleIdList { get; set; }
         bool IsExpired { get; set; }
 
         /// <summary>
@@ -36,8 +37,9 @@ namespace AIStudio.Client.Business
         public void Reset()
         {
             IsAuthenticated = false;
-            Claims.Clear();
-            Roles.Clear();
+            //Claims.Clear();
+            RoleNameList = null;
+            RoleIdList = null;
         }      
         #endregion
     }

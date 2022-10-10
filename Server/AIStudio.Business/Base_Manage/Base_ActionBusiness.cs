@@ -25,9 +25,8 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task<List<Base_Action>> GetDataListAsync(Base_ActionsInputDTO input)
         {
-            var q = await GetIQueryable()
-               .WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
-                .WhereIF(input.types?.Length > 0, x => input.types.Contains(x.Type))
+            var q = await GetIQueryable(input.SearchKeyValues)
+                 .WhereIF(input.types?.Length > 0, x => input.types.Contains(x.Type))
                  .WhereIF(input.ActionIds?.Length > 0, x => input.ActionIds.Contains(x.Id))
                  .OrderBy(x => x.CreateTime).ToListAsync();
             return q;
@@ -50,8 +49,7 @@ namespace AIStudio.Business.Base_Manage
             }).ToList();
 
             //菜单节点中,若子节点为空则移除父节点
-            if (input.checkEmptyChildren)
-                treeList = treeList.Where(x => x.Type != 0 || TreeHelper.GetChildren(treeList, x, false).Count > 0).ToList();
+            //treeList = treeList.Where(x => x.Type != 0 || TreeHelper.GetChildren(treeList, x, false).Count > 0).ToList();
 
             await SetProperty(treeList);
 

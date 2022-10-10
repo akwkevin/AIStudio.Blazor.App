@@ -13,7 +13,8 @@ namespace AIStudio.Client.Business
     {
         public bool IsAuthenticated { get; set; }
         public Dictionary<string, string> Claims { get; set; }
-        public List<string> Roles { get; set; }
+        public IEnumerable<string> RoleNameList { get; set; }
+        public IEnumerable<string> RoleIdList { get; set; }
         public bool IsExpired { get; set; }
 
         public string UserId { get { return Property?.Id; } }

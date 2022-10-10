@@ -55,7 +55,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetMenuTreeList(Base_ActionsInputDTO input)
         {
-            input.selectable = true;
+
             input.types = new ActionType[] { ActionType.菜单, ActionType.页面 };
 
             return await _actionBus.GetTreeDataListAsync(input);
@@ -69,8 +69,6 @@ namespace AIStudio.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetActionTreeList(Base_ActionsInputDTO input)
         {
-            input.selectable = false;
-
             return await _actionBus.GetTreeDataListAsync(input);
         }
 

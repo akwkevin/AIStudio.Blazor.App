@@ -33,8 +33,7 @@ namespace AIStudio.Business.Base_Manage
             return await _actionBus.GetTreeDataListAsync(new Base_ActionsInputDTO
             {
                 types = new ActionType[] { ActionType.菜单, ActionType.页面 },
-                ActionIds = actionIds,
-                checkEmptyChildren = true
+                ActionIds = actionIds
             });
         }
 

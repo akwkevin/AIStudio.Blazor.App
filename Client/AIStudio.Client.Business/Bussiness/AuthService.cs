@@ -34,10 +34,8 @@ namespace AIStudio.Client.Business
                     _operator.IsAuthenticated = true;
                     _operator.Property = userinfo.Data.UserInfo;
                     _operator.Permissions = userinfo.Data.Permissions;
-                    _operator.Roles = userinfo.Data.UserInfo.RoleNameList;
-                    _operator.Claims = new Dictionary<string, string>();
-                    _operator.Claims.Add(ClaimTypes.Name, userinfo.Data.UserInfo.UserName);
-                    _operator.Claims.Add(ClaimTypes.Actor, userinfo.Data.UserInfo.RoleNames);
+                    _operator.RoleNameList = userinfo.Data.UserInfo.RoleNameList;
+                    _operator.RoleIdList = userinfo.Data.UserInfo.RoleIdList;
 
                     _operator.MenuTrees = await GetMenus();// 初始化接收菜单
                     _operator.Menus = TreeHelper.GetTreeToList(_operator.MenuTrees);

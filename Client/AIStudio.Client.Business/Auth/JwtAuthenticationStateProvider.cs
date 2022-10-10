@@ -19,17 +19,23 @@ namespace AIStudio.Blazor.UI.Services.Auth
             var currentUser = await GetCurrentUser();
             if (currentUser.IsAuthenticated)
             {
-                var claims = new List<Claim> {
-                    new Claim(ClaimTypes.Name, currentUser.Claims[ClaimTypes.Name])
-                };
+                var claims = new List<Claim> { new Claim(ClaimTypes.Name, currentUser.UserName) };
 
-                if (currentUser.Roles != null)
-                {
-                    for (int i = 0; i < currentUser.Roles.Count; i++)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, currentUser.Roles[i]));
-                    }
-                }
+                //好像客户端也没有用到角色的信息，先注释掉
+                //if (currentUser.RoleNameList != null)
+                //{
+                //    foreach (var rolename in currentUser.RoleNameList)
+                //    {
+                //        claims.Add(new Claim(ClaimTypes.Actor, rolename));
+                //    }
+                //}
+                //if (currentUser.RoleIdList != null)
+                //{
+                //    foreach (var roleid in currentUser.RoleIdList)
+                //    {
+                //        claims.Add(new Claim(ClaimTypes.Role, roleid));
+                //    }
+                //}
                 identity = new ClaimsIdentity(claims, "Password");
             }
 

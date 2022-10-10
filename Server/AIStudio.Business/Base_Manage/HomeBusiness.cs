@@ -68,9 +68,7 @@ namespace AIStudio.Business.Base_Manage
             {
                 if (string.IsNullOrEmpty(role)) continue;
                 claims.Add(new Claim(SimpleClaimTypes.Role, role));
-            }
-
-        
+            }        
             foreach (var rolename in theUser.RoleNameList)
             {
                 if (string.IsNullOrEmpty(rolename)) continue;

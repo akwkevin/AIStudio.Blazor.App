@@ -36,7 +36,6 @@
             TItem="SelectOption"
             TItemValue="string"
             @bind-Values="@context.RoleIdList"
-            @bind-Value="@role"
             AllowClear
             DataSource="Roles"
             Placeholder="请选择角色"
@@ -56,7 +55,6 @@
 
     private List<SelectOption> Roles { get; set; }
     private List<TreeModel> Departments { get; set; }
-    private string role{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
