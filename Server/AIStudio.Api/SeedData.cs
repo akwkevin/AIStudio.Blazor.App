@@ -223,12 +223,6 @@ namespace AIStudio.Api
                     new Base_Action(){ Id="Id1_5_2",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Department.Edit",  NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
                     new Base_Action(){ Id="Id1_5_3",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Department.Delete",NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
 
-
-                    new Base_Action(){ Id="Id2",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="消息中心", Url=null,                               Value=null,                    NeedAction=true,    Icon="notification",   Sort=2, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id2_1",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="站内消息", Url="/D_Manage/D_UserMessage/List",     Value=null,                    NeedAction=false,   Icon="message",        Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id2_2",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="站内信",   Url="/D_Manage/D_UserMail/Index",       Value=null,                    NeedAction=false,   Icon="mail",           Sort=2, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id2_3",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="通告",     Url="/D_Manage/D_Notice/List",          Value=null,                    NeedAction=false,   Icon="sound",          Sort=3, CreateTime=DateTime.Now},
-
                     new Base_Action(){ Id="Id3",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="流程中心", Url=null,                               Value=null,                    NeedAction=true,    Icon="clock-circle",   Sort=3, CreateTime=DateTime.Now},
                     new Base_Action(){ Id="Id3_1",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="流程管理", Url="/OA_Manage/OA_DefForm/List",       Value=null,                    NeedAction=true,    Icon="interaction",    Sort=1, CreateTime=DateTime.Now},
                     new Base_Action(){ Id="Id3_1_1",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="OA_DefForm.Add",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
@@ -248,11 +242,6 @@ namespace AIStudio.Api
                     new Base_Action(){ Id="Id4_1",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="用户查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_User",  Value="Base_Manage.Base_User",  NeedAction=true, Icon="user-add", Sort=1, CreateTime=DateTime.Now},
                     new Base_Action(){ Id="Id4_2",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="角色查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_Role",  Value="Base_Manage.Base_Role",  NeedAction=true, Icon="safety", Sort=1, CreateTime=DateTime.Now},
                     new Base_Action(){ Id="Id4_3",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="密钥查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_AppSecret",  Value="Base_Manage.Base_AppSecret",  NeedAction=true, Icon="key", Sort=1, CreateTime=DateTime.Now},
-
-                    new Base_Action(){ Id="Id10",Deleted = false, ParentId=null,     Type = ActionType.菜单, Name="个人页",   Url=null,                             Value=null,                    NeedAction=true,    Icon="user",           Sort=10, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id10_1",Deleted = false, ParentId="Id10", Type = ActionType.页面, Name="个人中心", Url="/account/center/Index",          Value=null,                    NeedAction=false,   Icon="user",           Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id10_2",Deleted = false, ParentId="Id10", Type = ActionType.页面, Name="个人设置", Url="/account/settings/Index",        Value=null,                    NeedAction=false,   Icon="user",           Sort=1, CreateTime=DateTime.Now},
-
                 };
 
                 var result = actionBusiness.Insert(actions);

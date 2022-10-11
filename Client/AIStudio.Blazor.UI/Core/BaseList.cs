@@ -26,48 +26,42 @@ namespace AIStudio.Blazor.UI.Core
         [Inject] 
         IJSRuntime JSRuntime { get; set; }
         protected string Area { get; set; }
-
         protected string GetDataList { get; set; } = "GetDataList";
-
-        protected Type TDataType { get; set; } = typeof(TData);
-        protected Type EditType { get; set; }
-
         protected string Condition { get; set; }
-
-
-        protected string Keyword { get; set; }
-
-        protected Dictionary<string, object> SearchKeyValues { get; set; } = new Dictionary<string, object>();
-
+        protected string KeyWord { get; set; }
         protected List<TData> Data { get; set; }
-
         protected TData SelectedItem { get; set; }
         protected IEnumerable<TData> SelectedItems { get; set; }
-
         protected bool NoneSelectedItems { get { return !(SelectedItems?.Count() > 0); } }
-
         protected Table<TData> _table;
+
+        protected virtual string GetDataJson()
+        {
+            var searchKeyValues = new Dictionary<string, object>();
+            if (!string.IsNullOrEmpty(Condition) && !string.IsNullOrEmpty(KeyWord))
+            {
+                searchKeyValues.Add(Condition, KeyWord);
+            }
+
+            var data = new
+            {
+                PageIndex = Pagination.PageIndex,
+                PageRows = Pagination.PageRows,
+                SortField = Pagination.SortField,
+                SortType = Pagination.SortType,
+                SearchKeyValues = searchKeyValues,
+            };
+
+            return data.ToJson();
+        }
 
         protected override async Task GetData()
         {
             try
             {
                 ShowWait();
-                var data = new
-                {
-                    Pagination.PageIndex,
-                    Pagination.PageRows,
-                    Pagination.SortField,
-                    Pagination.SortType,
-                    Search = new
-                    {
-                        keyword = Keyword,
-                        condition = Condition,
-                    },
-                    SearchKeyValues,
-                };
 
-                var result = await DataProvider.GetData<List<TData>>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree","")}/{GetDataList}", data.ToJson());
+                var result = await DataProvider.GetData<List<TData>>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree","")}/{GetDataList}", GetDataJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

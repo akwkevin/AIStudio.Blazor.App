@@ -56,6 +56,11 @@ namespace AIStudio.Common.AppSettings
             public static bool IsSkipGetMethod => Configuration.GetValue<bool>("RecordRequest:IsSkipGetMethod");
         }
 
+        public static class AppSettingsOptions
+        {
+            public static bool InjectMiniProfiler => Configuration.GetValue<bool>("AppSettings:InjectMiniProfiler");
+        }
+
         /// <summary>
         /// 允许跨域请求列表
         /// </summary>

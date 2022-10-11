@@ -24,7 +24,7 @@
         </SpaceItem>
     }
     <SpaceItem>
-        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@Keyword" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 
@@ -64,9 +64,10 @@
 
 
 @code
-{  
+{
     public List()
     {
         Area = "Base_Manage";
+        Condition = "AppName";
     }
 }

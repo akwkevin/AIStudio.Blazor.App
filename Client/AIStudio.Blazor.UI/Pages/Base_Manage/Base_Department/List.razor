@@ -24,7 +24,7 @@
         </SpaceItem>
     }
     <SpaceItem>
-        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 
@@ -56,5 +56,6 @@
     {
         Area = "Base_Manage";
         GetDataList = "GetTreeDataList";
+        Condition = "Name";
     }
 }

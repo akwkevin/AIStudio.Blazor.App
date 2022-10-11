@@ -148,22 +148,27 @@ namespace AIStudio.Blazor.UI.Core
             }
         }
 
+        protected virtual string GetDataJson()
+        {
+            var data = new
+            {
+                PageIndex = Pagination.PageIndex,
+                PageRows = Pagination.PageRows,
+                SortField = Pagination.SortField,
+                SortType = Pagination.SortType,
+                SearchKeyValues = QueryConditionItem.ListToDictionary(QueryConditionItems),
+            };
+
+            return data.ToJson();
+        }
+
         protected override async Task GetData()
         {
             try
             {
                 ShowWait();
 
-                var data = new
-                {
-                    PageIndex = Pagination.PageIndex,
-                    PageRows = Pagination.PageRows,
-                    SortField = Pagination.SortField,
-                    SortType = Pagination.SortType,
-                    SearchKeyValues = QueryConditionItem.ListToDictionary(QueryConditionItems),
-                };
-
-                var result = await DataProvider.GetData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", data.ToJson());
+                var result = await DataProvider.GetData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

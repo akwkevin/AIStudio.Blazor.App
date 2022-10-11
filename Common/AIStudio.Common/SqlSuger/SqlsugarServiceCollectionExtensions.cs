@@ -3,12 +3,14 @@ using AIStudio.Common.Cache;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Jwt;
+using AIStudio.Common.Quartz;
 using AIStudio.Common.Service;
 using AIStudio.Common.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Asn1.X509.Qualified;
 using SqlSugar;
 using System.ComponentModel.DataAnnotations;
@@ -174,6 +176,8 @@ namespace AIStudio.Common.SqlSuger
                             {
                                 Console.ForegroundColor = ConsoleColor.Blue;
                             }
+
+                            var logger = ServiceLocator.Instance.GetService<ILogger>();
                             Console.WriteLine("Sql:" + "\r\n\r\n" + UtilMethods.GetSqlString(c.DbType, sql, pars));
                             //App.PrintToMiniProfiler("SqlSugar", "Info", UtilMethods.GetSqlString(c.DbType, sql, pars));
                             //$"DB:{c.ConfigId}, Sql:\r\n\r\n {UtilMethods.GetSqlString(c.DbType, sql, pars)}".LogInformation();

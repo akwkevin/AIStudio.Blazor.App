@@ -26,12 +26,13 @@
     <SpaceItem>
         <SimpleSelect DefaultValue="Name" @bind-Value="@Condition">
             <SelectOptions>
-                <SimpleSelectOption Value="Name" Label="字典名"></SimpleSelectOption>
+                <SimpleSelectOption Value="Text" Label="字典名"></SimpleSelectOption>
+                <SimpleSelectOption Value="Remark" Label="备注"></SimpleSelectOption>
             </SelectOptions>
         </SimpleSelect>
     </SpaceItem>
     <SpaceItem>
-        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@Keyword" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 
