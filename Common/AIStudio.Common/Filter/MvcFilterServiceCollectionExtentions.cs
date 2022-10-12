@@ -14,7 +14,7 @@ namespace AIStudio.Common.Filter
        /// </summary>
        /// <param name="builder"></param>
        /// <returns></returns>
-        public static IMvcBuilder AddDataValidation(this IMvcBuilder builder)
+        public static IMvcBuilder AddDataValidation_(this IMvcBuilder builder)
         {
             builder.ConfigureApiBehaviorOptions(options =>
             {
@@ -33,7 +33,7 @@ namespace AIStudio.Common.Filter
 
 
 
-        public static IMvcBuilder AddFilter(this IMvcBuilder builder, Action<AjaxResultOptions>? setupAction = null)
+        public static IMvcBuilder AddFilter_(this IMvcBuilder builder, Action<AjaxResultOptions>? setupAction = null)
         {
             // 添加过滤器
             builder.AddMvcOptions(options =>

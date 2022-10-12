@@ -14,7 +14,7 @@ namespace AIStudio.Common.DI
         /// <param name="services"></param>
         /// <param name="dllNames"></param>
         /// <returns></returns>
-        public static IServiceCollection AddServices(this IServiceCollection services, List<Type> types)
+        public static IServiceCollection AddServices_(this IServiceCollection services, List<Type> types)
         {
             Dictionary<Type, ServiceLifetime> lifeTimeMap = new Dictionary<Type, ServiceLifetime>
             {

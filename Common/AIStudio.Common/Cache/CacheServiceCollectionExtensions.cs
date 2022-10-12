@@ -18,7 +18,7 @@ namespace AIStudio.Common.Cache
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddCache(this IServiceCollection services)
+        public static IServiceCollection AddCache_(this IServiceCollection services)
         {
             // 根据情况，启用 Redis 或 DistributedMemoryCache
             if (AppSettingsConfig.RedisOptions.Enabled)

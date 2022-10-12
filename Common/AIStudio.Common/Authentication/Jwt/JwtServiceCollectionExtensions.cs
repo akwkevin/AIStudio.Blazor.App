@@ -16,7 +16,7 @@ namespace AIStudio.Common.Authentication.Jwt
 {
     public static class JwtServiceCollectionExtensions
     {
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddJwtAuthentication_(this IServiceCollection services)
         {
             // 读取配置
             var symmetricKeyAsBase64 = AppSettingsConfig.JwtOptions.SecretKey;

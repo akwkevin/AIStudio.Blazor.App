@@ -26,14 +26,14 @@ public static partial class EventBusServiceCollectionExtensions
         return builder;
     }
 
-    public static IServiceCollection AddEventBusDefault(this IServiceCollection services)
+    public static IServiceCollection AddEventBusDefault_(this IServiceCollection services)
     {
         services.AddSingleton<IEventPublisher, DefaultEventPublisher>();
 
         return services;
     }
 
-    public static EventBusBuilder AddEventBusLocal(this IServiceCollection services, Action<LocalEventBusOptions>? setupAction = null)
+    public static EventBusBuilder AddEventBusLocal_(this IServiceCollection services, Action<LocalEventBusOptions>? setupAction = null)
     {
         // 替换 IEventPublisher 实现
         services.Replace(new ServiceDescriptor(typeof(IEventPublisher), typeof(LocalEventPublisher), ServiceLifetime.Singleton));

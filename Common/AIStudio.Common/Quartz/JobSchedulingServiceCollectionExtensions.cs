@@ -10,7 +10,7 @@ public static class JobSchedulingServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddJobScheduling(this IServiceCollection services, Action<JobSchedulingOptions>? setupAction = null)
+    public static IServiceCollection AddJobScheduling_(this IServiceCollection services, Action<JobSchedulingOptions>? setupAction = null)
     {
         services.AddQuartz(config =>
         {

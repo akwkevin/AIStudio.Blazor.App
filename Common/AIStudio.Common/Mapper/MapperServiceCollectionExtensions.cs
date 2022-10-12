@@ -17,7 +17,7 @@ namespace AIStudio.Common.Mapper
          /// </summary>
          /// <param name="services">服务集合</param>
          /// <param name="configure">自定义配置</param>
-        public static IServiceCollection AddMapper(this IServiceCollection services, IEnumerable<Type> types, IEnumerable<Assembly> assemblies, Action<IMapperConfigurationExpression> configure = null)
+        public static IServiceCollection AddMapper_(this IServiceCollection services, IEnumerable<Type> types, IEnumerable<Assembly> assemblies, Action<IMapperConfigurationExpression> configure = null)
         {
             List<(Type from, Type[] targets)> maps = new List<(Type from, Type[] targets)>();
 

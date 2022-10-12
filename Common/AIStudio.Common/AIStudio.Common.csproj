@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.5.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />

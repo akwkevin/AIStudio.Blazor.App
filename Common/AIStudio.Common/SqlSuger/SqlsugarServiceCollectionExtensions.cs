@@ -47,7 +47,7 @@ namespace AIStudio.Common.SqlSuger
         /// 不可以用Action委托注入
         /// </summary>
         /// <param name="services"></param>
-        public static void AddSqlSugar(this IServiceCollection services)
+        public static void AddSqlSugar_(this IServiceCollection services)
         {
             //数据库序号从0开始,默认数据库为0
 
@@ -177,7 +177,7 @@ namespace AIStudio.Common.SqlSuger
                                 Console.ForegroundColor = ConsoleColor.Blue;
                             }
 
-                            var logger = ServiceLocator.Instance.GetService<ILogger>();
+                            //var logger = ServiceLocator.Instance.GetService<ILogger<SqlsugarServiceCollectionExtensions>>();
                             Console.WriteLine("Sql:" + "\r\n\r\n" + UtilMethods.GetSqlString(c.DbType, sql, pars));
                             //App.PrintToMiniProfiler("SqlSugar", "Info", UtilMethods.GetSqlString(c.DbType, sql, pars));
                             //$"DB:{c.ConfigId}, Sql:\r\n\r\n {UtilMethods.GetSqlString(c.DbType, sql, pars)}".LogInformation();

@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
 using NLog.Web;
+using System.Reflection;
 using Yitter.IdGenerator;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -34,15 +35,15 @@ try
     // Add services to the container.
 
     //读取配置文件appsettings
-    AppSettingsConfig.Configure(builder.Configuration);
+    AppSettingsConfig.Configure_(builder.Configuration);
 
     // 日志
     builder.Host.UseNLog();
 
     //默认事件总线
-    builder.Services.AddEventBusDefault();
+    builder.Services.AddEventBusDefault_();
     //添加事件总线(Local)
-    builder.Services.AddEventBusLocal().AddSubscriber(subscribers =>
+    builder.Services.AddEventBusLocal_().AddSubscriber(subscribers =>
     {
         subscribers.Add<TestEventModel, TestEventHandler>();
         subscribers.Add<ExceptionEvent, Base_LogExceptionBusiness>();
@@ -51,8 +52,8 @@ try
 
     ////数据过滤与Json配置
     builder.Services.AddControllers()
-        .AddDataValidation() //数据验证
-        .AddFilter()   //过滤器
+        .AddDataValidation_() //数据验证
+        .AddFilter_()   //过滤器
         .AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.GetType().GetProperties().ForEach(aProperty =>
@@ -67,9 +68,9 @@ try
     IdHelper.SetWorkId(workerId);
 
     // 缓存
-    builder.Services.AddCache();
+    builder.Services.AddCache_();
 
-    builder.Services.AddSqlSugar();
+    builder.Services.AddSqlSugar_();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -81,23 +82,26 @@ try
     builder.Services.AddHttpContextAccessor();
 
     //自动注册服务
-    builder.Services.AddServices(GlobalType.AllTypes);
+    builder.Services.AddServices_(GlobalType.AllTypes);
 
     //jwt Authentication 
-    builder.Services.AddJwtAuthentication();
+    builder.Services.AddJwtAuthentication_();
     // 授权
     builder.Services.AddAuthorization_();
     // 替换默认 PermissionChecker,测试使用
     builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(TestPermissionChecker), ServiceLifetime.Transient));
 
     //使用AutoMapper自动映射拥有MapAttribute的类
-    builder.Services.AddMapper(GlobalType.AllTypes, GlobalType.AllAssemblies);
+    builder.Services.AddMapper_(GlobalType.AllTypes, GlobalType.AllAssemblies);
 
     // 跨域
     builder.Services.AddCors_();
 
+    //注入MiniProfiler, 本地访问地址 http://localhost:5000/profiler/results
+    builder.Services.AddMiniProfiler_();
+
     // 定时任务
-    builder.Services.AddJobScheduling(options =>
+    builder.Services.AddJobScheduling_(options =>
     {
         options.StartHandle = async sp =>
         {
@@ -134,6 +138,9 @@ try
             {
                 c.SwaggerEndpoint($"/swagger/{field.Key}/swagger.json", $"{field.Key}");
             }
+
+            //使用加入了MiniProfiler的html替换默认的
+            c.IndexStream = () => Assembly.GetExecutingAssembly().GetManifestResourceStream("AIStudio.Api.wwwroot.index.html");
         });
     }
 
@@ -141,6 +148,9 @@ try
 
     // UseCors 必须在 UseRouting 之后，UseResponseCaching、UseAuthorization 之前
     app.UseCors();
+
+    //启用MiniProfiler，该方法必须在app.UseEndpoints以前
+    app.UseMiniProfiler_();
 
     // 添加自定义中间件（包含：Body重复读取、异常处理）
     app.UseMiddleware_();

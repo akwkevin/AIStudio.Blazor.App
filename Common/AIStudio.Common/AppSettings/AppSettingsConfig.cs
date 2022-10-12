@@ -29,7 +29,7 @@ namespace AIStudio.Common.AppSettings
 
             var configuration = serviceProvider.GetService<IConfiguration>();
 
-            Configure(configuration);
+            Configure_(configuration);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace AIStudio.Common.AppSettings
         /// <param name="configuration"></param>
         /// <exception cref="Exception"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void Configure(IConfiguration? configuration)
+        public static void Configure_(IConfiguration? configuration)
         {
             if (_configuration != null)
             {
