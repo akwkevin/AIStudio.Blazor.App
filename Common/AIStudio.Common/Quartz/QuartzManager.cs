@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Quartz;
+using Quartz.Logging;
 
 namespace AIStudio.Common.Quartz;
 
@@ -23,7 +24,7 @@ public class QuartzManager : IQuartzManager
         _serviceProvider = serviceProvider;
         _schedulerFactory = schedulerFactory;
         _logger = logger;
-        _options = options.Value;
+        _options = options.Value;    
     }
 
     public async Task<IScheduler> GetScheduler(CancellationToken token = default)
@@ -31,45 +32,6 @@ public class QuartzManager : IQuartzManager
         return await _schedulerFactory.GetScheduler(token);
     }
 
-    ///// <summary>
-    ///// 获取所有的作业
-    ///// </summary>
-    ///// <param name="schedulerFactory"></param>
-    ///// <returns></returns>
-    //public async Task<List<JobInfo>> GetAllJobs()
-    //{
-    //    List<JobInfo> list = new List<JobInfo>();
-    //    try
-    //    {
-    //        IScheduler scheduler = await GetScheduler();
-    //        var groups = await scheduler.GetJobGroupNames();
-    //        foreach (var groupName in groups)
-    //        {
-    //            foreach (var jobKey in await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName)))
-    //            {
-    //                JobInfo jobInfo = new JobInfo(jobKey.Name, jobKey.Group);
-
-    //                var triggers = await scheduler.GetTriggersOfJob(jobKey);
-    //                foreach (ITrigger trigger in triggers)
-    //                {
-    //                    TriggerInfo triggerInfo = new TriggerInfo(jobKey.Name, jobKey.Group, null);
-    //                    DateTimeOffset? dateTimeOffset = trigger.GetPreviousFireTimeUtc();
-    //                    if (dateTimeOffset != null)
-    //                    {
-    //                        triggerInfo.LastRunTime = Convert.ToDateTime(dateTimeOffset.ToString());
-    //                    }
-    //                    jobInfo.Triggers.Add(triggerInfo);
-    //                }
-    //                list.Add(jobInfo);
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        _logger.LogError("获取作业异常：" + ex.Message + ex.StackTrace);
-    //    }
-    //    return list;
-    //}
 
     public async Task Start(CancellationToken token = default)
     {

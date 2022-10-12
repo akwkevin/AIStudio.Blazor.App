@@ -3,6 +3,7 @@ using AIStudio.Common.Cache;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Jwt;
+using AIStudio.Common.Mapper;
 using AIStudio.Common.Quartz;
 using AIStudio.Common.Service;
 using AIStudio.Common.Types;
@@ -164,25 +165,8 @@ namespace AIStudio.Common.SqlSuger
 
                         dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                         {
-                            if (sql.StartsWith("SELECT"))
-                            {
-                                Console.ForegroundColor = ConsoleColor.Green;
-                            }
-                            if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
-                            {
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                            if (sql.StartsWith("DELETE"))
-                            {
-                                Console.ForegroundColor = ConsoleColor.Blue;
-                            }
-
-                            //var logger = ServiceLocator.Instance.GetService<ILogger<SqlsugarServiceCollectionExtensions>>();
-                            Console.WriteLine("Sql:" + "\r\n\r\n" + UtilMethods.GetSqlString(c.DbType, sql, pars));
-                            //App.PrintToMiniProfiler("SqlSugar", "Info", UtilMethods.GetSqlString(c.DbType, sql, pars));
-                            //$"DB:{c.ConfigId}, Sql:\r\n\r\n {UtilMethods.GetSqlString(c.DbType, sql, pars)}".LogInformation();
-
-
+                            //发送给MiniProfiler，在http://localhost:5000/profiler/results查看，就不在控制台显示了
+                            MiniProfilerServiceCollectionExtensions.PrintToMiniProfiler("SqlSugar", "Info", UtilMethods.GetSqlString(c.DbType, sql, pars));
                         };
 
                         dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
