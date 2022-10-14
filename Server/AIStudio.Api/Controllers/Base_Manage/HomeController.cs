@@ -55,6 +55,18 @@ namespace AIStudio.Api.Controllers.Base_Manage
         }
 
         /// <summary>
+        /// 用户退出
+        /// </summary>
+        /// <returns></returns>
+        [RequestRecord]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task SubmitLogout()
+        {
+            await _homeBus.SubmitLogoutAsync();
+        }
+
+        /// <summary>
         /// 修改密码
         /// </summary>
         /// <param name="input"></param>

@@ -1,10 +1,14 @@
-﻿namespace AIStudio.Common.CurrentUser
+﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+
+namespace AIStudio.Common.CurrentUser
 {
     /// <summary>
     /// 操作者
     /// </summary>
     public interface IOperator
     {
+        IHttpContextAccessor HttpContextAccessor { get; }
         /// <summary>
         /// 当前操作者UserId
         /// </summary>

@@ -87,6 +87,13 @@ namespace AIStudio.Business.Base_Manage
             return jwtToken;
         }
 
+        public Task SubmitLogoutAsync()
+        {
+            _operator.HttpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid_token";
+
+            return Task.CompletedTask;
+        }
+
         public async Task ChangePwdAsync(ChangePwdInputDTO input)
         {
             var theUser = await _userBusiness.GetTheDataAsync(_operator.UserId);

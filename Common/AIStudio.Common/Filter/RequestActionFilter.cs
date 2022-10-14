@@ -42,7 +42,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         if (AppSettingsConfig.RecordRequestOptions.IsSkipGetMethod && request.Method.ToUpper() == "GET") isSkipRecord = true;
 
         //如果没有请求记录属性则跳过
-        if (!context.ContainsFilter<RequestRecordAttribute>()) isSkipRecord =true;   
+        if (!context.ContainsFilter<RequestRecordAttribute>()) isSkipRecord = true;
 
         // 进入管道的下一个过滤器，并跳过剩下动作
         if (isSkipRecord)
@@ -86,13 +86,13 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
 
         EventModel @event;
         //登录接口
-        if (request.Path == "/Base_Manage/Home/SubmitLogin")
+        if (request.Path == "/Base_Manage/Home/SubmitLogin" || request.Path == "/Base_Manage/Home/SubmitLogout")
         {
             @event = new VisitEvent()
             {
                 Name = name,
                 Message = message,
-                Account = _operator.LoginName,
+                Account = _operator.UserName ?? _operator.LoginName,
                 IsSuccess = isSuccess,
                 Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
                 OperatingSystem = clientInfo?.OS.Family + clientInfo?.OS.Major,

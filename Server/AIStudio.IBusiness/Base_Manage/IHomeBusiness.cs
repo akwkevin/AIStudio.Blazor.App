@@ -8,6 +8,7 @@ namespace AIStudio.IBusiness.Base_Manage
     public interface IHomeBusiness
     {
         Task<string> SubmitLoginAsync(LoginInputDTO input);
+        Task SubmitLogoutAsync();
         Task ChangePwdAsync(ChangePwdInputDTO input);
     }
 
