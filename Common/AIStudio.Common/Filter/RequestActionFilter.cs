@@ -84,25 +84,52 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             result = contentResult.Content;
         }
 
-        var @event = new RequestEvent()
+        EventModel @event;
+        //登录接口
+        if (request.Path == "/Base_Manage/Home/SubmitLogin")
         {
-            Name = name,
-            Message = message,
-            Account = _operator.UserName,
-            IsSuccess = isSuccess,
-            Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
-            OperatingSystem = clientInfo?.OS.Family + clientInfo?.OS.Major,
-            Ip = httpContext.GetRequestIPv4(),
-            Url = request.GetRequestUrlAddress(),
-            Path = request.Path,
-            ClassName = context.Controller.ToString(),
-            MethodName = actionDescriptor?.ActionName,
-            RequestMethod = request.Method,          
-            Body = body,
-            Result = result,
-            ElapsedTime = sw.ElapsedMilliseconds,
-            OperatingTime = DateTimeOffset.Now,
-        };
+            @event = new VisitEvent()
+            {
+                Name = name,
+                Message = message,
+                Account = _operator.LoginName,
+                IsSuccess = isSuccess,
+                Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
+                OperatingSystem = clientInfo?.OS.Family + clientInfo?.OS.Major,
+                Ip = httpContext.GetRequestIPv4(),
+                Url = request.GetRequestUrlAddress(),
+                Path = request.Path,
+                ClassName = context.Controller.ToString(),
+                MethodName = actionDescriptor?.ActionName,
+                RequestMethod = request.Method,
+                Body = body,
+                Result = result,
+                ElapsedTime = sw.ElapsedMilliseconds,
+                OperatingTime = DateTimeOffset.Now,
+            };
+        }
+        else
+        {
+            @event = new RequestEvent()
+            {
+                Name = name,
+                Message = message,
+                Account = _operator.UserName,
+                IsSuccess = isSuccess,
+                Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
+                OperatingSystem = clientInfo?.OS.Family + clientInfo?.OS.Major,
+                Ip = httpContext.GetRequestIPv4(),
+                Url = request.GetRequestUrlAddress(),
+                Path = request.Path,
+                ClassName = context.Controller.ToString(),
+                MethodName = actionDescriptor?.ActionName,
+                RequestMethod = request.Method,
+                Body = body,
+                Result = result,
+                ElapsedTime = sw.ElapsedMilliseconds,
+                OperatingTime = DateTimeOffset.Now,
+            };
+        }
         await _publisher.PublishAsync(@event);
 
         //var testEventModel = new TestEventModel() { Message = @event.ToJson() };

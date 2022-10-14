@@ -31,7 +31,9 @@ namespace AIStudio.Business.Base_Manage
         }
 
         public async Task<string> SubmitLoginAsync(LoginInputDTO input)
-        { 
+        {
+            _operator.LoginName = input.UserName;
+
             if (!input.Password.IsNullOrEmpty() && !input.Password.IsMd5())
             {
                 input.Password = input.Password.ToMD5String();

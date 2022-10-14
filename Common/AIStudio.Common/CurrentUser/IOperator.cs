@@ -14,6 +14,8 @@
 
         bool IsSuperAdmin { get; }
         string TenantId { get; }
+
+        string LoginName { get; set; }
         #region 操作方法
 
 

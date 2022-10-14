@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.CurrentUser;
+using AIStudio.Common.Filter.FilterAttribute;
 using AIStudio.Common.Swagger;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
@@ -43,6 +44,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// 用户登录(获取token)
         /// </summary>
         /// <returns></returns>
+        [RequestRecord]
         [HttpPost]
         [AllowAnonymous]
         public async Task<string> SubmitLogin(LoginInputDTO input)

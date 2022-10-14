@@ -48,6 +48,7 @@ try
         subscribers.Add<TestEventModel, TestEventHandler>();
         subscribers.Add<ExceptionEvent, Base_LogExceptionBusiness>();
         subscribers.Add<RequestEvent, Base_LogOperatingBusiness>();
+        subscribers.Add<VisitEvent, Base_LogVisitBusiness>();
     });
 
     ////数据过滤与Json配置

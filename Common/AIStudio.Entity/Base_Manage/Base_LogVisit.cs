@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AIStudio.Entity.Base_Manage
 {
     /// <summary>
-    /// 操作表
+    /// 访问日志表
     /// </summary>
-    [Table("Base_LogOperating")]
-    public class Base_LogOperating
+    [Table("Base_LogVisit")]
+    public class Base_LogVisit
     {
         /// <summary>
         /// 自然主键
