@@ -39,6 +39,8 @@ try
     AppSettingsConfig.Configure_(builder.Configuration);
 
     // 日志
+    // NLog: Setup NLog for Dependency injection,需要先清除之前的，不然会打印两次
+    builder.Logging.ClearProviders();
     builder.Host.UseNLog();
 
     //默认事件总线
@@ -182,7 +184,8 @@ catch (Exception ex)
 }
 finally
 {
-    LogManager.Shutdown();
+    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+    NLog.LogManager.Shutdown();
 }
 
 
