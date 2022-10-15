@@ -20,9 +20,11 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task Handle(RequestEvent @event)
         {
-            Base_LogOperating logOperating = new Base_LogOperating()
+            Base_LogOperating log = new Base_LogOperating()
             {
-                Account = @event.Account,
+                CreatorId = @event.CreatorId,
+                CreatorName = @event.CreatorName,
+                TenantId = @event.TenantId,
                 Name = @event.Name,
                 IsSuccess = @event.IsSuccess,
                 Message = @event.Message,
@@ -37,10 +39,10 @@ namespace AIStudio.Business.Base_Manage
                 RequestMethod = @event.RequestMethod,
                 Body = @event.Body,
                 ElapsedTime = @event.ElapsedTime,
-                OperatingTime = @event.OperatingTime
+                LogTime = @event.OperatingTime
             };
 
-            await InsertAsync(logOperating);
+            await InsertAsync(log);
         }
     }
 }

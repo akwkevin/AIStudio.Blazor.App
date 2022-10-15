@@ -1,4 +1,5 @@
-﻿using AIStudio.Util.Helper;
+﻿using AIStudio.Common.IdGenerator;
+using AIStudio.Util.Helper;
 
 namespace AIStudio.Common.EventBus.Abstract;
 
@@ -10,7 +11,7 @@ public abstract class EventModel : IEventModel
     /// <summary>
     /// 事件模型唯一Id。
     /// </summary>
-    public virtual Guid Id { get; set; } = GuidHelper.Next(); // Guid.NewGuid();
+    public virtual string Id { get; set; } = IdHelper.GetId();
 
     /// <summary>
     /// 创建事件对象时的 Utc 时间。
@@ -22,7 +23,7 @@ public abstract class EventModel : IEventModel
 
     }
 
-    public EventModel(Guid id, DateTimeOffset utcNow)
+    public EventModel(string id, DateTimeOffset utcNow)
     {
         Id = id;
         UtcNow = utcNow;

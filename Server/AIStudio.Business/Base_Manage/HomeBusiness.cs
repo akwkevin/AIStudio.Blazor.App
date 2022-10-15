@@ -32,8 +32,6 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task<string> SubmitLoginAsync(LoginInputDTO input)
         {
-            _operator.LoginName = input.UserName;
-
             if (!input.Password.IsNullOrEmpty() && !input.Password.IsMd5())
             {
                 input.Password = input.Password.ToMD5String();
@@ -41,6 +39,10 @@ namespace AIStudio.Business.Base_Manage
             var theUser = await Db.Queryable<Base_User>().Select<Base_UserDTO>()
                 .Where(x => x.UserName == input.UserName && x.Password == input.Password)
                 .FirstAsync();
+
+            _operator.LoginUserId = theUser?.Id;
+            _operator.LoginUserName = theUser?.UserName;
+            _operator.LoginTenantId = theUser?.TenantId;
 
             if (theUser.IsNullOrEmpty())
                 throw AjaxResultException.Status401Unauthorized("账号或密码不正确！");

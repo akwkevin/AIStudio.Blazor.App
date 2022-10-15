@@ -7,25 +7,12 @@ namespace AIStudio.Entity.Base_Manage
     /// 异常记录表
     /// </summary>
     [Table("Base_LogException")]
-    public class Base_LogException
+    public class Base_LogException : ReadOnlyBaseEntity
     {
-        /// <summary>
-        /// 自然主键
-        /// </summary>
-        [Key, Column(Order = 1)]
-        [MaxLength(50)]
-        public string? Id { get; set; }
-
-        /// <summary>
-        /// 操作人账号
-        /// </summary>
-        [MaxLength(64)]
-        public string Account { get; set; }
-
         /// <summary>
         /// 异常事件Id
         /// </summary>
-        public Guid EventId { get; set; }
+        public string EventId { get; set; }
 
         /// <summary>
         /// 异常名称
@@ -67,6 +54,6 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 异常时间
         /// </summary>
-        public DateTimeOffset ExceptionTime { get; set; }
+        public DateTimeOffset LogTime { get; set; }
     }
 }

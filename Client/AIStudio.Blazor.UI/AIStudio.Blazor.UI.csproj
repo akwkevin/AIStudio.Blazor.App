@@ -56,7 +56,7 @@
     <None Include="Pages\Base_Manage\Base_Dictionary\List.razor" />
     <None Include="Pages\Base_Manage\Base_Role\EditForm.razor" />
     <None Include="Pages\Base_Manage\Base_Role\List.razor" />
-    <None Include="Pages\Base_Manage\Base_UserLog\List.razor" />
+    <None Include="Pages\Base_Manage\Base_LogOperating\List.razor" />
     <None Include="Pages\Base_Manage\Base_User\EditForm.razor" />
     <None Include="Pages\Base_Manage\Base_User\List.razor" />
     <None Include="Pages\Home\Analysis\Components\Charts\Bar\Bar.razor" />

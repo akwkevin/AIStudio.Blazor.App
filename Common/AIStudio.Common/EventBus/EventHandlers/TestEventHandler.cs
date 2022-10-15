@@ -11,13 +11,14 @@ namespace AIStudio.Common.EventBus.EventHandlers
 
     public class TestEventHandler : IEventHandler<TestEventModel>
     {
+        private readonly ILogger<TestEventHandler> _logger;
         public TestEventHandler(ILogger<TestEventHandler> logger)
         {
-
+            _logger = logger;
         }
         public Task Handle(TestEventModel @event)
         {
-            Console.WriteLine($"收到信息：{@event.Message}");
+            _logger.LogInformation(@event.Message);
             return Task.CompletedTask;
         }
     }

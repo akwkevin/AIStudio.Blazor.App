@@ -9,7 +9,19 @@ public class ExceptionEvent : EventModel
     /// 操作人账号
     /// </summary>
     [MaxLength(64)]
-    public string? Account { get; set; }
+    public string? CreatorId { get; set; }
+
+    /// <summary>
+    /// 操作人名称
+    /// </summary>
+    [MaxLength(64)]
+    public string? CreatorName { get; set; }
+
+    /// <summary>
+    /// 租户Id
+    /// </summary>
+    [MaxLength(64)]
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// 异常名称

@@ -1,0 +1,42 @@
+2022-10-15 22:28:21.6193 Info Message Template Auto Format enabled
+2022-10-15 22:28:21.6616 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-15 22:28:21.9231 Info Adding target FileTarget(Name=allfile)
+2022-10-15 22:28:21.9456 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-15 22:28:21.9596 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-15 22:28:22.0527 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=56, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:28:24.7022 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=56, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:28:51.8360 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=56, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:28:57.5909 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=56, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:29:24.1654 Info AppDomain Shutting down. LogFactory closing...
+2022-10-15 22:29:24.1868 Info LogFactory has been closed.
+2022-10-15 22:30:54.2834 Info Message Template Auto Format enabled
+2022-10-15 22:30:54.2985 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-15 22:30:54.3665 Info Adding target FileTarget(Name=allfile)
+2022-10-15 22:30:54.3665 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-15 22:30:54.3665 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-15 22:30:54.4100 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:30:55.8742 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:31:05.9936 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:31:09.3179 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:31:38.4594 Info AppDomain Shutting down. LogFactory closing...
+2022-10-15 22:31:38.4896 Info LogFactory has been closed.
+2022-10-15 22:40:32.6603 Info Message Template Auto Format enabled
+2022-10-15 22:40:32.7579 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-15 22:40:32.8950 Info Adding target FileTarget(Name=allfile)
+2022-10-15 22:40:32.8992 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-15 22:40:32.8992 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-15 22:40:32.9335 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:40:34.7656 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:40:52.7881 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:40:55.4984 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:43:13.4050 Info Message Template Auto Format enabled
+2022-10-15 22:43:13.4199 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-15 22:43:13.4878 Info Adding target FileTarget(Name=allfile)
+2022-10-15 22:43:13.4933 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-15 22:43:13.4933 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-15 22:43:13.5327 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:43:14.8876 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:43:27.7990 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:43:29.9306 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=64, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-15 22:45:16.9508 Info AppDomain Shutting down. LogFactory closing...
+2022-10-15 22:45:16.9981 Info LogFactory has been closed.

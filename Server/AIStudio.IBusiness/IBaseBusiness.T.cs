@@ -1,4 +1,5 @@
-﻿using AIStudio.Entity.Base_Manage;
+﻿using AIStudio.Common.Types;
+using AIStudio.Entity.Base_Manage;
 using AIStudio.Util.Common;
 using SqlSugar;
 using System.Data;
@@ -271,10 +272,10 @@ namespace AIStudio.IBusiness
         #endregion
 
         #region 历史数据查询
-        IQueryable<T> GetHistoryDataQueryable(Expression<Func<T, bool>> expression, DateTime? start, DateTime? end, string dateField = "CreateTime");
-        Task<int> GetHistoryDataCount(Expression<Func<T, bool>> expression, DateTime? start = null, DateTime? end = null, string dateField = "CreateTime");
-        Task<List<T>> GetHistoryDataList(Expression<Func<T, bool>> expression, DateTime? start = null, DateTime? end = null, string dateField = "CreateTime");
-        Task<PageResult<T>> GetPageHistoryDataList(PageInput pagination, Expression<Func<T, bool>> expression, DateTime? start = null, DateTime? end = null, string dateField = "CreateTime");
+        IQueryable<T> GetHistoryDataQueryable(Expression<Func<T, bool>> expression, DateTime? start, DateTime? end, string dateField = GlobalConst.CreateTime);
+        Task<int> GetHistoryDataCount(Expression<Func<T, bool>> expression, DateTime? start = null, DateTime? end = null, string dateField = GlobalConst.CreateTime);
+        Task<List<T>> GetHistoryDataList(Expression<Func<T, bool>> expression, DateTime? start = null, DateTime? end = null, string dateField = GlobalConst.CreateTime);
+        Task<PageResult<T>> GetPageHistoryDataList(PageInput pagination, Expression<Func<T, bool>> expression, DateTime? start = null, DateTime? end = null, string dateField = GlobalConst.CreateTime);
 
         #endregion
 

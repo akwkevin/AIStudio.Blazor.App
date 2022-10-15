@@ -59,6 +59,8 @@ namespace AIStudio.Common.AppSettings
         public static class AppSettingsOptions
         {
             public static bool InjectMiniProfiler => Configuration.GetValue<bool>("AppSettings:InjectMiniProfiler");
+
+            public static bool SuperAdminViewAllData => Configuration.GetValue<bool>("AppSettings:SuperAdminViewAllData");
         }
 
         /// <summary>

@@ -22,6 +22,8 @@ public static class JobSchedulingServiceCollectionExtensions
             config.UseMicrosoftDependencyInjectionJobFactory();
         });
 
+        //LogProvider.SetCurrentLogProvider(new CustomConsoleLogProvider());
+
         services.AddHostedService<QuartzHostedService>();
         services.AddSingleton<IQuartzManager, QuartzManager>();
 

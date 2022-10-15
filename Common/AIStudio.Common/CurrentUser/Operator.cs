@@ -21,14 +21,16 @@ namespace AIStudio.Common.CurrentUser
         /// <summary>
         /// 当前操作者UserId
         /// </summary>
-        public virtual string UserId => FindClaimValue(SimpleClaimTypes.UserId);
+        public virtual string? UserId => FindClaimValue(SimpleClaimTypes.UserId);
 
-        public virtual string UserName => FindClaimValue(SimpleClaimTypes.Name);
+        public virtual string? UserName => FindClaimValue(SimpleClaimTypes.Name);
 
         public virtual bool IsSuperAdmin => FindClaimValue(SimpleClaimTypes.SuperAdmin) == SimpleClaimTypes.SuperAdmin;
-        public virtual string TenantId => FindClaimValue(SimpleClaimTypes.TenantId);
+        public virtual string? TenantId => FindClaimValue(SimpleClaimTypes.TenantId);
 
-        public string LoginName {get; set;}
+        public string? LoginUserId { get; set;}
+        public string? LoginUserName { get; set; }
+        public string? LoginTenantId { get; set; }
 
         public virtual Claim? FindClaim(string claimType)
         {
@@ -44,27 +46,5 @@ namespace AIStudio.Common.CurrentUser
         {
             return FindClaim(claimType)?.Value;
         }
-
-        //public void WriteUserLog(UserLogType userLogType, string msg)
-        //{
-        //    var log = new Base_UserLog
-        //    {
-        //        Id = IdHelper.GetId(),
-        //        CreateTime = DateTime.Now,
-        //        CreatorId = UserId,
-        //        CreatorName = Property.UserName,
-        //        LogContent = msg,
-        //        LogType = userLogType.ToString()
-        //    };
-
-        //    Task.Factory.StartNew(async () =>
-        //    {
-        //        using (var scop = _serviceProvider.CreateScope())
-        //        {
-        //            var Su = scop.ServiceProvider.GetService<ISqlSugarClient>();
-        //            await Su.Insertable(log).ExecuteCommandAsync();
-        //        }
-        //    }, TaskCreationOptions.LongRunning);
-        //}
     }
 }

@@ -4,11 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIStudio.Entity
 {
-    /// <summary>
-    /// 泛型实体基类
-    /// </summary>
-    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
-    public abstract class BaseEntity<TPrimaryKey>
+    public abstract class ReadOnlyBaseEntity<TPrimaryKey>
     {
         /// <summary>
         /// 自然主键
@@ -17,10 +13,6 @@ namespace AIStudio.Entity
         [MaxLength(50)]
         public virtual TPrimaryKey? Id { get; set; }
 
-        /// <summary>
-        /// 否已删除
-        /// </summary>
-        public bool Deleted { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -36,8 +28,24 @@ namespace AIStudio.Entity
         /// 创建人
         /// </summary>
         [MaxLength(255)]
-        public string? CreatorName { get; set; }
+        public string? CreatorName { get; set; }      
 
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        [MaxLength(50)]
+        public virtual TPrimaryKey? TenantId { get; set; }
+
+        //[SqlSugar.SugarColumn(IsEnableUpdateVersionValidation = true)]//标识版本字段
+        //public long Ver { get; set; }
+    }
+
+    /// <summary>
+    /// 泛型实体基类(物理删除，无Deleted)
+    /// </summary>
+    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
+    public abstract class PhysicDeleteBaseEntity<TPrimaryKey> : ReadOnlyBaseEntity<TPrimaryKey>
+    {       
         /// <summary>
         /// 修改时间
         /// </summary>
@@ -53,20 +61,43 @@ namespace AIStudio.Entity
         /// 修改人
         /// </summary>
         [MaxLength(255)]
-        public string? ModifyName { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        [MaxLength(50)]
-        public virtual TPrimaryKey? TenantId { get; set; }
-
-        //[SqlSugar.SugarColumn(IsEnableUpdateVersionValidation = true)]//标识版本字段
-        //public long Ver { get; set; }
+        public string? ModifyName { get; set; }     
     }
 
     /// <summary>
-    /// 定义默认主键类型为Guid的实体基类
+    /// 泛型实体基类，软删除
+    /// </summary>
+    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
+    public abstract class BaseEntity<TPrimaryKey> : PhysicDeleteBaseEntity<TPrimaryKey>
+    {
+        /// <summary>
+        /// 否已删除
+        /// </summary>
+        public bool Deleted { get; set; }      
+    }
+
+    /// <summary>
+    /// 定义默认主键类型为String的只读实体基类
+    /// </summary>
+
+    public abstract class ReadOnlyBaseEntity : ReadOnlyBaseEntity<string>
+    {
+
+
+    }
+
+    /// <summary>
+    /// 定义默认主键类型为String的硬删除实体基类
+    /// </summary>
+
+    public abstract class PhysicDeleteBaseEntity : PhysicDeleteBaseEntity<string>
+    {
+
+
+    }
+
+    /// <summary>
+    /// 定义默认主键类型为String的实体基类
     /// </summary>
 
     public abstract class BaseEntity : BaseEntity<string>

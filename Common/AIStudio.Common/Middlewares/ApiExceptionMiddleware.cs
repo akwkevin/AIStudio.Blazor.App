@@ -1,5 +1,6 @@
 ﻿using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Models;
+using AIStudio.Common.Jwt;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +47,7 @@ public class ApiExceptionMiddleware
     private async Task HandleExceptionAsync(HttpContext context, ExceptionDispatchInfo edi)
     {
         // 发布异常事件
-        Guid eventId = await PublishEventAsync(edi.SourceException, context.User.Identity?.Name);
+        string eventId = await PublishEventAsync(edi.SourceException, context.User.Identity?.Name, context.User.FindFirst(SimpleClaimTypes.UserId)?.Value, context.User.FindFirst(SimpleClaimTypes.TenantId)?.Value);
 
         // 如果已经开始响应客户端，则该异常将无法处理
         if (context.Response.HasStarted)
@@ -82,14 +83,16 @@ public class ApiExceptionMiddleware
     /// 发布异常事件
     /// </summary>
     /// <param name="exception">异常</param>
-    /// <param name="account">操作人账号</param>
+    /// <param name="userId">操作人账号</param>
     /// <returns>事件Id</returns>
-    private async Task<Guid> PublishEventAsync(Exception exception, string? account)
+    private async Task<string> PublishEventAsync(Exception exception, string? userName, string? userId,  string? tenantId)
     {
         // 定义异常事件模型
         ExceptionEvent exceptionEvent = new ExceptionEvent()
         {
-            Account = account,
+            CreatorId = userId,
+            CreatorName = userName,
+            TenantId = tenantId,
             Name = exception.Message,
             Message = exception.Message,
             ClassName = exception.TargetSite?.DeclaringType?.FullName,

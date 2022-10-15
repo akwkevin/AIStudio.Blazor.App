@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.AppSettings;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.EventBus.Abstract;
+using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Extensions;
 using AIStudio.Common.Filter.FilterAttribute;
@@ -42,7 +43,13 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         if (AppSettingsConfig.RecordRequestOptions.IsSkipGetMethod && request.Method.ToUpper() == "GET") isSkipRecord = true;
 
         //如果没有请求记录属性则跳过
-        if (!context.ContainsFilter<RequestRecordAttribute>()) isSkipRecord = true;
+        var requestRecord = context.ContainsFilter<RequestRecordAttribute>();
+        if (!requestRecord)
+        {
+#if !DEBUG
+            isSkipRecord = true;
+#endif
+        }
 
         // 进入管道的下一个过滤器，并跳过剩下动作
         if (isSkipRecord)
@@ -84,7 +91,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             result = contentResult.Content;
         }
 
-        EventModel @event;
+        EventModel @event = null;
         //登录接口
         if (request.Path == "/Base_Manage/Home/SubmitLogin" || request.Path == "/Base_Manage/Home/SubmitLogout")
         {
@@ -92,7 +99,9 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             {
                 Name = name,
                 Message = message,
-                Account = _operator.UserName ?? _operator.LoginName,
+                CreatorId = _operator.UserId ?? _operator.LoginUserId,
+                CreatorName = _operator.UserName ?? _operator.LoginUserName,
+                TenantId = _operator.TenantId ?? _operator.LoginTenantId,
                 IsSuccess = isSuccess,
                 Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
                 OperatingSystem = clientInfo?.OS.Family + clientInfo?.OS.Major,
@@ -108,13 +117,15 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
                 OperatingTime = DateTimeOffset.Now,
             };
         }
-        else
+        else if (requestRecord)
         {
             @event = new RequestEvent()
             {
                 Name = name,
                 Message = message,
-                Account = _operator.UserName,
+                CreatorId = _operator.UserId,
+                CreatorName = _operator.UserName,
+                TenantId = _operator.TenantId,
                 IsSuccess = isSuccess,
                 Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
                 OperatingSystem = clientInfo?.OS.Family + clientInfo?.OS.Major,
@@ -130,9 +141,26 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
                 OperatingTime = DateTimeOffset.Now,
             };
         }
-        await _publisher.PublishAsync(@event);
 
-        //var testEventModel = new TestEventModel() { Message = @event.ToJson() };
-        //await _publisher.PublishAsync(testEventModel);
+        if (@event != null)
+        {
+            await _publisher.PublishAsync(@event);
+        }
+        if (result?.Length > 1000)
+        {
+            result = new string(result.Copy(0, 1000).ToArray());
+            result += "......内容太长已忽略";
+        }
+
+        var testEventModel = new TestEventModel() { Message = @$"方向:请求本系统
+Url:{request.GetRequestUrlAddress()}
+Time:{sw.ElapsedMilliseconds}ms
+Method:{request.Method}
+ContentType:{request.ContentType}
+Body:{body}
+Message:{message}
+Result:{result}
+"};
+        await _publisher.PublishAsync(testEventModel);
     }
 }

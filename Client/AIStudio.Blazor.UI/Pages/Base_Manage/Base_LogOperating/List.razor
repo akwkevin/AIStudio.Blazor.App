@@ -1,6 +1,6 @@
-﻿@page "/Base_Manage/Base_UserLog/List"
+﻿@page "/Base_Manage/Base_LogOperating/List"
 
-@inherits BaseList<Base_UserLogDTO>
+@inherits BaseList<Base_LogOperatingDTO>
 
 <Space Size="@("small")">
     <SpaceItem>
@@ -26,10 +26,10 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_UserLogDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" TItem="Base_LogOperatingDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="内容" DataIndex="LogContent" TData="string" />
+        <AntDesign.Column Title="内容" DataIndex="Result" TData="string" />
         <AntDesign.Column Title="级别" DataIndex="Level" TData="string" />
         <AntDesign.Column Title="类别" DataIndex="LogType" TData="string" />
         <AntDesign.Column Title="操作人" DataIndex="CreatorName" TData="string" />
@@ -54,7 +54,6 @@
     public List()
     {
         Area = "Base_Manage";
-        GetDataList = "GetLogList";
     }
 
 
@@ -122,7 +121,7 @@
                 }
             };
 
-            var result = await DataProvider.GetData<List<Base_UserLogDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
+            var result = await DataProvider.GetData<List<Base_LogOperatingDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

@@ -15,7 +15,7 @@
                             @Data[i].CreateTime
                         </SpaceItem>
                         <SpaceItem>
-                            @Data[i].LogContent
+                            @Data[i].Message
                         </SpaceItem>
                     </Space>
                 </TimelineItem>
@@ -47,7 +47,7 @@
 
     Util.Common.Pagination Pagination { get; set; } = new Util.Common.Pagination() { PageRows = 100 };
 
-    List<Base_UserLogDTO> Data { get; set; }
+    List<Base_LogOperatingDTO> Data { get; set; }
 
     [Parameter]
     public string FullName { get; set; }
@@ -91,13 +91,13 @@
                 }
             };
 
-            var result = await DataProvider.GetData<List<Base_UserLogDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
+            var result = await DataProvider.GetData<List<Base_LogOperatingDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);
             }
             Pagination.Total = result.Total;
-            Data = new List<Base_UserLogDTO>(result.Data);
+            Data = new List<Base_LogOperatingDTO>(result.Data);
 
         }
         catch (Exception ex)

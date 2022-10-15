@@ -23,12 +23,12 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// Base_UserLogController
         /// </summary>
         /// <param name="logBus"></param>
-        public Base_UserLogController(IBase_UserLogBusiness logBus)
+        public Base_UserLogController(IBase_LogSystemBusiness logBus)
         {
             _logBus = logBus;
         }
 
-        IBase_UserLogBusiness _logBus { get; }
+        IBase_LogSystemBusiness _logBus { get; }
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<Base_UserLog>> GetLogList(PageInput<Base_UserLogsInputDTO> input)
+        public async Task<PageResult<Base_LogSystem>> GetLogList(PageInput<Base_UserLogsInputDTO> input)
         {
             input.SortField = "CreateTime";
             input.SortType = "desc";

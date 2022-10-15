@@ -9,7 +9,19 @@ public class RequestEvent : EventModel
     /// 操作人
     /// </summary>
     [MaxLength(64)]
-    public string? Account { get; set; }
+    public string? CreatorId { get; set; }
+
+    /// <summary>
+    /// 操作人名称
+    /// </summary>
+    [MaxLength(64)]
+    public string? CreatorName { get; set; }
+
+    /// <summary>
+    /// 租户Id
+    /// </summary>
+    [MaxLength(64)]
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// 日志名称

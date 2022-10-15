@@ -34,6 +34,11 @@ namespace AIStudio.Common.Jwt
         public const string SuperAdmin = "SuperAdmin";
 
         /// <summary>
+        /// 是否超级管理
+        /// </summary>
+        public const string Admin = "Admin";
+
+        /// <summary>
         /// 租户Id
         /// </summary>
         public const string TenantId = "TenantId";
@@ -47,8 +52,6 @@ namespace AIStudio.Common.Jwt
         /// </summary>
         public const string TenantName = "TenantName";
 
-
-
-     
+       
     }
 }

@@ -12,24 +12,16 @@ namespace AIStudio.Common.CurrentUser
         /// <summary>
         /// 当前操作者UserId
         /// </summary>
-        string UserId { get; }
+        string? UserId { get; }
 
-        string UserName { get; }
+        string? UserName { get; }
 
         bool IsSuperAdmin { get; }
-        string TenantId { get; }
-
-        string LoginName { get; set; }
+        string? TenantId { get; }
+        string? LoginUserId { get; set; }
+        string? LoginUserName { get; set; }
+        string? LoginTenantId { get; set; }
         #region 操作方法
-
-
-
-        /// <summary>
-        /// 记录操作日志
-        /// </summary>
-        /// <param name="userLogType">用户日志类型</param>
-        /// <param name="msg">内容</param>
-        //void WriteUserLog(UserLogType userLogType, string msg);
 
         #endregion
     }

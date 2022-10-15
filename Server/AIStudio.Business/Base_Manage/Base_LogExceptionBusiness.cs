@@ -20,9 +20,11 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task Handle(ExceptionEvent @event)
         {
-            Base_LogException logException = new Base_LogException()
+            Base_LogException log = new Base_LogException()
             {
-                Account = @event.Account,
+                CreatorId = @event.CreatorId,
+                CreatorName = @event.CreatorName,
+                TenantId = @event.TenantId,
                 EventId = @event.Id,
                 Name = @event.Name,
                 Message = @event.Message,
@@ -31,10 +33,10 @@ namespace AIStudio.Business.Base_Manage
                 ExceptionSource = @event.ExceptionSource,
                 StackTrace = @event.StackTrace,
                 Parameters = @event.Parameters,
-                ExceptionTime = @event.ExceptionTime,
+                LogTime = @event.ExceptionTime,
             };
 
-            await InsertAsync(logException);
+            await InsertAsync(log);
         }
     }
 }

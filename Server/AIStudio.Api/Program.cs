@@ -16,6 +16,7 @@ using AIStudio.Common.Service;
 using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
+using AIStudio.Entity.Base_Manage;
 using AIStudio.Util;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,7 @@ try
         subscribers.Add<ExceptionEvent, Base_LogExceptionBusiness>();
         subscribers.Add<RequestEvent, Base_LogOperatingBusiness>();
         subscribers.Add<VisitEvent, Base_LogVisitBusiness>();
+        subscribers.Add<SystemEvent, Base_LogSystemBusiness>();
     });
 
     ////数据过滤与Json配置

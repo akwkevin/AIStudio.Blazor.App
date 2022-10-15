@@ -7,21 +7,8 @@ namespace AIStudio.Entity.Base_Manage
     /// 访问日志表
     /// </summary>
     [Table("Base_LogVisit")]
-    public class Base_LogVisit
-    {
-        /// <summary>
-        /// 自然主键
-        /// </summary>
-        [Key, Column(Order = 1)]
-        [MaxLength(50)]
-        public string? Id { get; set; }
-
-        /// <summary>
-        /// 操作人
-        /// </summary>
-        [MaxLength(64)]
-        public string Account { get; set; }
-
+    public class Base_LogVisit : ReadOnlyBaseEntity
+    {    
         /// <summary>
         /// 日志名称
         /// </summary>
@@ -101,8 +88,8 @@ namespace AIStudio.Entity.Base_Manage
         public long ElapsedTime { get; set; }
 
         /// <summary>
-        /// 操作时间
+        /// 日志时间
         /// </summary>
-        public DateTimeOffset OperatingTime { get; set; }
+        public DateTimeOffset LogTime { get; set; }
     }
 }

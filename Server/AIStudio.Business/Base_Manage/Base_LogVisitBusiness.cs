@@ -22,7 +22,9 @@ namespace AIStudio.Business.Base_Manage
         {
             Base_LogVisit logOperating = new Base_LogVisit()
             {
-                Account = @event.Account,
+                CreatorId = @event.CreatorId,
+                CreatorName = @event.CreatorName,
+                TenantId = @event.TenantId,
                 Name = @event.Name,
                 IsSuccess = @event.IsSuccess,
                 Message = @event.Message,
@@ -37,7 +39,7 @@ namespace AIStudio.Business.Base_Manage
                 RequestMethod = @event.RequestMethod,
                 Body = @event.Body,
                 ElapsedTime = @event.ElapsedTime,
-                OperatingTime = @event.OperatingTime
+                LogTime = @event.OperatingTime,
             };
 
             await InsertAsync(logOperating);

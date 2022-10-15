@@ -5,7 +5,7 @@
 /// </summary>
 public interface IEventModel
 {
-    Guid Id { get; }
+    string Id { get; }
 
     DateTimeOffset UtcNow { get; }
 }
