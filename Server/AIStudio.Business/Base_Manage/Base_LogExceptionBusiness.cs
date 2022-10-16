@@ -20,7 +20,7 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task Handle(ExceptionEvent @event)
         {
-            Base_LogException log = new Base_LogException();
+            Base_LogException log = new Base_LogException()
             {
                 CreatorId = @event.CreatorId,
                 CreatorName = @event.CreatorName,
