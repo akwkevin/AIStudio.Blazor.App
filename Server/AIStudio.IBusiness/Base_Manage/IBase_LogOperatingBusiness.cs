@@ -6,7 +6,7 @@ using AIStudio.Util.Common;
 
 namespace AIStudio.IBusiness.Base_Manage
 {
-    public interface IBase_LogOperatingBusiness : IBaseBusiness<Base_LogOperating>, IEventHandler<RequestEvent>
+    public interface IBase_LogOperatingBusiness : ISplitTableBaseBusiness<Base_LogOperating>, IEventHandler<RequestEvent>
     {
         Task Handle(RequestEvent @event);
     }

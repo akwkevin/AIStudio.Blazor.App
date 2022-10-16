@@ -59,6 +59,8 @@ namespace AIStudio.Api
                         ConnectionStr = item.DbString,
                         DbType = item.DbType,
                         CreateTime = DateTime.Now,
+                        CreatorId = "System",
+                        CreatorName = "System",
                     };
                     dblinks.Add(dblink);
                 }
@@ -77,6 +79,8 @@ namespace AIStudio.Api
                     Id = IdHelper.GetId(),
                     RoleName = RoleTypes.部门管理员.ToString(),
                     CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result = roleBusiness.Insert(admin);
 
@@ -91,6 +95,8 @@ namespace AIStudio.Api
                     Id = IdHelper.GetId(),
                     RoleName = RoleTypes.超级管理员.ToString(),
                     CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result = roleBusiness.Insert(superadmin);
 
@@ -103,13 +109,13 @@ namespace AIStudio.Api
             {
                 List<Base_Department> departments = new List<Base_Department>()
                 {
-                    new Base_Department(){  Id="Id1", Name="Wpf控件公司", ParentId = null, CreateTime=DateTime.Now},
-                    new Base_Department(){  Id="Id2", Name="UI部门", ParentId="Id1", CreateTime=DateTime.Now},
-                    new Base_Department(){  Id="Id2_1", Name="UI子部门1", ParentId="Id2", CreateTime=DateTime.Now},
-                    new Base_Department(){  Id="Id2_2", Name="UI子部门2", ParentId="Id2", CreateTime=DateTime.Now},
-                    new Base_Department(){  Id="Id3", Name="C#部门", ParentId="Id1", CreateTime=DateTime.Now},
-                    new Base_Department(){  Id="Id3_1", Name="C#子部门1", ParentId="Id3", CreateTime=DateTime.Now},
-                    new Base_Department(){  Id="Id3_2", Name="C#子部门2", ParentId="Id3", CreateTime=DateTime.Now},
+                    new Base_Department(){  Id="Id1", Name="Wpf控件公司", ParentId = null, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id2", Name="UI部门", ParentId="Id1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id2_1", Name="UI子部门1", ParentId="Id2", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id2_2", Name="UI子部门2", ParentId="Id2", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3", Name="C#部门", ParentId="Id1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3_1", Name="C#子部门1", ParentId="Id3", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3_2", Name="C#子部门2", ParentId="Id3", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                 };
 
                 var result = departmentBussiness.Insert(departments);
@@ -129,6 +135,8 @@ namespace AIStudio.Api
                     Password = "Admin".ToMD5String(),
                     DepartmentId = "Id1",
                     CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result = userBusiness.Insert(adminUser);
 
@@ -137,6 +145,9 @@ namespace AIStudio.Api
                     Id = IdHelper.GetId(),
                     UserId = adminUser.Id,
                     RoleId = superadmin.Id,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result2 = userroleBusiness.Insert(adminUserRole);
 
@@ -154,6 +165,8 @@ namespace AIStudio.Api
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id2",
                     CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result = userBusiness.Insert(alice);
 
@@ -162,6 +175,9 @@ namespace AIStudio.Api
                     Id = IdHelper.GetId(),
                     UserId = adminUser.Id,
                     RoleId = alice.Id,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result2 = userroleBusiness.Insert(aliceUserRole);
 
@@ -179,6 +195,8 @@ namespace AIStudio.Api
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id3",
                     CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
                 var result = userBusiness.Insert(bob);
 
@@ -191,62 +209,63 @@ namespace AIStudio.Api
             {
                 List<Base_Action> actions = new List<Base_Action>()
                 {
-                    new Base_Action(){ Id="Id0",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="首页",     Url=null,                               Value=null,                    NeedAction=true,    Icon="home",           Sort=0, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id0_1",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="框架介绍", Url="/Home/Introduce",                  Value=null,                    NeedAction=false,   Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id0_2",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="运营统计", Url="/Home/Statis",                     Value=null,                    NeedAction=false,   Icon=null,             Sort=2, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id0_3",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="我的控制台", Url="/Home/UserConsole",              Value=null,                    NeedAction=false,   Icon=null,             Sort=3, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id0_4",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="3D展台", Url="/Home/_3DShowcase",                  Value=null,                    NeedAction=false,   Icon=null,             Sort=4, CreateTime=DateTime.Now},
+                    new Base_Action(){ Id="Id0",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="首页",     Url=null,                               Value=null,                    NeedAction=true,    Icon="home",           Sort=0, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id0_1",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="框架介绍", Url="/Home/Introduce",                  Value=null,                    NeedAction=false,   Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id0_2",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="运营统计", Url="/Home/Statis",                     Value=null,                    NeedAction=false,   Icon=null,             Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id0_3",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="我的控制台", Url="/Home/UserConsole",              Value=null,                    NeedAction=false,   Icon=null,             Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id0_4",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="3D展台", Url="/Home/_3DShowcase",                  Value=null,                    NeedAction=false,   Icon=null,             Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
-                    new Base_Action(){ Id="Id1",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="系统管理", Url=null,                               Value=null,                    NeedAction=true,    Icon="setting",        Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="权限管理", Url="/Base_Manage/Base_Action/List",    Value=null,                    NeedAction=true,    Icon="lock",           Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="密钥管理", Url="/Base_Manage/Base_AppSecret/List", Value=null,                    NeedAction=true,    Icon="key",            Sort=2, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_3",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="用户管理", Url="/Base_Manage/Base_User/List",      Value=null,                    NeedAction=true,    Icon="user-add",       Sort=3, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_4",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="角色管理", Url="/Base_Manage/Base_Role/List",      Value=null,                    NeedAction=true,    Icon="safety",         Sort=4, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_5",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="部门管理", Url="/Base_Manage/Base_Department/List",Value=null,                    NeedAction=true,    Icon="usergroup-add",  Sort=5, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_6",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="字典管理", Url="/Base_Manage/Base_Dictionary/List",Value=null,                    NeedAction=true,    Icon="edit",           Sort=6, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_7",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="表单配置", Url="/Base_Manage/Base_CommonFormConfig/List",Value=null,              NeedAction=true,    Icon="form",           Sort=7, CreateTime=DateTime.Now},
+                    new Base_Action(){ Id="Id1",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="系统管理", Url=null,                               Value=null,                    NeedAction=true,    Icon="setting",        Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="权限管理", Url="/Base_Manage/Base_Action/List",    Value=null,                    NeedAction=true,    Icon="lock",           Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="密钥管理", Url="/Base_Manage/Base_AppSecret/List", Value=null,                    NeedAction=true,    Icon="key",            Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_3",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="用户管理", Url="/Base_Manage/Base_User/List",      Value=null,                    NeedAction=true,    Icon="user-add",       Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_4",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="角色管理", Url="/Base_Manage/Base_Role/List",      Value=null,                    NeedAction=true,    Icon="safety",         Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_5",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="部门管理", Url="/Base_Manage/Base_Department/List",Value=null,                    NeedAction=true,    Icon="usergroup-add",  Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_6",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="字典管理", Url="/Base_Manage/Base_Dictionary/List",Value=null,                    NeedAction=true,    Icon="edit",           Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_7",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="表单配置", Url="/Base_Manage/Base_CommonFormConfig/List",Value=null,              NeedAction=true,    Icon="form",           Sort=7, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                   
-                    new Base_Action(){ Id="Id1_9",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="任务管理", Url="/Quartz_Manage/Quartz_Task/List",  Value=null,                    NeedAction=true,    Icon="calendar",       Sort=9, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_1_1",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Action.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_1_2",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Action.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_1_3",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Action.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_2_1",Deleted = false, ParentId="Id1_2", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_AppSecret.Add",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_2_2",Deleted = false, ParentId="Id1_2", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_AppSecret.Edit",   NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_2_3",Deleted = false, ParentId="Id1_2", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_AppSecret.Delete", NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_3_1",Deleted = false, ParentId="Id1_3", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_User.Add",         NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_3_2",Deleted = false, ParentId="Id1_3", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_User.Edit",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_3_3",Deleted = false, ParentId="Id1_3", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_User.Delete",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_4_1",Deleted = false, ParentId="Id1_4", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Role.Add",         NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_4_2",Deleted = false, ParentId="Id1_4", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Role.Edit",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_4_3",Deleted = false, ParentId="Id1_4", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Role.Delete",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_5_1",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Department.Add",   NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_5_2",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Department.Edit",  NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id1_5_3",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Department.Delete",NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
+                    new Base_Action(){ Id="Id1_9",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="任务管理", Url="/Quartz_Manage/Quartz_Task/List",  Value=null,                    NeedAction=true,    Icon="calendar",       Sort=9, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_1_1",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Action.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_1_2",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Action.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_1_3",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Action.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_2_1",Deleted = false, ParentId="Id1_2", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_AppSecret.Add",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_2_2",Deleted = false, ParentId="Id1_2", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_AppSecret.Edit",   NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_2_3",Deleted = false, ParentId="Id1_2", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_AppSecret.Delete", NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_3_1",Deleted = false, ParentId="Id1_3", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_User.Add",         NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_3_2",Deleted = false, ParentId="Id1_3", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_User.Edit",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_3_3",Deleted = false, ParentId="Id1_3", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_User.Delete",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_4_1",Deleted = false, ParentId="Id1_4", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Role.Add",         NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_4_2",Deleted = false, ParentId="Id1_4", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Role.Edit",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_4_3",Deleted = false, ParentId="Id1_4", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Role.Delete",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_5_1",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Department.Add",   NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_5_2",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Department.Edit",  NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_5_3",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Department.Delete",NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
-                    new Base_Action(){ Id="Id2",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="日志管理", Url=null,                               Value=null,                    NeedAction=true,    Icon="file-search",   Sort=3, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id2_1",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="异常日志", Url="/Base_Manage/Base_LogException/List",   Value=null,                    NeedAction=true,    Icon="file-search",    Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id2_2",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="访问日志", Url="/Base_Manage/Base_LogVisit/List",   Value=null,                    NeedAction=true,    Icon="file-search",    Sort=2, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id2_3",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="操作日志", Url="/Base_Manage/Base_LogOperating/List",   Value=null,                    NeedAction=true,    Icon="file-search",    Sort=3, CreateTime=DateTime.Now},
-                   
-                    new Base_Action(){ Id="Id3",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="流程中心", Url=null,                               Value=null,                    NeedAction=true,    Icon="clock-circle",   Sort=3, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_1",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="流程管理", Url="/OA_Manage/OA_DefForm/List",       Value=null,                    NeedAction=true,    Icon="interaction",    Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_1_1",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="OA_DefForm.Add",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_1_2",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="改",   Url=null,                               Value="OA_DefForm.Edit",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_1_3",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="删",   Url=null,                               Value="OA_DefForm.Delete",     NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_2",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="发起流程", Url="/OA_Manage/OA_DefForm/TreeList",   Value=null,                    NeedAction=true,    Icon="file-add",       Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_3",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="我的流程", Url="/OA_Manage/OA_UserForm/List",      Value=null,                    NeedAction=true,    Icon="file-done",      Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_3_1",Deleted = false, ParentId="Id3_3", Type = ActionType.权限, Name="增",   Url=null,                               Value="OA_UserForm.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_3_2",Deleted = false, ParentId="Id3_3", Type = ActionType.权限, Name="改",   Url=null,                               Value="OA_UserForm.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_3_3",Deleted = false, ParentId="Id3_3", Type = ActionType.权限, Name="删",   Url=null,                               Value="OA_UserForm.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_4",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="流程字典管理", Url="/OA_Manage/OA_DefType/List",   Value=null,                    NeedAction=true,    Icon="edit",           Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_4_1",Deleted = false, ParentId="Id3_4", Type = ActionType.权限, Name="增",    Url=null,                              Value="OA_DefType.Add",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_4_2",Deleted = false, ParentId="Id3_4", Type = ActionType.权限, Name="改",    Url=null,                              Value="OA_DefType.Edit",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id3_4_3",Deleted = false, ParentId="Id3_4", Type = ActionType.权限, Name="删",    Url=null,                              Value="OA_DefType.Delete",     NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now},
+                    new Base_Action(){ Id="Id2",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="日志管理", Url=null,                               Value=null,                    NeedAction=true,    Icon="file-search",    Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id2_1",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="异常日志", Url="/Base_Manage/Base_LogException/List", Value=null,                 NeedAction=true,    Icon="file-search",    Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id2_2",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="访问日志", Url="/Base_Manage/Base_LogVisit/List",  Value=null,                    NeedAction=true,    Icon="file-search",    Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id2_3",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="操作日志", Url="/Base_Manage/Base_LogOperating/List", Value=null,                 NeedAction=true,    Icon="file-search",    Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id2_4",Deleted = false, ParentId="Id2", Type = ActionType.页面, Name="系统日志", Url="/Base_Manage/Base_LogSystem/List", Value=null,                    NeedAction=true,    Icon="file-search",    Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
-                    new Base_Action(){ Id="Id4",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="通用查询",  Url=null,                              Value=null,                    NeedAction=true,    Icon="search",        Sort=4, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id4_1",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="用户查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_User",  Value="Base_Manage.Base_User",  NeedAction=true, Icon="user-add", Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id4_2",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="角色查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_Role",  Value="Base_Manage.Base_Role",  NeedAction=true, Icon="safety", Sort=1, CreateTime=DateTime.Now},
-                    new Base_Action(){ Id="Id4_3",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="密钥查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_AppSecret",  Value="Base_Manage.Base_AppSecret",  NeedAction=true, Icon="key", Sort=1, CreateTime=DateTime.Now},
+                    new Base_Action(){ Id="Id3",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="流程中心", Url=null,                               Value=null,                    NeedAction=true,    Icon="clock-circle",   Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_1",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="流程管理", Url="/OA_Manage/OA_DefForm/List",       Value=null,                    NeedAction=true,    Icon="interaction",    Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_1_1",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="OA_DefForm.Add",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_1_2",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="改",   Url=null,                               Value="OA_DefForm.Edit",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_1_3",Deleted = false, ParentId="Id3_1", Type = ActionType.权限, Name="删",   Url=null,                               Value="OA_DefForm.Delete",     NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_2",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="发起流程", Url="/OA_Manage/OA_DefForm/TreeList",   Value=null,                    NeedAction=true,    Icon="file-add",       Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_3",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="我的流程", Url="/OA_Manage/OA_UserForm/List",      Value=null,                    NeedAction=true,    Icon="file-done",      Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_3_1",Deleted = false, ParentId="Id3_3", Type = ActionType.权限, Name="增",   Url=null,                               Value="OA_UserForm.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_3_2",Deleted = false, ParentId="Id3_3", Type = ActionType.权限, Name="改",   Url=null,                               Value="OA_UserForm.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_3_3",Deleted = false, ParentId="Id3_3", Type = ActionType.权限, Name="删",   Url=null,                               Value="OA_UserForm.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_4",Deleted = false, ParentId="Id3", Type = ActionType.页面, Name="流程字典管理", Url="/OA_Manage/OA_DefType/List",   Value=null,                    NeedAction=true,    Icon="edit",           Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_4_1",Deleted = false, ParentId="Id3_4", Type = ActionType.权限, Name="增",    Url=null,                              Value="OA_DefType.Add",        NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_4_2",Deleted = false, ParentId="Id3_4", Type = ActionType.权限, Name="改",    Url=null,                              Value="OA_DefType.Edit",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id3_4_3",Deleted = false, ParentId="Id3_4", Type = ActionType.权限, Name="删",    Url=null,                              Value="OA_DefType.Delete",     NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+
+                    new Base_Action(){ Id="Id4",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="通用查询",  Url=null,                              Value=null,                    NeedAction=true,    Icon="search",        Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id4_1",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="用户查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_User",  Value="Base_Manage.Base_User",  NeedAction=true, Icon="user-add", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id4_2",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="角色查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_Role",  Value="Base_Manage.Base_Role",  NeedAction=true, Icon="safety", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id4_3",Deleted = false, ParentId="Id4", Type = ActionType.页面, Name="密钥查询",  Url="/Agile_Development/Common_FormConfigQuery/List/Base_Manage.Base_AppSecret",  Value="Base_Manage.Base_AppSecret",  NeedAction=true, Icon="key", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                 };
 
                 var result = actionBusiness.Insert(actions);
@@ -259,8 +278,8 @@ namespace AIStudio.Api
             {
                 List<Base_AppSecret> actions = new List<Base_AppSecret>()
                 {
-                    new Base_AppSecret(){  Id="1172497995938271232", AppId="PcAdmin", AppSecret="wtMaiTRPTT3hrf5e", AppName="后台AppId", CreateTime=DateTime.Now},
-                    new Base_AppSecret(){  Id="1173937877642383360", AppId="AppAdmin", AppSecret="IVh9LLSVFcoQPQ5K", AppName="APP密钥", CreateTime=DateTime.Now}
+                    new Base_AppSecret(){  Id="1172497995938271232", AppId="PcAdmin", AppSecret="wtMaiTRPTT3hrf5e", AppName="后台AppId", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_AppSecret(){  Id="1173937877642383360", AppId="AppAdmin", AppSecret="IVh9LLSVFcoQPQ5K", AppName="APP密钥", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",}
                 };
 
                 var result = appSecretBussiness.Insert(actions);
@@ -273,24 +292,24 @@ namespace AIStudio.Api
             {
                 List<Base_Dictionary> dictionaries = new List<Base_Dictionary>()
                 {
-                    new Base_Dictionary(){ Id="Id1",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.ComboBox,  Text = "性别", Value="Sex", Code = "", Sort=1, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集,  Text = "女", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集,  Text = "男", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id2",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "姓名", Value="UserName", Code = "", Sort=2, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id3",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "真实姓名", Value="RealName", Code = "", Sort=3, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id4",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "密码", Value="Password", Code = "", Sort=4, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id5",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "生日", Value="Birthday", Code = "", Sort=5, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id6",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.MultiComboBox,  Text = "角色", Value="RoleIdList", Code = "Base_Role", Sort=6, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id7",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.TreeSelect,  Text = "部门", Value="DepartmentId", Code = "Base_Department", Sort=7, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id8",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "手机号码", Value="PhoneNumber", Code = "", Sort=8, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id9",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "创建时间", Value="CreateTime", Code = "", Sort=9, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id10",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "修改时间", Value="ModifyTime", Code = "", Sort=10, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id11",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "创建者", Value="CreatorName", Code = "", Sort=11, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id12",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "修改者", Value="ModifyName", Code = "", Sort=12, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id13",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.ComboBox,  Text = "紧急程度", Value="Grade", Code = "", Sort=1, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id13_1",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "正常", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id13_2",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "紧急", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now },
-                    new Base_Dictionary(){ Id="Id13_3",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "特级", Value="2", Code ="",  Sort=2, CreateTime=DateTime.Now },
+                    new Base_Dictionary(){ Id="Id1",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.ComboBox,  Text = "性别", Value="Sex", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集,  Text = "女", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集,  Text = "男", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id2",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "姓名", Value="UserName", Code = "", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id3",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "真实姓名", Value="RealName", Code = "", Sort=3, CreateTime=DateTime.Now , CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id4",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "密码", Value="Password", Code = "", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id5",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "生日", Value="Birthday", Code = "", Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id6",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.MultiComboBox,  Text = "角色", Value="RoleIdList", Code = "Base_Role", Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id7",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.TreeSelect,  Text = "部门", Value="DepartmentId", Code = "Base_Department", Sort=7, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id8",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "手机号码", Value="PhoneNumber", Code = "", Sort=8, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id9",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "创建时间", Value="CreateTime", Code = "", Sort=9, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id10",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "修改时间", Value="ModifyTime", Code = "", Sort=10, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id11",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "创建者", Value="CreatorName", Code = "", Sort=11, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id12",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "修改者", Value="ModifyName", Code = "", Sort=12, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.ComboBox,  Text = "紧急程度", Value="Grade", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13_1",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "正常", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13_2",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "紧急", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13_3",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "特级", Value="2", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
                 };
 
@@ -370,6 +389,9 @@ namespace AIStudio.Api
                     ActionClass = nameof(TestJob),
                     Cron = "0/10 * * * * ?",
                     IsEnabled = true,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System", 
+                    CreatorName = "System",
                 };
 
                 var result = quartz_TaskBusiness.Insert(textJob);

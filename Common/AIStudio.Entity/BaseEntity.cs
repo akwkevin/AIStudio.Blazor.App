@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +16,7 @@ namespace AIStudio.Entity
         /// <summary>
         /// 创建时间
         /// </summary>
+        [SplitField]
         public DateTime CreateTime { get; set; }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace AIStudio.Entity
         /// 创建人
         /// </summary>
         [MaxLength(255)]
-        public string? CreatorName { get; set; }      
+        public string? CreatorName { get; set; }
 
         /// <summary>
         /// 租户Id

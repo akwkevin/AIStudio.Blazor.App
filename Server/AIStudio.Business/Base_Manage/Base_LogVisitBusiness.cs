@@ -10,7 +10,7 @@ using SqlSugar;
 
 namespace AIStudio.Business.Base_Manage
 {
-    public class Base_LogVisitBusiness : BaseBusiness<Base_LogVisit>, IBase_LogVisitBusiness, ITransientDependency
+    public class Base_LogVisitBusiness : SplitTableBaseBusiness<Base_LogVisit>, IBase_LogVisitBusiness, ITransientDependency
     {
 
         public Base_LogVisitBusiness(ISqlSugarClient db) : base(db)

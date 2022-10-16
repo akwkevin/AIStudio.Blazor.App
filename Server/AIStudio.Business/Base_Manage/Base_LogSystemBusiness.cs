@@ -10,7 +10,7 @@ using SqlSugar;
 
 namespace AIStudio.Business.Base_Manage
 {
-    public class Base_LogSystemBusiness :BaseBusiness<Base_LogSystem>, IBase_LogSystemBusiness, ITransientDependency
+    public class Base_LogSystemBusiness : SplitTableBaseBusiness<Base_LogSystem>, IBase_LogSystemBusiness, ITransientDependency
     {
 
         public Base_LogSystemBusiness(ISqlSugarClient db) : base(db)
@@ -18,7 +18,7 @@ namespace AIStudio.Business.Base_Manage
             
         }
 
-        public async Task<PageResult<Base_LogSystem>> GetLogListAsync(PageInput<Base_UserLogsInputDTO> input)
+        public async Task<PageResult<Base_LogSystem>> GetDataListAsync(PageInput<Base_LogSystemInputDTO> input)
         {
             var search = input.Search;
             RefAsync<int> total = 0;
@@ -31,13 +31,6 @@ namespace AIStudio.Business.Base_Manage
                  .ToPageListAsync(input.PageIndex, input.PageRows, total);
             return new PageResult<Base_LogSystem> { Data = data, Total = total }; ;
         }
-        public async Task<PageResult<Base_LogSystem>> GetLogList(PageInput input)
-        {
-            RefAsync<int> total = 0;
-            var data = await GetIQueryable()
-                 .ToPageListAsync(input.PageIndex, input.PageRows, total);
-            return new PageResult<Base_LogSystem> { Data = data, Total = total }; ;
-        }
 
         public async Task Handle(SystemEvent @event)
         {
@@ -47,7 +40,7 @@ namespace AIStudio.Business.Base_Manage
                 CreatorName = @event.CreatorName,
                 TenantId = @event.TenantId,
                 LogType = @event.LogType,
-                Message = @event.LogContent
+                Message = @event.Message
             };
             await InsertAsync(log);
         }

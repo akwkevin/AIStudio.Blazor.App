@@ -34,6 +34,6 @@ namespace AIStudio.Common.EventBus.Models
         /// <summary>
         /// 日志内容
         /// </summary>
-        public string? LogContent { get; set; }
+        public string? Message { get; set; }
     }
 }

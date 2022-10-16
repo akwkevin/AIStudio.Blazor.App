@@ -6,10 +6,9 @@ using AIStudio.Util.Common;
 
 namespace AIStudio.IBusiness.Base_Manage
 {
-    public interface IBase_LogSystemBusiness : IBaseBusiness<Base_LogSystem>, IEventHandler<SystemEvent>
+    public interface IBase_LogSystemBusiness : ISplitTableBaseBusiness<Base_LogSystem>, IEventHandler<SystemEvent>
     {
-        Task<PageResult<Base_LogSystem>> GetLogListAsync(PageInput<Base_UserLogsInputDTO> input);
-        Task<PageResult<Base_LogSystem>> GetLogList(PageInput input);
+        Task<PageResult<Base_LogSystem>> GetDataListAsync(PageInput<Base_LogSystemInputDTO> input);
 
         Task Handle(SystemEvent @event);
     }

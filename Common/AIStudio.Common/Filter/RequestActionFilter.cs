@@ -114,7 +114,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
                 Body = body,
                 Result = result,
                 ElapsedTime = sw.ElapsedMilliseconds,
-                OperatingTime = DateTimeOffset.Now,
+                OperatingTime = DateTime.Now,
             };
         }
         else if (requestRecord)
@@ -138,7 +138,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
                 Body = body,
                 Result = result,
                 ElapsedTime = sw.ElapsedMilliseconds,
-                OperatingTime = DateTimeOffset.Now,
+                OperatingTime = DateTime.Now,
             };
         }
 
@@ -152,7 +152,7 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
             result += "......内容太长已忽略";
         }
 
-        var testEventModel = new TestEventModel() { Message = @$"方向:请求本系统
+        var testEventModel = new TestEvent() { Message = @$"方向:请求本系统
 Url:{request.GetRequestUrlAddress()}
 Time:{sw.ElapsedMilliseconds}ms
 Method:{request.Method}

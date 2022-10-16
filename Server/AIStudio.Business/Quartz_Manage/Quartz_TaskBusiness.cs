@@ -234,8 +234,13 @@ namespace AIStudio.Business.Quartz_Manage
                 JobDataMap.Add("ApiUrl", job.ApiUrl);
                 JobDataMap.Add("AuthKey", job.AuthKey);
                 JobDataMap.Add("AuthValue", job.AuthValue);
-                JobDataMap.Add("RequestType", job.RequestType);
+                JobDataMap.Add("RequestType", job.RequestType);      
             }
+
+            JobDataMap.Add("TenantId", job.TenantId);
+            JobDataMap.Add("CreatorId", job.CreatorId);
+            JobDataMap.Add("CreatorName", job.CreatorName);
+
             var jobInfo = new JobInfo(job.TaskName, job.GroupName, JobDataMap);
             jobInfo.Triggers.Add(new TriggerInfo(job.TaskName, job.GroupName, job.Cron, job.Remark));
             return await _quartzManager.AddJob(jobType, jobInfo);

@@ -1,20 +1,13 @@
 ﻿using AIStudio.Common.AppSettings;
-using AIStudio.Common.Cache;
-using AIStudio.Common.CurrentUser;
 using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Jwt;
 using AIStudio.Common.Mapper;
-using AIStudio.Common.Quartz;
 using AIStudio.Common.Service;
 using AIStudio.Common.Types;
 using AIStudio.Util;
-using Microsoft.AspNetCore.Http;
+using AIStudio.Util.Mapper;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using NetTaste;
-using Org.BouncyCastle.Asn1.X509.Qualified;
 using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -131,8 +124,12 @@ namespace AIStudio.Common.SqlSuger
 
             //获取所有表类型
             List<Type> types = GlobalType.AllTypes.Where(a => !a.IsAbstract && a.IsClass &&
-                (a.GetCustomAttributes(typeof(TableAttribute), true)?.FirstOrDefault() != null
+                a.GetCustomAttributes(typeof(MapAttribute), true)?.FirstOrDefault() == null  //Map的DTO对象不要加进来
+                && (a.GetCustomAttributes(typeof(TableAttribute), true)?.FirstOrDefault() != null
                 || a.GetCustomAttributes(typeof(SugarTable), true)?.FirstOrDefault() != null)).ToList();
+
+            List<Type> splittypes = types.Where(a => (a.GetCustomAttributes(typeof(SplitTableAttribute), true)?.FirstOrDefault() != null
+                || a.GetCustomAttributes(typeof(SplitTableAttribute), true)?.FirstOrDefault() != null)).ToList();
 
             SqlSugarScope sqlSugarScope = new SqlSugarScope(connectConfigList,
                 //全局上下文生效
@@ -242,7 +239,12 @@ namespace AIStudio.Common.SqlSuger
 
             //Create tables 
             //SetStringDefaultLength(int.MaxValue)
-            sqlSugarScope.CodeFirst.InitTables(types.ToArray());
+            sqlSugarScope.CodeFirst.InitTables(types.Except(splittypes).ToArray());
+
+            //添加自定义分表服务
+            //sqlSugarScope.CurrentConnectionConfig.ConfigureExternalServices.SplitTableService = new SqlSugarTenantSplitService();
+            //使用自带的日期分表
+            sqlSugarScope.CodeFirst.SplitTables().InitTables(splittypes.ToArray());
 
             return services;
         }

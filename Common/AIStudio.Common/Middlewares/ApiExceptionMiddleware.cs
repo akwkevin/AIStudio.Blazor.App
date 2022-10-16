@@ -100,7 +100,7 @@ public class ApiExceptionMiddleware
             ExceptionSource = exception.Source,
             StackTrace = exception.StackTrace,
             Parameters = exception.TargetSite?.GetParameters().ToString(),
-            ExceptionTime = DateTimeOffset.Now
+            ExceptionTime = DateTime.Now
         };
 
         // 发布异常事件

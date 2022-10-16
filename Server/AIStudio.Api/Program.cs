@@ -48,7 +48,7 @@ try
     //添加事件总线(Local)
     builder.Services.AddEventBusLocal_().AddSubscriber(subscribers =>
     {
-        subscribers.Add<TestEventModel, TestEventHandler>();
+        subscribers.Add<TestEvent, TestEventHandler>();
         subscribers.Add<ExceptionEvent, Base_LogExceptionBusiness>();
         subscribers.Add<RequestEvent, Base_LogOperatingBusiness>();
         subscribers.Add<VisitEvent, Base_LogVisitBusiness>();

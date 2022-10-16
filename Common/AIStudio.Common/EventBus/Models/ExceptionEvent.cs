@@ -64,5 +64,5 @@ public class ExceptionEvent : EventModel
     /// <summary>
     /// 异常时间
     /// </summary>
-    public DateTimeOffset ExceptionTime { get; set; }
+    public DateTime ExceptionTime { get; set; }
 }

@@ -1,16 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using SqlSugar;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIStudio.Entity.Base_Manage
 {
     /// <summary>
     /// 操作记录表
-    /// </summary>
-    [Table("Base_LogSystem")]
+    /// </summary> 
+    [SplitTable(SplitType.Month)]
+    [SugarTable("Base_LogSystem_{year}{month}{day}")]//生成表名格式 3个变量必须要有
     public class Base_LogSystem : ReadOnlyBaseEntity
     {
-
         /// <summary>
         /// 日志类型
         /// </summary>
@@ -24,6 +23,6 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 日志时间
         /// </summary>
-        public DateTimeOffset LogTime { get; set; }
+        public DateTime LogTime { get; set; }
     }
 }

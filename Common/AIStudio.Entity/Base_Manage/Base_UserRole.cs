@@ -10,7 +10,6 @@ namespace AIStudio.Entity.Base_Manage
     [Table("Base_UserRole")]
     public class Base_UserRole
     {
-
         /// <summary>
         /// 主键
         /// </summary>
@@ -27,6 +26,12 @@ namespace AIStudio.Entity.Base_Manage
         /// 创建人Id
         /// </summary>
         public string? CreatorId { get; set; }
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        [MaxLength(255)]
+        public string? CreatorName { get; set; }
 
         /// <summary>
         /// 否已删除

@@ -7,6 +7,7 @@ using SqlSugar;
 using System.Data;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Xml.Linq;
 
 namespace AIStudio.Business
 {
@@ -14,7 +15,7 @@ namespace AIStudio.Business
     /// 描述：业务处理基类
     /// </summary>
     /// <typeparam name="T">泛型约束（数据库实体）</typeparam>
-    public abstract class BaseBusiness<T> : IBaseBusiness<T> where T : class, new()
+    public abstract class SplitTableBaseBusiness<T> : ISplitTableBaseBusiness<T> where T : class, new()
     {
         #region 构造函数
 
@@ -22,7 +23,7 @@ namespace AIStudio.Business
         /// 构造函数
         /// </summary>
         /// <param name="db">注入数据库</param>
-        public BaseBusiness(ISqlSugarClient db)
+        public SplitTableBaseBusiness(ISqlSugarClient db)
         {
             Db = db;
             EntityName = typeof(T).Name;
@@ -34,7 +35,7 @@ namespace AIStudio.Business
 
         protected virtual string _valueField { get; } = "Id";
         protected virtual string _textField { get => throw new Exception("请在子类重写"); }
-
+        protected virtual string _splitField { get => throw new Exception("请在子类重写"); }
         #endregion
 
         #region 外部属性
@@ -67,7 +68,7 @@ namespace AIStudio.Business
             }
             finally
             {
-              
+
             }
 
             return (success, resEx);
@@ -92,7 +93,7 @@ namespace AIStudio.Business
             }
             finally
             {
-               
+
             }
 
             return (success, resEx);
@@ -107,7 +108,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public int Insert(T entity)
         {
-            return Db.Insertable(entity).ExecuteCommand();
+            return Db.Insertable(entity).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public async Task<int> InsertAsync(T entity)
         {
-            return await Db.Insertable(entity).ExecuteCommandAsync();
+            return await Db.Insertable(entity).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public int Insert(List<T> entities)
         {
-            return Db.Insertable(entities).ExecuteCommand();
+            return Db.Insertable(entities).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -134,7 +135,7 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public async Task<int> InsertAsync(List<T> entities)
         {
-            return await Db.Insertable(entities).ExecuteCommandAsync();
+            return await Db.Insertable(entities).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public async Task<int> InsertAsync(List<object> entities)
         {
-            return await Db.Insertable(entities.OfType<T>().ToList()).ExecuteCommandAsync();
+            return await Db.Insertable(entities.OfType<T>().ToList()).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -152,7 +153,7 @@ namespace AIStudio.Business
         /// <param name="entities"></param>
         public void BulkInsert(List<T> entities)
         {
-            Db.Fastest<T>().BulkCopy(entities);
+            Db.Fastest<T>().SplitTable().BulkCopy(entities);
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace AIStudio.Business
         /// <param name="entities"></param>
         public async Task BulkInsertAsync(List<T> entities)
         {
-            await Db.Fastest<T>().BulkCopyAsync(entities);
+            await Db.Fastest<T>().SplitTable().BulkCopyAsync(entities);
         }
         #endregion
 
@@ -172,7 +173,7 @@ namespace AIStudio.Business
         /// </summary>
         public int DeleteAll()
         {
-            return Db.Deleteable<T>().ExecuteCommand();
+            return Db.Deleteable<T>().SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace AIStudio.Business
         /// </summary>
         public async Task<int> DeleteAllAsync()
         {
-            return await Db.Deleteable<T>().ExecuteCommandAsync();
+            return await Db.Deleteable<T>().SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -189,7 +190,7 @@ namespace AIStudio.Business
         /// <param name="key"></param>
         public int Delete(string key)
         {
-            return Db.Deleteable<T>().In(key).ExecuteCommand();
+            return Db.Deleteable<T>().In(key).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace AIStudio.Business
         /// <param name="key"></param>
         public async Task<int> DeleteAsync(string key)
         {
-            return await Db.Deleteable<T>().In(key).ExecuteCommandAsync();
+            return await Db.Deleteable<T>().In(key).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -207,7 +208,7 @@ namespace AIStudio.Business
         /// <param name="keys"></param>
         public int Delete(List<string> keys)
         {
-            return Db.Deleteable<T>().In(keys).ExecuteCommand();
+            return Db.Deleteable<T>().In(keys).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -216,7 +217,7 @@ namespace AIStudio.Business
         /// <param name="keys"></param>
         public async Task<int> DeleteAsync(List<string> keys)
         {
-            return await Db.Deleteable<T>().In(keys).ExecuteCommandAsync();
+            return await Db.Deleteable<T>().In(keys).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -225,7 +226,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public int Delete(T entity)
         {
-            return Db.Deleteable(entity).ExecuteCommand();
+            return Db.Deleteable(entity).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -234,7 +235,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public async Task<int> DeleteAsync(T entity)
         {
-            return await Db.Deleteable(entity).ExecuteCommandAsync();
+            return await Db.Deleteable(entity).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -243,7 +244,7 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public int Delete(List<T> entities)
         {
-            return Db.Deleteable(entities).ExecuteCommand();
+            return Db.Deleteable(entities).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -252,7 +253,7 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public async Task<int> DeleteAsync(List<T> entities)
         {
-            return await Db.Deleteable(entities).ExecuteCommandAsync();
+            return await Db.Deleteable(entities).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -261,7 +262,7 @@ namespace AIStudio.Business
         /// <param name="condition">筛选条件</param>
         public int Delete(Expression<Func<T, bool>> condition)
         {
-            return Db.Deleteable(condition).ExecuteCommand();
+            return Db.Deleteable(condition).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -270,7 +271,7 @@ namespace AIStudio.Business
         /// <param name="condition">筛选条件</param>
         public async Task<int> DeleteAsync(Expression<Func<T, bool>> condition)
         {
-            return await Db.Deleteable(condition).ExecuteCommandAsync();
+            return await Db.Deleteable(condition).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -284,7 +285,7 @@ namespace AIStudio.Business
         /// </returns>
         public int DeleteSql(Expression<Func<T, bool>> where)
         {
-            return Db.Deleteable(where).ExecuteCommand();
+            return Db.Deleteable(where).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -298,7 +299,7 @@ namespace AIStudio.Business
         /// </returns>
         public async Task<int> DeleteSqlAsync(Expression<Func<T, bool>> where)
         {
-            return await Db.Deleteable(where).ExecuteCommandAsync();
+            return await Db.Deleteable(where).SplitTable().ExecuteCommandAsync();
         }
 
         #endregion
@@ -311,7 +312,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public int Update(T entity)
         {
-            return Db.Updateable(entity).ExecuteCommand();
+            return Db.Updateable(entity).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -320,7 +321,7 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public async Task<int> UpdateAsync(T entity)
         {
-            return await Db.Updateable(entity).ExecuteCommandAsync();
+            return await Db.Updateable(entity).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -329,7 +330,7 @@ namespace AIStudio.Business
         /// <param name="entities">数据列表</param>
         public int Update(List<T> entities)
         {
-            return Db.Updateable(entities).ExecuteCommand();
+            return Db.Updateable(entities).SplitTable().ExecuteCommand();
         }
 
         /// <summary>
@@ -338,7 +339,7 @@ namespace AIStudio.Business
         /// <param name="entities">数据列表</param>
         public async Task<int> UpdateAsync(List<T> entities)
         {
-            return await Db.Updateable(entities).ExecuteCommandAsync();
+            return await Db.Updateable(entities).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -347,7 +348,7 @@ namespace AIStudio.Business
         /// <param name="entities">数据列表</param>
         public async Task<int> UpdateAsync(List<object> entities)
         {
-            return await Db.Updateable(entities.OfType<T>().ToList()).ExecuteCommandAsync();
+            return await Db.Updateable(entities.OfType<T>().ToList()).SplitTable().ExecuteCommandAsync();
         }
 
         /// <summary>
@@ -379,7 +380,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return Db.Queryable<T>().First(predicate);
+            return Db.Queryable<T>().GetSplitTable(null).First(predicate);
         }
 
         /// <summary>
@@ -389,7 +390,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
-            return await Db.Queryable<T>().FirstAsync(predicate);
+            return await Db.Queryable<T>().GetSplitTable(null).FirstAsync(predicate);
         }
 
         /// <summary>
@@ -399,7 +400,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public T GetEntity(params object[] keyValue)
         {
-            return Db.Queryable<T>().In(keyValue).First();
+            return Db.Queryable<T>().In(keyValue).GetSplitTable(null).First();
         }
 
         /// <summary>
@@ -409,7 +410,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<T> GetEntityAsync(params object[] keyValue)
         {
-            return await Db.Queryable<T>().In(keyValue).FirstAsync();
+            return await Db.Queryable<T>().In(keyValue).GetSplitTable(null).FirstAsync();
         }
 
         /// <summary>
@@ -418,7 +419,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public List<T> GetList()
         {
-            return Db.Queryable<T>().ToList();
+            return Db.Queryable<T>().GetSplitTable(null).ToList();
         }
 
         /// <summary>
@@ -427,24 +428,47 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<List<T>> GetListAsync()
         {
-            return await Db.Queryable<T>().ToListAsync();
+            return await Db.Queryable<T>().GetSplitTable(null).ToListAsync();
+        }
+
+        public ISugarQueryable<T> GetIQueryable()
+        {
+            return GetIQueryable(true);
+        }
+
+        public ISugarQueryable<dynamic> GetIQueryableDynamic()
+        {
+            return GetIQueryableDynamic(true);
+        }
+
+        public ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues)
+        {
+            return GetIQueryable(searchKeyValues, true);
         }
 
         /// <summary>
         /// 获取实体对应的表，延迟加载，主要用于支持Linq查询操作
         /// </summary>
         /// <returns></returns>
-        public virtual ISugarQueryable<T> GetIQueryable()
+        public virtual ISugarQueryable<T> GetIQueryable(bool splitTable)
         {
-            return Db.Queryable<T>().WithCache();
+            var q = Db.Queryable<T>().WithCache();
+            if (splitTable)
+                q = q.GetSplitTable(null);
+
+            return q;
         }
 
-        public virtual ISugarQueryable<dynamic> GetIQueryableDynamic()
+        public virtual ISugarQueryable<dynamic> GetIQueryableDynamic(bool splitTable)
         {
-            return Db.Queryable<dynamic>().AS($"{EntityName}").WithCache();
+            var q = Db.Queryable<dynamic>().AS($"{EntityName}").WithCache();
+            if (splitTable)
+                q = q.GetSplitTable(null);
+
+            return q;
         }
 
-        public virtual ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues)
+        public virtual ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues, bool splitTable)
         {
             var q = GetIQueryable();
             //按字典筛选
@@ -458,8 +482,14 @@ namespace AIStudio.Business
                 }
             }
 
+            if (splitTable)
+            {
+                q = q.GetSplitTable(null);
+            }
             return q;
         }
+
+
         #endregion
 
         #region 执行Sql语句
@@ -478,9 +508,9 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<List<T>> GetDataListAsync(SearchInput input)
         {
-            var q = GetIQueryable(input.SearchKeyValues);
+            var q = GetIQueryable(input.SearchKeyValues, false);
 
-            return await q.OrderBy($@"{input.SortField} {input.SortType} ").ToListAsync();
+            return await q.OrderBy($@"{input.SortField} {input.SortType} ").GetSplitTable(null).ToListAsync();
         }
 
         /// <summary>
@@ -490,34 +520,34 @@ namespace AIStudio.Business
         /// <returns></returns>
         public virtual async Task<PageResult<T>> GetDataListAsync(PageInput input)
         {
-            var q = GetIQueryable(input.SearchKeyValues);          
+            var q = GetIQueryable(input.SearchKeyValues, false);
 
-            return await q.GetPageResultAsync(input);
+            return await q.GetPageResultAsync(input, true);
         }
 
         public virtual async Task<T> GetTheDataAsync(string id)
         {
-            return await GetIQueryable().In(id).FirstAsync();
+            return await GetIQueryable(false).In(id).GetSplitTable(null).FirstAsync();
         }
 
         public virtual async Task<DTO> GetTheDataDTOAsync<DTO>(string id) where DTO : T
         {
-            return await GetIQueryable().In(id).Select<DTO>().FirstAsync();
+            return await GetIQueryable(false).In(id).Select<DTO>().GetSplitTable(null).FirstAsync();
         }
 
         public virtual async Task AddDataAsync(T newData)
         {
-            await Db.Insertable(newData).ExecuteCommandAsync();
+            await Db.Insertable(newData).SplitTable().ExecuteCommandAsync();
         }
 
         public virtual async Task UpdateDataAsync(T theData)
         {
-            await Db.Updateable(theData).ExecuteCommandAsync();
+            await Db.Updateable(theData).SplitTable().ExecuteCommandAsync();
         }
 
         public virtual async Task DeleteDataAsync(List<string> ids)
         {
-            await Db.Deleteable<T>().In(ids).ExecuteCommandAsync();
+            await Db.Deleteable<T>().In(ids).SplitTable().ExecuteCommandAsync();
         }
         #endregion
 
@@ -555,7 +585,7 @@ namespace AIStudio.Business
             }
 
             RefAsync<int> total = 0;
-            var resList = (await q.ToPageListAsync(input.PageIndex, input.PageRows, total)).Select(x => new SelectOption()
+            var resList = (await q.GetSplitTable(null).ToPageListAsync(input.PageIndex, input.PageRows, total)).Select(x => new SelectOption()
             {
                 Value = x.GetPropertyValue(valueField)?.ToString(),
                 Text = x.GetPropertyValue(textFiled)?.ToString()
@@ -565,7 +595,7 @@ namespace AIStudio.Business
 
             ISugarQueryable<T> GetNewQ()
             {
-                return source ?? GetIQueryable();
+                return source ?? GetIQueryable(false);
             }
         }
         #endregion
@@ -590,22 +620,57 @@ namespace AIStudio.Business
             throw new Exception("暂未实现");
         }
 
+
+
         #endregion
     }
 
-    public static class BaseBusinessExtension
+    public static class SplitTableBaseBusinessExtension
     {
-        public static async Task<PageResult<T>> GetPageResult<T>(this ISugarQueryable<T> source, PageInput input)
+        /// <summary>
+        /// 分页数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="input"></param>
+        /// <param name="splitTable"></param>
+        /// <returns></returns>
+        public static async Task<PageResult<T>> GetPageResult<T>(this ISugarQueryable<T> source, PageInput input, bool splitTable = true)
         {
             int total = 0;
-            var list = source.OrderBy($@"{input.SortField} {input.SortType} ").ToPageList(input.PageIndex, input.PageRows, ref total);
+            var list = source.GetSplitTable(null).OrderBy($@"{input.SortField} {input.SortType} ").ToPageList(input.PageIndex, input.PageRows, ref total);
             return new PageResult<T> { Data = list, Total = total };
         }
-        public static async Task<PageResult<T>> GetPageResultAsync<T>(this ISugarQueryable<T> source, PageInput input)
+
+        /// <summary>
+        /// 异步分页数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="input"></param>
+        /// <param name="splitTable"></param>
+        /// <returns></returns>
+        public static async Task<PageResult<T>> GetPageResultAsync<T>(this ISugarQueryable<T> source, PageInput input, bool splitTable = true)
         {
             RefAsync<int> total = 0;
-            var list = await source.OrderBy($@"{input.SortField} {input.SortType} ").ToPageListAsync(input.PageIndex, input.PageRows, total);
+            var list = await source.GetSplitTable(null).OrderBy($@"{input.SortField} {input.SortType} ").ToPageListAsync(input.PageIndex, input.PageRows, total);
             return new PageResult<T> { Data = list, Total = total };
+        }       
+
+        public static ISugarQueryable<T> GetSplitTable<T>(this ISugarQueryable<T> source, object? obj)
+        {
+            if (obj is int count)  //按个数获取
+            {
+                return source.SplitTable(tabs => tabs.Take(count));
+            }
+            else if (obj is string[] names)  //按名称获取
+            {
+                return source.SplitTable(tabs => tabs.InTableNames(names));
+            }
+            else  //获取全部
+            {
+                return source.SplitTable(tabs => tabs);
+            }
         }
     }
 }

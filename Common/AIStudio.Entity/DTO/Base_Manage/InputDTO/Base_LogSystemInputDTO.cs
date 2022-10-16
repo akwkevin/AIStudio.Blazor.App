@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
 {
-    public class Base_UserLogsInputDTO
+    public class Base_LogSystemInputDTO
     {
         public string logContent { get; set; }
         public string logType { get; set; }

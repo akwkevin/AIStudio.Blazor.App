@@ -16,19 +16,19 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
-    public class Base_UserLogController : ApiControllerBase
+    public class Base_LogOperatingController : ApiControllerBase
     {
         #region DI
         /// <summary>
         /// Base_UserLogController
         /// </summary>
         /// <param name="logBus"></param>
-        public Base_UserLogController(IBase_LogSystemBusiness logBus)
+        public Base_LogOperatingController(IBase_LogOperatingBusiness logBus)
         {
             _logBus = logBus;
         }
 
-        IBase_LogSystemBusiness _logBus { get; }
+        IBase_LogOperatingBusiness _logBus { get; }
 
         #endregion
 
@@ -39,24 +39,13 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<Base_LogSystem>> GetLogList(PageInput<Base_UserLogsInputDTO> input)
+        public async Task<PageResult<Base_LogOperating>> GetDataList(PageInput input)
         {
             input.SortField = "CreateTime";
             input.SortType = "desc";
 
-            return await _logBus.GetLogListAsync(input);
+            return await _logBus.GetDataListAsync(input);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public List<SelectOption> GetLogTypeList()
-        {
-            return EnumHelper.ToOptionList(typeof(UserLogType));
-        }
-
         #endregion
 
         #region 提交

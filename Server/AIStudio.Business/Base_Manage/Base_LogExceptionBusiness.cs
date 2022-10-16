@@ -10,7 +10,7 @@ using SqlSugar;
 
 namespace AIStudio.Business.Base_Manage
 {
-    public class Base_LogExceptionBusiness : BaseBusiness<Base_LogException>, IBase_LogExceptionBusiness, ITransientDependency
+    public class Base_LogExceptionBusiness : SplitTableBaseBusiness<Base_LogException>, IBase_LogExceptionBusiness, ITransientDependency
     {
 
         public Base_LogExceptionBusiness(ISqlSugarClient db) : base(db)
@@ -20,7 +20,7 @@ namespace AIStudio.Business.Base_Manage
 
         public async Task Handle(ExceptionEvent @event)
         {
-            Base_LogException log = new Base_LogException()
+            Base_LogException log = new Base_LogException();
             {
                 CreatorId = @event.CreatorId,
                 CreatorName = @event.CreatorName,
