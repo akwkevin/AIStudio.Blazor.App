@@ -1,8 +1,10 @@
-﻿using AIStudio.Entity.Base_Manage;
+﻿using AIStudio.Common.Types;
+using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using SqlSugar;
 using System.Data;
 using System.Linq.Dynamic.Core;
@@ -571,23 +573,55 @@ namespace AIStudio.Business
         #endregion
 
         #region 历史数据查询
-        public IQueryable<T> GetHistoryDataQueryable(Expression<Func<T, bool>> expression, DateTime? start, DateTime? end, string dateField = "CreateTime")
+        public async Task<List<T>> GetDataListAsync(SearchInput<HistorySearch> input, string dateField = GlobalConst.CreateTime)
         {
-            throw new Exception("暂未实现");
-        }
-        public async Task<int> GetHistoryDataCount(Expression<Func<T, bool>> expression, DateTime? start, DateTime? end, string dateField = "CreateTime")
-        {
-            throw new Exception("暂未实现");
-        }
+            var q = GetIQueryable(input.SearchKeyValues);
 
-        public async Task<List<T>> GetHistoryDataList(Expression<Func<T, bool>> expression, DateTime? start, DateTime? end, string dateField = "CreateTime")
-        {
-            throw new Exception("暂未实现");
-        }
+            if (input.Search.StartTime != null && input.Search.EndTime != null)
+            {
+                var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                      ParsingConfig.Default, false, $@"{dateField} > @0 && {dateField} < @1", new object[] { input.Search.StartTime.Value, input.Search.EndTime.Value });
+                q = q.Where(newWhere);
+            }
+            else if (input.Search.StartTime == null && input.Search.EndTime != null)
+            {
+                var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                    ParsingConfig.Default, false, $@"{dateField} < @0", new object[] { input.Search.EndTime.Value });
+                q = q.Where(newWhere);
+            }
+            else if (input.Search.StartTime != null && input.Search.EndTime == null)
+            {
+                var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                    ParsingConfig.Default, false, $@"{dateField} > @0", new object[] { input.Search.StartTime.Value });
+                q = q.Where(newWhere);
+            }
 
-        public async Task<PageResult<T>> GetPageHistoryDataList(PageInput input, Expression<Func<T, bool>> expression, DateTime? start, DateTime? end, string dateField = "CreateTime")
+            return await q.OrderBy($@"{input.SortField} {input.SortType} ").ToListAsync();
+        }
+        public async Task<PageResult<T>> GetDataListAsync(PageInput<HistorySearch> input, string dateField = GlobalConst.CreateTime)
         {
-            throw new Exception("暂未实现");
+            var q = GetIQueryable(input.SearchKeyValues);
+
+            if (input.Search.StartTime != null && input.Search.EndTime != null)
+            {
+                var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                      ParsingConfig.Default, false, $@"{dateField} > @0 && {dateField} < @1", new object[] { input.Search.StartTime.Value, input.Search.EndTime.Value });
+                q = q.Where(newWhere);
+            }
+            else if (input.Search.StartTime == null && input.Search.EndTime != null)
+            {
+                var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                    ParsingConfig.Default, false, $@"{dateField} < @0", new object[] { input.Search.EndTime.Value });
+                q = q.Where(newWhere);
+            }
+            else if (input.Search.StartTime != null && input.Search.EndTime == null)
+            {
+                var newWhere = DynamicExpressionParser.ParseLambda<T, bool>(
+                    ParsingConfig.Default, false, $@"{dateField} > @0", new object[] { input.Search.StartTime.Value });
+                q = q.Where(newWhere);
+            }
+
+            return await q.GetPageResultAsync(input);
         }
 
         #endregion

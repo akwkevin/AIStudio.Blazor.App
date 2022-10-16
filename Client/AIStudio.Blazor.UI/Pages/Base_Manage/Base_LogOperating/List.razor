@@ -111,14 +111,14 @@
                 PageRows = Pagination.PageRows,
                 SortField = Pagination.SortField,
                 SortType = Pagination.SortType,
-                Search = new
-                {
-                    logContent = LogContent,
-                    logType = LogType,
-                    opUserName = OpUserName,
-                    startTime = RangeTime[0].HasValue ? RangeTime[0].Value.ToString("yyyy-MM-dd hh:mm:ss") : "",
-                    endTime = RangeTime[1].HasValue ? RangeTime[1].Value.ToString("yyyy-MM-dd hh:mm:ss") : "",
-                }
+                //Search = new
+                //{
+                //    logContent = LogContent,
+                //    logType = LogType,
+                //    opUserName = OpUserName,
+                //    startTime = RangeTime[0].HasValue ? RangeTime[0].Value.ToString("yyyy-MM-dd hh:mm:ss") : "",
+                //    endTime = RangeTime[1].HasValue ? RangeTime[1].Value.ToString("yyyy-MM-dd hh:mm:ss") : "",
+                //}
             };
 
             var result = await DataProvider.GetData<List<Base_LogOperatingDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());

@@ -1,5 +1,6 @@
 ﻿using AIStudio.Api.Controllers;
 using AIStudio.Common.Swagger;
+using AIStudio.Common.Types;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.Entity.Enum;
@@ -39,9 +40,9 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<Base_LogSystem>> GetDataList(PageInput<Base_LogSystemInputDTO> input)
+        public async Task<PageResult<Base_LogSystem>> GetDataList(PageInput<HistorySearch> input)
         {
-            input.SortField = "CreateTime";
+            input.SortField = GlobalConst.CreateTime;
             input.SortType = "desc";
 
             return await _logBus.GetDataListAsync(input);
