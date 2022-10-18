@@ -2,6 +2,6 @@
 {
     public interface IIdObject
     {
-        string Id { get; set; }
+        string? Id { get; set; }
     }
 }

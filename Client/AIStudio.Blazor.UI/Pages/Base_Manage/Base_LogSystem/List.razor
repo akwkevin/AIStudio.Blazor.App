@@ -1,4 +1,4 @@
-﻿@page "/Base_Manage/Base_UserLog/List"
+﻿@page "/Base_Manage/Base_LogSystem/List"
 
 @inherits BaseList<Base_LogSystemDTO>
 
@@ -16,21 +16,20 @@
         </Select>
     </SpaceItem>
     <SpaceItem>
-        <Input @bind-Value="@OpUserName" Placeholder="操作人" AutoComplete=false />
+        <Input @bind-Value="@CreatorName" Placeholder="操作人" AutoComplete=false />
     </SpaceItem>
     <SpaceItem>
         <RangePicker TValue="DateTime?[]" @bind-Value="@RangeTime" Format="yyyy-MM-dd HH:mm:ss" />
     </SpaceItem>
     <SpaceItem>
-        <Search Placeholder="内容" EnterButton="true" @bind-Value="@LogContent" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="内容" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 
 <Table @ref="_table" TItem="Base_LogSystemDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="内容" DataIndex="LogContent" TData="string" />
-        <AntDesign.Column Title="级别" DataIndex="Level" TData="string" />
+        <AntDesign.Column Title="内容" DataIndex="Message" TData="string" />
         <AntDesign.Column Title="类别" DataIndex="LogType" TData="string" />
         <AntDesign.Column Title="操作人" DataIndex="CreatorName" TData="string" />
         <AntDesign.Column Title="时间" DataIndex="CreateTime" TData="DateTime" Format="yyyy-MM-dd HH:mm:ss" />
@@ -54,36 +53,26 @@
     public List()
     {
         Area = "Base_Manage";
-        GetDataList = "GetLogList";
     }
 
-
-    string LogContent { get; set; }
-
-    string Level { get; set; }
-
-    string LogType { get; set; }
-
-    string OpUserName { get; set; }
+    string? CreatorName { get; set; }
 
     DateTime?[] RangeTime { get; set; } = new DateTime?[2];
 
-
+    string LogType { get; set; }
     List<SelectOption> LogTypeList { get; set; }
-
-    List<SelectOption> LoglevelList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await GetLogTypeList();
-    }
+    }  
 
     private async Task GetLogTypeList()
     {
         try
         {
-            var result = await DataProvider.GetData<List<SelectOption>>($"/Base_Manage/Base_UserLog/GetLogTypeList");
+            var result = await DataProvider.GetData<List<SelectOption>>($"/Base_Manage/Base_LogSystem/GetLogTypeList");
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);
@@ -101,45 +90,36 @@
         }
     }
 
-    protected override async Task GetData()
+    protected override string GetDataJson()
     {
-        try
+        var searchKeyValues = new Dictionary<string, object>();
+        if (!string.IsNullOrEmpty(Condition) && !string.IsNullOrEmpty(KeyWord))
         {
-            ShowWait();
-            var data = new
-            {
-                PageIndex = Pagination.PageIndex,
-                PageRows = Pagination.PageRows,
-                SortField = Pagination.SortField,
-                SortType = Pagination.SortType,
-                //Search = new
-                //{
-                //    logContent = LogContent,
-                //    logType = LogType,
-                //    opUserName = OpUserName,
-                //    startTime = RangeTime[0].HasValue ? RangeTime[0].Value.ToString("yyyy-MM-dd hh:mm:ss") : "",
-                //    endTime = RangeTime[1].HasValue ? RangeTime[1].Value.ToString("yyyy-MM-dd hh:mm:ss") : "",
-                //}
-            };
+            searchKeyValues.Add(Condition, KeyWord);
+        }
+        if (!string.IsNullOrEmpty(LogType))
+        {
+            searchKeyValues.Add("LogType", LogType);
+        }
+        if (!string.IsNullOrEmpty(CreatorName))
+        {
+            searchKeyValues.Add("CreatorName", CreatorName);
+        }
 
-            var result = await DataProvider.GetData<List<Base_LogSystemDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
-            if (!result.Success)
-            {
-                throw new MsgException(result.Msg);
-            }
-            else
-            {
-                Pagination.Total = result.Total;
-                Data = result.Data;
-            }
-        }
-        catch (Exception ex)
+        var data = new
         {
-            await Error.ProcessError(ex);
-        }
-        finally
-        {
-            HideWait();
-        }
+            PageIndex = Pagination.PageIndex,
+            PageRows = Pagination.PageRows,
+            SortField = Pagination.SortField,
+            SortType = Pagination.SortType,
+            SearchKeyValues = searchKeyValues,
+            Search = new
+            {
+                StartTime = RangeTime[0],
+                EndTime = RangeTime[1],
+            }
+        };
+
+        return data.ToJson();
     }
 }

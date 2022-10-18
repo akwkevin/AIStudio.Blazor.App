@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Base_Manage\Base_LogException\List.razor" />
+    <Content Remove="Pages\Base_Manage\Base_LogVisitView\List.razor" />
     <Content Remove="Shared\AntDesignMainLayout.razor" />
     <Content Remove="wwwroot\data\fake_chart_data.json" />
   </ItemGroup>
@@ -54,6 +56,8 @@
     <None Include="Pages\Base_Manage\Base_Department\List.razor" />
     <None Include="Pages\Base_Manage\Base_Dictionary\EditForm.razor" />
     <None Include="Pages\Base_Manage\Base_Dictionary\List.razor" />
+    <None Include="Pages\Base_Manage\Base_LogException\List.razor" />
+    <None Include="Pages\Base_Manage\Base_LogVisitView\List.razor" />
     <None Include="Pages\Base_Manage\Base_Role\EditForm.razor" />
     <None Include="Pages\Base_Manage\Base_Role\List.razor" />
     <None Include="Pages\Base_Manage\Base_LogOperating\List.razor" />

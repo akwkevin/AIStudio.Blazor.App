@@ -25,15 +25,15 @@ namespace AIStudio.Blazor.UI.Core
 
         [Inject] 
         IJSRuntime JSRuntime { get; set; }
-        protected string Area { get; set; }
+        protected string? Area { get; set; }
         protected string GetDataList { get; set; } = "GetDataList";
-        protected string Condition { get; set; }
-        protected string KeyWord { get; set; }
-        protected List<TData> Data { get; set; }
-        protected TData SelectedItem { get; set; }
-        protected IEnumerable<TData> SelectedItems { get; set; }
+        protected string? Condition { get; set; }
+        protected string? KeyWord { get; set; }
+        protected List<TData> Data { get; set; } = new List<TData>();
+        protected TData? SelectedItem { get; set; }
+        protected IEnumerable<TData>? SelectedItems { get; set; }
         protected bool NoneSelectedItems { get { return !(SelectedItems?.Count() > 0); } }
-        protected Table<TData> _table;
+        protected Table<TData>? _table;
 
         protected virtual string GetDataJson()
         {

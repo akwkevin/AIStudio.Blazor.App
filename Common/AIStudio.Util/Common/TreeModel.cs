@@ -54,7 +54,7 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 孩子节点
         /// </summary>
-        public new List<T> Children { get; set; }
+        public new List<T> Children { get; set; } = new List<T>();
 
         /// <summary>
         /// 孩子节点

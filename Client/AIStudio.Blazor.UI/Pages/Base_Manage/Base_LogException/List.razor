@@ -1,6 +1,6 @@
-﻿@page "/Base_Manage/Base_LogOperating/List"
+﻿@page "/Base_Manage/Base_LogException/List"
 
-@inherits BaseList<Base_LogOperatingDTO>
+@inherits BaseList<Base_LogExceptionDTO>
 
 <Space Size="@("small")">
     <SpaceItem>
@@ -14,22 +14,17 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_LogOperatingDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" TItem="Base_LogExceptionDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="日志名称" DataIndex="Name" TData="string" />
-        <AntDesign.Column Title="是否成功" DataIndex="IsSuccess" TData="string" />
-        <AntDesign.Column Title="消息" DataIndex="Message" TData="string" />
-        <AntDesign.Column Title="浏览器" DataIndex="Browser" TData="string" />
-        <AntDesign.Column Title="操作系统" DataIndex="OperatingSystem" TData="string" />
-        <AntDesign.Column Title="IP" DataIndex="IP" TData="string" />
-        <AntDesign.Column Title="请求路径" DataIndex="Path" TData="string" />
+        <AntDesign.Column Title="异常Id" DataIndex="EventId" TData="string" />
+        <AntDesign.Column Title="异常名称" DataIndex="Name" TData="string" />
+        <AntDesign.Column Title="异常消息" DataIndex="Message" TData="string" />
         <AntDesign.Column Title="类名称" DataIndex="ClassName" TData="string" />
         <AntDesign.Column Title="方法名称" DataIndex="MethodName" TData="string" />
-        <AntDesign.Column Title="请求方式" DataIndex="RequestMethod" TData="string" />
-        <AntDesign.Column Title="请求Body" DataIndex="Body" TData="string" />
-        <AntDesign.Column Title="返回结果" DataIndex="Result" TData="string" />
-        <AntDesign.Column Title="耗时" DataIndex="ElapsedTime" TData="string" />
+        <AntDesign.Column Title="异常源" DataIndex="ExceptionSource" TData="string" />
+        <AntDesign.Column Title="堆栈信息" DataIndex="StackTrace" TData="string" />
+        <AntDesign.Column Title="请求参数" DataIndex="Parameters" TData="string" />
         <AntDesign.Column Title="操作人" DataIndex="CreatorName" TData="string" />
         <AntDesign.Column Title="时间" DataIndex="CreateTime" TData="DateTime" Format="yyyy-MM-dd HH:mm:ss" />
     </ChildContent>
