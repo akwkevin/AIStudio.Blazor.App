@@ -32,7 +32,7 @@ namespace AIStudio.Business.Base_Manage
             var actionIds = await GetUserActionIds(userId);
             return await _actionBus.GetTreeDataListAsync(new Base_ActionsInputDTO
             {
-                types = new ActionType[] { ActionType.菜单, ActionType.页面 },
+                Types = new ActionType[] { ActionType.菜单, ActionType.页面 },
                 ActionIds = actionIds
             });
         }
@@ -43,7 +43,7 @@ namespace AIStudio.Business.Base_Manage
             return (await _actionBus
                 .GetDataListAsync(new Base_ActionsInputDTO
                 {
-                    types = new ActionType[] { ActionType.权限 },
+                    Types = new ActionType[] { ActionType.权限 },
                     ActionIds = actionIds
                 }))
                 .Select(x => x.Value)

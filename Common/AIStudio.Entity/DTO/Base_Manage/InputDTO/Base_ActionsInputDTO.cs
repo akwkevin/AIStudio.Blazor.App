@@ -13,6 +13,8 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
     public class Base_ActionsInputDTO : SearchInput
     {
         public string[]? ActionIds { get; set; }
-        public ActionType[]? types { get; set; }
+        public ActionType[]? Types { get; set; }
+
+        public string? ParentId { get; set; }
     }
 }

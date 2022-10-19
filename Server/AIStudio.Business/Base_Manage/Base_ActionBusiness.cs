@@ -26,7 +26,8 @@ namespace AIStudio.Business.Base_Manage
         public async Task<List<Base_Action>> GetDataListAsync(Base_ActionsInputDTO input)
         {
             var q = await GetIQueryable(input.SearchKeyValues)
-                 .WhereIF(input.types?.Length > 0, x => input.types.Contains(x.Type))
+                 .WhereIF(!input.ParentId.IsNullOrEmpty(), x => x.ParentId == input.ParentId)
+                 .WhereIF(input.Types?.Length > 0, x => input.Types.Contains(x.Type))
                  .WhereIF(input.ActionIds?.Length > 0, x => input.ActionIds.Contains(x.Id))
                  .OrderBy(x => x.CreateTime).ToListAsync();
             return q;

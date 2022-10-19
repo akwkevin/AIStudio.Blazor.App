@@ -113,7 +113,7 @@
         <span>@viewMenu.Name</span>
     </span>
         ;
-            if (viewMenu.Children != null && !viewMenu.HideChildrenInMenu)
+            if (viewMenu.Children != null && viewMenu.Children.Length > 0 && !viewMenu.HideChildrenInMenu)
             {
                 ViewSubMenu +=
     @<SubMenu Key="@viewMenu.Key" TitleTemplate="subTitle">

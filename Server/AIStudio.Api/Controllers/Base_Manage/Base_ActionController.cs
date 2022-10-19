@@ -43,7 +43,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         {
             return await _actionBus.GetDataListAsync(new Base_ActionsInputDTO
             {
-                types = new ActionType[] { ActionType.菜单, ActionType.页面, ActionType.权限 }
+                Types = new ActionType[] { ActionType.菜单, ActionType.页面, ActionType.权限 }
             });
         }
 
@@ -56,7 +56,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         public async Task<List<Base_ActionTree>> GetMenuTreeList(Base_ActionsInputDTO input)
         {
 
-            input.types = new ActionType[] { ActionType.菜单, ActionType.页面 };
+            input.Types = new ActionType[] { ActionType.菜单, ActionType.页面 };
 
             return await _actionBus.GetTreeDataListAsync(input);
         }
@@ -91,7 +91,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<List<Base_Action>> GetPermissionList(Base_ActionsInputDTO input)
         {
-            input.types = new ActionType[] { Entity.ActionType.权限 };
+            input.Types = new ActionType[] { Entity.ActionType.权限 };
 
             return await _actionBus.GetDataListAsync(input);
         }
