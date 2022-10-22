@@ -18,7 +18,23 @@ namespace AIStudio.Business.Base_Manage
             : base(db)
         {
             var projectPath = evn.ContentRootPath;
-            _solutionPath = Directory.GetParent(projectPath).ToString();
+            var root = GetDirectory(projectPath);
+            _solutionPath = root.FullName;
+        }
+
+        //找到工程根目录
+        private DirectoryInfo GetDirectory(string projectPath)
+        {
+            //找到Client的目录或者Server的目录
+            var direct = Directory.GetParent(projectPath);
+            if (direct.Name == "Client" || direct.Name == "Server")//所有的可执行项目都在Client或者Server中
+            {
+                return Directory.GetParent(direct.FullName);
+            }
+            else
+            {
+                return Directory.GetParent(direct.FullName);
+            }
         }
 
         private static readonly List<string> ignoreProperties =
@@ -53,7 +69,7 @@ namespace AIStudio.Business.Base_Manage
             string linkId = input.linkId;
             string areaName = input.areaName;
             List<string> tables = input.tables;
-            List<int> buildTypes = input.buildTypes;
+            var buildTypes = input.buildTypes;
             _areaName = areaName;
             //内部成员初始化
             _dbHelper = GetTheDbHelper(linkId);
@@ -99,14 +115,14 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
 
                     //buildTypes,实体层=0,业务层=1,接口层=2,页面层=3
                     //实体层
-                    if (buildTypes.Contains(0))
+                    if (buildTypes.Contains("0"))
                     {
                         BuildEntity(tableFieldInfo, aTable);
                     }
                     string tmpFileName = string.Empty;
                     string savePath = string.Empty;
                     //业务层
-                    if (buildTypes.Contains(1))
+                    if (buildTypes.Contains("1"))
                     {
                         //接口
                         tmpFileName = "IBusiness.txt";
@@ -127,7 +143,7 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
                         WriteCode(renderParamters, tmpFileName, savePath);
                     }
                     //接口层
-                    if (buildTypes.Contains(2))
+                    if (buildTypes.Contains("2"))
                     {
                         tmpFileName = "Controller.txt";
                         savePath = Path.Combine(
@@ -139,7 +155,7 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
                         WriteCode(renderParamters, tmpFileName, savePath);
                     }
                     //页面层
-                    if (buildTypes.Contains(3))
+                    if (buildTypes.Contains("3"))
                     {
                         //表格页
                         tmpFileName = "List.txt";
@@ -195,8 +211,8 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
         private string _areaName { get; set; }
         private void BuildEntity(List<TableInfo> tableInfo, string tableName)
         {
-            string nameSpace = $@"Coldairarrow.Entity.{_areaName}";
-            string filePath = Path.Combine(_solutionPath, "Coldairarrow.Entity", _areaName, $"{tableName}.cs");
+            string nameSpace = $@"AIStudio.Entity.{_areaName}";
+            string filePath = Path.Combine(_solutionPath, "Common", "AIStudio.Entity", _areaName, $"{tableName}.cs");
 
             _dbHelper.SaveEntityToFile(tableInfo, tableName, _dbTableInfoDic[tableName].Description, filePath, nameSpace);
         }
@@ -219,7 +235,7 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
         private Dictionary<string, DbFactory.DataAccess.DbTableInfo> _dbTableInfoDic { get; set; } = new Dictionary<string, DbFactory.DataAccess.DbTableInfo>();
         private void WriteCode(Dictionary<string, string> paramters, string templateFileName, string savePath)
         {
-            string content = File.ReadAllText(Path.Combine(_solutionPath, "Coldairarrow.Api", "BuildCodeTemplate", templateFileName));
+            string content = File.ReadAllText(Path.Combine(_solutionPath,"Server", "AIStudio.Api", "BuildCodeTemplate", templateFileName));
             paramters.ForEach(aParamter =>
             {
                 content = content.Replace(aParamter.Key, aParamter.Value);

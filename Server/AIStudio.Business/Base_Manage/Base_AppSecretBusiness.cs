@@ -1,11 +1,7 @@
 ﻿using AIStudio.Business.AOP;
 using AIStudio.Common.DI;
 using AIStudio.Entity.Base_Manage;
-using AIStudio.Entity.Enum;
 using AIStudio.IBusiness.Base_Manage;
-using AIStudio.Util.Common;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using SqlSugar;
 
 namespace AIStudio.Business.Base_Manage

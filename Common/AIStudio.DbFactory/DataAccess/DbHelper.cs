@@ -76,7 +76,7 @@ namespace AIStudio.DbFactory.DataAccess
                     cmd.CommandText = sql;
 
                     DbDataAdapter adapter = dbProviderFactory.CreateDataAdapter();
-                    if (_dbType == DatabaseType.SQLite)
+                    if (_dbType == DatabaseType.Sqlite)
                     {
                         adapter = new SQLiteDataAdapter();
                     }
@@ -120,7 +120,7 @@ namespace AIStudio.DbFactory.DataAccess
                     }
 
                     DbDataAdapter adapter = dbProviderFactory.CreateDataAdapter();
-                    if (_dbType == DatabaseType.SQLite)
+                    if (_dbType == DatabaseType.Sqlite)
                     {
                         adapter = new SQLiteDataAdapter();
                     }

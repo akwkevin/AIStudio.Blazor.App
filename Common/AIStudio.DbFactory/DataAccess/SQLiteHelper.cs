@@ -14,7 +14,7 @@ namespace AIStudio.DbFactory.DataAccess
         /// </summary>
         /// <param name="conString">完整连接字符串</param>
         public SQLiterHelper(string conString)
-            : base(DatabaseType.SQLite, conString)
+            : base(DatabaseType.Sqlite, conString)
         {
 
         }
