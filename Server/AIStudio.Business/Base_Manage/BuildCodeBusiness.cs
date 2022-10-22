@@ -33,7 +33,7 @@ namespace AIStudio.Business.Base_Manage
             }
             else
             {
-                return Directory.GetParent(direct.FullName);
+                return GetDirectory(direct.FullName);
             }
         }
 
@@ -116,14 +116,24 @@ $@"    <FormItem Label=""{aField.Description}"">
                         {$"%formColumns%",string.Join("\r\n",formColumnsList) }
                     };
 
+                    string tmpFileName = string.Empty;
+                    string savePath = string.Empty;
                     //buildTypes,实体层=0,业务层=1,接口层=2,页面层=3
                     //实体层
                     if (buildTypes.Contains("0"))
                     {
                         BuildEntity(tableFieldInfo, aTable);
+                        //DTO
+                        tmpFileName = "EntityDTO.txt";
+                        savePath =  Path.Combine(_solutionPath,
+                            "Common",
+                            "AIStudio.Entity",
+                            "DTO",
+                            _areaName,
+                            $"{entityName}DTO.cs");
+                        WriteCode(renderParamters, tmpFileName, savePath);
                     }
-                    string tmpFileName = string.Empty;
-                    string savePath = string.Empty;
+                   
                     //业务层
                     if (buildTypes.Contains("1"))
                     {
@@ -218,9 +228,14 @@ $@"    <FormItem Label=""{aField.Description}"">
         private void BuildEntity(List<TableInfo> tableInfo, string tableName)
         {
             string nameSpace = $@"AIStudio.Entity.{_areaName}";
-            string filePath = Path.Combine(_solutionPath, "Common", "AIStudio.Entity", _areaName, $"{tableName}.cs");
+            string filePath = Path.Combine(_solutionPath, 
+                "Common", 
+                "AIStudio.Entity",
+                _areaName, 
+                $"{tableName}.cs");
 
             _dbHelper.SaveEntityToFile(tableInfo, tableName, _dbTableInfoDic[tableName].Description, filePath, nameSpace);
+       
         }
         private DbHelper GetTheDbHelper(string linkId)
         {

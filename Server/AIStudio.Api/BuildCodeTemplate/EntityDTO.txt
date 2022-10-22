@@ -1,0 +1,13 @@
+﻿using AIStudio.Util.Mapper;
+using AIStudio.Entity.%areaName%;
+using AIStudio.Util.Common;
+using System.Collections.Generic;
+
+namespace AIStudio.Entity.DTO.%areaName%
+{
+    [Map(typeof(%entityName%))]
+    public class %entityName%DTO : %entityName%, IIdObject
+    {
+
+    }
+}
