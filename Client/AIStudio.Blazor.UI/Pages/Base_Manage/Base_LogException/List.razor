@@ -14,7 +14,13 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_LogExceptionDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="Base_LogExceptionDTO" 
+    DataSource="Data" 
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows" 
+    @bind-SelectedRows="SelectedItems"
+    ScrollX="2000">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="异常Id" DataIndex="EventId" TData="string" />

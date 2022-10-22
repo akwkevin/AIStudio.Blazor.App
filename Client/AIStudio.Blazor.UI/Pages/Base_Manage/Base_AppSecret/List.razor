@@ -28,7 +28,12 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_AppSecretDTO" DataSource="Data"  Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="Base_AppSecretDTO" 
+    DataSource="Data"  
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows" 
+    @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="应用Id" DataIndex="AppId" TData="string" />

@@ -28,26 +28,11 @@ namespace AIStudio.Api
 
             var configuration = provider.GetRequiredService<IConfiguration>();
 
-            List<DbConfig> dbList = new List<DbConfig>();
-            DbConfig defaultdb = new DbConfig()
-            {
-                DbNumber = AppSettingsConfig.ConnectionStringsOptions.DefaultDbNumber,
-                DbString = AppSettingsConfig.ConnectionStringsOptions.DefaultDbString,
-                DbType = AppSettingsConfig.ConnectionStringsOptions.DefaultDbType,
-                DbName = AppSettingsConfig.ConnectionStringsOptions.DefaultDbName,
-            };
-            dbList.Add(defaultdb);
-            if (AppSettingsConfig.ConnectionStringsOptions.DbConfigs != null)
-            {
-                foreach (var item in AppSettingsConfig.ConnectionStringsOptions.DbConfigs)
-                {
-                    dbList.Add(item);
-                }
-            }
+            var dbList = AppSettingsConfig.ConnectionStringsOptions.DbConfigs;
 
             var dbLinkBusiness = provider.GetRequiredService<IBase_DbLinkBusiness>();
-            var baseDb = dbLinkBusiness.FirstOrDefault(p => p.LinkName == AppSettingsConfig.ConnectionStringsOptions.DefaultDbName);
-            if (baseDb == null)
+            var dbLinkBusinessCount = dbLinkBusiness.GetIQueryable().Count();
+            if (dbLinkBusinessCount == 0)
             {
                 List<Base_DbLink> dblinks = new List<Base_DbLink>();
                 foreach (var item in dbList)
@@ -62,12 +47,10 @@ namespace AIStudio.Api
                         CreatorId = "System",
                         CreatorName = "System",
                     };
-                    dblinks.Add(dblink);
+                    dblinks.Add(dblink);                  
                 }
-
                 var result = dbLinkBusiness.Insert(dblinks);
-
-                logger.LogTrace($"Base_DbLink:{defaultdb.DbName}-{defaultdb.DbString}-{defaultdb.DbType}.... created");
+                logger.LogTrace($"Base_DbLink created");
             }
 
             var roleBusiness = provider.GetRequiredService<IBase_RoleBusiness>();
@@ -79,7 +62,7 @@ namespace AIStudio.Api
                     Id = IdHelper.GetId(),
                     RoleName = RoleTypes.部门管理员.ToString(),
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result = roleBusiness.Insert(admin);
@@ -95,7 +78,7 @@ namespace AIStudio.Api
                     Id = IdHelper.GetId(),
                     RoleName = RoleTypes.超级管理员.ToString(),
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result = roleBusiness.Insert(superadmin);
@@ -135,7 +118,7 @@ namespace AIStudio.Api
                     Password = "Admin".ToMD5String(),
                     DepartmentId = "Id1",
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result = userBusiness.Insert(adminUser);
@@ -146,7 +129,7 @@ namespace AIStudio.Api
                     UserId = adminUser.Id,
                     RoleId = superadmin.Id,
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result2 = userroleBusiness.Insert(adminUserRole);
@@ -165,7 +148,7 @@ namespace AIStudio.Api
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id2",
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result = userBusiness.Insert(alice);
@@ -176,7 +159,7 @@ namespace AIStudio.Api
                     UserId = adminUser.Id,
                     RoleId = alice.Id,
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result2 = userroleBusiness.Insert(aliceUserRole);
@@ -195,7 +178,7 @@ namespace AIStudio.Api
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id3",
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
                 var result = userBusiness.Insert(bob);
@@ -223,7 +206,7 @@ namespace AIStudio.Api
                     new Base_Action(){ Id="Id1_5",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="部门管理", Url="/Base_Manage/Base_Department/List",Value=null,                    NeedAction=true,    Icon="usergroup-add",  Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_6",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="字典管理", Url="/Base_Manage/Base_Dictionary/List",Value=null,                    NeedAction=true,    Icon="edit",           Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_7",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="表单配置", Url="/Base_Manage/Base_CommonFormConfig/List",Value=null,              NeedAction=true,    Icon="form",           Sort=7, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                  
+
                     new Base_Action(){ Id="Id1_9",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="任务管理", Url="/Quartz_Manage/Quartz_Task/List",  Value=null,                    NeedAction=true,    Icon="calendar",       Sort=9, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_1_1",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Action.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_1_2",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Action.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
@@ -377,7 +360,7 @@ namespace AIStudio.Api
         {
             var logger = provider.GetRequiredService<ILogger<SeedData>>();
 
-            var quartz_TaskBusiness = provider.GetRequiredService<IQuartz_TaskBusiness>(); 
+            var quartz_TaskBusiness = provider.GetRequiredService<IQuartz_TaskBusiness>();
             var textJob = quartz_TaskBusiness.FirstOrDefault(p => p.TaskName == "TestJob");
             if (textJob == null)
             {
@@ -390,7 +373,7 @@ namespace AIStudio.Api
                     Cron = "0/10 * * * * ?",
                     IsEnabled = true,
                     CreateTime = DateTime.Now,
-                    CreatorId = "System", 
+                    CreatorId = "System",
                     CreatorName = "System",
                 };
 

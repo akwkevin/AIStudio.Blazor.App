@@ -7,16 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
-    <Content Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\AIStudio.Api\appsettings.Development.json" Link="appsettings.Development.json" />
-    <Content Include="..\AIStudio.Api\appsettings.json" Link="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.10" />
   </ItemGroup>
 

@@ -36,7 +36,15 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_DictionaryTree" DataSource="Data" TreeChildren="item=>item.Children" DefaultExpandAllRows Loading="Loading" HidePagination @bind-SelectedRows="SelectedItems" >
+<Table @ref="_table" 
+    TItem="Base_DictionaryTree" 
+    DataSource="Data" 
+    TreeChildren="item=>item.Children" 
+    DefaultExpandAllRows 
+    Loading="Loading" 
+    HidePagination 
+    @bind-SelectedRows="SelectedItems"
+    ScrollX="1600">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="类型" DataIndex="TypeText" TData="string"/>
@@ -46,7 +54,7 @@
         <AntDesign.Column Title="控件类型" DataIndex="ControlType" TData="object"/>
         <AntDesign.Column Title="备注" DataIndex="Remark" TData="string"/>
         <AntDesign.Column Title="排序" DataIndex="Sort" TData="int"/>
-        <ActionColumn Title="Action">
+        <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
                     <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>

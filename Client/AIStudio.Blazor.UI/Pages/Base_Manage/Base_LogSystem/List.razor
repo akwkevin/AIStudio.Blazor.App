@@ -26,7 +26,13 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_LogSystemDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="Base_LogSystemDTO" 
+    DataSource="Data" 
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows"
+    @bind-SelectedRows="SelectedItems"
+    ScrollX="800">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="内容" DataIndex="Message" TData="string" />

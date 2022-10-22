@@ -37,7 +37,7 @@ public class QuartzManager : IQuartzManager
     {
         var scheduler = await GetScheduler();
 
-        _logger.LogInformation($"Job scheduling start.");
+        _logger.LogTrace($"Job scheduling start.");
 
         await scheduler.Start(token);
 
@@ -50,7 +50,7 @@ public class QuartzManager : IQuartzManager
     {
         var scheduler = await GetScheduler();
 
-        _logger.LogInformation($"Job scheduling shutdown.");
+        _logger.LogTrace($"Job scheduling shutdown.");
 
         await scheduler.Shutdown(token);
 

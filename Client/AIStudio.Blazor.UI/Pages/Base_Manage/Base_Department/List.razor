@@ -28,7 +28,14 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_DepartmentTree" DataSource="Data" TreeChildren="item=>item.Children" DefaultExpandAllRows Loading="Loading" HidePagination @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="Base_DepartmentTree" 
+    DataSource="Data" 
+    TreeChildren="item=>item.Children" 
+    DefaultExpandAllRows 
+    Loading="Loading"
+    HidePagination 
+    @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="部门名" DataIndex="Text" TData="string" />

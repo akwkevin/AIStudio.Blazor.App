@@ -22,7 +22,13 @@ namespace AIStudio.Common.AppSettings
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         [Obsolete("这只是一个示例，请使用 Configure(IConfiguration) 方法")]
+       
         public static void Configure(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null) throw new ArgumentNullException(nameof(serviceProvider));
@@ -52,13 +58,28 @@ namespace AIStudio.Common.AppSettings
         /// </summary>
         public static class RecordRequestOptions
         {
+            /// <summary>
+            /// 请求消息记录
+            /// </summary>
             public static bool IsEnabled => Configuration.GetValue<bool>("RecordRequest:IsEnabled");
+            /// <summary>
+            /// 跳过Get方法
+            /// </summary>
             public static bool IsSkipGetMethod => Configuration.GetValue<bool>("RecordRequest:IsSkipGetMethod");
         }
 
+        /// <summary>
+        /// 系统设置
+        /// </summary>
         public static class AppSettingsOptions
         {
+            /// <summary>
+            /// 开启InjectMiniProfiler
+            /// </summary>
             public static bool InjectMiniProfiler => Configuration.GetValue<bool>("AppSettings:InjectMiniProfiler");
+            /// <summary>
+            /// 开启超级管理员查看全部数据
+            /// </summary>
 
             public static bool SuperAdminViewAllData => Configuration.GetValue<bool>("AppSettings:SuperAdminViewAllData");
         }
@@ -73,10 +94,25 @@ namespace AIStudio.Common.AppSettings
         /// </summary>
         public static class JwtOptions
         {
+            /// <summary>
+            /// SecretKey
+            /// </summary>
             public static string SecretKey => Configuration["Jwt:SecretKey"];
+            /// <summary>
+            /// Issuer
+            /// </summary>
             public static string Issuer => Configuration["Jwt:Issuer"];
+            /// <summary>
+            /// Audience
+            /// </summary>
             public static string Audience => Configuration["Jwt:Audience"];
+            /// <summary>
+            /// AccessExpireHours
+            /// </summary>
             public static double AccessExpireHours => Configuration.GetValue<double>("Jwt:AccessExpireHours");
+            /// <summary>
+            /// RefreshExpireHours
+            /// </summary>
             public static double RefreshExpireHours => Configuration.GetValue<double>("Jwt:RefreshExpireHours");
         }
 
@@ -85,36 +121,39 @@ namespace AIStudio.Common.AppSettings
         /// </summary>
         public static class RedisOptions
         {
+            /// <summary>
+            /// Enabled
+            /// </summary>
             public static bool Enabled => Configuration.GetValue<bool>("Redis:Enabled");
+            /// <summary>
+            /// ConnectionString
+            /// </summary>
             public static string ConnectionString => Configuration["Redis:ConnectionString"];
+            /// <summary>
+            /// Instance
+            /// </summary>
             public static string Instance => Configuration["Redis:Instance"] ?? "Default";
         }
 
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
         public static class ConnectionStringsOptions
         {
             /// <summary>
-            /// 默认数据库编号
+            /// 数据库集合
             /// </summary>
-            public static string DefaultDbNumber => Configuration["ConnectionStrings:DefaultDbNumber"];
-            /// <summary>
-            /// 默认数据库类型
-            /// </summary>
-            public static string DefaultDbType => Configuration["ConnectionStrings:DefaultDbType"];
-            /// <summary>
-            /// 默认数据库连接字符串
-            /// </summary>
-
-            public static string DefaultDbString => Configuration["ConnectionStrings:DefaultDbString"];
-
-            public static string DefaultDbName => Configuration["ConnectionStrings:DefaultDbName"];
-            /// <summary>
-            /// 业务库集合
-            /// </summary>
-            public static List<DbConfig> DbConfigs => Configuration.GetValue<List<DbConfig>>("ConnectionStrings:DbConfigs");
+            public static DbConfig[] DbConfigs => Configuration.GetSection("DbConfigs").Get<DbConfig[]>();
         }
 
+        /// <summary>
+        /// 雪花ID
+        /// </summary>
         public static class SnowIdOptions
         {
+            /// <summary>
+            /// IdHelper的WorkerId
+            /// </summary>
             public static int WorkerId => Configuration.GetValue<int>("SnowId:WorkerId");
         }
     }

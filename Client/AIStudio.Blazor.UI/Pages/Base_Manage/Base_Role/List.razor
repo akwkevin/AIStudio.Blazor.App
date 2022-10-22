@@ -28,7 +28,12 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_RoleDTO" DataSource="Data"  Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="Base_RoleDTO"
+    DataSource="Data"  
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows" 
+    @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="角色名" DataIndex="RoleName" TData="string"/>

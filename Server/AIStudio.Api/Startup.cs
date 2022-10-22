@@ -134,6 +134,7 @@ namespace AIStudio.Api
                     };
                 });
                 
+                //其他外部服务注册
                 serviceAction?.Invoke(builder.Services);
 
                 //服务提供器
@@ -185,6 +186,7 @@ namespace AIStudio.Api
 
                 app.MapControllers();
 
+                //其他外部App启用
                 applicationAction?.Invoke(app);
 
                 app.Run();

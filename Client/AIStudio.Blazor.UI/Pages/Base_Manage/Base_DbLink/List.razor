@@ -28,7 +28,12 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Base_DbLinkDTO" DataSource="Data"  Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="Base_DbLinkDTO" 
+    DataSource="Data" 
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows"
+    @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="连接名" DataIndex="LinkName" TData="string" />

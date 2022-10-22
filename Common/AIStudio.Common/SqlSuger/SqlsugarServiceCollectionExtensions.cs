@@ -29,23 +29,8 @@ namespace AIStudio.Common.SqlSuger
         {
             //数据库序号从0开始,默认数据库为0
 
-            //默认数据库
-            List<DbConfig> dbList = new List<DbConfig>();
-            DbConfig defaultdb = new DbConfig()
-            {
-                DbNumber = AppSettingsConfig.ConnectionStringsOptions.DefaultDbNumber,
-                DbString = AppSettingsConfig.ConnectionStringsOptions.DefaultDbString,
-                DbType = AppSettingsConfig.ConnectionStringsOptions.DefaultDbType,
-            };
-            dbList.Add(defaultdb);
-            //业务数据库集合
-            if (AppSettingsConfig.ConnectionStringsOptions.DbConfigs != null)
-            {
-                foreach (var item in AppSettingsConfig.ConnectionStringsOptions.DbConfigs)
-                {
-                    dbList.Add(item);
-                }
-            }
+            //业务数据库集合， 默认数据库为0
+            List<DbConfig> dbList = AppSettingsConfig.ConnectionStringsOptions.DbConfigs.OrderBy(p => p.DbNumber).ToList();
 
             List<ConnectionConfig> connectConfigList = new List<ConnectionConfig>();
 
@@ -305,8 +290,8 @@ namespace AIStudio.Common.SqlSuger
         {
             SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
             {
-                DbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), AppSettingsConfig.ConnectionStringsOptions.DefaultDbType)),
-                ConnectionString = AppSettingsConfig.ConnectionStringsOptions.DefaultDbString,
+                DbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), AppSettingsConfig.ConnectionStringsOptions.DbConfigs.FirstOrDefault()?.DbType ?? DbType.SqlServer.ToString())),
+                ConnectionString = AppSettingsConfig.ConnectionStringsOptions.DbConfigs.FirstOrDefault()?.DbString,
                 IsAutoCloseConnection = true,
             },
            db =>
