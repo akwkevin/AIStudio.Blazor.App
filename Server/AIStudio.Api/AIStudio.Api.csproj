@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\Application\AIStudio.BlazorWasm.Client\AIStudio.BlazorWasm.Client.csproj" />
     <ProjectReference Include="..\AIStudio.Business\AIStudio.Business.csproj" />
   </ItemGroup>
 
