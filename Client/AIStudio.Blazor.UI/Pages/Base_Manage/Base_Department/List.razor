@@ -34,7 +34,8 @@
     TreeChildren="item=>item.Children" 
     DefaultExpandAllRows 
     Loading="Loading"
-    HidePagination 
+    HidePagination
+    PageSize="int.MaxValue"
     @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.Id)" />

@@ -16,24 +16,25 @@
                 TItemValue="string"
                 @bind-Value="LinkId"
                 DataSource="Base_DbLink"
-                Placeholder="请选择角色"
+                Placeholder="关键字"
                 LabelName="@nameof(Base_DbLinkDTO.LinkName)"
                 ValueName="@nameof(Base_DbLinkDTO.Id)"
                 OnSelectedItemChanged="OnSelectedItemChanged">
         </Select>
     </SpaceItem>
-
-    <SpaceItem>暂未完成，待Server模式完成的时候改进</SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="DbTableInfo" DataSource="Data" Loading="Loading" HidePagination @bind-SelectedRows="SelectedItems">
+<Table @ref="_table" 
+    TItem="DbTableInfo" 
+    DataSource="Data" 
+    Loading="Loading" 
+    HidePagination 
+    PageSize="int.MaxValue"
+    @bind-SelectedRows="SelectedItems">
     <ChildContent>
         <Selection Key="@(context.TableName)" />
         <AntDesign.Column Title="表名" DataIndex="TableName" TData="string" />
         <AntDesign.Column Title="描述" DataIndex="Description" TData="string" />
-        <ActionColumn Title="Action">
-
-        </ActionColumn>
     </ChildContent>
 </Table>
 

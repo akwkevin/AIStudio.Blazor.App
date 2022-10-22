@@ -4,7 +4,10 @@
     </SpaceItem>
 </Space>
 
-<Table TItem="Base_ActionDTO" DataSource="permissionList" HidePagination>
+<Table TItem="Base_ActionDTO" 
+    DataSource="permissionList" 
+    HidePagination
+    PageSize="int.MaxValue">
     <ChildContent>
         <AntDesign.Column TData="string" Title="权限名">
             @if (!@context.editable)
