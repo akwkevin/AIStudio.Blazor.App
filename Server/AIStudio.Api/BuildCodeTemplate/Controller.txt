@@ -1,63 +1,89 @@
-﻿using Coldairarrow.Business.%areaName%;
-using Coldairarrow.Entity.%areaName%;
-using Coldairarrow.Util;
+﻿using AIStudio.Api.Controllers;
+using AIStudio.Common.Filter.FilterAttribute;
+using AIStudio.Common.Swagger;
+using AIStudio.Entity.%areaName%;
+using AIStudio.IBusiness.%areaName%;
+using AIStudio.Util;
+using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Coldairarrow.Api.Controllers.%areaName%
 {
+    /// <summary>
+    /// 应用密钥
+    /// </summary>
+
+    [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/%areaName%/[controller]/[action]")]
-    public class %entityName%Controller : BaseApiController
+    public class %entityName%Controller : ApiControllerBase
     {
         #region DI
+        I%entityName%Business _%entityName%Bus { get; }
 
-        public %entityName%Controller(I%entityName%Business %busName%)
+        /// <summary>
+        /// %entityName%Controller
+        /// </summary>
+        /// <param name="%entityName%Bus"></param>
+        public %entityName%Controller(I%entityName%Business %entityName%Bus)
         {
-            %_busName% = %busName%;
+            _%entityName%Bus = %entityName%Bus;
         }
-
-        I%entityName%Business %_busName% { get; }
-
         #endregion
 
         #region 获取
-
+        /// <summary>
+        /// 获取数据列表%entityName%
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<%entityName%>> GetDataList(PageInput<ConditionDTO> input)
+        public async Task<PageResult<%entityName%>> GetDataList(PageInput input)
         {
-            return await %_busName%.GetDataListAsync(input);
+            return await _%entityName%Bus.GetDataListAsync(input);
         }
 
+        /// <summary>
+        /// 获取数据%entityName%
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<%entityName%> GetTheData(IdInputDTO input)
         {
-            return await %_busName%.GetTheDataAsync(input.id);
+            return await _%entityName%Bus.GetTheDataAsync(input.id) ?? new %entityName%();
         }
 
         #endregion
 
         #region 提交
 
+        /// <summary>
+        /// 保存数据%entityName%
+        /// </summary>
+        /// <param name="theData">保存的数据</param>
+        [RequestRecord]
         [HttpPost]
-        public async Task SaveData(%entityName% data)
+        public async Task SaveData(%entityName% theData)
         {
-            if (data.Id.IsNullOrEmpty())
+            if (theData.Id.IsNullOrEmpty())
             {
-                InitEntity(data);
-
-                await %_busName%.AddDataAsync(data);
+                await _%entityName%Bus.AddDataAsync(theData);
             }
             else
             {
-                await %_busName%.UpdateDataAsync(data);
+                await _%entityName%Bus.UpdateDataAsync(theData);
             }
         }
 
+        /// <summary>
+        /// 删除数据%entityName%
+        /// </summary>
+        /// <param name="ids">id数组,JSON数组</param>
+        [RequestRecord]
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {
-            await %_busName%.DeleteDataAsync(ids);
+            await _%entityName%Bus.DeleteDataAsync(ids);
         }
 
         #endregion

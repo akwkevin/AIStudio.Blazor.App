@@ -75,4 +75,24 @@
         Area = "Base_Manage";
         Condition = "AppName";
     }
+
+    protected override string GetDataJson()
+    {
+        return base.GetDataJson();
+    }
+
+    protected override async Task GetData()
+    {
+        await base.GetData();
+    }
+
+    protected override void Edit(Base_AppSecretDTO para)
+    {
+        base.Edit(para);
+    }
+
+    protected override async Task Delete(List<string> ids)
+    {
+        await base.Delete(ids);
+    }
 }

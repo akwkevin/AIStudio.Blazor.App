@@ -5,16 +5,14 @@ using AIStudio.Entity.Base_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Simple.Common.Filters;
 
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
     /// <summary>
     /// 应用密钥
     /// </summary>
-    
+
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
     public class Base_AppSecretController : ApiControllerBase

@@ -1,155 +1,104 @@
-<template>
-  <a-card :bordered="false">
-    <div class="table-operator">
-     <a-row :gutter="5">
-        <a-col :lg="14" :md="12" :sm="24">
-          <a-button type="primary" icon="plus" @click="hanldleAdd()">新建</a-button>
-          <a-button
-            type="primary"
-            icon="minus"
-            @click="handleDelete(selectedRowKeys)"
-            :disabled="!hasSelected()"
-            :loading="loading"
-          >删除</a-button
-          >
-          <a-button type="primary" icon="redo" @click="getDataList()">刷新</a-button>
-        </a-col>
-        <a-col :lg="3" :md="5" :sm="24">
-          <a-select style="width: 100%" allowClear v-model="queryParam.condition">
+@page "/%areaName%/%entityName%/List"
+
+@inherits BaseListWithEdit<%entityName%DTO, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("%entityName%.Add"))
+    {
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+        </SpaceItem>
+    }
+    @if (Operator.HasPerm("%entityName%.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    }
+    <SpaceItem>
+        <SimpleSelect DefaultActiveFirstOption @bind-Value="@Condition">
+            <SelectOptions>
 %selectOptions%
-          </a-select>
-        </a-col>
+            </SelectOptions>
+        </SimpleSelect>
+    </SpaceItem>
+    <SpaceItem>
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+    </SpaceItem>
+</Space>
 
-        <a-col :lg="7" :md="7" :sm="24">
-          <a-input-search
-            allow-clear
-            v-model="queryParam.keyword"
-            placeholder="关键字"
-            enter-button="Search"
-            @search="
-              () => {this.pagination.current = 1; this.getDataList()}"
-          />
-        </a-col>
-      </a-row>
-    </div>
+<Table @ref="_table" 
+    TItem="%entityName%DTO" 
+    DataSource="Data"  
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows" 
+    @bind-SelectedRows="SelectedItems">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+%formColumns%
+       
+        <ActionColumn Title="Action">
+            <Space Size=@("small")>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+    <PaginationTemplate>
+        <div style="float:right;margin-top:10px">
+            <Pagination Total="Pagination.Total"
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
+        </div>
+    </PaginationTemplate>
+</Table>
 
-    <a-table
-      ref="table"
-      :columns="columns"
-      :rowKey="row => row.Id"
-      :dataSource="data"
-      :pagination="pagination"
-      :loading="loading"
-      @change="handleTableChange"
-      :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-      :bordered="true"
-      size="small"
-    >
-      <span slot="action" slot-scope="text, record">
-        <template>
-          <a @click="handleEdit(record.Id)">编辑</a>
-          <a-divider type="vertical" />
-          <a @click="handleDelete([record.Id])">删除</a>
-        </template>
-      </span>
-    </a-table>
 
-    <edit-form ref="editForm" :parentObj="this"></edit-form>
-  </a-card>
-</template>
-
-<script>
-import EditForm from './EditForm'
-
-const columns = [
-%listColumns%
-  { title: '操作', dataIndex: 'action', scopedSlots: { customRender: 'action' } }
-]
-
-export default {
-  components: {
-    EditForm
-  },
-  mounted() {
-    this.getDataList()
-  },
-  data() {
-    return {
-      data: [],
-      pagination: {
-        current: 1,
-        pageSize: 10,
-        showTotal: (total, range) => `总数:${total} 当前:${range[0]}-${range[1]}`
-      },
-      filters: {},
-      sorter: { field: 'Id', order: 'asc' },
-      loading: false,
-      columns,
-      queryParam: {},
-      selectedRowKeys: []
+@code
+{
+    public List()
+    {
+        Area = "%areaName%";
+        //Condition = "Name";
     }
-  },
-  methods: {
-    handleTableChange(pagination, filters, sorter) {
-      this.pagination = { ...pagination }
-      this.filters = { ...filters }
-      this.sorter = { ...sorter }
-      this.getDataList()
-    },
-    getDataList() {
-      this.selectedRowKeys = []
 
-      this.loading = true
-      this.$http
-        .post('/%areaName%/%entityName%/GetDataList', {
-          PageIndex: this.pagination.current,
-          PageRows: this.pagination.pageSize,
-          SortField: this.sorter.field || 'Id',
-          SortType: this.sorter.order,
-          Search: this.queryParam,
-          ...this.filters
-        })
-        .then(resJson => {
-          this.loading = false
-          this.data = resJson.Data
-          const pagination = { ...this.pagination }
-          pagination.total = resJson.Total
-          this.pagination = pagination
-        })
-    },
-    onSelectChange(selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
-    },
-    hasSelected() {
-      return this.selectedRowKeys.length > 0
-    },
-    hanldleAdd() {
-      this.$refs.editForm.openForm()
-    },
-    handleEdit(id) {
-      this.$refs.editForm.openForm(id)
-    },
-    handleDelete(ids) {
-      var thisObj = this
-      this.$confirm({
-        title: '确认删除吗?',
-        onOk() {
-          return new Promise((resolve, reject) => {
-            thisObj.$http.post('/%areaName%/%entityName%/DeleteData', ids).then(resJson => {
-              resolve()
-
-              if (resJson.Success) {
-                thisObj.$message.success('操作成功!')
-
-                thisObj.getDataList()
-              } else {
-                thisObj.$message.error(resJson.Msg)
-              }
-            })
-          })
-        }
-      })
+     protected override string GetDataJson()
+    {        
+        return base.GetDataJson();
     }
-  }
+
+    protected override async Task GetData()
+    {
+        await base.GetData();
+    }
+
+    protected override void Edit(%entityName%DTO para)
+    {
+        base.Edit(para);
+    }
+
+    protected override async Task Delete(List<string> ids)
+    {
+        await base.Delete(ids);
+    }
 }
-</script>

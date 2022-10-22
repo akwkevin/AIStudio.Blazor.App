@@ -95,13 +95,16 @@ namespace AIStudio.Business.Base_Manage
                 {
                     if (_dbHelper.DbTypeStr_To_CsharpType(aField.Type) == typeof(string))
                         selectOptionsList.Add(
-$"                <a-select-option key=\"{aField.Name}\">{aField.Description}</a-select-option>");
+$"                <SimpleSelectOption Value=\"{aField.Name}\" Label=\"{aField.Description}\"></SimpleSelectOption>");
+                    
                     listColumnsList.Add(
-$"  {{ title: '{aField.Description}', dataIndex: '{aField.Name}', width: '10%' }},");
+$"        <AntDesign.Column Title=\"{aField.Description}\" DataIndex=\"{aField.Name}\" TData=\"{aField.Type}\"/>");
+                    
                     formColumnsList.Add(
-$@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name}"">
-          <a-input v-model=""entity.{aField.Name}"" autocomplete=""off"" />
-        </a-form-model-item>");
+$@"    <FormItem Label=""{aField.Description}"">
+            <Input @bind-Value=""@context.{aField.Name}"" AutoComplete=false />
+        </FormItem>");
+
                     Dictionary<string, string> renderParamters = new Dictionary<string, string>
                     {
                         {$"%{nameof(areaName)}%",areaName },
@@ -128,7 +131,8 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
                         tmpFileName = "IBusiness.txt";
                         savePath = Path.Combine(
                             _solutionPath,
-                            "Coldairarrow.IBusiness",
+                            "Server",
+                            "AIStudio.IBusiness",
                             areaName,
                             $"I{entityName}Business.cs");
                         WriteCode(renderParamters, tmpFileName, savePath);
@@ -137,7 +141,8 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
                         tmpFileName = "Business.txt";
                         savePath = Path.Combine(
                             _solutionPath,
-                            "Coldairarrow.Business",
+                            "Server",
+                            "AIStudio.Business",
                             areaName,
                             $"{entityName}Business.cs");
                         WriteCode(renderParamters, tmpFileName, savePath);
@@ -148,7 +153,8 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
                         tmpFileName = "Controller.txt";
                         savePath = Path.Combine(
                             _solutionPath,
-                            "Coldairarrow.Api",
+                            "Server",
+                            "AIStudio.Api",
                             "Controllers",
                             areaName,
                             $"{entityName}Controller.cs");
@@ -161,24 +167,24 @@ $@"        <a-form-model-item label=""{aField.Description}"" prop=""{aField.Name
                         tmpFileName = "List.txt";
                         savePath = Path.Combine(
                             _solutionPath,
-                            "Coldairarrow.Web",
-                            "src",
-                            "views",
+                            "Client",
+                            "AIStudio.Blazor.UI",
+                            "Pages",
                             areaName,
                             entityName,
-                            "List.vue");
+                            "List.razor");
                         WriteCode(renderParamters, tmpFileName, savePath);
 
                         //表单页
                         tmpFileName = "EditForm.txt";
                         savePath = Path.Combine(
                             _solutionPath,
-                            "Coldairarrow.Web",
-                            "src",
-                            "views",
+                            "Client",
+                            "AIStudio.Blazor.UI",
+                            "Pages",
                             areaName,
                             entityName,
-                            "EditForm.vue");
+                            "EditForm.razor");
                         WriteCode(renderParamters, tmpFileName, savePath);
                     }
                 });
