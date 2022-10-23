@@ -4,42 +4,42 @@
       LabelCol="new ColLayoutParam { Span = 8 }"
       WrapperCol="new ColLayoutParam { Span = 16 }">
     <FormItem Label="TenantId">
-            <Input @bind-Value="@context.TenantId" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.TenantId" AutoComplete=false />
+    </FormItem>
     <FormItem Label="ParentId">
-            <Input @bind-Value="@context.ParentId" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.ParentId" AutoComplete=false />
+    </FormItem>
     <FormItem Label="Type">
-            <Input @bind-Value="@context.Type" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.Type" AutoComplete=false />
+    </FormItem>
     <FormItem Label="Name">
-            <Input @bind-Value="@context.Name" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.Name" AutoComplete=false />
+    </FormItem>
     <FormItem Label="Url">
-            <Input @bind-Value="@context.Url" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.Url" AutoComplete=false />
+    </FormItem>
     <FormItem Label="Value">
-            <Input @bind-Value="@context.Value" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.Value" AutoComplete=false />
+    </FormItem>
     <FormItem Label="NeedTest">
-            <Input @bind-Value="@context.NeedTest" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.NeedTest" AutoComplete=false />
+    </FormItem>
     <FormItem Label="Icon">
-            <Input @bind-Value="@context.Icon" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.Icon" AutoComplete=false />
+    </FormItem>
     <FormItem Label="Sort">
-            <Input @bind-Value="@context.Sort" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.Sort" AutoComplete=false />
+    </FormItem>
     <FormItem Label="ModifyTime">
-            <Input @bind-Value="@context.ModifyTime" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.ModifyTime" AutoComplete=false />
+    </FormItem>
     <FormItem Label="ModifyId">
-            <Input @bind-Value="@context.ModifyId" AutoComplete=false />
-        </FormItem>
+        <Input @bind-Value="@context.ModifyId" AutoComplete=false />
+    </FormItem>
     <FormItem Label="ModifyName">
-            <Input @bind-Value="@context.ModifyName" AutoComplete=false />
-        </FormItem>
-  
+        <Input @bind-Value="@context.ModifyName" AutoComplete=false />
+    </FormItem>
+
 </Form>
 
 @code {
@@ -51,11 +51,11 @@
 
     protected override async Task GetDataAsync(string id)
     {
-        await GetDataAsync(id);
+        await base.GetDataAsync(id);
     }
 
     protected override async Task SaveData(Base_TestDTO para)
     {
-        await SaveData(para);
+        await base.SaveData(para);
     }
 }

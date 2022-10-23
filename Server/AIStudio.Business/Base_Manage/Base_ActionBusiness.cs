@@ -48,7 +48,7 @@ namespace AIStudio.Business.Base_Manage
                 Value = x.Id,
                 Icon = x.Icon,
                 Sort = x.Sort
-            }).ToList();
+            }).OrderBy(p => p.Sort).ToList();
 
             //菜单节点中,若子节点为空则移除父节点
             //treeList = treeList.Where(x => x.Type != 0 || TreeHelper.GetChildren(treeList, x, false).Count > 0).ToList();

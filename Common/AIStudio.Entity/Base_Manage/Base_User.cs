@@ -45,10 +45,10 @@ namespace AIStudio.Entity.Base_Manage
         public string? DepartmentId { get; set; }
 
         [MaxLength(255)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [MaxLength(500)]
-        public string Avatar { get; set; }
+        public string? Avatar { get; set; }
     }
 
     public enum Sex

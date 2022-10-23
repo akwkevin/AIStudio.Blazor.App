@@ -24,11 +24,11 @@
 
     protected override async Task GetDataAsync(string id)
     {
-        await GetDataAsync(id);
+        await base.GetDataAsync(id);
     }
 
     protected override async Task SaveData(Base_AppSecretDTO para)
     {
-        await SaveData(para);
+        await base.SaveData(para);
     }
 }
