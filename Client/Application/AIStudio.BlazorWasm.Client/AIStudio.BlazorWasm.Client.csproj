@@ -15,4 +15,6 @@
     <ProjectReference Include="..\..\AIStudio.Blazor.UI\AIStudio.Blazor.UI.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

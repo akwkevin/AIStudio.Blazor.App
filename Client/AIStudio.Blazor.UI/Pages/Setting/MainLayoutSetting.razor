@@ -1,45 +1,53 @@
 ﻿@page "/Setting/MainLayoutSetting"
 @using AIStudio.Blazor.UI.Models.Settings
 @using Blazored.LocalStorage
+@using Microsoft.Extensions.Configuration
 @using Microsoft.Extensions.Options
 
 @implements IReuseTabsPage
 @inherits AntDomComponentBase
 
-<div>
-    <Form Model="@Layout">
-        <FormItem Label="多页签模式">
-            <Switch Size="small" @bind-Value="context.MultiTab" />
-        </FormItem>
-        <FormItem Label="手风琴模式">
-            <Switch Size="small" @bind-Value="context.Accordion" />
-        </FormItem>
-        <FormItem Label="菜单栏主题">
-            <RadioGroup @bind-Value="@context.LeftMenuTheme" TValue="AIStudio.Blazor.UI.Models.Settings.LayoutSettings.LeftMenuThemeEnum">
-                <Radio Value="AIStudio.Blazor.UI.Models.Settings.LayoutSettings.LeftMenuThemeEnum.Light">明亮</Radio>
-                <Radio Value="AIStudio.Blazor.UI.Models.Settings.LayoutSettings.LeftMenuThemeEnum.Dark">暗黑</Radio>
-            </RadioGroup>
-        </FormItem>
-        <FormItem Label="主题模式">
-            <RadioGroup @bind-Value="@context.Theme" TValue="string">
-                <Radio Value="@("ant-design-blazor.css")">默认主题</Radio>
-                <Radio Value="@("ant-design-blazor.aliyun.css")">阿里云主题</Radio>
-                <Radio Value="@("ant-design-blazor.dark.css")">暗黑主题</Radio>
-                <Radio Value="@("ant-design-blazor.compact.css")">紧凑主题</Radio>
-            </RadioGroup>
-        </FormItem>
-        <FormItem>
-            <Space Size="@("small")">
-                <SpaceItem>
-                    <Button Icon="setting" Type="@ButtonType.Primary" OnClick="SaveSetting">保存布局</Button>
-                </SpaceItem>
-                <SpaceItem>
-                    <Button Icon="copy" Type="@ButtonType.Primary" OnClick="CopySetting">复制布局</Button>
-                </SpaceItem>
-            </Space>
-        </FormItem>
-    </Form>
-</div>
+<Card Bordered="true" Hoverable="true">
+    <Body>
+        <div>
+            <Form Model="@Layout">
+                <FormItem Label="多页签模式">
+                    <Switch Size="small" @bind-Value="context.MultiTab" />
+                </FormItem>
+                <FormItem Label="手风琴模式">
+                    <Switch Size="small" @bind-Value="context.Accordion" />
+                </FormItem>
+                <FormItem Label="菜单栏主题">
+                    <RadioGroup @bind-Value="@context.LeftMenuTheme" TValue="AIStudio.Blazor.UI.Models.Settings.LayoutSettings.LeftMenuThemeEnum">
+                        <Radio Value="AIStudio.Blazor.UI.Models.Settings.LayoutSettings.LeftMenuThemeEnum.Light">明亮</Radio>
+                        <Radio Value="AIStudio.Blazor.UI.Models.Settings.LayoutSettings.LeftMenuThemeEnum.Dark">暗黑</Radio>
+                    </RadioGroup>
+                </FormItem>
+                <FormItem Label="主题模式">
+                    <RadioGroup @bind-Value="@context.Theme" TValue="string">
+                        <Radio Value="@("ant-design-blazor.css")">默认主题</Radio>
+                        <Radio Value="@("ant-design-blazor.aliyun.css")">阿里云主题</Radio>
+                        <Radio Value="@("ant-design-blazor.dark.css")">暗黑主题</Radio>
+                        <Radio Value="@("ant-design-blazor.compact.css")">紧凑主题</Radio>
+                    </RadioGroup>
+                </FormItem>
+                <FormItem>
+                    <Space Size="@("small")">
+                        <SpaceItem>
+                            <Button Icon="setting" Type="@ButtonType.Primary" OnClick="SaveSetting">保存布局</Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="rest" Type="@ButtonType.Primary" OnClick="ResetSetting">重置布局</Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="copy" Type="@ButtonType.Primary" OnClick="CopySetting">复制布局</Button>
+                        </SpaceItem>
+                    </Space>
+                </FormItem>
+            </Form>
+        </div>
+    </Body>
+</Card>
 
 <link type="text/css" rel="stylesheet" id="theme-style" href="@_url" @ref="_linkRef">
 
@@ -57,10 +65,13 @@
     [Inject]
     MessageService MessageService { get; set; }
 
+    [Inject]
+    IConfiguration Configuration { get; set; }
+
     LayoutSettings Layout { get { return LayoutSettings.Value; } }
 
     static readonly Dictionary<string, string> ThemeColors = new Dictionary<string, string>
-        {
+            {
         {"#1890ff", "daybreak"},
         {"#F5222D", "dust"},
         {"#FA541C", "volcano"},
@@ -69,7 +80,7 @@
         {"#52C41A", "green"},
         {"#2F54EB", "geekblue"},
         {"#722ED1", "purple"}
-        };
+            };
 
     ColorItem[] LightColorList { get; set; } = ThemeColors.Select(x => new ColorItem
             {
@@ -85,16 +96,25 @@
 
     private async Task SaveSetting(MouseEventArgs args)
     {
-        var json = LayoutSettings.Value.ToJson();
+        var json = Layout.ToJson();
         await StorageService.SetItemAsStringAsync(nameof(Layout), json);
         _ = MessageService.Success("布局保存成功");
+    }
+
+    private async Task ResetSetting(MouseEventArgs args)
+    {
+        var defaultLayoutSettings = Configuration.GetSection(nameof(LayoutSettings)).Get<LayoutSettings>();
+        defaultLayoutSettings.CopyProperties(Layout);
+
+        await StorageService.RemoveItemAsync(nameof(Layout));
+        _ = MessageService.Success("布局重置成功");
     }
 
     private async Task CopySetting(MouseEventArgs args)
     {
         var json = Layout.ToJson();
         await JsInvokeAsync<object>
-        (JSInteropConstants.Copy, json);
+    (JSInteropConstants.Copy, json);
         await MessageService.Success("copy success, please replace defaultSettings in wwwroot/appsettings.json");
     }
 
