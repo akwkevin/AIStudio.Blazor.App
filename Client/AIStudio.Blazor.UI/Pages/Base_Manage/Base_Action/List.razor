@@ -28,16 +28,19 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_ActionTree" 
-    DataSource="Data" 
-    TreeChildren="item=>item.Children" 
-    DefaultExpandAllRows 
-    Loading="Loading" 
-    HidePagination 
-    PageSize="int.MaxValue"
-    @bind-SelectedRows="SelectedItems"
-    ScrollX="1600">
+<Table @ref="_table"
+       TItem="Base_ActionTree"
+       DataSource="Data"
+       TreeChildren="item=>item.Children"
+       DefaultExpandAllRows
+       Loading="Loading"
+       HidePagination
+       PageSize="int.MaxValue"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="1600"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="菜单名" DataIndex="Text" TData="string" />
@@ -46,14 +49,24 @@
         <AntDesign.Column Title="需要权限" DataIndex="NeedActionText" TData="string" />
         <AntDesign.Column Title="页面权限" TData="string">
             @if (@context.PermissionValues != null)
-            {
-                @foreach (var item in @context.PermissionValues)
+            {  @foreach (var item in context.PermissionValues)
                 {
-                    <p>@item</p>
+                    var color = "geekblue";
+                    if (item.Contains("Add"))
+                    {
+                        color = "green";
+                    }
+                    else if (item.Contains("Delete"))
+                    {
+                        color = "volcano";
+                    }
+                    <Tag Color="@color">@item</Tag>
                 }
             }
         </AntDesign.Column>
-        <AntDesign.Column Title="图标" DataIndex="icon" TData="string"  />
+        <AntDesign.Column Title="图标" TData="string">
+            <Icon Type="@context.Icon" Theme="outline" />
+        </AntDesign.Column>
         <AntDesign.Column Title="排序" DataIndex="Sort" TData="int" />
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
@@ -72,6 +85,11 @@
     </ChildContent>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {

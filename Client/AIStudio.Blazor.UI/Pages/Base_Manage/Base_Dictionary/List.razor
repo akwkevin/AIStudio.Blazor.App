@@ -22,7 +22,7 @@
                 <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
             </Popconfirm>
         </SpaceItem>
-    } 
+    }
     <SpaceItem>
         <SimpleSelect DefaultActiveFirstOption @bind-Value="@Condition">
             <SelectOptions>
@@ -36,24 +36,27 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_DictionaryTree" 
-    DataSource="Data" 
-    TreeChildren="item=>item.Children" 
-    DefaultExpandAllRows 
-    Loading="Loading" 
-    HidePagination 
-    @bind-SelectedRows="SelectedItems"
-    ScrollX="1600">
+<Table @ref="_table"
+       TItem="Base_DictionaryTree"
+       DataSource="Data"
+       TreeChildren="item=>item.Children"
+       DefaultExpandAllRows
+       Loading="Loading"
+       HidePagination
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="1600"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="类型" DataIndex="TypeText" TData="string"/>
-        <AntDesign.Column Title="文本" DataIndex="Text" TData="string"/> 
-        <AntDesign.Column Title="值" DataIndex="Value" TData="string"/>
+        <AntDesign.Column Title="类型" DataIndex="TypeText" TData="string" />
+        <AntDesign.Column Title="文本" DataIndex="Text" TData="string" />
+        <AntDesign.Column Title="值" DataIndex="Value" TData="string" />
         <AntDesign.Column Title="Code" DataIndex="Code" TData="string" />
-        <AntDesign.Column Title="控件类型" DataIndex="ControlType" TData="object"/>
-        <AntDesign.Column Title="备注" DataIndex="Remark" TData="string"/>
-        <AntDesign.Column Title="排序" DataIndex="Sort" TData="int"/>
+        <AntDesign.Column Title="控件类型" DataIndex="ControlType" TData="object" />
+        <AntDesign.Column Title="备注" DataIndex="Remark" TData="string" />
+        <AntDesign.Column Title="排序" DataIndex="Sort" TData="int" />
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
@@ -82,9 +85,14 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
-{  
+{
     public List()
     {
         Area = "Base_Manage";

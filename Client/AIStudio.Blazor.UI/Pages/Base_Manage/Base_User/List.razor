@@ -28,21 +28,24 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_UserDTO"
-    DataSource="Data"  
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows"
-    @bind-SelectedRows="SelectedItems"
-    ScrollX="1400">
+<Table @ref="_table"
+       TItem="Base_UserDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="1400"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="用户名" DataIndex="UserName" TData="string"/>
-        <AntDesign.Column Title="姓名" DataIndex="RealName" TData="string"/>
-        <AntDesign.Column Title="性别" DataIndex="SexText" TData="string"/>
-        <AntDesign.Column Title="出生日期" DataIndex="BirthdayText" TData="string"/>
-        <AntDesign.Column Title="所属部门" DataIndex="DepartmentName" TData="string"/>
-        <AntDesign.Column Title="所属角色" DataIndex="RoleNames" TData="string"/>
+        <AntDesign.Column Title="用户名" DataIndex="UserName" TData="string" />
+        <AntDesign.Column Title="姓名" DataIndex="RealName" TData="string" />
+        <AntDesign.Column Title="性别" DataIndex="SexText" TData="string" />
+        <AntDesign.Column Title="出生日期" DataIndex="BirthdayText" TData="string" />
+        <AntDesign.Column Title="所属部门" DataIndex="DepartmentName" TData="string" />
+        <AntDesign.Column Title="所属角色" DataIndex="RoleNames" TData="string" />
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
@@ -71,6 +74,11 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {

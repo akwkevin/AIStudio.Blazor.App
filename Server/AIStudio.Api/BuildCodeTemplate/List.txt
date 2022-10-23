@@ -36,16 +36,20 @@
 </Space>
 
 <Table @ref="_table" 
-    TItem="%entityName%DTO" 
-    DataSource="Data"  
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows" 
-    @bind-SelectedRows="SelectedItems">
+       TItem="%entityName%DTO" 
+       DataSource="Data"  
+       Loading="Loading" 
+       @bind-PageSize="Pagination.PageRows" 
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="1800"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-%formColumns%
+%listColumns%
        
-        <ActionColumn Title="Action">
+        <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
                     <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
@@ -73,6 +77,11 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {

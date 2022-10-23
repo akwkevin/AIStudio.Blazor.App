@@ -28,15 +28,19 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_DepartmentTree" 
-    DataSource="Data" 
-    TreeChildren="item=>item.Children" 
-    DefaultExpandAllRows 
-    Loading="Loading"
-    HidePagination
-    PageSize="int.MaxValue"
-    @bind-SelectedRows="SelectedItems">
+<Table @ref="_table"
+       TItem="Base_DepartmentTree"
+       DataSource="Data"
+       TreeChildren="item=>item.Children"
+       DefaultExpandAllRows
+       Loading="Loading"
+       HidePagination
+       PageSize="int.MaxValue"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="400"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="部门名" DataIndex="Text" TData="string" />
@@ -57,9 +61,14 @@
     </ChildContent>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
-{  
+{
     public List()
     {
         Area = "Base_Manage";

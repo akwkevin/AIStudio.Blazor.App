@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
     /// <summary>
-    /// 测试
+    /// Base_Test
     /// </summary>
 
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
@@ -21,7 +21,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_TestBusiness _Base_TestBus { get; }
 
         /// <summary>
-        /// 测试控制器
+        /// Base_Test控制器
         /// </summary>
         /// <param name="Base_TestBus"></param>
         public Base_TestController(IBase_TestBusiness Base_TestBus)
@@ -32,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 获取
         /// <summary>
-        /// 获取测试数据列表
+        /// 获取Base_Test列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -43,7 +43,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 根据Id获取测试数据
+        /// 根据Id获取Base_Test
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         /// <summary>
-        /// 保存测试数据
+        /// 保存Base_Test
         /// </summary>
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
@@ -69,7 +69,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 删除测试数据
+        /// 删除Base_Test
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]

@@ -14,13 +14,16 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_LogOperatingDTO" 
-    DataSource="Data" 
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows" 
-    @bind-SelectedRows="SelectedItems"
-    ScrollX="3000">
+<Table @ref="_table"
+       TItem="Base_LogOperatingDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="3000"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="日志名称" DataIndex="Name" TData="string" />
@@ -52,6 +55,11 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {
@@ -66,7 +74,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();       
+        await base.OnInitializedAsync();
     }
 
     protected override string GetDataJson()
@@ -75,7 +83,7 @@
         if (!string.IsNullOrEmpty(Condition) && !string.IsNullOrEmpty(KeyWord))
         {
             searchKeyValues.Add(Condition, KeyWord);
-        }      
+        }
         if (!string.IsNullOrEmpty(CreatorName))
         {
             searchKeyValues.Add("CreatorName", CreatorName);

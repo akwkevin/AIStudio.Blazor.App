@@ -43,51 +43,31 @@
 </Space>
 
 <Table @ref="_table" 
-    TItem="Base_TestDTO" 
-    DataSource="Data"  
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows" 
-    @bind-SelectedRows="SelectedItems">
+       TItem="Base_TestDTO" 
+       DataSource="Data"  
+       Loading="Loading" 
+       @bind-PageSize="Pagination.PageRows" 
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="1800"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-    <FormItem Label="TenantId">
-            <Input @bind-Value="@context.TenantId" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="ParentId">
-            <Input @bind-Value="@context.ParentId" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="Type">
-            <Input @bind-Value="@context.Type" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="Name">
-            <Input @bind-Value="@context.Name" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="Url">
-            <Input @bind-Value="@context.Url" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="Value">
-            <Input @bind-Value="@context.Value" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="NeedTest">
-            <Input @bind-Value="@context.NeedTest" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="Icon">
-            <Input @bind-Value="@context.Icon" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="Sort">
-            <Input @bind-Value="@context.Sort" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="ModifyTime">
-            <Input @bind-Value="@context.ModifyTime" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="ModifyId">
-            <Input @bind-Value="@context.ModifyId" AutoComplete=false />
-        </FormItem>
-    <FormItem Label="ModifyName">
-            <Input @bind-Value="@context.ModifyName" AutoComplete=false />
-        </FormItem>
+        <AntDesign.Column Title="TenantId" DataIndex="TenantId" TData="System.String"/>
+        <AntDesign.Column Title="ParentId" DataIndex="ParentId" TData="System.String"/>
+        <AntDesign.Column Title="Type" DataIndex="Type" TData="System.Int32"/>
+        <AntDesign.Column Title="Name" DataIndex="Name" TData="System.String"/>
+        <AntDesign.Column Title="Url" DataIndex="Url" TData="System.String"/>
+        <AntDesign.Column Title="Value" DataIndex="Value" TData="System.String"/>
+        <AntDesign.Column Title="NeedTest" DataIndex="NeedTest" TData="System.Boolean"/>
+        <AntDesign.Column Title="Icon" DataIndex="Icon" TData="System.String"/>
+        <AntDesign.Column Title="Sort" DataIndex="Sort" TData="System.Int32"/>
+        <AntDesign.Column Title="ModifyTime" DataIndex="ModifyTime" TData="System.DateTime"/>
+        <AntDesign.Column Title="ModifyId" DataIndex="ModifyId" TData="System.String"/>
+        <AntDesign.Column Title="ModifyName" DataIndex="ModifyName" TData="System.String"/>
        
-        <ActionColumn Title="Action">
+        <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
                     <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
@@ -115,6 +95,11 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {

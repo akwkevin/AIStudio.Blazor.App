@@ -26,13 +26,16 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_LogSystemDTO" 
-    DataSource="Data" 
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows"
-    @bind-SelectedRows="SelectedItems"
-    ScrollX="800">
+<Table @ref="_table"
+       TItem="Base_LogSystemDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="800"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="内容" DataIndex="Message" TData="string" />
@@ -53,6 +56,11 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {
@@ -72,7 +80,7 @@
     {
         await base.OnInitializedAsync();
         await GetLogTypeList();
-    }  
+    }
 
     private async Task GetLogTypeList()
     {

@@ -98,7 +98,7 @@ namespace AIStudio.Business.Base_Manage
 $"                <SimpleSelectOption Value=\"{aField.Name}\" Label=\"{aField.Description}\"></SimpleSelectOption>");
                     
                     listColumnsList.Add(
-$"        <AntDesign.Column Title=\"{aField.Description}\" DataIndex=\"{aField.Name}\" TData=\"{aField.Type}\"/>");
+$"        <AntDesign.Column Title=\"{aField.Description}\" DataIndex=\"{aField.Name}\" TData=\"{_dbHelper.DbTypeStr_To_CsharpType(aField.Type)}\"/>");
                     
                     formColumnsList.Add(
 $@"    <FormItem Label=""{aField.Description}"">

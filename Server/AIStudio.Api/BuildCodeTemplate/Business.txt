@@ -26,6 +26,11 @@ namespace AIStudio.Business.%areaName%
             await base.UpdateAsync(theData);
         }
 
+        public override async Task SaveDataAsync(%entityName% theData)
+        {
+            await base.SaveDataAsync(theData);
+        }
+
         #endregion
 
         #region 私有成员

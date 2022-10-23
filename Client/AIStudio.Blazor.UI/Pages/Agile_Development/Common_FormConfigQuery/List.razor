@@ -25,7 +25,9 @@
        PageIndex="Pagination.PageIndex"
        ScrollY="@BodyHeight.ToString()"
        ScrollBarWidth="5px"
-       Responsive>
+       Size=@TableSize.Small
+       Responsive
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <Selection />
     @if (DataGridColumns != null)
     {
@@ -60,7 +62,7 @@
 <Space Size=@(("5", "10")) Wrap style="margin-top:10px">
 
     @if (EditFormItems != null)
-    {   
+    {
         @if (IsReadOnly)
         {
             <SpaceItem>
@@ -88,3 +90,9 @@
         }
     }
 </Space>
+
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>

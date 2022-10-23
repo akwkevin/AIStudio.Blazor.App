@@ -35,13 +35,16 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_CommonFormConfigDTO" 
-    DataSource="Data"  
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows" 
-    @bind-SelectedRows="SelectedItems"
-    ScrollX="5200">
+<Table @ref="_table"
+       TItem="Base_CommonFormConfigDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="5200"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="表名" DataIndex="Table" TData="string" />
@@ -97,9 +100,14 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
-{  
+{
     public List()
     {
         Area = "Base_Manage";

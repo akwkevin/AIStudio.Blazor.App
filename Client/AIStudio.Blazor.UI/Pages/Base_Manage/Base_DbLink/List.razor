@@ -28,18 +28,22 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="Base_DbLinkDTO" 
-    DataSource="Data" 
-    Loading="Loading" 
-    @bind-PageSize="Pagination.PageRows"
-    @bind-SelectedRows="SelectedItems">
+<Table @ref="_table"
+       TItem="Base_DbLinkDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="800"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="连接名" DataIndex="LinkName" TData="string" />
-        <AntDesign.Column Title="连接字符串" DataIndex="ConnectionStr" TData="string"/>
-        <AntDesign.Column Title="数据库类型" DataIndex="DbType" TData="string"/>
-        <ActionColumn Title="Action">
+        <AntDesign.Column Title="连接字符串" DataIndex="ConnectionStr" TData="string" />
+        <AntDesign.Column Title="数据库类型" DataIndex="DbType" TData="string" />
+        <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
                     <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
@@ -67,9 +71,14 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
-{  
+{
     public List()
     {
         Area = "Base_Manage";

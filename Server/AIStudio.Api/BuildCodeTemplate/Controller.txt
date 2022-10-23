@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coldairarrow.Api.Controllers.%areaName%
 {
     /// <summary>
-    /// 应用密钥
+    /// %entityName%
     /// </summary>
 
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
@@ -21,7 +21,7 @@ namespace Coldairarrow.Api.Controllers.%areaName%
         I%entityName%Business _%entityName%Bus { get; }
 
         /// <summary>
-        /// %entityName%Controller
+        /// %entityName%控制器
         /// </summary>
         /// <param name="%entityName%Bus"></param>
         public %entityName%Controller(I%entityName%Business %entityName%Bus)
@@ -32,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.%areaName%
 
         #region 获取
         /// <summary>
-        /// 获取数据列表%entityName%
+        /// 获取%entityName%列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -43,14 +43,14 @@ namespace Coldairarrow.Api.Controllers.%areaName%
         }
 
         /// <summary>
-        /// 获取数据%entityName%
+        /// 根据Id获取%entityName%
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<%entityName%> GetTheData(IdInputDTO input)
         {
-            return await _%entityName%Bus.GetTheDataAsync(input.id) ?? new %entityName%();
+            return await _%entityName%Bus.GetTheDataAsync(input.id);
         }
 
         #endregion
@@ -58,25 +58,18 @@ namespace Coldairarrow.Api.Controllers.%areaName%
         #region 提交
 
         /// <summary>
-        /// 保存数据%entityName%
+        /// 保存%entityName%
         /// </summary>
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
         [HttpPost]
         public async Task SaveData(%entityName% theData)
         {
-            if (theData.Id.IsNullOrEmpty())
-            {
-                await _%entityName%Bus.AddDataAsync(theData);
-            }
-            else
-            {
-                await _%entityName%Bus.UpdateDataAsync(theData);
-            }
+            await _%entityName%Bus.SaveDataAsync(theData);
         }
 
         /// <summary>
-        /// 删除数据%entityName%
+        /// 删除%entityName%
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]

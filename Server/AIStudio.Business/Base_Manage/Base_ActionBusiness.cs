@@ -47,7 +47,7 @@ namespace AIStudio.Business.Base_Manage
                 Url = x.Url,
                 Value = x.Id,
                 Icon = x.Icon,
-                //selectable = input.selectable
+                Sort = x.Sort
             }).ToList();
 
             //菜单节点中,若子节点为空则移除父节点

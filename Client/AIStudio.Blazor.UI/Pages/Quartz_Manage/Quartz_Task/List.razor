@@ -39,18 +39,27 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" TItem="Quartz_TaskDTO" DataSource="Data" Loading="Loading" @bind-PageSize="Pagination.PageRows" @bind-SelectedRows="SelectedItems">
+<Table @ref="_table"
+       TItem="Quartz_TaskDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="1800"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="作业名称" DataIndex="TaskName" TData="string" />
         <AntDesign.Column Title="分组" DataIndex="GroupName" TData="string" />
         <AntDesign.Column Title="最后执行时间" DataIndex="LastRunTime" TData="DateTime" />
         <AntDesign.Column Title="间隔(Cron)" DataIndex="Interval" TData="string" />
-        <AntDesign.Column Title="状态" DataIndex="IsEnable" TData="bool" />         
+        <AntDesign.Column Title="状态" DataIndex="IsEnable" TData="bool" />
         <AntDesign.Column Title="描述" DataIndex="Remark" TData="string" />
         <AntDesign.Column Title="ApiUrl" DataIndex="ApiUrl" TData="string" />
         <AntDesign.Column Title="请求方式" DataIndex="RequestType" TData="string" />
-        <ActionColumn Title="Action">
+        <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
                     <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
@@ -79,6 +88,11 @@
     </PaginationTemplate>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {
@@ -108,12 +122,12 @@
 
     private void Start()
     {
-        Excute("开始", "StartData");      
+        Excute("开始", "StartData");
     }
 
     private void ToDo()
     {
-        Excute("立即执行", "ToDoData");      
+        Excute("立即执行", "ToDoData");
     }
 
     private void Excute(string Text, string Action)
@@ -146,9 +160,9 @@
         {
             var index = 0;
             IEnumerable<KeyValuePair<string, object>> paramenter = new List<KeyValuePair<string, object>>()
-            {
+                {
                 new KeyValuePair<string, object>("Type","check-circle")
-            };
+                };
 
             builder.OpenComponent(index++, typeof(Icon));
             builder.AddMultipleAttributes(index++, paramenter);
@@ -156,13 +170,13 @@
 
         };
         ModalService.Confirm(new ConfirmOptions()
-        {
-            Title = $"任务{Text}",
-            Icon = icon,
-            Content = $"确认{Text}吗？",
-            Centered = true,
-            OnOk = onOkClick
-        });
+            {
+                Title = $"任务{Text}",
+                Icon = icon,
+                Content = $"确认{Text}吗？",
+                Centered = true,
+                OnOk = onOkClick
+            });
     }
 
 

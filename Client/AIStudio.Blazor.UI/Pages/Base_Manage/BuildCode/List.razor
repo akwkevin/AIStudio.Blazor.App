@@ -24,13 +24,17 @@
     </SpaceItem>
 </Space>
 
-<Table @ref="_table" 
-    TItem="DbTableInfo" 
-    DataSource="Data" 
-    Loading="Loading" 
-    HidePagination 
-    PageSize="int.MaxValue"
-    @bind-SelectedRows="SelectedItems">
+<Table @ref="_table"
+       TItem="DbTableInfo"
+       DataSource="Data"
+       Loading="Loading"
+       HidePagination
+       PageSize="int.MaxValue"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="400"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.TableName)" />
         <AntDesign.Column Title="表名" DataIndex="TableName" TData="string" />
@@ -38,6 +42,11 @@
     </ChildContent>
 </Table>
 
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
 @code
 {
@@ -51,9 +60,9 @@
     private string LinkId { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {   
+    {
         await GetDbTableInfo();
-        await base.OnInitializedAsync(); 
+        await base.OnInitializedAsync();
     }
 
     private async Task GetDbTableInfo()
