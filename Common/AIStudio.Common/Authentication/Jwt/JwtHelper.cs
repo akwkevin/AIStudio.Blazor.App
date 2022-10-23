@@ -126,7 +126,7 @@ public class JwtHelper
     /// <returns></returns>
     public static string Exchange(string expiredToken, string refreshToken, string secretKey, string refreshSecretKey, HttpContext httpContext, double expiredTime, long clockSkew = 5)
     {
-        // 交换刷新Token 必须原Token 已过期
+        // 交换刷新Token 必须原Token 已过期 
         var (_isValid, _, _) = Validate(expiredToken, secretKey);
         if (_isValid) return default;
 
