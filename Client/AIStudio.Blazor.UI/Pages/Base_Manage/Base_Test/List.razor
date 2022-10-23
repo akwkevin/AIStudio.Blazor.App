@@ -1,0 +1,146 @@
+﻿@page "/Base_Manage/Base_Test/List"
+
+@inherits BaseListWithEdit<Base_TestDTO, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("Base_Test.Add"))
+    {
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+        </SpaceItem>
+    }
+    @if (Operator.HasPerm("Base_Test.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    }
+    <SpaceItem>
+        <SimpleSelect DefaultActiveFirstOption @bind-Value="@Condition">
+            <SelectOptions>
+                <SimpleSelectOption Value="TenantId" Label="TenantId"></SimpleSelectOption>
+                <SimpleSelectOption Value="ParentId" Label="ParentId"></SimpleSelectOption>
+                <SimpleSelectOption Value="Name" Label="Name"></SimpleSelectOption>
+                <SimpleSelectOption Value="Url" Label="Url"></SimpleSelectOption>
+                <SimpleSelectOption Value="Value" Label="Value"></SimpleSelectOption>
+                <SimpleSelectOption Value="Icon" Label="Icon"></SimpleSelectOption>
+                <SimpleSelectOption Value="ModifyId" Label="ModifyId"></SimpleSelectOption>
+                <SimpleSelectOption Value="ModifyName" Label="ModifyName"></SimpleSelectOption>
+            </SelectOptions>
+        </SimpleSelect>
+    </SpaceItem>
+    <SpaceItem>
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+    </SpaceItem>
+</Space>
+
+<Table @ref="_table" 
+    TItem="Base_TestDTO" 
+    DataSource="Data"  
+    Loading="Loading" 
+    @bind-PageSize="Pagination.PageRows" 
+    @bind-SelectedRows="SelectedItems">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+    <FormItem Label="TenantId">
+            <Input @bind-Value="@context.TenantId" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="ParentId">
+            <Input @bind-Value="@context.ParentId" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="Type">
+            <Input @bind-Value="@context.Type" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="Name">
+            <Input @bind-Value="@context.Name" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="Url">
+            <Input @bind-Value="@context.Url" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="Value">
+            <Input @bind-Value="@context.Value" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="NeedTest">
+            <Input @bind-Value="@context.NeedTest" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="Icon">
+            <Input @bind-Value="@context.Icon" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="Sort">
+            <Input @bind-Value="@context.Sort" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="ModifyTime">
+            <Input @bind-Value="@context.ModifyTime" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="ModifyId">
+            <Input @bind-Value="@context.ModifyId" AutoComplete=false />
+        </FormItem>
+    <FormItem Label="ModifyName">
+            <Input @bind-Value="@context.ModifyName" AutoComplete=false />
+        </FormItem>
+       
+        <ActionColumn Title="Action">
+            <Space Size=@("small")>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                    </Popconfirm>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+    <PaginationTemplate>
+        <div style="float:right;margin-top:10px">
+            <Pagination Total="Pagination.Total"
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
+        </div>
+    </PaginationTemplate>
+</Table>
+
+
+@code
+{
+    public List()
+    {
+        Area = "Base_Manage";
+        //Condition = "Name";
+    }
+
+     protected override string GetDataJson()
+    {        
+        return base.GetDataJson();
+    }
+
+    protected override async Task GetData()
+    {
+        await base.GetData();
+    }
+
+    protected override void Edit(Base_TestDTO para)
+    {
+        base.Edit(para);
+    }
+
+    protected override async Task Delete(List<string> ids)
+    {
+        await base.Delete(ids);
+    }
+}

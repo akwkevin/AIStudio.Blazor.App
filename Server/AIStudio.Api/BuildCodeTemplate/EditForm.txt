@@ -12,7 +12,6 @@
     public EditForm()
     {
         Area = "%areaName%";
-        Condition = "LinkName";
     }
 
     protected override async Task GetDataAsync(string id)
