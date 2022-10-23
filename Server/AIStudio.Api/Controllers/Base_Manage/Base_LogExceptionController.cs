@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coldairarrow.Api.Controllers.Base_Manage
 {
     /// <summary>
-    /// 系统日志
+    /// 异常日志
     /// </summary>
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
@@ -21,7 +21,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     {
         #region DI
         /// <summary>
-        /// Base_UserLogController
+        /// 异常日志控制器
         /// </summary>
         /// <param name="logBus"></param>
         public Base_LogExceptionController(IBase_LogExceptionBusiness logBus)
@@ -35,16 +35,13 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 获取
         /// <summary>
-        /// 
+        /// 获取异常日志历史列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<PageResult<Base_LogException>> GetDataList(PageInput<HistorySearch> input)
         {
-            input.SortField = GlobalConst.CreateTime;
-            input.SortType = "desc";
-
             return await _logBus.GetDataListAsync(input);
         }
         #endregion

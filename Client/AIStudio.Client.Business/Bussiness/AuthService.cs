@@ -28,7 +28,7 @@ namespace AIStudio.Client.Business
         {
             try
             {
-                var userinfo = await _dataProvider.GetData<UserInfoPermissions>("/Base_Manage/Home/GetOperatorInfo");
+                var userinfo = await _dataProvider.GetData<UserInfoPermissionsDTO>("/Base_Manage/Home/GetOperatorInfo");
                 if (userinfo.Success)
                 {
                     _operator.IsAuthenticated = true;

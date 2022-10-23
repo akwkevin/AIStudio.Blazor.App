@@ -16,7 +16,7 @@ namespace AIStudio.Business.Base_Manage
     public class Base_RoleBusiness : BaseBusiness<Base_Role>, IBase_RoleBusiness, ITransientDependency
     {
         readonly IMapper _mapper;
-        public Base_RoleBusiness(IMapper mapper, ISqlSugarClient db) :base(db)
+        public Base_RoleBusiness(IMapper mapper, ISqlSugarClient db) : base(db)
         {
             _mapper = mapper;
         }
@@ -26,7 +26,7 @@ namespace AIStudio.Business.Base_Manage
         #region 外部接口
 
         public async Task<PageResult<Base_RoleEditInputDTO>> GetDataListAsync(PageInput input)
-        {   
+        {
             RefAsync<int> total = 0;
             var data = await GetIQueryable(input.SearchKeyValues)
                 .Select<Base_RoleEditInputDTO>()
@@ -55,7 +55,7 @@ namespace AIStudio.Business.Base_Manage
 
         public new async Task<Base_RoleEditInputDTO> GetTheDataAsync(string id)
         {
-            return (await GetDataListAsync(new PageInput { SearchKeyValues = new Dictionary<string, object>{{ "Id", id }}})).Data?.FirstOrDefault();
+            return (await GetDataListAsync(new PageInput { SearchKeyValues = new Dictionary<string, object> { { "Id", id } } })).Data?.FirstOrDefault();
         }
 
         [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]
@@ -72,6 +72,18 @@ namespace AIStudio.Business.Base_Manage
         {
             await UpdateAsync(_mapper.Map<Base_Role>(input));
             await SetRoleActionAsync(input.Id, input.Actions);
+        }
+
+        public async Task SaveData(Base_RoleEditInputDTO input)
+        {
+            if (input.Id.IsNullOrEmpty())
+            {
+                await AddDataAsync(input);
+            }
+            else
+            {
+                await UpdateDataAsync(input);
+            }
         }
 
         [Transactional]

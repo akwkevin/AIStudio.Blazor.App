@@ -16,7 +16,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     {
         readonly IConfiguration _configuration;
         /// <summary>
-        /// UploadController
+        /// 文件上传控制器
         /// </summary>
         /// <param name="configuration"></param>
         public UploadController(IConfiguration configuration)

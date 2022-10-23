@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIStudio.Entity
 {
-    public abstract class ReadOnlyBaseEntity<TPrimaryKey>
+    public abstract class KeyBaseEntity<TPrimaryKey>
     {
         /// <summary>
         /// 自然主键
@@ -12,7 +12,10 @@ namespace AIStudio.Entity
         [Key, Column(Order = 1)]
         [MaxLength(50)]
         public virtual TPrimaryKey? Id { get; set; }
+    }
 
+    public abstract class ReadOnlyBaseEntity<TPrimaryKey> : KeyBaseEntity<TPrimaryKey>
+    {
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -75,6 +78,14 @@ namespace AIStudio.Entity
         /// 否已删除
         /// </summary>
         public bool Deleted { get; set; }      
+    }
+
+    /// <summary>
+    /// 主键基类
+    /// </summary>
+    public abstract class KeyBaseEntity : KeyBaseEntity<string>
+    {
+
     }
 
     /// <summary>

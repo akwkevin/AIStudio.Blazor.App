@@ -12,8 +12,12 @@ namespace AIStudio.IBusiness.Base_Manage
     {
         Task<List<Base_Action>> GetDataListAsync(Base_ActionsInputDTO input);
         Task<List<Base_ActionTree>> GetTreeDataListAsync(Base_ActionsInputDTO input);
+        Task<List<Base_Action>> GetAllActionListAsync();
+        Task<List<Base_ActionTree>> GetMenuTreeListAsync(Base_ActionsInputDTO input);
+        Task<List<Base_Action>> GetPermissionListAsync(Base_ActionsInputDTO input);
         Task AddDataAsync(Base_ActionEditInputDTO input);
         Task UpdateDataAsync(Base_ActionEditInputDTO input);
+        Task SaveDataAsync(Base_ActionEditInputDTO input);
     }
 
 

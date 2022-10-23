@@ -21,7 +21,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region DI
         IBase_CommonFormConfigBusiness _base_CommonFormConfigBus { get; }
         /// <summary>
-        /// Base_CommonFormConfigController
+        /// 通用查询配置控制器
         /// </summary>
         /// <param name="base_CommonFormConfigBus"></param>
         public Base_CommonFormConfigController(IBase_CommonFormConfigBusiness base_CommonFormConfigBus)
@@ -32,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 获取
         /// <summary>
-        /// 获取数据列表Base_CommonFormConfig
+        /// 获取通用查询配置列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -43,7 +43,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_CommonFormConfig
+        /// 根据Id获取通用查询配置
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -57,7 +57,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 提交
         /// <summary>
-        /// 保存数据Base_CommonFormConfig
+        /// 保存通用查询配置
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -65,18 +65,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task SaveData(Base_CommonFormConfig data)
         {
-            if (data.Id.IsNullOrEmpty())
-            {
-                await _base_CommonFormConfigBus.AddDataAsync(data);
-            }
-            else
-            {
-                await _base_CommonFormConfigBus.UpdateDataAsync(data);
-            }
+            await _base_CommonFormConfigBus.SaveDataAsync(data);
         }
 
         /// <summary>
-        /// 删除数据Base_CommonFormConfig
+        /// 删除通用查询配置
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

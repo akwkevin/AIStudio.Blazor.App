@@ -21,7 +21,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_AppSecretBusiness _appSecretBus { get; }
 
         /// <summary>
-        /// Base_AppSecretController
+        /// 应用密钥控制器
         /// </summary>
         /// <param name="appSecretBus"></param>
         public Base_AppSecretController(IBase_AppSecretBusiness appSecretBus)
@@ -32,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 获取
         /// <summary>
-        /// 获取数据列表Base_AppSecret
+        /// 获取应用密钥列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -43,14 +43,14 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_AppSecret
+        /// 根据Id获取应用密钥
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Base_AppSecret> GetTheData(IdInputDTO input)
         {
-            return await _appSecretBus.GetTheDataAsync(input.id) ?? new Base_AppSecret();
+            return await _appSecretBus.GetTheDataAsync(input.id);
         }
 
         #endregion
@@ -58,25 +58,18 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         /// <summary>
-        /// 保存数据Base_AppSecret
+        /// 保存应用密钥
         /// </summary>
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
         [HttpPost]
         public async Task SaveData(Base_AppSecret theData)
         {
-            if (theData.Id.IsNullOrEmpty())
-            {
-                await _appSecretBus.AddDataAsync(theData);
-            }
-            else
-            {
-                await _appSecretBus.UpdateDataAsync(theData);
-            }
+            await _appSecretBus.SaveDataAsync(theData);
         }
 
         /// <summary>
-        /// 删除数据Base_AppSecret
+        /// 删除应用密钥
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]

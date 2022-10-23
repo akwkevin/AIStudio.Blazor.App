@@ -1,6 +1,7 @@
 ﻿using AIStudio.Business.AOP;
 using AIStudio.Common.DI;
 using AIStudio.Common.IdGenerator;
+using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
@@ -75,6 +76,27 @@ namespace AIStudio.Business.Base_Manage
             }
         }
 
+        public async Task<List<Base_Action>> GetAllActionListAsync()
+        {
+            return await GetDataListAsync(new Base_ActionsInputDTO
+            {
+                Types = new ActionType[] { ActionType.菜单, ActionType.页面, ActionType.权限 }
+            });
+        }
+
+        public async Task<List<Base_ActionTree>> GetMenuTreeListAsync(Base_ActionsInputDTO input)
+        {
+            input.Types = new ActionType[] { ActionType.菜单, ActionType.页面 };
+
+            return await GetTreeDataListAsync(input);
+        }
+
+        public async Task<List<Base_Action>> GetPermissionListAsync(Base_ActionsInputDTO input)
+        {
+            input.Types = new ActionType[] { Entity.ActionType.权限 };
+
+            return await GetDataListAsync(input);
+        }
         [Transactional]
         public async Task AddDataAsync(Base_ActionEditInputDTO input)
         {
@@ -87,6 +109,18 @@ namespace AIStudio.Business.Base_Manage
         {
             await UpdateAsync(_mapper.Map<Base_Action>(input));
             await SavePermissionAsync(input.Id, input.permissionList);
+        }
+
+        public async Task SaveDataAsync(Base_ActionEditInputDTO input)
+        {
+            if (input.Id.IsNullOrEmpty())
+            {
+                await AddDataAsync(input);
+            }
+            else
+            {
+                await UpdateDataAsync(input);
+            }
         }
 
         [Transactional]

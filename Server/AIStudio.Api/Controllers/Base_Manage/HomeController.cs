@@ -18,26 +18,14 @@ namespace AIStudio.Api.Controllers.Base_Manage
     public class HomeController : ApiControllerBase
     {
         readonly IHomeBusiness _homeBus;
-        readonly IPermissionBusiness _permissionBus;
-        readonly IBase_UserBusiness _userBus;
-        readonly IOperator _operator;
 
         /// <summary>
-        /// HomeController
+        /// 首页控制器
         /// </summary>
         /// <param name="homeBus"></param>
-        /// <param name="permissionBus"></param>
-        /// <param name="userBus"></param>
-        /// <param name="operator"></param>
-        public HomeController(IHomeBusiness homeBus,
-            IPermissionBusiness permissionBus,
-            IBase_UserBusiness userBus,
-            IOperator @operator)
+        public HomeController(IHomeBusiness homeBus)
         {
             _homeBus = homeBus;
-            _permissionBus = permissionBus;
-            _userBus = userBus;
-            _operator = @operator;
         }
 
         /// <summary>
@@ -94,17 +82,9 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<object> GetOperatorInfo()
+        public async Task<UserInfoPermissionsDTO> GetOperatorInfo()
         {
-            var theInfo = await _userBus.GetTheDataAsync(_operator.UserId);
-            var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
-            var resObj = new
-            {
-                UserInfo = theInfo,
-                Permissions = permissions
-            };
-
-            return resObj;
+            return await _homeBus.GetOperatorInfoAsync();
         }
      
         /// <summary>
@@ -114,8 +94,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetOperatorMenuList()
         {
-            var xx = await _permissionBus.GetUserMenuListAsync(_operator.UserId);
-            return xx;
+            return await _homeBus.GetOperatorMenuListAsync();
         }
     }
 }

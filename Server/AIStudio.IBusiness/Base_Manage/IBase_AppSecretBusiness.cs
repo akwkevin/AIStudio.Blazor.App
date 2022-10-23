@@ -5,6 +5,6 @@ namespace AIStudio.IBusiness.Base_Manage
 {
     public interface IBase_AppSecretBusiness : IBaseBusiness<Base_AppSecret>
     {
-
+       
     }
 }

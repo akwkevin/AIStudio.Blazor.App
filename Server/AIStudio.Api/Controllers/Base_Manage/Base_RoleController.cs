@@ -14,7 +14,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     /// <summary>
     /// 系统角色
     /// </summary>
-    
+
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
     public class Base_RoleController : ApiControllerBase
@@ -23,7 +23,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_RoleBusiness _roleBus { get; }
 
         /// <summary>
-        /// Base_RoleController
+        /// 系统角色控制器
         /// </summary>
         /// <param name="roleBus"></param>
         public Base_RoleController(IBase_RoleBusiness roleBus)
@@ -34,7 +34,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 获取
         /// <summary>
-        /// 获取数据列表Base_Role
+        /// 获取系统角色列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -45,18 +45,18 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_Role
+        /// 根据Id获取系统角色
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Base_RoleEditInputDTO> GetTheData(IdInputDTO input)
         {
-            return await _roleBus.GetTheDataAsync(input.id) ?? new Base_RoleEditInputDTO();
+            return await _roleBus.GetTheDataAsync(input.id);
         }
 
         /// <summary>
-        /// 获取下拉参数Base_Role
+        /// 获取系统角色下拉数据源
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 提交
         /// <summary>
-        /// 保存数据Base_Role
+        /// 保存系统角色
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -78,18 +78,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task SaveData(Base_RoleEditInputDTO input)
         {
-            if (input.Id.IsNullOrEmpty())
-            {
-                await _roleBus.AddDataAsync(input);
-            }
-            else
-            {
-                await _roleBus.UpdateDataAsync(input);
-            }
+            await _roleBus.SaveDataAsync(input);
         }
 
         /// <summary>
-        /// 删除数据Base_Role
+        /// 删除系统角色
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

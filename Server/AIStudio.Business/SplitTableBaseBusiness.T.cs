@@ -546,6 +546,18 @@ namespace AIStudio.Business
             await Db.Updateable(theData).SplitTable().ExecuteCommandAsync();
         }
 
+        public virtual async Task SaveDataAsync(T theData)
+        {
+            if (theData.GetPropertyValue(GlobalConst.Id).IsNullOrEmpty())
+            {
+                await AddDataAsync(theData);
+            }
+            else
+            {
+                await UpdateDataAsync(theData);
+            }
+        }
+
         public virtual async Task DeleteDataAsync(List<string> ids)
         {
             await Db.Deleteable<T>().In(ids).SplitTable().ExecuteCommandAsync();

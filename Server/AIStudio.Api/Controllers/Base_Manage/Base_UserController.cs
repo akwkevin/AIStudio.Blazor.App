@@ -24,7 +24,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_UserBusiness _userBus { get; }
 
         /// <summary>
-        /// Base_UserController
+        /// 系统用户控制器
         /// </summary>
         /// <param name="userBus"></param>
         public Base_UserController(IBase_UserBusiness userBus)
@@ -35,7 +35,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 获取
         /// <summary>
-        /// 获取数据列表Base_User
+        /// 获取系统用户列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -46,18 +46,18 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_User
+        /// 根据Id获取系统用户
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Base_UserDTO> GetTheData(IdInputDTO input)
         {
-            return await _userBus.GetTheDataAsync(input.id) ?? new Base_UserDTO();
+            return await _userBus.GetTheDataAsync(input.id);
         }
 
         /// <summary>
-        /// 获取下拉参数Base_User
+        /// 获取系统用户下拉数据源
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 提交
         /// <summary>
-        /// 保存数据Base_User
+        /// 保存系统用户
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -79,25 +79,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task SaveData(Base_UserEditInputDTO input)
         {
-            if (!input.newPwd.IsNullOrEmpty())
-                input.Password = input.newPwd.ToMD5String();
-            else if (!input.Password.IsNullOrEmpty() && !input.Password.IsMd5())
-            {
-                input.Password = input.Password.ToMD5String();
-            }
-
-            if (input.Id.IsNullOrEmpty())
-            {
-                await _userBus.AddDataAsync(input);
-            }
-            else
-            {
-                await _userBus.UpdateDataAsync(input);
-            }
+            await _userBus.SaveDataAsync(input);
         }
 
         /// <summary>
-        /// 删除数据Base_User
+        /// 删除系统用户
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

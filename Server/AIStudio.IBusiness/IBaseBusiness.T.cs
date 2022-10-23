@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.Types;
+using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Util.Common;
 using SqlSugar;
@@ -264,6 +265,7 @@ namespace AIStudio.IBusiness
         Task<DTO> GetTheDataDTOAsync<DTO>(string id) where DTO : T;
         Task AddDataAsync(T newData);
         Task UpdateDataAsync(T theData);
+        Task SaveDataAsync(T theData);
         Task DeleteDataAsync(List<string> ids);
         #endregion
 

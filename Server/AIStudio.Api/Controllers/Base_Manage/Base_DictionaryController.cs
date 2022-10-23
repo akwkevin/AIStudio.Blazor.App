@@ -25,7 +25,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_DictionaryBusiness _base_DictionaryBus { get; }
 
         /// <summary>
-        /// Base_DictionaryController
+        /// 系统字典控制器
         /// </summary>
         /// <param name="base_DictionaryBus"></param>
         public Base_DictionaryController(IBase_DictionaryBusiness base_DictionaryBus)
@@ -37,7 +37,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         /// <summary>
-        /// 数据列表Base_Dictionary
+        /// 获取数据系统字典列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -48,7 +48,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 数据树Base_Dictionary
+        /// 获取系统字典树
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_Dictionary
+        /// 根据Id获取系统字典
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
 
         #region 提交
         /// <summary>
-        /// 保存数据
+        /// 保存系统字典
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -81,22 +81,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task SaveData(Base_Dictionary data)
         {
-            if (data.Id.IsNullOrEmpty())
-            {
-                //InitEntity(data);
-
-                await _base_DictionaryBus.AddDataAsync(data);
-            }
-            else
-            {
-                //UpdateEntity(data);
-
-                await _base_DictionaryBus.UpdateDataAsync(data);
-            }
+            await _base_DictionaryBus.SaveDataAsync(data);
         }
 
         /// <summary>
-        /// 删除数据
+        /// 删除系统字典
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

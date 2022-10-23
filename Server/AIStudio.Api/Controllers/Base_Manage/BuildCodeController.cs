@@ -21,7 +21,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBuildCodeBusiness _buildCodeBus { get; }
 
         /// <summary>
-        /// BuildCodeController
+        /// 代码生成控制器
         /// </summary>
         /// <param name="buildCodeBus"></param>
 
@@ -32,7 +32,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #endregion
 
         /// <summary>
-        /// 获取数据Base_DbLink
+        /// 获取连接数据库列表
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -42,7 +42,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取所有表信息DbTableInfo
+        /// 获取连接数据库的所有表信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

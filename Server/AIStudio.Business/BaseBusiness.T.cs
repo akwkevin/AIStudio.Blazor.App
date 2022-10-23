@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.Types;
+using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness;
@@ -69,7 +70,7 @@ namespace AIStudio.Business
             }
             finally
             {
-              
+
             }
 
             return (success, resEx);
@@ -94,7 +95,7 @@ namespace AIStudio.Business
             }
             finally
             {
-               
+
             }
 
             return (success, resEx);
@@ -492,7 +493,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public virtual async Task<PageResult<T>> GetDataListAsync(PageInput input)
         {
-            var q = GetIQueryable(input.SearchKeyValues);          
+            var q = GetIQueryable(input.SearchKeyValues);
 
             return await q.GetPageResultAsync(input);
         }
@@ -515,6 +516,18 @@ namespace AIStudio.Business
         public virtual async Task UpdateDataAsync(T theData)
         {
             await Db.Updateable(theData).ExecuteCommandAsync();
+        }
+
+        public virtual async Task SaveDataAsync(T theData)
+        {
+            if (theData.GetPropertyValue(GlobalConst.Id).IsNullOrEmpty())
+            {
+                await AddDataAsync(theData);
+            }
+            else
+            {
+                await UpdateDataAsync(theData);
+            }
         }
 
         public virtual async Task DeleteDataAsync(List<string> ids)
@@ -600,6 +613,9 @@ namespace AIStudio.Business
         }
         public async Task<PageResult<T>> GetDataListAsync(PageInput<HistorySearch> input, string dateField = GlobalConst.CreateTime)
         {
+            input.SortField = dateField;
+            input.SortType = "desc";
+
             var q = GetIQueryable(input.SearchKeyValues);
 
             if (input.Search.StartTime != null && input.Search.EndTime != null)

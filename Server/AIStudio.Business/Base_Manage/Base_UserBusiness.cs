@@ -117,6 +117,25 @@ namespace AIStudio.Business.Base_Manage
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
 
+        public async Task SaveDataAsync(Base_UserEditInputDTO input)
+        {
+            if (!input.newPwd.IsNullOrEmpty())
+                input.Password = input.newPwd.ToMD5String();
+            else if (!input.Password.IsNullOrEmpty() && !input.Password.IsMd5())
+            {
+                input.Password = input.Password.ToMD5String();
+            }
+
+            if (input.Id.IsNullOrEmpty())
+            {
+                await AddDataAsync(input);
+            }
+            else
+            {
+                await UpdateDataAsync(input);
+            }
+        }
+
         public override async Task DeleteDataAsync(List<string> ids)
         {
             if (ids.Contains(AdminTypes.Admin.ToString()))

@@ -24,7 +24,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_DepartmentBusiness _departmentBus { get; }
 
         /// <summary>
-        /// Base_DepartmentController
+        /// 部门控制器
         /// </summary>
         /// <param name="departmentBus"></param>
         public Base_DepartmentController(IBase_DepartmentBusiness departmentBus)
@@ -36,7 +36,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 获取
 
         /// <summary>
-        /// 获取数据列表Base_DepartmentTree
+        /// 获取部门树
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -47,20 +47,20 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_Department
+        /// 根据Id获取部门
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Base_Department> GetTheData(IdInputDTO input)
         {
-            return await _departmentBus.GetTheDataAsync(input.id) ?? new Base_Department();
+            return await _departmentBus.GetTheDataAsync(input.id);
         }
         #endregion
 
         #region 提交
         /// <summary>
-        /// 保存数据Base_Department
+        /// 保存部门
         /// </summary>
         /// <param name="theData"></param>
         /// <returns></returns>
@@ -68,18 +68,11 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task SaveData(Base_Department theData)
         {
-            if (theData.Id.IsNullOrEmpty())
-            {
-                await _departmentBus.AddDataAsync(theData);
-            }
-            else
-            {
-                await _departmentBus.UpdateDataAsync(theData);
-            }
+            await _departmentBus.SaveDataAsync(theData);
         }
 
         /// <summary>
-        /// 删除数据Base_Department
+        /// 删除部门
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

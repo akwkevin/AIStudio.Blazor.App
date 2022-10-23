@@ -16,7 +16,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
     /// <summary>
     /// 系统权限
     /// </summary>
-    
+
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
     public class Base_ActionController : ApiControllerBase
@@ -25,7 +25,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         IBase_ActionBusiness _actionBus { get; }
 
         /// <summary>
-        /// Base_ActionController
+        /// 系统权限控制器
         /// </summary>
         /// <param name="actionBus"></param>
         public Base_ActionController(IBase_ActionBusiness actionBus)
@@ -36,33 +36,27 @@ namespace AIStudio.Api.Controllers.Base_Manage
 
         #region 获取     
         /// <summary>
-        /// 获取数据列表Base_Action
+        /// 获取所有权限列表
         /// </summary>
         [HttpPost]
         public async Task<List<Base_Action>> GetAllActionList()
         {
-            return await _actionBus.GetDataListAsync(new Base_ActionsInputDTO
-            {
-                Types = new ActionType[] { ActionType.菜单, ActionType.页面, ActionType.权限 }
-            });
+            return await _actionBus.GetAllActionListAsync();
         }
 
         /// <summary>
-        /// 获取数据树Base_ActionTree
+        /// 获取菜单树
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetMenuTreeList(Base_ActionsInputDTO input)
         {
-
-            input.Types = new ActionType[] { ActionType.菜单, ActionType.页面 };
-
-            return await _actionBus.GetTreeDataListAsync(input);
+            return await _actionBus.GetMenuTreeListAsync(input);
         }
 
         /// <summary>
-        /// 获取数据树Base_ActionTree
+        /// 获取角色权限设置树
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -73,56 +67,43 @@ namespace AIStudio.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_Action
+        /// 根据Id获取权限
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Base_Action> GetTheData(IdInputDTO input)
         {
-            return await _actionBus.GetTheDataAsync(input.id) ?? new Base_Action();
+            return await _actionBus.GetTheDataAsync(input.id);
         }
 
         /// <summary>
-        /// 获取权限
+        /// 获取动作权限列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<List<Base_Action>> GetPermissionList(Base_ActionsInputDTO input)
         {
-            input.Types = new ActionType[] { Entity.ActionType.权限 };
-
-            return await _actionBus.GetDataListAsync(input);
+            return await _actionBus.GetPermissionListAsync(input);
         }
         #endregion
 
         #region 提交
         /// <summary>
-        /// 保存数据Base_Action
+        /// 保存权限数据
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [RequestRecord]
-        [HttpPost]  
+        [HttpPost]
         public async Task SaveData(Base_ActionEditInputDTO input)
         {
-            if (input.Id.IsNullOrEmpty())
-            {
-                //InitEntity(input);
-
-                await _actionBus.AddDataAsync(input);
-            }
-            else
-            {
-                //UpdateEntity(input);
-
-                await _actionBus.UpdateDataAsync(input);
-            }
+            await _actionBus.SaveDataAsync(input);
         }
 
         /// <summary>
-        /// 删除数据
+        /// 删除权限数据
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

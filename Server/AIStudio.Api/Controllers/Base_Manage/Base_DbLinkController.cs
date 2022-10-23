@@ -14,7 +14,7 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
     /// <summary>
     /// 数据库连接
     /// </summary>
-    
+
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Base_Manage/[controller]/[action]")]
     public class Base_DbLinkController : ApiControllerBase
@@ -23,18 +23,18 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         IBase_DbLinkBusiness _dbLinkBus { get; }
 
         /// <summary>
-        /// Base_DbLinkController
+        /// 数据库连接控制器
         /// </summary>
         /// <param name="dbLinkBus"></param>
         public Base_DbLinkController(IBase_DbLinkBusiness dbLinkBus)
         {
             _dbLinkBus = dbLinkBus;
-        }     
+        }
         #endregion
 
         #region 获取
         /// <summary>
-        /// 获取数据列表Base_DbLink
+        /// 获取数据库连接列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -45,14 +45,14 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         }
 
         /// <summary>
-        /// 获取数据Base_DbLink
+        /// 根据Id获取数据库连接
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Base_DbLink> GetTheData(IdInputDTO input)
         {
-            return await _dbLinkBus.GetTheDataAsync(input.id) ?? new Base_DbLink();
+            return await _dbLinkBus.GetTheDataAsync(input.id);
         }
 
         #endregion
@@ -60,29 +60,18 @@ namespace Coldairarrow.Api.Controllers.Base_Manage
         #region 提交
 
         /// <summary>
-        /// 保存数据Base_DbLink
+        /// 保存数据库连接
         /// </summary>
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
         [HttpPost]
         public async Task SaveData(Base_DbLink theData)
         {
-            if (theData.Id.IsNullOrEmpty())
-            {
-                //InitEntity(theData);
-
-                await _dbLinkBus.AddDataAsync(theData);
-            }
-            else
-            {
-                //UpdateEntity(theData);
-
-                await _dbLinkBus.UpdateDataAsync(theData);
-            }
+            await _dbLinkBus.SaveDataAsync(theData);
         }
 
         /// <summary>
-        /// 删除数据Base_DbLink
+        /// 删除数据库连接
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]

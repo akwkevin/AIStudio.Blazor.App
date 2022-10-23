@@ -24,12 +24,14 @@ namespace AIStudio.Business.Base_Manage
         private readonly IMapper _mapper;
         private readonly ISqlSugarClient Db;
         private readonly IBase_UserBusiness _userBusiness;
+        private readonly IPermissionBusiness _permissionBus;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public HomeBusiness(ISqlSugarClient db, IOperator @operator, IMapper mapper, IBase_UserBusiness userBusiness, IHttpContextAccessor httpContextAccessor)
+        public HomeBusiness(ISqlSugarClient db, IOperator @operator, IMapper mapper, IBase_UserBusiness userBusiness, IPermissionBusiness permissionBus, IHttpContextAccessor httpContextAccessor)
         {
             _operator = @operator;
             _mapper = mapper;
             _userBusiness = userBusiness;
+            _permissionBus = permissionBus;
             _httpContextAccessor = httpContextAccessor;
             Db = db;
         }
@@ -135,6 +137,24 @@ namespace AIStudio.Business.Base_Manage
 
             theUser.Password = input.NewPassword.ToMD5String();
             await Db.Updateable<Base_User>(_mapper.Map<Base_User>(theUser)).ExecuteCommandAsync();
+        }
+
+        public async Task<UserInfoPermissionsDTO> GetOperatorInfoAsync()
+        {
+            var theInfo = await _userBusiness.GetTheDataAsync(_operator.UserId);
+            var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
+            var resObj = new UserInfoPermissionsDTO
+            {
+                UserInfo = theInfo,
+                Permissions = permissions
+            };
+
+            return resObj;
+        }
+
+        public async Task<List<Base_ActionTree>> GetOperatorMenuListAsync()
+        {
+            return await _permissionBus.GetUserMenuListAsync(_operator.UserId);
         }
     }
 }

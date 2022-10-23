@@ -13,6 +13,7 @@ namespace AIStudio.IBusiness.Base_Manage
         new Task<Base_UserDTO> GetTheDataAsync(string id);
         Task AddDataAsync(Base_UserEditInputDTO input);
         Task UpdateDataAsync(Base_UserEditInputDTO input);
+        Task SaveDataAsync(Base_UserEditInputDTO input);
         Task SetUserRoleAsync(string userId, List<string> roleIds);
         Task<string> GetAvatar(string userId);   }
 

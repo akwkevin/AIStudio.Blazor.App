@@ -13,6 +13,7 @@ namespace AIStudio.IBusiness.Base_Manage
         new Task<Base_RoleEditInputDTO> GetTheDataAsync(string id);
         Task AddDataAsync(Base_RoleEditInputDTO input);
         Task UpdateDataAsync(Base_RoleEditInputDTO input);
+        Task SaveData(Base_RoleEditInputDTO input);
     }
 
  

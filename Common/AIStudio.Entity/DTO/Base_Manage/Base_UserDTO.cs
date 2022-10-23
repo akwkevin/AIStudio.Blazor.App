@@ -33,7 +33,7 @@ namespace AIStudio.Entity.DTO.Base_Manage
         public string? BirthdayText { get => Birthday?.ToString("yyyy-MM-dd"); }
     }
 
-    public class UserInfoPermissions
+    public class UserInfoPermissionsDTO
     {
         public Base_UserDTO? UserInfo { get; set; }
 

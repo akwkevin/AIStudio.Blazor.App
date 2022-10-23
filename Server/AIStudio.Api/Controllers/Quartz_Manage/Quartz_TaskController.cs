@@ -20,7 +20,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
     {
         private readonly IQuartz_TaskBusiness _quartz_TaskBusiness;
         /// <summary>
-        /// Quartz_TaskController
+        /// 作业调度控制器
         /// </summary>
         /// <param name="quartz_TaskBusiness"></param>
         public Quartz_TaskController(IQuartz_TaskBusiness quartz_TaskBusiness)
@@ -29,7 +29,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         }
 
         /// <summary>
-        /// 获取数据列表Quartz_Task
+        /// 作业调度列表
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -39,18 +39,18 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         }
 
         /// <summary>
-        /// 获取数据Quartz_Task
+        /// 获取指定Id的作业任务
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<Quartz_Task> GetTheData(IdInputDTO input)
         {
-            return await _quartz_TaskBusiness.GetTheDataAsync(input.id) ?? new Quartz_Task();
+            return await _quartz_TaskBusiness.GetTheDataAsync(input.id);
         }
 
         /// <summary>
-        /// 保存数据Quartz_Task
+        /// 保存作业任务
         /// </summary>
         /// <param name="theData"></param>
         /// <returns></returns>
@@ -58,19 +58,11 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         [HttpPost]
         public async Task SaveData(Quartz_Task theData)
         {
-            if (theData.Id.IsNullOrEmpty())
-            {
-                await _quartz_TaskBusiness.AddDataAsync(theData);
-            }
-            else
-            {
-                await _quartz_TaskBusiness.UpdateDataAsync(theData);
-            }
-
+            await _quartz_TaskBusiness.SaveDataAsync(theData);
         }
 
         /// <summary>
-        /// 删除数据Quartz_Task
+        /// 删除作业任务
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
@@ -82,7 +74,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         }
 
         /// <summary>
-        /// 暂停数据Quartz_Task
+        /// 暂停作业任务
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
@@ -94,7 +86,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         }
 
         /// <summary>
-        /// 启动数据Quartz_Task
+        /// 启动作业任务
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
@@ -106,7 +98,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         }
 
         /// <summary>
-        /// 立即执行Quartz_Task
+        /// 立即执行作业任务
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
