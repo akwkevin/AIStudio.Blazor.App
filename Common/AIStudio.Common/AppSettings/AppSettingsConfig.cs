@@ -98,10 +98,16 @@ namespace AIStudio.Common.AppSettings
             /// SecretKey
             /// </summary>
             public static string SecretKey => Configuration["Jwt:SecretKey"];
+
+            /// <summary>
+            /// 刷新Key
+            /// </summary>
+            public static string RefreshSecretKey => Configuration["Jwt:RefreshSecretKey"];
             /// <summary>
             /// Issuer
             /// </summary>
             public static string Issuer => Configuration["Jwt:Issuer"];
+
             /// <summary>
             /// Audience
             /// </summary>
@@ -114,6 +120,11 @@ namespace AIStudio.Common.AppSettings
             /// RefreshExpireHours
             /// </summary>
             public static double RefreshExpireHours => Configuration.GetValue<double>("Jwt:RefreshExpireHours");
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public static long ClockSkew => Configuration.GetValue<long>("Jwt:ClockSkew");
         }
 
         /// <summary>

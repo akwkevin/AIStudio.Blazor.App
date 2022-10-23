@@ -55,6 +55,18 @@ namespace AIStudio.Api.Controllers.Base_Manage
         }
 
         /// <summary>
+        /// 刷新Token(Headers返回新的Token和刷新Token)
+        /// </summary>
+        /// <returns></returns>
+        [RequestRecord]
+        [HttpPost]
+        public async Task<string> RefreshToken(RefreshTokenInputDTO input)
+        {
+            var token = await _homeBus.RefreshTokenAsync(input);
+            return token;
+        }
+
+        /// <summary>
         /// 用户退出
         /// </summary>
         /// <returns></returns>

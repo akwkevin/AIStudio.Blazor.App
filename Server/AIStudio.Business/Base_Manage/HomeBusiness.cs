@@ -1,4 +1,5 @@
-﻿using AIStudio.Common.Authentication.Jwt;
+﻿using AIStudio.Common.AppSettings;
+using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
 using AIStudio.Common.Jwt;
@@ -7,8 +8,9 @@ using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
-using AIStudio.Util;  
+using AIStudio.Util;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Simple.Common;
 using SqlSugar;
 using System.Data;
@@ -22,11 +24,13 @@ namespace AIStudio.Business.Base_Manage
         private readonly IMapper _mapper;
         private readonly ISqlSugarClient Db;
         private readonly IBase_UserBusiness _userBusiness;
-        public HomeBusiness(ISqlSugarClient db, IOperator @operator, IMapper mapper, IBase_UserBusiness userBusiness)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public HomeBusiness(ISqlSugarClient db, IOperator @operator, IMapper mapper, IBase_UserBusiness userBusiness, IHttpContextAccessor httpContextAccessor)
         {
             _operator = @operator;
             _mapper = mapper;
             _userBusiness = userBusiness;
+            _httpContextAccessor = httpContextAccessor;
             Db = db;
         }
 
@@ -47,7 +51,7 @@ namespace AIStudio.Business.Base_Manage
             if (theUser.IsNullOrEmpty())
                 throw AjaxResultException.Status401Unauthorized("账号或密码不正确！");
 
-            var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] { JoinType.Left, a.RoleId == b.Id})
+            var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] { JoinType.Left, a.RoleId == b.Id })
                 .Where(a => a.UserId == theUser.Id)
                 .Select((a, b) => new
                 {
@@ -58,11 +62,11 @@ namespace AIStudio.Business.Base_Manage
 
             theUser.RoleIdList = userRoles.Select(x => x.RoleId).ToList();
             theUser.RoleNameList = userRoles.Select(x => x.RoleName).ToList();
-            
+
             List<Claim> claims = new List<Claim>
             {
                 new Claim(SimpleClaimTypes.UserId,theUser.Id),
-                new Claim(SimpleClaimTypes.Name, theUser.UserName)               
+                new Claim(SimpleClaimTypes.Name, theUser.UserName)
             };
             if (!string.IsNullOrEmpty(theUser.TenantId))
             {
@@ -72,7 +76,7 @@ namespace AIStudio.Business.Base_Manage
             {
                 if (string.IsNullOrEmpty(role)) continue;
                 claims.Add(new Claim(SimpleClaimTypes.Role, role));
-            }        
+            }
             foreach (var rolename in theUser.RoleNameList)
             {
                 if (string.IsNullOrEmpty(rolename)) continue;
@@ -85,14 +89,41 @@ namespace AIStudio.Business.Base_Manage
             }
 
             var jwtToken = JwtHelper.CreateToken(claims);
-
+            _httpContextAccessor.HttpContext.Response.Headers["access-token"] = jwtToken;
+            _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = JwtHelper.CreateToken(claims, isRefresh: true);
             return jwtToken;
+        }
+
+   
+
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="tokeninput"></param>
+        /// <returns></returns>
+        public async Task<string> RefreshTokenAsync(RefreshTokenInputDTO tokeninput)
+        {
+            var (_isValid, _, _) = JwtHelper.Validate(tokeninput.RefreshToken, AppSettingsConfig.JwtOptions.RefreshSecretKey);
+            if (_isValid)
+            {
+                var token = JwtHelper.Exchange(tokeninput.Token, tokeninput.RefreshToken, AppSettingsConfig.JwtOptions.SecretKey, AppSettingsConfig.JwtOptions.RefreshSecretKey, _httpContextAccessor.HttpContext, AppSettingsConfig.JwtOptions.AccessExpireHours, AppSettingsConfig.JwtOptions.ClockSkew);
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    _httpContextAccessor.HttpContext.Response.Headers["access-token"] = token;
+                    _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = JwtHelper.GenerateRefreshToken(tokeninput.Token, AppSettingsConfig.JwtOptions.RefreshSecretKey, (long)AppSettingsConfig.JwtOptions.RefreshExpireHours);
+                }
+            }
+            else
+            {
+                throw AjaxResultException.Status401Unauthorized("RefreshToklen无效,请重新登录!");
+            }
+            return "";
         }
 
         public Task SubmitLogoutAsync()
         {
-            _operator.HttpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid_token";
-
+            _httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid_token";
+            _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = "invalid_token";
             return Task.CompletedTask;
         }
 

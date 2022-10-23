@@ -8,7 +8,6 @@ namespace AIStudio.Common.CurrentUser
     /// </summary>
     public interface IOperator
     {
-        IHttpContextAccessor HttpContextAccessor { get; }
         /// <summary>
         /// 当前操作者UserId
         /// </summary>

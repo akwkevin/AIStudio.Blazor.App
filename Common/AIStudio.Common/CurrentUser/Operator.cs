@@ -14,10 +14,10 @@ namespace AIStudio.Common.CurrentUser
         public Operator(IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            HttpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IHttpContextAccessor HttpContextAccessor { get; }
+        private IHttpContextAccessor _httpContextAccessor { get; }
         /// <summary>
         /// 当前操作者UserId
         /// </summary>
@@ -34,12 +34,12 @@ namespace AIStudio.Common.CurrentUser
 
         public virtual Claim? FindClaim(string claimType)
         {
-            return HttpContextAccessor?.HttpContext?.User?.Claims.FirstOrDefault(c => c.Type == claimType);
+            return _httpContextAccessor?.HttpContext?.User?.Claims.FirstOrDefault(c => c.Type == claimType);
         }
 
         public virtual Claim[] FindClaims(string claimType)
         {
-            return HttpContextAccessor?.HttpContext?.User?.Claims.Where(c => c.Type == claimType).ToArray();
+            return _httpContextAccessor?.HttpContext?.User?.Claims.Where(c => c.Type == claimType).ToArray();
         }
 
         public virtual string? FindClaimValue(string claimType)
