@@ -5,98 +5,98 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AIStudio.Entity.Base_Manage
 {
     /// <summary>
-    /// 
+    /// Base_Test
     /// </summary>
     [Table("Base_Test")]
     public class Base_Test
     {
 
         /// <summary>
-        /// Id
+        /// 自然主键
         /// </summary>
         [Key, Column(Order = 1)]
         [MaxLength(50)]
-        public String? Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
-        /// TenantId
+        /// 父级Id
         /// </summary>
-        public String TenantId { get; set; }
+        public string? ParentId { get; set; }
 
         /// <summary>
-        /// ParentId
+        /// 类型,菜单=0,页面=1,权限=2
         /// </summary>
-        public String ParentId { get; set; }
+        public Int32 Type { get; set; }
 
         /// <summary>
-        /// Type
+        /// 权限名/菜单名
         /// </summary>
-        public Int32? Type { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
-        /// Name
+        /// 菜单地址
         /// </summary>
-        public String Name { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
-        /// Url
+        /// 权限值
         /// </summary>
-        public String Url { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
-        /// Value
+        /// 是否需要权限(仅页面有效)
         /// </summary>
-        public String Value { get; set; }
+        public Boolean NeedTest { get; set; }
 
         /// <summary>
-        /// NeedTest
+        /// 图标
         /// </summary>
-        public Boolean? NeedTest { get; set; }
+        public string? Icon { get; set; }
 
         /// <summary>
-        /// Icon
+        /// 排序
         /// </summary>
-        public String Icon { get; set; }
+        public Int32 Sort { get; set; }
 
         /// <summary>
-        /// Sort
+        /// 否已删除
         /// </summary>
-        public Int32? Sort { get; set; }
+        public Boolean Deleted { get; set; }
 
         /// <summary>
-        /// Deleted
+        /// 创建时间
         /// </summary>
-        public Boolean? Deleted { get; set; }
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
-        /// CreateTime
-        /// </summary>
-        public DateTime? CreateTime { get; set; }
-
-        /// <summary>
-        /// ModifyTime
+        /// 修改时间
         /// </summary>
         public DateTime? ModifyTime { get; set; }
 
         /// <summary>
-        /// CreatorId
+        /// 创建人Id
         /// </summary>
-        public String CreatorId { get; set; }
+        public string? CreatorId { get; set; }
 
         /// <summary>
-        /// CreatorName
+        /// 创建人
         /// </summary>
-        public String CreatorName { get; set; }
+        public string? CreatorName { get; set; }
 
         /// <summary>
-        /// ModifyId
+        /// 修改人Id
         /// </summary>
-        public String ModifyId { get; set; }
+        public string? ModifyId { get; set; }
 
         /// <summary>
-        /// ModifyName
+        /// 修改人
         /// </summary>
-        public String ModifyName { get; set; }
+        public string? ModifyName { get; set; }
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public string? TenantId { get; set; }
 
     }
 }
