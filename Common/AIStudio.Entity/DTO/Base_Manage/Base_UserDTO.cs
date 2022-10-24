@@ -28,7 +28,7 @@ namespace AIStudio.Entity.DTO.Base_Manage
                 return (RoleTypes)type;
             }
         }
-        public string? DepartmentName { get; set; }
+        public string? Base_DepartmentName { get; set; }//查询的是Base_Department中的Name 从表规则【 class+字段名】
         public string? SexText { get => Sex.GetDescription(); }
         public string? BirthdayText { get => Birthday?.ToString("yyyy-MM-dd"); }
     }

@@ -10,10 +10,12 @@ using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 using Simple.Common;
 using SqlSugar;
 using System.Linq.Dynamic.Core;
 using Yitter.IdGenerator;
+using static Google.Protobuf.WireFormat;
 
 namespace AIStudio.Business.Base_Manage
 {
@@ -38,30 +40,23 @@ namespace AIStudio.Business.Base_Manage
         public new async Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput input)
         {
             RefAsync<int> total = 0;
-            var q = GetIQueryable(input.SearchKeyValues);//按字典筛选
+            //var q = Db.Queryable<Base_User, Base_Department>((o, i) => new JoinQueryInfos( JoinType.Left, o.DepartmentId == i.Id)).Select<Base_UserDTO>();
+            var q = GetIQueryable().LeftJoin<Base_Department>((o, i) => o.DepartmentId == i.Id).Select<Base_UserDTO>();
 
-            var data = await q.LeftJoin<Base_Department>((x, d) => x.DepartmentId == d.Id).Select(x => new Base_UserDTO
+            //因为联表查找，where条件写在后面，避免列名 'Id' 不明确等错误
+            var conModels = new List<IConditionalModel>();
+            if (input.SearchKeyValues != null)
+            {
+                foreach (var keyValuePair in input.SearchKeyValues.Where(p => !string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value?.ToString())))
                 {
-                    UserName = x.UserName,
-                    Id = x.Id,
-                    DepartmentId = x.DepartmentId,
-                    Birthday = x.Birthday,
-                    Avatar = x.Avatar,
-                    CreateTime = x.CreateTime,
-                    CreatorId = x.CreatorId,
-                    CreatorName = x.CreatorName,
-                    ModifyId = x.ModifyId,
-                    ModifyName = x.ModifyName,
-                    ModifyTime = x.ModifyTime,
-                    Password = x.Password,
-                    PhoneNumber = x.PhoneNumber,
-                    RealName = x.RealName,
-                    Sex = x.Sex,
-                    TenantId = x.TenantId
-                }).ToPageListAsync(input.PageIndex, input.PageRows, total);
+                    conModels.Add(new ConditionalModel() { FieldName = keyValuePair.Key, ConditionalType = ConditionalType.Like, FieldValue = keyValuePair.Value.ObjToString() });
+                }
+            }
+            q = q.Where(conModels);
+
+            var data = await q.ToPageListAsync(input.PageIndex, input.PageRows, total);
             var list = new PageResult<Base_UserDTO> { Data = data, Total = total };
             await SetProperty(list.Data);
-
             return list;
 
             async Task SetProperty(List<Base_UserDTO> users)
@@ -69,14 +64,14 @@ namespace AIStudio.Business.Base_Manage
                 //补充用户角色属性
                 List<string> userIds = users.Select(x => x.Id).ToList();
 
-               var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] {
+                var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] {
                JoinType.Left,a.RoleId==b.Id})
-               .Select((a, b) => new
-               {
-                   a.UserId,
-                   RoleId = b.Id,
-                   b.RoleName
-               }).ToListAsync();
+                .Select((a, b) => new
+                {
+                    a.UserId,
+                    RoleId = b.Id,
+                    b.RoleName
+                }).ToListAsync();
                 users.ForEach(aUser =>
                 {
                     var roleList = userRoles.Where(x => x.UserId == aUser.Id);
@@ -92,13 +87,19 @@ namespace AIStudio.Business.Base_Manage
                 return null;
             else
             {
-                RefAsync<int> total = 0;
-                var data = await GetIQueryable().Where(x => x.Id.Equals(id)).Select<Base_UserDTO>().ToListAsync();
-                return new PageResult<Base_UserDTO> { Data = data, Total = total }.Data.FirstOrDefault();
+                PageInput input = new PageInput
+                {
+                    SearchKeyValues = new Dictionary<string, object>()
+                    {
+                        {"o.Id", id }
+                    }
+                    ,PageRows=1
+                };
+                return (await GetDataListAsync(input)).Data.FirstOrDefault();
             }
         }
 
-        [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
+        [DataRepeatValidate(new string[] { "UserName" }, new string[] { "用户名" })]
         [Transactional]
         public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
@@ -106,7 +107,7 @@ namespace AIStudio.Business.Base_Manage
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
 
-        [DataRepeatValidate( new string[] { "UserName" }, new string[] { "用户名" })]
+        [DataRepeatValidate(new string[] { "UserName" }, new string[] { "用户名" })]
         [Transactional]
         public async Task UpdateDataAsync(Base_UserEditInputDTO input)
         {
