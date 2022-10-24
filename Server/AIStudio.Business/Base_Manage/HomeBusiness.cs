@@ -108,7 +108,7 @@ namespace AIStudio.Business.Base_Manage
             var (_isValid, _, _) = JwtHelper.Validate(tokeninput.RefreshToken, AppSettingsConfig.JwtOptions.RefreshSecretKey);
             if (_isValid)
             {
-                var token = JwtHelper.Exchange(tokeninput.Token, tokeninput.RefreshToken, AppSettingsConfig.JwtOptions.SecretKey, AppSettingsConfig.JwtOptions.RefreshSecretKey, _httpContextAccessor.HttpContext, AppSettingsConfig.JwtOptions.AccessExpireHours, AppSettingsConfig.JwtOptions.ClockSkew);
+                var token = JwtHelper.Exchange(tokeninput.Token, tokeninput.RefreshToken, AppSettingsConfig.JwtOptions.SecretKey, AppSettingsConfig.JwtOptions.RefreshSecretKey, _httpContextAccessor.HttpContext, AppSettingsConfig.JwtOptions.AccessExpireHours, AppSettingsConfig.JwtOptions.RefreshClockSkew);
                 if (!string.IsNullOrWhiteSpace(token))
                 {
                     _httpContextAccessor.HttpContext.Response.Headers["access-token"] = token;

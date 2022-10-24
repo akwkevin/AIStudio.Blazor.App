@@ -48,6 +48,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [AllowAnonymous]
         public async Task<string> RefreshToken(RefreshTokenInputDTO input)
         {
             var token = await _homeBus.RefreshTokenAsync(input);

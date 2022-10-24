@@ -139,15 +139,15 @@ public class JwtHelper
         var distributedCache = httpContext?.RequestServices?.GetService<IDistributedCache>();
 
         // 处理token并发容错问题
-        //var nowTime = DateTimeOffset.UtcNow;
-        //var cachedValue = distributedCache?.GetString(blacklistRefreshKey);
-        //var isRefresh = !string.IsNullOrWhiteSpace(cachedValue);    // 判断是否刷新过
-        //if (isRefresh)
-        //{
-        //    var refreshTime = new DateTimeOffset(long.Parse(cachedValue), TimeSpan.Zero);
-        //    // 处理并发时容差值
-        //    if ((nowTime - refreshTime).TotalSeconds > clockSkew) return default;
-        //}
+        var nowTime = DateTimeOffset.UtcNow;
+        var cachedValue = distributedCache?.GetString(blacklistRefreshKey);
+        var isRefresh = !string.IsNullOrWhiteSpace(cachedValue);    // 判断是否刷新过
+        if (isRefresh)
+        {
+            var refreshTime = new DateTimeOffset(long.Parse(cachedValue), TimeSpan.Zero);
+            // 处理并发时容差值
+            if ((nowTime - refreshTime).TotalSeconds > clockSkew) return default;
+        }
 
         // 分割过期Token
         var tokenParagraphs = expiredToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -168,15 +168,14 @@ public class JwtHelper
             if (!payload.ContainsKey(innerKey)) continue;
             payload.Remove(innerKey);
         }
-
         // 交换成功后登记刷新Token，标记失效
-        //if (!isRefresh)
-        //{
-        //    distributedCache?.SetString(blacklistRefreshKey, nowTime.Ticks.ToString(), new DistributedCacheEntryOptions
-        //    {
-        //        AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(refreshTokenObj.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
-        //    });
-        //}
+        if (!isRefresh)
+        {
+            distributedCache?.SetString(blacklistRefreshKey, nowTime.Ticks.ToString(), new DistributedCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(refreshTokenObj.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
+            });
+        }
 
         return Encrypt(payload, secretKey, expiredTime);
     }
@@ -235,11 +234,8 @@ public class JwtHelper
     /// <returns></returns>
     private static IDictionary<string, object> CombinePayload(IDictionary<string, object> payload, double expiredTime)
     {
-        var datetimeOffset = DateTimeOffset.Now;
-
         TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1);
         long time = (long)ts.TotalSeconds;
-
         TimeSpan ts1 = DateTime.Now.AddHours(expiredTime).ToUniversalTime() - new DateTime(1970, 1, 1);
 
         if (!payload.ContainsKey(JwtRegisteredClaimNames.Iat))

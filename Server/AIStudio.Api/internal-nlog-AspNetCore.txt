@@ -54,3 +54,62 @@
 2022-10-23 15:27:14.9753 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
 2022-10-23 15:27:20.5790 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
 2022-10-23 15:27:23.0090 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:21:04.5656 Info Message Template Auto Format enabled
+2022-10-24 22:21:04.5748 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-24 22:21:04.6168 Info Adding target FileTarget(Name=allfile)
+2022-10-24 22:21:04.6168 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-24 22:21:04.6168 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-24 22:21:04.6918 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-10-24 22:21:04.7126 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:21:05.9674 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:21:06.1014 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:21:06.1014 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:21:10.6229 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:21:12.2007 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:59:23.6377 Info Message Template Auto Format enabled
+2022-10-24 22:59:23.6377 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-24 22:59:23.6896 Info Adding target FileTarget(Name=allfile)
+2022-10-24 22:59:23.6896 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-24 22:59:23.6896 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-24 22:59:23.7470 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-10-24 22:59:23.7693 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:59:24.7161 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:59:24.7904 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:59:24.7925 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 22:59:29.8785 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:00:22.0901 Info Message Template Auto Format enabled
+2022-10-24 23:00:22.0901 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-24 23:00:22.1376 Info Adding target FileTarget(Name=allfile)
+2022-10-24 23:00:22.1376 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-24 23:00:22.1376 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-24 23:00:22.2004 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-10-24 23:00:22.2235 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:00:23.3233 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:00:23.4781 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:00:23.4807 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:00:27.2208 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:00:28.9512 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:31:57.1158 Info Message Template Auto Format enabled
+2022-10-24 23:31:57.1242 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-24 23:31:57.1626 Info Adding target FileTarget(Name=allfile)
+2022-10-24 23:31:57.1626 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-24 23:31:57.1626 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-24 23:31:57.2680 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-10-24 23:31:57.2864 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:31:58.2272 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:31:58.3038 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:31:58.3038 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:32:02.1173 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:32:03.7717 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:33:01.8466 Info Message Template Auto Format enabled
+2022-10-24 23:33:01.8544 Info Loading assembly: NLog.Web.AspNetCore
+2022-10-24 23:33:01.8975 Info Adding target FileTarget(Name=allfile)
+2022-10-24 23:33:01.8975 Info Adding target FileTarget(Name=ownFile-web)
+2022-10-24 23:33:01.9001 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-10-24 23:33:01.9515 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-10-24 23:33:01.9779 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:33:03.0853 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:33:03.1861 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:33:03.1861 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:33:07.0473 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
+2022-10-24 23:33:08.6977 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=D:\YJ\WPF\新接口开发\Server\AIStudio.Api\bin\Debug\net6.0\NLog.config
