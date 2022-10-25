@@ -23,7 +23,7 @@ namespace AIStudio.Blazor.UI.Core
         protected bool Loading { get; set; }
         protected string Area { get; set; }
 
-        protected TData Data { get; set; }
+        protected TData Data { get; set; } = System.Activator.CreateInstance<TData>();
 
         protected Form<TData> _form;
 
@@ -87,11 +87,6 @@ namespace AIStudio.Blazor.UI.Core
         protected void HideWait()
         {
             Loading = false;
-        }
-
-        public BaseEditFormWithOption()
-        {
-            Data = System.Activator.CreateInstance<TData>();
         }
 
         protected override async Task OnInitializedAsync()

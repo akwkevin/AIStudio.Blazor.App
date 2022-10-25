@@ -54,9 +54,9 @@
     private PermissionList _permissionList;
 
     protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
+    {    
         await GetParentIdTreeData();
+        await base.OnInitializedAsync();
     }
 
     private async Task GetParentIdTreeData()

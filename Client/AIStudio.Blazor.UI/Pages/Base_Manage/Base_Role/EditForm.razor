@@ -7,24 +7,22 @@
         <Input @bind-Value="@context.RoleName" AutoComplete=false />
     </FormItem>
     <Card Title="权限" Bordered=false>
-        <div Style="height:500px;">
-            <Tree TItem="Base_ActionTree"
-                  DefaultCheckedKeys="@context.Actions"
-                  @bind-CheckedKeys="@context.Actions"
-                  Checkable
-                  DataSource="ActionsTreeData"
-                  ChildrenExpression="node=>node.DataItem.Children"
-                  IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
-                  TitleExpression="node=>node.DataItem.Text"
-                  KeyExpression="node=>node.DataItem.Id"
-                  DefaultExpandAll />
-        </div>
+        <Tree TItem="Base_ActionTree"
+              DefaultCheckedKeys="@context.Actions"
+              @bind-CheckedKeys="@context.Actions"
+              Checkable
+              DataSource="ActionsTreeData"
+              ChildrenExpression="node=>node.DataItem.Children"
+              IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+              TitleExpression="node=>node.DataItem.Text"
+              KeyExpression="node=>node.DataItem.Id"
+              DefaultExpandAll />
     </Card>
 </Form>
 
 @code {
 
-    public EditForm()
+    public EditForm() : base()
     {
         Area = "Base_Manage";
     }
@@ -33,8 +31,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
         await GetActionsTreeData();
+        await base.OnInitializedAsync();
     }
 
     private async Task GetActionsTreeData()

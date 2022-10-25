@@ -31,9 +31,9 @@
     private List<TreeModel> Departments { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
+    {     
         await GetDepartment();
+        await base.OnInitializedAsync();
     }
 
     private async Task GetDepartment()
