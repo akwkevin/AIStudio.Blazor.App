@@ -13,7 +13,7 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 唯一标识Id
         /// </summary>
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         ///// <summary>
         ///// 数据值
@@ -23,7 +23,7 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 父Id
         /// </summary>
-        public string ParentId { get; set; }
+        public string? ParentId { get; set; }
 
         /// <summary>
         /// 节点深度

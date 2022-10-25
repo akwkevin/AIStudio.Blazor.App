@@ -10,8 +10,8 @@ namespace AIStudio.Entity.DTO.Base_Manage
     public class Base_UserDTO : Base_User, IIdObject
     {
         public string RoleNames { get => string.Join(",", RoleNameList ?? new List<string>()); }
-        public IEnumerable<string>? RoleIdList { get; set; }
-        public IEnumerable<string>? RoleNameList { get; set; }
+        public IEnumerable<string> RoleIdList { get; set; }
+        public IEnumerable<string> RoleNameList { get; set; }
         public RoleTypes RoleType
         {
             get

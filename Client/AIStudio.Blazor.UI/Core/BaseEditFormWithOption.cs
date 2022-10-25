@@ -89,10 +89,14 @@ namespace AIStudio.Blazor.UI.Core
             Loading = false;
         }
 
+        public BaseEditFormWithOption()
+        {
+            Data = System.Activator.CreateInstance<TData>();
+        }
+
         protected override async Task OnInitializedAsync()
         {
             var id = this.Options;
-            Data = System.Activator.CreateInstance<TData>();
             if (id != null)
             {
                 await GetDataAsync(id);

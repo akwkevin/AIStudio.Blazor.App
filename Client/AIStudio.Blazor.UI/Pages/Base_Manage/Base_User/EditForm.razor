@@ -48,7 +48,7 @@
 
 @code {
 
-    public EditForm()
+    public EditForm() : base()
     {
         Area = "Base_Manage";
     }
@@ -57,10 +57,10 @@
     private List<TreeModel> Departments { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
+    {   
         await GetRoles();
-        await GetDepartment();
+        await GetDepartment();   
+        await base.OnInitializedAsync();
     }
 
     private async Task GetRoles()
