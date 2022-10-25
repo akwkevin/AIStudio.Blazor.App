@@ -125,6 +125,10 @@ namespace AIStudio.Common.AppSettings
             /// 
             /// </summary>
             public static long ClockSkew => Configuration.GetValue<long>("Jwt:ClockSkew");
+            /// <summary>
+            /// 
+            /// </summary>
+            public static long RefreshClockSkew => Configuration.GetValue<long>("Jwt:RefreshClockSkew");
         }
 
         /// <summary>
