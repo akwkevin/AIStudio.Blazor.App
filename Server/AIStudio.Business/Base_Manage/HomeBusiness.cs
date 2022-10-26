@@ -53,18 +53,6 @@ namespace AIStudio.Business.Base_Manage
             if (theUser.IsNullOrEmpty())
                 throw AjaxResultException.Status401Unauthorized("账号或密码不正确！");
 
-            var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] { JoinType.Left, a.RoleId == b.Id })
-                .Where(a => a.UserId == theUser.Id)
-                .Select((a, b) => new
-                {
-                    a.UserId,
-                    RoleId = b.Id,
-                    b.RoleName
-                }).ToListAsync();
-
-            theUser.RoleIdList = userRoles.Select(x => x.RoleId).ToList();
-            theUser.RoleNameList = userRoles.Select(x => x.RoleName).ToList();
-
             List<Claim> claims = new List<Claim>
             {
                 new Claim(SimpleClaimTypes.UserId,theUser.Id),
@@ -74,21 +62,38 @@ namespace AIStudio.Business.Base_Manage
             {
                 claims.Add(new Claim(SimpleClaimTypes.TenantId, theUser.TenantId));
             }
-            foreach (var role in theUser.RoleIdList)
+            if (theUser.Id == AdminTypes.Admin.ToString())//超级管理员
             {
-                if (string.IsNullOrEmpty(role)) continue;
-                claims.Add(new Claim(SimpleClaimTypes.Role, role));
+                claims.Add(new Claim(SimpleClaimTypes.SuperAdmin, SimpleClaimTypes.SuperAdmin));
             }
-            foreach (var rolename in theUser.RoleNameList)
-            {
-                if (string.IsNullOrEmpty(rolename)) continue;
-                claims.Add(new Claim(SimpleClaimTypes.Actor, rolename));
 
-                if (rolename == RoleTypes.超级管理员.ToString())
-                {
-                    claims.Add(new Claim(SimpleClaimTypes.SuperAdmin, rolename));
-                }
-            }
+            //开启角色校验的时候需要在jwt中写入角色信息，但是角色可以配置，代码上不灵活，故不开启角色校验，使用权限校验替代
+            //var userRoles = await Db.Queryable<Base_UserRole, Base_Role>((a, b) => new object[] { JoinType.Left, a.RoleId == b.Id })
+            // .Where(a => a.UserId == theUser.Id)
+            // .Select((a, b) => new
+            // {
+            //     a.UserId,
+            //     RoleId = b.Id,
+            //     b.RoleName
+            // }).ToListAsync();
+
+            //theUser.RoleIdList = userRoles.Select(x => x.RoleId).ToList();
+            //theUser.RoleNameList = userRoles.Select(x => x.RoleName).ToList();
+            //foreach (var role in theUser.RoleIdList)
+            //{
+            //    if (string.IsNullOrEmpty(role)) continue;
+            //    claims.Add(new Claim(SimpleClaimTypes.Role, role));
+            //}
+            //foreach (var rolename in theUser.RoleNameList)
+            //{
+            //    if (string.IsNullOrEmpty(rolename)) continue;
+            //    claims.Add(new Claim(SimpleClaimTypes.Actor, rolename));
+
+            //    if (rolename == RoleTypes.超级管理员.ToString())
+            //    {
+            //        claims.Add(new Claim(SimpleClaimTypes.SuperAdmin, rolename));
+            //    }
+            //}
 
             var jwtToken = JwtHelper.CreateToken(claims);
             _httpContextAccessor.HttpContext.Response.Headers["access-token"] = jwtToken;
@@ -96,7 +101,7 @@ namespace AIStudio.Business.Base_Manage
             return jwtToken;
         }
 
-   
+
 
         /// <summary>
         /// 刷新token
