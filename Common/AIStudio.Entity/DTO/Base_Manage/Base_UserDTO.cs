@@ -32,11 +32,4 @@ namespace AIStudio.Entity.DTO.Base_Manage
         public string? SexText { get => Sex.GetDescription(); }
         public string? BirthdayText { get => Birthday?.ToString("yyyy-MM-dd"); }
     }
-
-    public class UserInfoPermissionsDTO
-    {
-        public Base_UserDTO? UserInfo { get; set; }
-
-        public List<string>? Permissions { get; set; }
-    }
 }

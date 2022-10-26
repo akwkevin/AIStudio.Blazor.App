@@ -53,12 +53,15 @@
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="作业名称" DataIndex="TaskName" TData="string" />
         <AntDesign.Column Title="分组" DataIndex="GroupName" TData="string" />
-        <AntDesign.Column Title="最后执行时间" DataIndex="LastRunTime" TData="DateTime" />
-        <AntDesign.Column Title="间隔(Cron)" DataIndex="Interval" TData="string" />
+        <AntDesign.Column Title="启用状态" DataIndex="IsEnabled" TData="bool" />
+        <AntDesign.Column Title="Cron" DataIndex="Cron" TData="string" />
         <AntDesign.Column Title="状态" DataIndex="IsEnable" TData="bool" />
+        <AntDesign.Column Title="任务类名" DataIndex="ActionClass" TData="string" />
         <AntDesign.Column Title="描述" DataIndex="Remark" TData="string" />
-        <AntDesign.Column Title="ApiUrl" DataIndex="ApiUrl" TData="string" />
         <AntDesign.Column Title="请求方式" DataIndex="RequestType" TData="string" />
+        <AntDesign.Column Title="请求地址" DataIndex="ApiUrl" TData="string" />
+        <AntDesign.Column Title="密匙名" DataIndex="AuthKey" TData="string" />
+        <AntDesign.Column Title="密匙值" DataIndex="AuthValue" TData="string" />
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>

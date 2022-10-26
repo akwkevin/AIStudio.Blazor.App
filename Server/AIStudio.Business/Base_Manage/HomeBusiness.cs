@@ -144,17 +144,10 @@ namespace AIStudio.Business.Base_Manage
             await Db.Updateable<Base_User>(_mapper.Map<Base_User>(theUser)).ExecuteCommandAsync();
         }
 
-        public async Task<UserInfoPermissionsDTO> GetOperatorInfoAsync()
+        public async Task<Base_UserDTO> GetOperatorInfoAsync()
         {
             var theInfo = await _userBusiness.GetTheDataAsync(_operator.UserId);
-            var permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
-            var resObj = new UserInfoPermissionsDTO
-            {
-                UserInfo = theInfo,
-                Permissions = permissions
-            };
-
-            return resObj;
+            return theInfo;
         }
 
         public async Task<List<Base_ActionTree>> GetOperatorMenuListAsync()

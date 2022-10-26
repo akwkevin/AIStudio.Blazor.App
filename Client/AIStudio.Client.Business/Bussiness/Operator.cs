@@ -27,7 +27,7 @@ namespace AIStudio.Client.Business
 
         public Base_UserDTO Property { get; set; }
 
-        public List<string> Permissions { get; set; }
+        public List<string> Permissions { get; set; } = new List<string>();
 
         //菜单树
         public List<Base_ActionTree> MenuTrees { get; set; }
@@ -43,7 +43,7 @@ namespace AIStudio.Client.Business
                 return true;
             }
 
-            return Permissions?.Contains(permiss) == true;
+            return Permissions.Any(p => p.Contains("(" + permiss + ")"));
         }
     }
 }

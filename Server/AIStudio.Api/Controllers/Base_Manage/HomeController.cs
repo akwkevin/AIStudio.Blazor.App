@@ -83,7 +83,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UserInfoPermissionsDTO> GetOperatorInfo()
+        public async Task<Base_UserDTO> GetOperatorInfo()
         {
             return await _homeBus.GetOperatorInfoAsync();
         }

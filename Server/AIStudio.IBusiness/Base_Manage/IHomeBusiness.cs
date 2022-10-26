@@ -11,7 +11,7 @@ namespace AIStudio.IBusiness.Base_Manage
         Task<string> RefreshTokenAsync(RefreshTokenInputDTO input);
         Task SubmitLogoutAsync();
         Task ChangePwdAsync(ChangePwdInputDTO input);
-        Task<UserInfoPermissionsDTO> GetOperatorInfoAsync();
+        Task<Base_UserDTO> GetOperatorInfoAsync();
         Task<List<Base_ActionTree>> GetOperatorMenuListAsync();
     }
 

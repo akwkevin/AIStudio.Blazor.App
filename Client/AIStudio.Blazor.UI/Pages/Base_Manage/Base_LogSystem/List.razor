@@ -38,10 +38,10 @@
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="内容" DataIndex="Message" TData="string" />
-        <AntDesign.Column Title="类别" DataIndex="LogType" TData="string" />
-        <AntDesign.Column Title="操作人" DataIndex="CreatorName" TData="string" />
-        <AntDesign.Column Title="时间" DataIndex="CreateTime" TData="DateTime" Format="yyyy-MM-dd HH:mm:ss" />
+        <AntDesign.Column Ellipsis Title="内容" DataIndex="Message" TData="string" />
+        <AntDesign.Column Ellipsis Title="类别" DataIndex="LogType" TData="string" />
+        <AntDesign.Column Ellipsis Title="操作人" DataIndex="CreatorName" TData="string" />
+        <AntDesign.Column Ellipsis Title="时间" DataIndex="CreateTime" TData="DateTime" Format="yyyy-MM-dd HH:mm:ss" />
     </ChildContent>
     <PaginationTemplate>
         <div style="float:right;margin-top:10px">

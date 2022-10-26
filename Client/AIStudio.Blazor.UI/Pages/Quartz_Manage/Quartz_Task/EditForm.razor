@@ -9,24 +9,31 @@
     <FormItem Label="分组">
         <Input @bind-Value="@context.GroupName" AutoComplete=false />
     </FormItem>
-    <FormItem Label="间隔(Cron)">
+    <FormItem Label="启用">
+        <Switch @bind-Value="@context.IsEnabled" />
+    </FormItem>
+    <FormItem Label="Cron">
         <Input @bind-Value="@context.Cron" AutoComplete=false />
     </FormItem>
-    <FormItem Label="ApiUrl">
-        <Input @bind-Value="@context.ApiUrl" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="AuthKey">
-        <Input @bind-Value="@context.AuthKey" AutoComplete=false />
+    <FormItem Label="任务类名">
+        <Input @bind-Value="@context.ActionClass" AutoComplete=false />
     </FormItem>   
-    <FormItem Label="AuthValue">
-        <Input @bind-Value="@context.AuthValue" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="RequestType">
-        <Input @bind-Value="@context.RequestType" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="Describe">
+    <FormItem Label="描述">
         <Input @bind-Value="@context.Remark" AutoComplete=false />
     </FormItem>
+    <FormItem Label="请求方式">
+        <Input @bind-Value="@context.RequestType" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="请求地址">
+        <Input @bind-Value="@context.ApiUrl" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="密匙名">
+        <Input @bind-Value="@context.AuthKey" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="密匙值">
+        <Input @bind-Value="@context.AuthValue" AutoComplete=false />
+    </FormItem>
+ 
 </Form>
 
 @code {
