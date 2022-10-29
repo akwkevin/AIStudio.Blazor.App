@@ -42,11 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
+    <Folder Include="Json\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Json\" />
+    <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
   </ItemGroup>
 
 </Project>

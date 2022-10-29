@@ -1,0 +1,40 @@
+﻿@namespace AIStudio.BlazorUI.Pages.Exception
+@page "/exception/416"
+@page "/Home/UserConsole"
+@page "/Home/_3DShowcase"
+
+@page "/D_Manage/D_Notice/List"
+@page "/D_Manage/D_UserMail/Index"
+@page "/D_Manage/D_UserMessage/List"
+
+@page "/OA_Manage/OA_DefForm/List"
+@page "/OA_Manage/OA_DefForm/TreeList"
+@page "/OA_Manage/OA_DefType/List"
+@page "/OA_Manage/OA_UserForm/List"
+
+@page "/account/center/Index"
+@page "/account/settings/Index"
+
+
+<Result Status="416"
+        Title="416"
+        SubTitle="Sorry, Not finished yet, please wait patiently.">
+    <Extra>
+        <p>
+            抱歉,本页面（Uri = @NavigationManager.Uri）暂未完成，请耐心等待。
+        </p>
+        <Button Type="primary" OnClick="BackHome">Back Home</Button>
+    </Extra>
+</Result>
+
+@code {
+
+    [Inject] 
+    NavigationManager NavigationManager { get; set; }
+
+    void BackHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}

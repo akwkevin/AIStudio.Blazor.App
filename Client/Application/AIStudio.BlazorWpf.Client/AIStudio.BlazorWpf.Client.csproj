@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AIStudio.Blazor.UI\AIStudio.Blazor.UI.csproj" />
+    <ProjectReference Include="..\..\AIStudio.BlazorUI\AIStudio.BlazorUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

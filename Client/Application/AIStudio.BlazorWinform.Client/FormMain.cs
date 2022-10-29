@@ -1,4 +1,4 @@
-using AIStudio.Blazor.UI;
+using AIStudio.BlazorUI;
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

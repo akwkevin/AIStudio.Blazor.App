@@ -1,0 +1,16 @@
+﻿<li class="list-group-item">
+    @if (!Column.Primary && Table.GetPort(Column) != null)
+    {
+        <PortRenderer Port="Table.GetPort(Column)"></PortRenderer>
+    }
+    @if (Column.Primary)
+    {
+        <i class="fas fa-key mr-2 text-warning"></i>
+    }
+    else if (HasLinks)
+    {
+        <i class="fas fa-key mr-2 text-secondary"></i>
+    }
+    <span class="text-primary @(Column.Primary || HasLinks ? "" : "ml-4")">@Column.Type.ToString()</span>
+    @Column.Name
+</li>

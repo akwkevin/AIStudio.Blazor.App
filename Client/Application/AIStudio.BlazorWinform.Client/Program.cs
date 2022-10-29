@@ -1,4 +1,4 @@
-using AIStudio.Blazor.UI.Services;
+using AIStudio.BlazorUI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;

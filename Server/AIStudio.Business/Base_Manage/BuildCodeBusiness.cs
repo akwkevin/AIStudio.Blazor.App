@@ -178,7 +178,7 @@ $@"    <FormItem Label=""{aField.Description}"">
                         savePath = Path.Combine(
                             _solutionPath,
                             "Client",
-                            "AIStudio.Blazor.UI",
+                            "AIStudio.BlazorUI",
                             "Pages",
                             areaName,
                             entityName,
@@ -190,7 +190,7 @@ $@"    <FormItem Label=""{aField.Description}"">
                         savePath = Path.Combine(
                             _solutionPath,
                             "Client",
-                            "AIStudio.Blazor.UI",
+                            "AIStudio.BlazorUI",
                             "Pages",
                             areaName,
                             entityName,

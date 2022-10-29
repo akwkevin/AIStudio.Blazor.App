@@ -1,0 +1,33 @@
+﻿@using AIStudio.BlazorUI.Converter
+@using AIStudio.BlazorUI.Services.Exstensions
+@using Microsoft.Extensions.DependencyInjection
+
+@Result
+
+@code {
+
+    [Inject]
+    protected IServiceProvider ServiceProvider { get; set; }
+
+    [Parameter]
+    public string Converter { get; set; }
+    [Parameter]
+    public object ConverterParameter { get; set; }
+
+    [Parameter]
+    public object Value { get; set; }
+
+    string Result { get; set; }
+
+    IValueConverter ValueConverter { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (ValueConverter == null)
+        {
+            //ValueConverter = ServiceProvider.GetNamedService<IValueConverter>(Converter);
+            ValueConverter = ServiceProvider.GetService<IValueConverter>();
+        }
+        Result = ValueConverter.Convert(Value, typeof(object), ConverterParameter, System.Globalization.CultureInfo.CurrentCulture)?.ToString();
+    }
+}

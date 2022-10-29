@@ -1,5 +1,5 @@
-using AIStudio.Blazor.UI;
-using AIStudio.Blazor.UI.Services;
+using AIStudio.BlazorUI;
+using AIStudio.BlazorUI.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

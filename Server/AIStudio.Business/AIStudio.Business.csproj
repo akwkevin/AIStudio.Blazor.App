@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\AIStudio.Common\AIStudio.Common.csproj" />
-    <ProjectReference Include="..\..\Common\AIStudio.DbFactory\AIStudio.DbFactory.csproj" />
-    <ProjectReference Include="..\..\Common\AIStudio.Entity\AIStudio.Entity.csproj" />
     <ProjectReference Include="..\AIStudio.IBusiness\AIStudio.IBusiness.csproj" />
   </ItemGroup>
 

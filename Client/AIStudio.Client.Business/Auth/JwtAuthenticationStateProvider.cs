@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace AIStudio.Blazor.UI.Services.Auth
+namespace AIStudio.BlazorUI.Services.Auth
 {
     public class JwtAuthenticationStateProvider : AuthenticationStateProvider
     {

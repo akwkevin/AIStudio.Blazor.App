@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
-        xmlns:common="clr-namespace:AIStudio.Blazor.UI;assembly=AIStudio.Blazor.UI"
+        xmlns:common="clr-namespace:AIStudio.BlazorUI;assembly=AIStudio.BlazorUI"
         xmlns:local="clr-namespace:AIStudio.BlazorWpf.Client"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">

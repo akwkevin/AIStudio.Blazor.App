@@ -23,7 +23,7 @@ namespace AIStudio.Client.Business
         /// </summary>
         public string UserName { get { return Property?.UserName; } }
 
-        public string Avatar { get {return Property?.Avatar ?? "_content/AIStudio.Blazor.UI/images/Luffy.jpg"; } }
+        public string Avatar { get {return Property?.Avatar ?? "_content/AIStudio.BlazorUI/images/Luffy.jpg"; } }
 
         public Base_UserDTO Property { get; set; }
 

@@ -1,0 +1,16 @@
+﻿<div class="card @(Node.Selected ? "selected" : "")" style="width: 320px;">
+    <div class="card-header">
+        <h6 class="mb-0">@Node.Name</h6>
+    </div>
+    <ul class="list-group list-group-flush">
+        @foreach (var column in Node.Columns.OrderByDescending(c => c.Primary))
+        {
+            <TableColumn @key="column" Table="Node" Column="column"></TableColumn>
+        }
+    </ul>
+
+    @if (Node.HasPrimaryColumn)
+    {
+        <PortRenderer Port="Node.GetPort(PortAlignment.Right)"></PortRenderer>
+    }
+</div>

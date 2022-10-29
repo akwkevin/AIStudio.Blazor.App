@@ -1,0 +1,41 @@
+﻿<CascadingAuthenticationState>
+    <Error>
+        <Router AppAssembly="@typeof(Main).Assembly" AdditionalAssemblies="new[] { typeof(AIStudio.BlazorFlowchart.Pages.DatabaseDesigner.Index).Assembly }">
+            <Found Context="routeData">
+                <AuthorizeView>
+                    <Authorized>
+                        @*  <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />*@
+                        <ReuseTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                    </Authorized>
+                    <Authorizing>
+                        <Spin Tip="Loading...">
+                            <Alert Message="Authentication in progress"
+                                   Description="You can only see this content while authentication is in progress."
+                                   Type="info" />
+                        </Spin>
+                    </Authorizing>
+                    <NotAuthorized>
+                        @if (!context.User.Identity.IsAuthenticated)
+                        {
+                            <LayoutView Layout="@typeof(UserLayout)">
+                                <Login />
+                            </LayoutView>
+                        }
+                        else
+                        {
+                            <p>You are not authorized to access this resource.</p>
+                        }
+                    </NotAuthorized>
+                </AuthorizeView>
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(UserLayout)">
+                    <AIStudio.BlazorUI.Pages.Exception._404 />
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </Error>
+</CascadingAuthenticationState>
+
+<AntContainer />
