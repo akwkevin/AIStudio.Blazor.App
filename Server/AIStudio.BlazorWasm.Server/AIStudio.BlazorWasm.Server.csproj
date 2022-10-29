@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\Application\AIStudio.BlazorWasm.Client\AIStudio.BlazorWasm.Client.csproj" />
     <ProjectReference Include="..\AIStudio.Api\AIStudio.Api.csproj" />
   </ItemGroup>
 

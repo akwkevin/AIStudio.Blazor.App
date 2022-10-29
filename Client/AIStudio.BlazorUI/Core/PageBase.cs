@@ -70,7 +70,7 @@ namespace AIStudio.BlazorUI.Core
 
         public virtual RenderFragment GetPageTitle() => builder =>
         {
-            var menu = Operator.Menus.FirstOrDefault(u => u.Url == IndexUrl);
+            var menu = Operator.Menus.FirstOrDefault(u => u.Url == IndexUrl && u.Type == Entity.ActionType.页面);
             if (menu != null)
             {
                 var index = 0;
