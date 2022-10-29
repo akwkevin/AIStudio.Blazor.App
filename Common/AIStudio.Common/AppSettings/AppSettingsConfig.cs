@@ -77,11 +77,16 @@ namespace AIStudio.Common.AppSettings
             /// 开启InjectMiniProfiler
             /// </summary>
             public static bool InjectMiniProfiler => Configuration.GetValue<bool>("AppSettings:InjectMiniProfiler");
+            
             /// <summary>
             /// 开启超级管理员查看全部数据
             /// </summary>
-
             public static bool SuperAdminViewAllData => Configuration.GetValue<bool>("AppSettings:SuperAdminViewAllData");
+
+            /// <summary>
+            /// 是否开启多租户
+            /// </summary>
+            public static bool MultiTenant => Configuration.GetValue<bool>("AppSettings:MultiTenant");
         }
 
         /// <summary>

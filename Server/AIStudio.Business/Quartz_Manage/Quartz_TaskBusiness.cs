@@ -136,7 +136,10 @@ namespace AIStudio.Business.Quartz_Manage
                     }
                 }
 
-                await AddJob(jobType, item);
+                if (item.IsEnabled)
+                {
+                    await AddJob(jobType, item);
+                }
             }
         }
 

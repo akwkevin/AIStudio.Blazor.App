@@ -188,8 +188,8 @@ namespace AIStudio.Common.SqlSuger
                         //全局过滤器
                         foreach (var entityType in types)
                         {
-                            // 配置多租户全局过滤器
-                            if (!entityType.GetProperty(GlobalConst.TenantId).IsNullOrEmpty())
+                            // 开启了多租户，配置多租户全局过滤器
+                            if (AppSettingsConfig.AppSettingsOptions.MultiTenant && !entityType.GetProperty(GlobalConst.TenantId).IsNullOrEmpty())
                             { //判断实体类中包含TenantId属性
                               //构建动态Lambda
                                 var lambda = DynamicExpressionParser.ParseLambda

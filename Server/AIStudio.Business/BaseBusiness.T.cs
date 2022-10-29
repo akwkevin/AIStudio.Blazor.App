@@ -6,7 +6,9 @@ using AIStudio.IBusiness;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using Quartz.Util;
 using SqlSugar;
+using StackExchange.Redis;
 using System.Data;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
@@ -29,6 +31,7 @@ namespace AIStudio.Business
         {
             Db = db;
             EntityName = typeof(T).Name;
+            LogicDelete = !typeof(T).GetProperty(GlobalConst.Deleted).IsNullOrEmpty();
         }
 
         #endregion
@@ -46,6 +49,7 @@ namespace AIStudio.Business
 
         public string EntityName { get; }
 
+        public bool LogicDelete { get; }
         #endregion
 
         #region 事物提交
@@ -175,7 +179,14 @@ namespace AIStudio.Business
         /// </summary>
         public int DeleteAll()
         {
-            return Db.Deleteable<T>().ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable<T>().IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            {
+                return Db.Deleteable<T>().ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -183,7 +194,14 @@ namespace AIStudio.Business
         /// </summary>
         public async Task<int> DeleteAllAsync()
         {
-            return await Db.Deleteable<T>().ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable<T>().IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable<T>().ExecuteCommandAsync();
+            }
         }
 
         /// <summary>
@@ -192,7 +210,14 @@ namespace AIStudio.Business
         /// <param name="key"></param>
         public int Delete(string key)
         {
-            return Db.Deleteable<T>().In(key).ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable<T>().In(key).IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            { 
+                return Db.Deleteable<T>().In(key).ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -201,7 +226,14 @@ namespace AIStudio.Business
         /// <param name="key"></param>
         public async Task<int> DeleteAsync(string key)
         {
-            return await Db.Deleteable<T>().In(key).ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable<T>().In(key).IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable<T>().In(key).ExecuteCommandAsync();
+            }
         }
 
         /// <summary>
@@ -210,7 +242,14 @@ namespace AIStudio.Business
         /// <param name="keys"></param>
         public int Delete(List<string> keys)
         {
-            return Db.Deleteable<T>().In(keys).ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable<T>().In(keys).IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            {
+                return Db.Deleteable<T>().In(keys).ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -219,7 +258,14 @@ namespace AIStudio.Business
         /// <param name="keys"></param>
         public async Task<int> DeleteAsync(List<string> keys)
         {
-            return await Db.Deleteable<T>().In(keys).ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable<T>().In(keys).IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable<T>().In(keys).ExecuteCommandAsync();
+            }
         }
 
         /// <summary>
@@ -228,7 +274,14 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public int Delete(T entity)
         {
-            return Db.Deleteable(entity).ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable(entity).IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            {
+                return Db.Deleteable(entity).ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -237,7 +290,14 @@ namespace AIStudio.Business
         /// <param name="entity">实体对象</param>
         public async Task<int> DeleteAsync(T entity)
         {
-            return await Db.Deleteable(entity).ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable(entity).IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable(entity).ExecuteCommandAsync();
+            }
         }
 
         /// <summary>
@@ -246,7 +306,14 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public int Delete(List<T> entities)
         {
-            return Db.Deleteable(entities).ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable(entities).IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            {
+                return Db.Deleteable(entities).ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -255,7 +322,14 @@ namespace AIStudio.Business
         /// <param name="entities">实体对象集合</param>
         public async Task<int> DeleteAsync(List<T> entities)
         {
-            return await Db.Deleteable(entities).ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable(entities).IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable(entities).ExecuteCommandAsync();
+            }
         }
 
         /// <summary>
@@ -264,7 +338,14 @@ namespace AIStudio.Business
         /// <param name="condition">筛选条件</param>
         public int Delete(Expression<Func<T, bool>> condition)
         {
-            return Db.Deleteable(condition).ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable(condition).IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            {
+                return Db.Deleteable(condition).ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -273,7 +354,14 @@ namespace AIStudio.Business
         /// <param name="condition">筛选条件</param>
         public async Task<int> DeleteAsync(Expression<Func<T, bool>> condition)
         {
-            return await Db.Deleteable(condition).ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable(condition).IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable(condition).ExecuteCommandAsync();
+            }
         }
 
         /// <summary>
@@ -287,7 +375,14 @@ namespace AIStudio.Business
         /// </returns>
         public int DeleteSql(Expression<Func<T, bool>> where)
         {
-            return Db.Deleteable(where).ExecuteCommand();
+            if (LogicDelete)//软删除
+            {
+                return Db.Deleteable(where).IsLogic().ExecuteCommand(GlobalConst.Deleted);
+            }
+            else
+            {
+                return Db.Deleteable(where).ExecuteCommand();
+            }
         }
 
         /// <summary>
@@ -301,7 +396,14 @@ namespace AIStudio.Business
         /// </returns>
         public async Task<int> DeleteSqlAsync(Expression<Func<T, bool>> where)
         {
-            return await Db.Deleteable(where).ExecuteCommandAsync();
+            if (LogicDelete)//软删除
+            {
+                return await Db.Deleteable(where).IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
+            }
+            else
+            {
+                return await Db.Deleteable(where).ExecuteCommandAsync();
+            }
         }
 
         #endregion
