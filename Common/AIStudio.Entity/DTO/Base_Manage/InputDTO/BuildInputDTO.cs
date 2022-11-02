@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
 {
-    public class BuildInputDTO : IIdObject
+    public class BuildInputDTO : KeyBaseEntity
     {
-        public string? Id { get; set; }
         public string? linkId { get; set; }
         public string? areaName { get; set; }
         public List<string>? tables { get; set; }

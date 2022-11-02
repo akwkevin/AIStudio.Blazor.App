@@ -1,0 +1,24 @@
+{
+  "Id": "OATest1",
+  "Version": 1,
+  "DataType": "Coldairarrow.Util.OAData, Coldairarrow.Util",
+  "Steps": [
+    {
+      "Id": "Step1",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAStartStep, AIStudio.Service",
+      "SelectNextStep": {
+        "Hello": "3>2",
+        "Bye": "4<5"
+      }
+    },
+    {
+      "Id": "Hello",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.HelloWorld, AIStudio.Service",
+      "NextStepId": "Bye"
+    },
+    {
+      "Id": "Bye",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.GoodbyeWorld, AIStudio.Service"
+    }
+  ]
+}

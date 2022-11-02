@@ -47,6 +47,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
+    <ProjectReference Include="..\WorkflowCore\WorkflowCore.Persistence.SqlSugar\WorkflowCore.Persistence.SqlSugar.csproj" />
   </ItemGroup>
 
 </Project>

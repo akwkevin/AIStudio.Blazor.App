@@ -15,7 +15,7 @@ using Microsoft.JSInterop;
 
 namespace AIStudio.BlazorUI.Core
 {
-    public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : IIdObject where EditForm : FeedbackComponent<string>
+    public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : IKeyBaseEntity<string> where EditForm : FeedbackComponent<string>
     {
         protected override async void Edit(TData para)
         {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_User))]
-    public class Base_UserDTO : Base_User, IIdObject
+    public class Base_UserDTO : Base_User
     {
         public string RoleNames { get => string.Join(",", RoleNameList ?? new List<string>()); }
         public IEnumerable<string> RoleIdList { get; set; }

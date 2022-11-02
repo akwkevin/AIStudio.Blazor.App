@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_LogVisit))]
-    public class Base_LogVisitDTO : Base_LogVisit, IIdObject
+    public class Base_LogVisitDTO : Base_LogVisit
     {
     }
 }

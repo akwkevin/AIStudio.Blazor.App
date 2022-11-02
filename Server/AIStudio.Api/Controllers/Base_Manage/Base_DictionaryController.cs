@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Common.Filters;
 
-namespace Coldairarrow.Api.Controllers.Base_Manage
+namespace AIStudio.Api.Controllers.Base_Manage
 {
     /// <summary>
     /// 系统字典

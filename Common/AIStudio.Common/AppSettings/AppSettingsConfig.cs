@@ -87,6 +87,12 @@ namespace AIStudio.Common.AppSettings
             /// 是否开启多租户
             /// </summary>
             public static bool MultiTenant => Configuration.GetValue<bool>("AppSettings:MultiTenant");
+
+            /// <summary>
+            /// 是否使用工作流
+            /// </summary>
+            public static bool UseWorkflow => Configuration.GetValue<bool>("AppSettings:UseWorkflow");
+            
         }
 
         /// <summary>

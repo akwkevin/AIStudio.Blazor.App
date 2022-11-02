@@ -1,0 +1,45 @@
+{
+  "Id": "OATest3",
+  "Version": 1,
+  "DataType": "Coldairarrow.Util.OAData, Coldairarrow.Util",
+  "Steps": [
+    {
+      "Id": "Step1",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAStartStep, AIStudio.Service",
+      "NextStepId": "Step2",
+      "ActRules": {
+        "UserIds": "Admin",
+        "UserNames": "Admin",
+        "RoleIds": "Admin",
+        "RoleNames": "Admin",
+        "ActType": "Or"
+      }
+    },
+    {
+      "Id": "Step2",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAMiddleStep, AIStudio.Service",
+      "NextStepId": "Hello",
+      "ActRules": {
+        "UserIds": "Admin",
+        "UserNames": "Admin",
+        "RoleIds": "Admin",
+        "RoleNames": "Admin",
+        "ActType": "Or"
+      }
+    },
+    {
+      "Id": "Hello",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.HelloWorld, AIStudio.Service",
+      "NextStepId": "Bye"
+    },
+    {
+      "Id": "Bye",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.GoodbyeWorld, AIStudio.Service",
+      "NextStepId": "Step3"
+    },
+    {
+      "Id": "Step3",
+      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAEndStep, AIStudio.Service"
+    }
+  ]
+}

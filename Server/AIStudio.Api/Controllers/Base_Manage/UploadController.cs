@@ -5,7 +5,7 @@ using AIStudio.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Coldairarrow.Api.Controllers.Base_Manage
+namespace AIStudio.Api.Controllers.Base_Manage
 {
     /// <summary>
     /// 文件上传

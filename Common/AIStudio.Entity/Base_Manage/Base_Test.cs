@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIStudio.Util.Common;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,7 +9,7 @@ namespace AIStudio.Entity.Base_Manage
     /// Base_Test
     /// </summary>
     [Table("Base_Test")]
-    public class Base_Test 
+    public class Base_Test
     {
 
         /// <summary>

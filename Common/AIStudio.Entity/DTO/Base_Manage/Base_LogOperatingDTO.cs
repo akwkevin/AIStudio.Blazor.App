@@ -5,7 +5,7 @@ using AIStudio.Util.Common;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_LogOperating))]
-    public class Base_LogOperatingDTO : Base_LogOperating, IIdObject
+    public class Base_LogOperatingDTO : Base_LogOperating
     {
 
     }

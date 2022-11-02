@@ -1,10 +1,11 @@
-﻿using SqlSugar;
+﻿using AIStudio.Util.Common;
+using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIStudio.Entity
 {
-    public abstract class KeyBaseEntity<TPrimaryKey>
+    public abstract class KeyBaseEntity<TPrimaryKey> : IKeyBaseEntity<TPrimaryKey>
     {
         /// <summary>
         /// 自然主键

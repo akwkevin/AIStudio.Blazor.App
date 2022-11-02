@@ -5,7 +5,7 @@ using AIStudio.Util.Common;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_Department))]
-    public class Base_DepartmentDTO : Base_Department, IIdObject
+    public class Base_DepartmentDTO : Base_Department
     {
     }
 }

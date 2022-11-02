@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_LogException))]
-    public class Base_LogExceptionDTO : Base_LogException, IIdObject
+    public class Base_LogExceptionDTO : Base_LogException
     {
     }
 }

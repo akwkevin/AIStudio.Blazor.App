@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_DbLink))]
-    public class Base_DbLinkDTO : Base_DbLink, IIdObject
+    public class Base_DbLinkDTO : Base_DbLink
     {
     }
 }

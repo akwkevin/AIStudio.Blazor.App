@@ -5,7 +5,7 @@ using AIStudio.Util.Common;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_AppSecret))]
-    public class Base_AppSecretDTO : Base_AppSecret, IIdObject
+    public class Base_AppSecretDTO : Base_AppSecret
     {
     }
 }

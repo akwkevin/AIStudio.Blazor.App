@@ -5,7 +5,7 @@ using AIStudio.Util.Common;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_Role))]
-    public class Base_RoleDTO : Base_Role, IIdObject
+    public class Base_RoleDTO : Base_Role
     {
         public string[]? Actions { get; set; }     
     }

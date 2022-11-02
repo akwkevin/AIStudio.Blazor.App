@@ -13,7 +13,7 @@ namespace AIStudio.BlazorUI.Core
     /// </summary>
     /// <typeparam name="ListData"></typeparam>
     /// <typeparam name="TData"></typeparam>
-    public class BaseList<TData> : PageBase where TData : IIdObject
+    public class BaseList<TData> : PageBase where TData : IKeyBaseEntity<string>
     {
 
         [Inject] 

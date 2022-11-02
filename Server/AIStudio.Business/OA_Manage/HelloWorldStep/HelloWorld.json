@@ -1,0 +1,15 @@
+{
+  "Id": "HelloWorld",
+  "Version": 1,
+  "Steps": [
+    {
+      "Id": "Hello",
+      "StepType": "AIStudio.Service.WorkflowCore.HelloWorld, AIStudio.Service",
+      "NextStepId": "Bye"
+    },
+    {
+      "Id": "Bye",
+      "StepType": "AIStudio.Service.WorkflowCore.GoodbyeWorld, AIStudio.Service"
+    }
+  ]
+}

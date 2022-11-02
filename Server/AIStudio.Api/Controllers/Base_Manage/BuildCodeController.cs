@@ -8,7 +8,7 @@ using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Coldairarrow.Api.Controllers.Base_Manage
+namespace AIStudio.Api.Controllers.Base_Manage
 {
     /// <summary>
     /// 代码生成

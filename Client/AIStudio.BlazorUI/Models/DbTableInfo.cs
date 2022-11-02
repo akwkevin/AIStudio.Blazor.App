@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AIStudio.BlazorUI.Models
 {
-    public class DbTableInfo: IIdObject
+    public class DbTableInfo: IKeyBaseEntity<string>
     {   /// <summary>
         /// 表名
         /// </summary>
