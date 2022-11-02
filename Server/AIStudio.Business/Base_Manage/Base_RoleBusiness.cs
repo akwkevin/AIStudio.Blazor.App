@@ -15,7 +15,7 @@ namespace AIStudio.Business.Base_Manage
 {
     public class Base_RoleBusiness : BaseBusiness<Base_Role>, IBase_RoleBusiness, ITransientDependency
     {
-        readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         public Base_RoleBusiness(IMapper mapper, ISqlSugarClient db) : base(db)
         {
             _mapper = mapper;

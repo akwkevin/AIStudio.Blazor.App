@@ -12,8 +12,7 @@ namespace AIStudio.Business.Base_Manage
 {
     public class Base_DictionaryBusiness : BaseBusiness<Base_Dictionary>, IBase_DictionaryBusiness, ITransientDependency
     {
-        public Base_DictionaryBusiness(ISqlSugarClient db)
-            : base(db)
+        public Base_DictionaryBusiness(ISqlSugarClient db) : base(db)
         {
         }
 

@@ -18,7 +18,7 @@ namespace AIStudio.Api.Controllers.Test
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Permissions.UserCreate)]
+        [Authorize(Permissions.Add)]
         public ActionResult<string> UserCreate() => "UserCreate";
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace AIStudio.Api.Controllers.Test
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Permissions.UserUpdate)]
+        [Authorize(Permissions.Edit)]
         public ActionResult<string> UserUpdate() => "UserUpdate";
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace AIStudio.Api.Controllers.Test
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Permissions.UserDelete)]
+        [Authorize(Permissions.Delete)]
         public ActionResult<string> UserDelete() => "UserDelete";
     }
 }

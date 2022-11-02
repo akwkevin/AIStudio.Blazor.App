@@ -1,21 +1,30 @@
-﻿using AIStudio.Common.DI;
+﻿using AIStudio.Common.Authorization;
+using AIStudio.Common.CurrentUser;
+using AIStudio.Common.DI;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
+using Microsoft.AspNetCore.Http;
 using SqlSugar;
+using System.Security.Claims;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Business.Base_Manage
 {
-    class PermissionBusiness : BaseBusiness<Base_Action>, IPermissionBusiness, ITransientDependency
+    public class PermissionBusiness : BaseBusiness<Base_Action>, IPermissionBusiness, IPermissionChecker, ITransientDependency
     {
-        IBase_ActionBusiness _actionBus { get; }
-        IBase_UserBusiness _userBus { get; }
-        public PermissionBusiness(IBase_ActionBusiness actionBus, IBase_UserBusiness userBus, ISqlSugarClient db) : base(db)
+        private readonly IBase_ActionBusiness _actionBus;
+        private readonly IBase_UserBusiness _userBus;
+        private readonly IOperator _operator;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public PermissionBusiness(IBase_ActionBusiness actionBus, IBase_UserBusiness userBus, IOperator @operator, IHttpContextAccessor httpContextAccessor, ISqlSugarClient db) : base(db)
         {
             _actionBus = actionBus;
             _userBus = userBus;
+            _operator = @operator;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         async Task<string[]> GetUserActionIds(string userId)
@@ -50,18 +59,8 @@ namespace AIStudio.Business.Base_Manage
             });
         }
 
-        public async Task<List<string>> GetUserPermissionValuesAsync(string userId)
+        public async Task<List<string>> GetUserPermissionListAsync(string userId)
         {
-            //var actionIds = await GetUserActionIds(userId);
-            //return (await _actionBus
-            //    .GetDataListAsync(new Base_ActionsInputDTO
-            //    {
-            //        Types = new ActionType[] { ActionType.权限 },
-            //        ActionIds = actionIds
-            //    }))
-            //    .Select(x => x.Value)
-            //    .ToList();
-
             var theUser = await _userBus.GetTheDataAsync(userId);
 
             if (userId == AdminTypes.Admin.ToString() || theUser.RoleType.HasFlag(RoleTypes.超级管理员))
@@ -75,6 +74,48 @@ namespace AIStudio.Business.Base_Manage
                 //不需要权限的菜单和有权限的菜单集合
                 return await GetIQueryable().Where(x => x.Type == ActionType.权限 && (x.NeedAction == false || actionIds.Contains(x.Id))).Select(x => x.Value).ToListAsync();
             }
+        }
+
+        public async Task<List<string>> GetAllPermissionListAsync()
+        {
+            return await GetIQueryable().Where(x => x.Type == ActionType.权限).Select(p => p.Value).ToListAsync();
+        }
+
+        public virtual async Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string name)
+        {
+            //// 如果当前用户是超级管理员，跳过验证
+            //if (_operator.IsSuperAdmin) return true;
+
+            //string permission = name;
+
+            //if (permission == Permissions.Open)
+            //{
+            //    var request = _httpContextAccessor.HttpContext.Request;
+
+
+            //    // 路径形如：/Base_Manage/Base_AppSecret/SaveData 转化为 Base_AppSecret.SaveData
+            //    var paths = request.Path.Value?.Split("/");
+            //    if (paths.Length >= 2)
+            //    {
+            //        permission = paths[paths.Length - 2] + "." + paths[paths.Length - 1];
+            //    }
+            //}
+
+            //if (string.IsNullOrEmpty(permission)) return false;
+
+            ////// 获取录入系统中的所有权限
+            ////List<string> allPermissions = await GetAllPermissionListAsync();
+
+            ////// 如果没有配置该权限，则不限制该权限，通过验证
+            ////if (!allPermissions.Contains(permission)) return true;
+
+            //// 获取当前用户的所有权限
+            //List<string> permissions = await GetUserPermissionListAsync(_operator.UserId);
+
+            //// 如果当前用户拥有对应权限，则通过验证
+            //if (permissions.Contains(permission)) return true;
+
+            return false;
         }
     }
 }

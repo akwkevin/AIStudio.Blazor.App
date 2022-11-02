@@ -16,7 +16,7 @@ namespace AIStudio.Business.Base_Manage
 {
     public class Base_ActionBusiness : BaseBusiness<Base_Action>, IBase_ActionBusiness, ITransientDependency
     {
-        readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         public Base_ActionBusiness(IMapper mapper, ISqlSugarClient db) : base(db)
         {
             _mapper = mapper;
@@ -61,7 +61,7 @@ namespace AIStudio.Business.Base_Manage
             {
                 var ids = _list.Select(x => x.Id).ToList();
                 var allPermissions = await GetIQueryable()
-                    .Where(x => ids.Contains(x.ParentId) && (int)x.Type == 2)
+                    .Where(x => ids.Contains(x.ParentId) && (int)x.Type == (int)ActionType.权限)
                     .ToListAsync();
 
                 _list.ForEach(aData =>

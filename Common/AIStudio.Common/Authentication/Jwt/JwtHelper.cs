@@ -328,8 +328,8 @@ public class JwtHelper
             new Claim(JwtRegisteredClaimNames.Jti, "admin"),
             new Claim("Username", "Admin"),
             new Claim("Name", "超级管理员"),
-            new Claim("Permission", Permissions.UserCreate),
-            new Claim("Permission", Permissions.UserUpdate)
+            new Claim("Permission", Permissions.Add),
+            new Claim("Permission", Permissions.Edit)
         };
 
         // 2. 从 appsettings.json 中读取SecretKey
@@ -365,19 +365,20 @@ public class JwtHelper
         /// <summary>
         /// User
         /// </summary>
-        public const string User = "User";
+        public const string Open = "Open";//开启用户权限，使用Path上获取
         /// <summary>
         /// UserCreate
         /// </summary>
-        public const string UserCreate = User + ".Create";
-        /// <summary>
-        /// UserDelete
-        /// </summary>
-        public const string UserDelete = User + ".Delete";
+        public const string Add = "Add";
         /// <summary>
         /// UserUpdate
         /// </summary>
-        public const string UserUpdate = User + ".Update";
+        public const string Edit = "Edit";
+        /// <summary>
+        /// UserDelete
+        /// </summary>
+        public const string Delete =  "Delete";
+
     }
     #endregion
 

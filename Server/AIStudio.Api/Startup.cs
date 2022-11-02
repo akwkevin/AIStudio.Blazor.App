@@ -15,6 +15,7 @@ using AIStudio.Common.Service;
 using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
+using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
@@ -111,7 +112,8 @@ namespace AIStudio.Api
                 // 授权
                 builder.Services.AddAuthorization_();
                 // 替换默认 PermissionChecker,测试使用
-                builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(TestPermissionChecker), ServiceLifetime.Transient));
+                //builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(TestPermissionChecker), ServiceLifetime.Transient));
+                builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(PermissionBusiness), ServiceLifetime.Transient));
 
                 //使用AutoMapper自动映射拥有MapAttribute的类
                 builder.Services.AddMapper_(GlobalType.AllTypes, GlobalType.AllAssemblies);

@@ -21,8 +21,8 @@ namespace AIStudio.Business.Base_Manage
 {
     public class Base_UserBusiness : BaseBusiness<Base_User>, IBase_UserBusiness, ITransientDependency
     {
-        readonly IOperator _operator;
-        readonly IMapper _mapper;
+        private readonly IOperator _operator;
+        private readonly IMapper _mapper;
 
         public Base_UserBusiness(
             IOperator @operator,

@@ -14,10 +14,10 @@ namespace AIStudio.Business.Base_Manage
 {
     public class BuildCodeBusiness : BaseBusiness<Base_DbLink>, IBuildCodeBusiness, ITransientDependency
     {
-        public BuildCodeBusiness(ISqlSugarClient db, IHostEnvironment evn)
+        public BuildCodeBusiness(ISqlSugarClient db, IHostEnvironment env)
             : base(db)
         {
-            var projectPath = evn.ContentRootPath;
+            var projectPath = env.ContentRootPath;
             var root = GetDirectory(projectPath);
             _solutionPath = root.FullName;
         }
