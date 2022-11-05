@@ -65,7 +65,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
         [HttpPost]
-        [Authorize(Permissions.Open)]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(Base_AppSecret theData)
         {
             await _appSecretBus.SaveDataAsync(theData);

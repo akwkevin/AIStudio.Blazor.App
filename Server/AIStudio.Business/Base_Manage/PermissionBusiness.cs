@@ -6,9 +6,12 @@ using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage;
 using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
+using AIStudio.Util;
+using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Http;
 using SqlSugar;
 using System.Security.Claims;
+using System.Text;
 using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Business.Base_Manage
@@ -81,41 +84,67 @@ namespace AIStudio.Business.Base_Manage
             return await GetIQueryable().Where(x => x.Type == ActionType.权限).Select(p => p.Value).ToListAsync();
         }
 
+        /// <summary>
+        /// 鉴权
+        /// </summary>
+        /// <param name="claimsPrincipal"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public virtual async Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string name)
         {
-            //// 如果当前用户是超级管理员，跳过验证
-            //if (_operator.IsSuperAdmin) return true;
+            // 如果当前用户是超级管理员，跳过验证
+            if (_operator.IsSuperAdmin) return true;
 
-            //string permission = name;
+            string permission = name;
 
-            //if (permission == Permissions.Open)
-            //{
-            //    var request = _httpContextAccessor.HttpContext.Request;
+            if (permission == Permissions.Auto)
+            {
+                var request = _httpContextAccessor.HttpContext.Request;
+                request.RouteValues.TryGetValue("action", out var action);
+                request.RouteValues.TryGetValue("controller", out var controller);
 
+                if (action?.ToString() == "SaveData")
+                {
+                    request.Body.Seek(0, SeekOrigin.Begin);
+                    var reader = new StreamReader(request.Body, Encoding.UTF8);
+                    string body = await reader.ReadToEndAsync();
+                    request.Body.Seek(0, SeekOrigin.Begin);
 
-            //    // 路径形如：/Base_Manage/Base_AppSecret/SaveData 转化为 Base_AppSecret.SaveData
-            //    var paths = request.Path.Value?.Split("/");
-            //    if (paths.Length >= 2)
-            //    {
-            //        permission = paths[paths.Length - 2] + "." + paths[paths.Length - 1];
-            //    }
-            //}
+                    var id = body.ToObject<IdInputDTO>();
 
-            //if (string.IsNullOrEmpty(permission)) return false;
+                    if (id != null && !string.IsNullOrEmpty(id.id))
+                    {
+                        action = "Edit";
+                    }
+                    else
+                    {
+                        action = "Add";
+                    }
+                }
+                else if (action?.ToString() == "DeleteData")
+                {
+                    action = "Delete";
+                }
 
-            ////// 获取录入系统中的所有权限
-            ////List<string> allPermissions = await GetAllPermissionListAsync();
+                // 路径形如：/Base_Manage/Base_AppSecret/SaveData 转化为 Base_AppSecret.AddData
+                permission = controller + "." + action;
+            }
 
-            ////// 如果没有配置该权限，则不限制该权限，通过验证
-            ////if (!allPermissions.Contains(permission)) return true;
+            if (string.IsNullOrEmpty(permission)) return false;
 
-            //// 获取当前用户的所有权限
-            //List<string> permissions = await GetUserPermissionListAsync(_operator.UserId);
+            //// 获取录入系统中的所有权限
+            //List<string> allPermissions = await GetAllPermissionListAsync();
 
-            //// 如果当前用户拥有对应权限，则通过验证
-            //if (permissions.Contains(permission)) return true;
+            //// 如果没有配置该权限，则不限制该权限，通过验证
+            //if (!allPermissions.Contains(permission)) return true;
 
-            return false;
+            // 获取当前用户的所有权限
+            List<string> permissions = await GetUserPermissionListAsync(_operator.UserId);
+
+            // 如果当前用户拥有对应权限，则通过验证
+            if (permissions.Contains(permission)) return true;
+
+            return true;
         }
     }
 }

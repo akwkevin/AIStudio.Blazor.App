@@ -52,6 +52,6 @@ namespace AIStudio.Common.Jwt
         /// </summary>
         public const string TenantName = "TenantName";
 
-       
+        public const string Permission = "Permission";
     }
 }

@@ -328,8 +328,8 @@ public class JwtHelper
             new Claim(JwtRegisteredClaimNames.Jti, "admin"),
             new Claim("Username", "Admin"),
             new Claim("Name", "超级管理员"),
-            new Claim("Permission", Permissions.Add),
-            new Claim("Permission", Permissions.Edit)
+            new Claim(SimpleClaimTypes.Permission, Permissions.Add),
+            new Claim(SimpleClaimTypes.Permission, Permissions.Edit)
         };
 
         // 2. 从 appsettings.json 中读取SecretKey
@@ -365,7 +365,7 @@ public class JwtHelper
         /// <summary>
         /// User
         /// </summary>
-        public const string Open = "Open";//开启用户权限，使用Path上获取
+        public const string Auto = "Open";//开启用户权限，使用Path上获取
         /// <summary>
         /// UserCreate
         /// </summary>
