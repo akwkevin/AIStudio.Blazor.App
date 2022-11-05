@@ -22,6 +22,6 @@ public class TestPermissionChecker : IPermissionChecker
             return Task.FromResult(true);
         }
 
-        return Task.FromResult(false); 
+        return Task.FromResult(false);
     }
 }

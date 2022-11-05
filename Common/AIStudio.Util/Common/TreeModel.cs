@@ -8,7 +8,7 @@ namespace AIStudio.Util.Common
     /// <summary>
     /// 树模型（可以作为父类）
     /// </summary>
-    public class TreeModel : SelectOption, IKeyBaseEntity<string>
+    public class TreeModel : SelectOption, IKeyBaseEntity
     {
         /// <summary>
         /// 唯一标识Id

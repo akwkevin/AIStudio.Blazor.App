@@ -50,7 +50,7 @@ namespace AIStudio.Entity
     /// </summary>
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     public abstract class PhysicDeleteBaseEntity<TPrimaryKey> : ReadOnlyBaseEntity<TPrimaryKey>
-    {       
+    {
         /// <summary>
         /// 修改时间
         /// </summary>
@@ -66,7 +66,7 @@ namespace AIStudio.Entity
         /// 修改人
         /// </summary>
         [MaxLength(255)]
-        public string? ModifyName { get; set; }     
+        public string? ModifyName { get; set; }
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ namespace AIStudio.Entity
         /// <summary>
         /// 否已删除
         /// </summary>
-        public bool Deleted { get; set; }      
+        public bool Deleted { get; set; }
     }
 
     /// <summary>

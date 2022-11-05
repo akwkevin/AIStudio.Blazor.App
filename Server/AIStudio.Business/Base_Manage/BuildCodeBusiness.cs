@@ -96,10 +96,10 @@ namespace AIStudio.Business.Base_Manage
                     if (_dbHelper.DbTypeStr_To_CsharpType(aField.Type) == typeof(string))
                         selectOptionsList.Add(
 $"                <SimpleSelectOption Value=\"{aField.Name}\" Label=\"{aField.Description}\"></SimpleSelectOption>");
-                    
+
                     listColumnsList.Add(
 $"        <AntDesign.Column Title=\"{aField.Description}\" DataIndex=\"{aField.Name}\" TData=\"{_dbHelper.DbTypeStr_To_CsharpType(aField.Type)}\"/>");
-                    
+
                     formColumnsList.Add(
 $@"    <FormItem Label=""{aField.Description}"">
             <Input @bind-Value=""@context.{aField.Name}"" AutoComplete=false />
@@ -125,7 +125,7 @@ $@"    <FormItem Label=""{aField.Description}"">
                         BuildEntity(tableFieldInfo, aTable);
                         //DTO
                         tmpFileName = "EntityDTO.txt";
-                        savePath =  Path.Combine(_solutionPath,
+                        savePath = Path.Combine(_solutionPath,
                             "Common",
                             "AIStudio.Entity",
                             "DTO",
@@ -133,7 +133,7 @@ $@"    <FormItem Label=""{aField.Description}"">
                             $"{entityName}DTO.cs");
                         WriteCode(renderParamters, tmpFileName, savePath);
                     }
-                   
+
                     //业务层
                     if (buildTypes.Contains("1"))
                     {
@@ -228,14 +228,14 @@ $@"    <FormItem Label=""{aField.Description}"">
         private void BuildEntity(List<TableInfo> tableInfo, string tableName)
         {
             string nameSpace = $@"AIStudio.Entity.{_areaName}";
-            string filePath = Path.Combine(_solutionPath, 
-                "Common", 
+            string filePath = Path.Combine(_solutionPath,
+                "Common",
                 "AIStudio.Entity",
-                _areaName, 
+                _areaName,
                 $"{tableName}.cs");
 
             _dbHelper.SaveEntityToFile(tableInfo, tableName, _dbTableInfoDic[tableName].Description, filePath, nameSpace);
-       
+
         }
         private DbHelper GetTheDbHelper(string linkId)
         {
@@ -256,7 +256,7 @@ $@"    <FormItem Label=""{aField.Description}"">
         private Dictionary<string, DbFactory.DataAccess.DbTableInfo> _dbTableInfoDic { get; set; } = new Dictionary<string, DbFactory.DataAccess.DbTableInfo>();
         private void WriteCode(Dictionary<string, string> paramters, string templateFileName, string savePath)
         {
-            string content = File.ReadAllText(Path.Combine(_solutionPath,"Server", "AIStudio.Api", "BuildCodeTemplate", templateFileName));
+            string content = File.ReadAllText(Path.Combine(_solutionPath, "Server", "AIStudio.Api", "BuildCodeTemplate", templateFileName));
             paramters.ForEach(aParamter =>
             {
                 content = content.Replace(aParamter.Key, aParamter.Value);

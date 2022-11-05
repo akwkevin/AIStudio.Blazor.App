@@ -32,7 +32,7 @@ namespace AIStudio.Business.Base_Manage
 
         async Task<string[]> GetUserActionIds(string userId)
         {
-            var theUser = await _userBus.GetTheDataAsync(userId);           
+            var theUser = await _userBus.GetTheDataAsync(userId);
 
             if (userId == AdminTypes.Admin.ToString() || theUser.RoleType.HasFlag(RoleTypes.超级管理员))
             {
@@ -41,10 +41,10 @@ namespace AIStudio.Business.Base_Manage
             else
             {
                 var actionIds = await Db.Queryable<Base_UserRole>().LeftJoin<Base_RoleAction>((o, i) => o.RoleId == i.RoleId).Where(o => o.UserId == userId).Select((o, i) => i.ActionId).ToArrayAsync();
-             
+
                 //不需要权限的菜单和有权限的菜单集合
                 return await GetIQueryable().Where(x => x.NeedAction == false || actionIds.Contains(x.Id)).Select(x => x.Id).ToArrayAsync();
-            }           
+            }
         }
 
         /// <summary>

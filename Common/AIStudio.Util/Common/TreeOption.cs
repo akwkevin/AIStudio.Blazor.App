@@ -10,7 +10,7 @@ namespace AIStudio.Util.Common
     /// 暂时未使用，先放在这里
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TreeOption<T> : SelectOption, IKeyBaseEntity<string>
+    public class TreeOption<T> : SelectOption, IKeyBaseEntity
     {
 
         /// <summary>

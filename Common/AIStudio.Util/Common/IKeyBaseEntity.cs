@@ -4,4 +4,8 @@
     {
         TPrimaryKey? Id { get; set; }
     }
+    public interface IKeyBaseEntity : IKeyBaseEntity<string>
+    {
+       
+    }
 }
