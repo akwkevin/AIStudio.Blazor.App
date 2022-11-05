@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace AIStudio.Entity.DTO.Base_Manage
 {
     [Map(typeof(Base_Test))]
-    public class Base_TestDTO : Base_Test, IKeyBaseEntity<string>
+    public class Base_TestDTO : Base_Test, IKeyBaseEntity
     {
 
     }

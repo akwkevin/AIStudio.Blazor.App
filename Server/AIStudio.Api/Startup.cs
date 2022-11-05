@@ -90,10 +90,10 @@ namespace AIStudio.Api
 
                 builder.Services.AddSqlSugar_();
 
-                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-                {
-                    builder.Services.AddWorkflow();
-                }
+                //if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+                //{
+                //    builder.Services.AddWorkflow();
+                //}
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
@@ -193,12 +193,6 @@ namespace AIStudio.Api
                 app.UseAuthorization();
 
                 app.MapControllers();
-
-                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-                {
-                    var host = app.Services.GetService<IWorkflowHost>();
-                    host.Start();
-                }
 
                 //其他外部App启用
                 applicationAction?.Invoke(app);
