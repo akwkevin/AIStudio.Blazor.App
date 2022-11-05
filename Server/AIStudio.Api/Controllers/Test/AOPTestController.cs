@@ -1,4 +1,5 @@
-﻿using AIStudio.Common.DI.AOP;
+﻿using AIStudio.Common.DI;
+using AIStudio.Common.DI.AOP;
 using AIStudio.Common.Swagger;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,11 +48,10 @@ namespace AIStudio.Api.Controllers.Test
     /// <summary>
     /// IValuesService
     /// </summary>
-    [TestAOP]
+   
     public interface IValuesService
     {
         IEnumerable<string> FindAll();
-
         string Find(int id);
     }
 

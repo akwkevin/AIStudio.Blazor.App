@@ -12,7 +12,7 @@ namespace AIStudio.Common.DI
         /// 自动注册程序集的服务
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="dllNames"></param>
+        /// <param name="types"></param>
         /// <returns></returns>
         public static IServiceCollection AddServices_(this IServiceCollection services, List<Type> types)
         {
@@ -59,6 +59,27 @@ namespace AIStudio.Common.DI
 
             return services;
         }
+
+        /// <summary>
+        /// 注入AOP服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <typeparam name="TImplementation"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <param name="aoptypes"></param>
+        public static void AddProxiedService<TService, TImplementation>(this IServiceCollection services, ServiceLifetime serviceLifetime, params Type[] aoptypes)
+            where TService : class  where TImplementation : class, TService
+        {
+            //注入实现
+            services.Add(new ServiceDescriptor(typeof(TImplementation), typeof(TImplementation), serviceLifetime));
+            //注入AOP
+            services.Add(new ServiceDescriptor(typeof(TService), serviceProvider =>
+            {
+                var interceptors = serviceProvider.GetServices<IInterceptor>().Where(p => aoptypes == null || aoptypes.Contains(p.GetType())).ToArray();
+                return _generator.CreateInterfaceProxyWithTarget(typeof(TService), serviceProvider.GetService(typeof(TImplementation)), interceptors);
+            }, serviceLifetime));
+        }    
 
     }
 

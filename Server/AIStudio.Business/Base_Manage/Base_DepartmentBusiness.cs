@@ -90,6 +90,12 @@ namespace AIStudio.Business.Base_Manage
             await base.UpdateDataAsync(theData);
         }
 
+        [DataRepeatValidate(new string[] { "Name" }, new string[] { "部门名" })]
+        public override async Task SaveDataAsync(Base_Department theData)
+        {
+            await base.UpdateDataAsync(theData);
+        }
+
         public override async Task DeleteDataAsync(List<string> ids)
         {
             if (await GetIQueryable().AnyAsync(x => ids.Contains(x.ParentId)))

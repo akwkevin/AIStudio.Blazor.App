@@ -1,10 +1,12 @@
-﻿using AIStudio.Business.Base_Manage;
+﻿using AIStudio.Api.Controllers.Test;
+using AIStudio.Business.Base_Manage;
 using AIStudio.Business.Quartz_Manage;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.Authorization;
 using AIStudio.Common.Cache;
 using AIStudio.Common.DI;
+using AIStudio.Common.DI.AOP;
 using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Filter;
@@ -17,6 +19,8 @@ using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
+using Castle.DynamicProxy;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
 using NLog.Web;
@@ -107,6 +111,14 @@ namespace AIStudio.Api
                 //自动注册服务
                 builder.Services.AddServices_(GlobalType.AllTypes);
 
+                //手动注入服务AOP
+#if DEBUG   
+                // 添加自定义的拦截类，声明周期为
+                builder.Services.AddSingleton<IInterceptor, TestAOP>();
+                //注入AOP
+                builder.Services.AddProxiedService<IValuesService, ValuesService>(ServiceLifetime.Transient, typeof(TestAOP));
+#endif
+
                 //jwt Authentication 
                 builder.Services.AddJwtAuthentication_();
                 // 授权
@@ -141,7 +153,7 @@ namespace AIStudio.Api
                         await jobService.StartAllAsync(withoutTestJob);
                     };
                 });
-                
+
                 //其他外部服务注册
                 serviceAction?.Invoke(builder.Services);
 

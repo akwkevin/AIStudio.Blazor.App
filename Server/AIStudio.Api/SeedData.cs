@@ -115,6 +115,7 @@ namespace AIStudio.Api
                 {
                     Id = "Admin",
                     UserName = "Admin",
+                    RealName = "Admin",
                     Password = "Admin".ToMD5String(),
                     DepartmentId = "Id1",
                     CreateTime = DateTime.Now,
@@ -145,6 +146,7 @@ namespace AIStudio.Api
                 {
                     Id = IdHelper.GetId(),
                     UserName = "alice",
+                    RealName = "alice",
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id2",
                     CreateTime = DateTime.Now,
@@ -175,6 +177,7 @@ namespace AIStudio.Api
                 {
                     Id = IdHelper.GetId(),
                     UserName = "bob",
+                    RealName = "bob",
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id3",
                     CreateTime = DateTime.Now,

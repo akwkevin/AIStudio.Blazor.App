@@ -6,7 +6,7 @@ using Castle.DynamicProxy;
 
 namespace AIStudio.Common.DI.AOP
 {
-    internal class CastleInterceptor : AsyncInterceptorBase
+    public class CastleInterceptor : AsyncInterceptorBase
     {
         private readonly IServiceProvider _serviceProvider;
         public CastleInterceptor(IServiceProvider serviceProvider)

@@ -144,7 +144,7 @@ namespace AIStudio.Business.Base_Manage
             // 如果当前用户拥有对应权限，则通过验证
             if (permissions.Contains(permission)) return true;
 
-            return true;
+            return false;
         }
     }
 }
