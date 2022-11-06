@@ -30,3 +30,8 @@ openssl pkcs12 -export -out aistudio.pfx -inkey aistudio.key -in aistudio.cer
 参考网址：http://user.tnblog.net/hb/article/details/7610
 
 在证书管理器中的Intermediate Certification Authorities和Trusted Root Certification Authorities页签导入aistudio.cer证书即可
+
+三、hosts文件修改，位置C:\WINDOWS\system32\drivers\etc
+尾部添加一行，证书上的网址
+127.0.0.1 www.aistudio.com
+这样在浏览器里就能使用www.aistudio.com这个网址了。
