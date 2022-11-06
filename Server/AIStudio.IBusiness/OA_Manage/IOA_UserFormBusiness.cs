@@ -10,17 +10,25 @@ namespace AIStudio.Business.OA_Manage
         Task QueueWork(string id);
         Task<string> DequeueWork(string id);
         Task<PageResult<OA_UserFormDTO>> GetDataListAsync(PageInput<OA_UserFormInputDTO> input);
-        Task<OA_UserFormDTO> GetTheDataAsync(string id);
+        new Task<OA_UserFormDTO> GetTheDataAsync(string id);
         int GetDataListCount(List<string> jsonids, OAStatus status);
 
+        Task<List<OAStep>> PreStepAsync(OA_UserFormDTO data);
 
-        //#region 历史数据查询
-        //Task<int> GetHistoryDataCountAsync(Input<OA_UserFormInputDTO> input);
-        //Task<List<OA_UserFormDTO>> GetHistoryDataListAsync(Input<OA_UserFormInputDTO> input);
-        //Task<PageResult<OA_UserFormDTO>> GetPageHistoryDataListAsync(PageInput<OA_UserFormInputDTO> input);
-        //#endregion
+        Task SaveDataAysnc(OA_UserFormDTO data);
+        Task<AjaxResult> EventDataAsync(MyEvent eventData);
 
+        Task DisCardDataAsync(DisCardInput input);
+
+        Task<bool> SuspendAsync(IdInputDTO input);
+        Task<bool> ResumeAysnc(IdInputDTO input);
+        Task TerminateAsync(IdInputDTO input);
     }
 
+    public class DisCardInput : IdInputDTO
+    {
+        public string? remark { get; set; }
+    }
 
+ 
 }

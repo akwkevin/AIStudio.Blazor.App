@@ -16,5 +16,7 @@ namespace AIStudio.Entity.OA_Manage
         public string? Remarks { get; set; }
         public int Status { get; set; }
         public string? StepName { get; set; }
+
+        public string? Avatar { get; set; }
     }
 }

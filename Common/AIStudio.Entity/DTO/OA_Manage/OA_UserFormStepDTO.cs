@@ -11,6 +11,6 @@ namespace AIStudio.Entity.DTO.OA_Manage
     [Map(typeof(OA_UserFormStep))]
     public class OA_UserFormStepDTO : OA_UserFormStep
     {
-        public string Avatar { get; set; }
+    
     }
 }

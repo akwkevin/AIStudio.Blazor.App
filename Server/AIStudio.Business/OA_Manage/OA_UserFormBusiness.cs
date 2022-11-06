@@ -1,4 +1,6 @@
-﻿using AIStudio.Common.DI;
+﻿using AIStudio.Business.Base_Manage;
+using AIStudio.Common.CurrentUser;
+using AIStudio.Common.DI;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.OA_Manage;
 using AIStudio.IBusiness.Base_Manage;
@@ -9,18 +11,46 @@ using AutoMapper;
 using LinqKit;
 using SqlSugar;
 using System.Collections.Concurrent;
+using WorkflowCore.Interface;
+using WorkflowCore.Services.DefinitionStorage;
+using WorkflowCore.Services;
+using AIStudio.Entity.Base_Manage;
+using AIStudio.Business.OA_Manage.Step;
+using NetTaste;
+using AIStudio.Common.Service;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AIStudio.Business.OA_Manage
 {
     public class OA_UserFormBusiness : BaseBusiness<OA_UserForm>, IOA_UserFormBusiness, ITransientDependency
     {
-        readonly IMapper _mapper;
-        readonly IBase_UserBusiness _userBus;
-        public OA_UserFormBusiness(ISqlSugarClient db, IMapper mapper)
+        private readonly IOA_UserFormStepBusiness _oA_UserFormStepBusiness;
+        private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
+        private readonly IDefinitionLoader _definitionLoader;
+        private readonly IPersistenceProvider _workflowStore;
+        private readonly IWorkflowRegistry _workflowRegistry;
+        private readonly IWorkflowHost _workflowHost;
+        private readonly IMapper _mapper;
+        private IOperator _operator { get { return ServiceLocator.Instance.GetService<IOperator>(); } }
+
+
+        public OA_UserFormBusiness(ISqlSugarClient db, 
+            IOA_UserFormStepBusiness oA_UserFormStepBusiness,
+            IBase_DepartmentBusiness base_DepartmentBusiness,
+            IDefinitionLoader definitionLoader,
+            IPersistenceProvider workflowStore,
+            IWorkflowRegistry workflowRegistry,
+            IWorkflowHost workflowHost,
+            IMapper mapper)
             : base(db)
-        {
+        {           
+            _oA_UserFormStepBusiness = oA_UserFormStepBusiness;
+            _base_DepartmentBusiness = base_DepartmentBusiness;
+            _workflowRegistry = workflowRegistry;
+            _definitionLoader = definitionLoader;
+            _workflowStore = workflowStore;
+            _workflowHost = workflowHost;
             _mapper = mapper;
-            //_userBus = userBus;
         }
 
         private static ConcurrentBag<string> _queues = new ConcurrentBag<string>();
@@ -99,152 +129,168 @@ namespace AIStudio.Business.OA_Manage
         }
 
 
-        public async Task<OA_UserFormDTO> GetTheDataAsync(string id)
+        public new async Task<OA_UserFormDTO> GetTheDataAsync(string id)
         {
-            //return Mapper.Map<OA_UserFormDTO>(await GetEntityAsync(id));
+            var form = await GetIQueryable().LeftJoin<OA_UserFormStep>((o, i) => o.Id == i.UserFormId).Where(o => o.Id == id).Select((o, i) => new                              
+                              {
+                                  UserForm = o,
+                                  Comments = i
+                              }).FirstAsync();
 
-            //var form = await (from a in Db.GetIQueryable<OA_UserForm>()
-            //                  let j1 = Db.GetIQueryable<OA_UserFormStep>(false).Where(b => a.Id == b.UserFormId).OrderBy(b => b.CreateTime).ToList()                             
-            //                  where a.Id.Equals(id)
-            //                  select new
-            //                  {
-            //                      UserForm = a,
-            //                      Comments = j1
-            //                  }).FirstOrDefaultAsync();
+            OA_UserFormDTO formdto = _mapper.Map<OA_UserFormDTO>(form.UserForm);
+            formdto.Comments = _mapper.Map<List<OA_UserFormStepDTO>>(form.Comments);
 
-            //OA_UserFormDTO formdto = _mapper.Map<OA_UserFormDTO>(form.UserForm);
-            //formdto.Comments = _mapper.Map<List<OA_UserFormStepDTO>>(form.Comments);
+            var workflow = await _workflowStore.GetWorkflowInstance(id);
+            OAData data = workflow.Data as OAData;
+            formdto.Steps = data.Steps;
+            if (data.CurrentStepIds != null)
+            {
+                var stepid = data.CurrentStepIds.FirstOrDefault(p => p.ActRules.UserIds != null && p.ActRules.UserIds.Contains(_operator?.UserId));
+                if (stepid != null)
+                {
+                    formdto.CurrentStepId = stepid.StepId;
+                    formdto.CurrentStepIndex = data.Steps.Select((p, index) => new { p, index }).Where(p => p.p.Id == stepid.StepId).FirstOrDefault().index;
+                }
+                else
+                {
+                    var step = data.Steps.LastOrDefault(p => p.Status != 0);
+                    if (step != null)
+                    {
+                        formdto.CurrentStepIndex = data.Steps.IndexOf(step);
+                    }
+                    else
+                    {
+                        formdto.CurrentStepIndex = data.Steps.Count - 1;
+                    }
+                }
+            }
+            else
+            {
+                var step = data.Steps.LastOrDefault(p => p.Status != 0);
+                if (step != null)
+                {
+                    formdto.CurrentStepIndex = data.Steps.IndexOf(step);
+                }
+                else
+                {
+                    formdto.CurrentStepIndex = data.Steps.Count - 1;
+                }
+            }
 
-            //foreach (var comment in formdto.Comments)
+            formdto.WorkflowJSON = data.ToJson();
+
+            return formdto;
+        }
+
+        public async Task<List<OAStep>> PreStepAsync(OA_UserFormDTO data)
+        {
+            if (data.ContainsProperty("CreatorId"))
+                data.SetPropertyValue("CreatorId", _operator?.UserId);
+
+            OAData oAData = await OAExtension.InitOAStep(data);
+
+            return oAData.Steps;
+        }
+
+        public async Task SaveDataAysnc(OA_UserFormDTO data)
+        {
+            if (data.Id.IsNullOrEmpty())
+            {
+                OAData oAData = await OAExtension.InitOAStep(data);
+
+                //去掉事务，sqlite不支持
+                //var res = await _oA_UserFormBus.RunTransactionAsync(async () =>
+                //{
+                var def = _workflowRegistry.GetDefinition(data.DefFormJsonId, data.DefFormJsonVersion);
+
+                var workflowId = await _workflowHost.StartWorkflow(def.Id, oAData);
+                data.Id = workflowId;
+                data.Status = (int)OAStatus.Being;
+                await AddDataAsync(data);
+
+                //自动通过第一个节点
+
+                OA_UserFormStep step = new OA_UserFormStep();
+                step.UserFormId = workflowId;
+                step.RoleNames = "发起人";
+                step.Remarks = "发起了流程";
+                step.Status = (int)OAStatus.Approve;
+
+                await _oA_UserFormStepBusiness.AddDataAsync(step);
+                //});
+                //if (!res.Success)
+                //    throw res.ex;
+            }
+            else
+            {
+                await UpdateDataAsync(data);
+            }
+        }
+
+        public async Task<AjaxResult> EventDataAsync(MyEvent eventData)
+        {
+            await _workflowHost.PublishEvent(eventData.EventName, eventData.EventKey, eventData);
+            var result = await DequeueWork(eventData.EventKey);
+            AjaxResult res = new AjaxResult
+            {
+                Success = true,
+                Msg = result == null ? "已提交审批请求！" : "审批成功",
+            };
+
+            return res;
+        }
+
+        public async Task DisCardDataAsync(DisCardInput input)
+        {
+            var data = await GetTheDataAsync(input.id);
+            data.Status = (int)OAStatus.Discard;
+
+            OA_UserFormStep step = new OA_UserFormStep();
+            step.UserFormId = input.id;
+            step.CreatorId = _operator?.UserId;
+            step.CreatorName = _operator?.UserName;
+            step.CreateTime = DateTime.Now;
+            step.RoleNames = "创建者";
+            step.Remarks = input.remark;
+            step.Status = (int)OAStatus.Discard;
+
+            //去掉事务，sqlite不支持
+            //var res = await _oA_UserFormBus.RunTransactionAsync(async () =>
             //{
-            //    comment.Avatar = await _userBus.GetAvatar(comment.CreatorId);
-            //}
+            await _workflowHost.TerminateWorkflow(input.id);
+            await UpdateDataAsync(data);
+            await _oA_UserFormStepBusiness.AddDataAsync(step);
+            //});
+            //if (!res.Success)
+            //    throw res.ex;
+        }
 
-            //return formdto;
+        public async Task<bool> SuspendAsync(IdInputDTO input)
+        {
+            return await _workflowHost.SuspendWorkflow(input.id);
+        }
 
-            throw new NotImplementedException();
+        public async Task<bool> ResumeAysnc(IdInputDTO input)
+        {
+            return await _workflowHost.ResumeWorkflow(input.id);
+        }
 
+        public async Task TerminateAsync(IdInputDTO input)
+        {
+            if (await _workflowHost.TerminateWorkflow(input.id))
+            {
+                await DeleteDataAsync(new List<string>() { input.id });
+            }
+            else
+            {
+                throw new Exception("停止失败");
+            }
         }
 
         #endregion
 
 
-        #region 历史数据查询
-        //public async Task<int> GetHistoryDataCountAsync(Input<OA_UserFormInputDTO> input)
-        //{
-        //    var where = LinqHelper.True<OA_UserForm>();
 
-        //    //筛选
-        //    if (!input.Search.condition.IsNullOrEmpty() && !input.Search.keyword.IsNullOrEmpty())
-        //    {
-        //        var newWhere = DynamicExpressionParser.ParseLambda<OA_UserForm, bool>(
-        //            ParsingConfig.Default, false, $@"{input.Search.condition}.Contains(@0)", input.Search.keyword);
-        //        where = where.And(newWhere);
-        //    }
-
-        //    if (!input.Search.userId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OAStatus.Being);
-        //    }
-
-        //    if (!input.Search.applicantUserId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OAStatus.Being);
-        //    }
-
-        //    if (!input.Search.alreadyUserIds.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.AlreadyUserIds.Contains("^" + input.Search.alreadyUserIds + "^"));
-        //    }
-
-        //    if (!input.Search.creatorId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.CreatorId == input.Search.creatorId);
-        //    }
-
-        //    var count = await GetHistoryDataCount(where, input.Search.start, input.Search.end, "CreateTime");
-
-        //    return count;
-        //}
-        //public async Task<List<OA_UserFormDTO>> GetHistoryDataListAsync(Input<OA_UserFormInputDTO> input)
-        //{
-        //    var where = LinqHelper.True<OA_UserForm>();
-
-        //    //筛选
-        //    if (!input.Search.condition.IsNullOrEmpty() && !input.Search.keyword.IsNullOrEmpty())
-        //    {
-        //        var newWhere = DynamicExpressionParser.ParseLambda<OA_UserForm, bool>(
-        //            ParsingConfig.Default, false, $@"{input.Search.condition}.Contains(@0)", input.Search.keyword);
-        //        where = where.And(newWhere);
-        //    }
-
-        //    if (!input.Search.userId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OAStatus.Being);
-        //    }
-
-        //    if (!input.Search.applicantUserId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OAStatus.Being);
-        //    }
-
-        //    if (!input.Search.alreadyUserIds.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.AlreadyUserIds.Contains("^" + input.Search.alreadyUserIds + "^"));
-        //    }
-
-        //    if (!input.Search.creatorId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.CreatorId == input.Search.creatorId);
-        //    }
-
-        //    var dataList = await GetHistoryDataQueryable(where, input.Search.start, input.Search.end, "CreateTime").ProjectTo<OA_UserFormDTO>(_mapper.ConfigurationProvider).ToListAsync();
-
-        //    return dataList;
-        //}
-
-        //public async Task<PageResult<OA_UserFormDTO>> GetPageHistoryDataListAsync(PageInput<OA_UserFormInputDTO> input)
-        //{   
-        //    var where = LinqHelper.True<OA_UserForm>();
-
-        //    //筛选
-        //    if (!input.Search.condition.IsNullOrEmpty() && !input.Search.keyword.IsNullOrEmpty())
-        //    {
-        //        var newWhere = DynamicExpressionParser.ParseLambda<OA_UserForm, bool>(
-        //            ParsingConfig.Default, false, $@"{input.Search.condition}.Contains(@0)", input.Search.keyword);
-        //        where = where.And(newWhere);
-        //    }
-
-        //    if (!input.Search.userId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OAStatus.Being);
-        //    }
-
-        //    if (!input.Search.applicantUserId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OAStatus.Being);
-        //    }
-
-        //    if (!input.Search.alreadyUserIds.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.AlreadyUserIds.Contains("^" + input.Search.alreadyUserIds + "^"));
-        //    }
-
-        //    if (!input.Search.creatorId.IsNullOrEmpty())
-        //    {
-        //        where = where.And(p => p.CreatorId == input.Search.creatorId);
-        //    }
-
-        //    var dataList = await GetHistoryDataQueryable(where, input.Search.start, input.Search.end, "CreateTime").ProjectTo<OA_UserFormDTO>(_mapper.ConfigurationProvider).GetPageResultAsync(input);
-        //    dataList.Data.ForEach(async p =>
-        //    {
-        //        p.Avatar = await _userBus.GetAvatar(p.CreatorId);
-        //    });
-
-        //    return dataList;
-        //}
-
-        #endregion
     }
 
 
