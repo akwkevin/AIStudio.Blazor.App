@@ -72,7 +72,17 @@ namespace AIStudio.Common.AppSettings
         /// 系统设置
         /// </summary>
         public static class AppSettingsOptions
-        {
+        {   
+            /// <summary>
+             /// 初始化数据
+             /// </summary>
+            public static bool SeedData => Configuration.GetValue<bool>("AppSettings:SeedData");
+
+            /// <summary>
+            /// 自动初始化数据库表
+            /// </summary>
+            public static bool CodeFirst => Configuration.GetValue<bool>("AppSettings:CodeFirst");
+
             /// <summary>
             /// 开启InjectMiniProfiler
             /// </summary>

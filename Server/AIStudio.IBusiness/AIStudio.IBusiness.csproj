@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="OA_Manage\**" />
-    <EmbeddedResource Remove="OA_Manage\**" />
-    <None Remove="OA_Manage\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Common\AIStudio.Common\AIStudio.Common.csproj" />
     <ProjectReference Include="..\..\Common\AIStudio.DbFactory\AIStudio.DbFactory.csproj" />
     <ProjectReference Include="..\..\Common\AIStudio.Entity\AIStudio.Entity.csproj" />

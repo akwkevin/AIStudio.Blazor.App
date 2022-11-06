@@ -16,11 +16,11 @@ namespace AIStudio.Business.OA_Manage
     {
         readonly IMapper _mapper;
         readonly IBase_UserBusiness _userBus;
-        public OA_UserFormBusiness(IBase_UserBusiness userBus, ISqlSugarClient db, IMapper mapper)
+        public OA_UserFormBusiness(ISqlSugarClient db, IMapper mapper)
             : base(db)
         {
             _mapper = mapper;
-            _userBus = userBus;
+            //_userBus = userBus;
         }
 
         private static ConcurrentBag<string> _queues = new ConcurrentBag<string>();
@@ -54,30 +54,28 @@ namespace AIStudio.Business.OA_Manage
         public async Task<PageResult<OA_UserFormDTO>> GetDataListAsync(PageInput<OA_UserFormInputDTO> input)
         {
             var q = GetIQueryable(input.SearchKeyValues);
-            var where = LinqHelper.True<OA_UserForm>();
 
             if (!input.Search.userId.IsNullOrEmpty())
             {
-                where = where.And(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OAStatus.Being);
+                q = q.Where(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OAStatus.Being);
             }
 
             if (!input.Search.applicantUserId.IsNullOrEmpty())
             {
-                where = where.And(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OAStatus.Being);
+                q = q.Where(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OAStatus.Being);
             }
 
             if (!input.Search.alreadyUserIds.IsNullOrEmpty())
             {
-                where = where.And(p => p.AlreadyUserIds.Contains("^" + input.Search.alreadyUserIds + "^"));
+                q = q.Where(p => p.AlreadyUserIds.Contains("^" + input.Search.alreadyUserIds + "^"));
             }
 
             if (!input.Search.creatorId.IsNullOrEmpty())
             {
-                where = where.And(p => p.CreatorId == input.Search.creatorId);
+                q = q.Where(p => p.CreatorId == input.Search.creatorId);
             }
 
-
-            return await q.Where(where).Select<OA_UserFormDTO>().GetPageResultAsync(input);
+            return await q.Select<OA_UserFormDTO>().GetPageResultAsync(input);
         }
 
     

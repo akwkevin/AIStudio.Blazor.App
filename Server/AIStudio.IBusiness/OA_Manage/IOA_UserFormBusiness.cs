@@ -22,15 +22,5 @@ namespace AIStudio.Business.OA_Manage
 
     }
 
-    public class OA_UserFormInputDTO
-    {
-        public string keyword { get; set; }
-        public string condition { get; set; }
-        public string userId { get; set; }
-        public string applicantUserId { get; set; }
-        public string creatorId { get; set; }
-        public string alreadyUserIds { get; set; }
-        public DateTime? start { get; set; }
-        public DateTime? end { get; set; }
-    }
+
 }

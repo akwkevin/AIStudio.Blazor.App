@@ -1,4 +1,5 @@
-﻿using AIStudio.Common.DI;
+﻿using AIStudio.Business.OA_Manage;
+using AIStudio.Common.DI;
 using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Entity.Base_Manage;
@@ -6,16 +7,18 @@ using AIStudio.Entity.DTO.Base_Manage.InputDTO;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using Microsoft.Extensions.Logging;
 using SqlSugar;
 
 namespace AIStudio.Business.Base_Manage
 {
     public class Base_LogExceptionBusiness : SplitTableBaseBusiness<Base_LogException>, IBase_LogExceptionBusiness, ITransientDependency
     {
+        private readonly ILogger<Base_LogExceptionBusiness> _logger;
 
-        public Base_LogExceptionBusiness(ISqlSugarClient db) : base(db)
+        public Base_LogExceptionBusiness(ISqlSugarClient db, ILogger<Base_LogExceptionBusiness> logger) : base(db)
         {
-            
+            _logger = logger;
         }
 
         public async Task Handle(ExceptionEvent @event)
@@ -37,6 +40,8 @@ namespace AIStudio.Business.Base_Manage
             };
 
             await InsertAsync(log);
+
+            _logger.LogError(@event.Message);
         }
     }
 }

@@ -71,13 +71,6 @@ namespace AIStudio.Api.Controllers.OA_Manage
             return dataList;
         }
 
-        //[HttpPost]
-        //public async Task<PageResult<OA_UserFormDTO>> GetPageHistoryDataList(PageInput<OA_UserFormInputDTO> input)
-        //{
-        //    var dataList = await _oA_UserFormBus.GetPageHistoryDataListAsync(input);
-        //    return dataList;
-        //}
-
         /// <summary>
         /// 获取详情
         /// </summary>

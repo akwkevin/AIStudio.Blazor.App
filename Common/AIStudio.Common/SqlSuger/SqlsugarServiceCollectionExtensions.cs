@@ -8,11 +8,14 @@ using AIStudio.Util;
 using AIStudio.Util.Mapper;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Crypto;
 using SqlSugar;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace AIStudio.Common.SqlSuger
 {
@@ -102,6 +105,10 @@ namespace AIStudio.Common.SqlSuger
                                     column.DataType = "Nvarchar";
                                 }
                             }
+                            else if (typeof(IEnumerable).IsAssignableFrom(type.PropertyType))
+                            {
+                                column.IsIgnore = true;
+                            }
                         }
                     }
                 });
@@ -145,14 +152,14 @@ namespace AIStudio.Common.SqlSuger
                                 {
                                     if (entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(string))
                                     {
-                                        var id = ((dynamic)entityInfo.EntityValue).Id;
+                                        var id = entityInfo.EntityValue.GetPropertyValue(entityInfo.EntityColumnInfo.PropertyInfo.Name);
                                         if (id == null || id == "")
                                             entityInfo.SetValue(IdHelper.GetId());
                                     }
                                     else if (entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
                                     {
-                                        var id = ((dynamic)entityInfo.EntityValue).Id;
-                                        if (id == null || id == 0)
+                                        var id = entityInfo.EntityValue.GetPropertyValue(entityInfo.EntityColumnInfo.PropertyInfo.Name);
+                                        if (id == null || id.Equals(0L))
                                             entityInfo.SetValue(IdHelper.GetlongId());
                                     }
                                 }
@@ -219,19 +226,20 @@ namespace AIStudio.Common.SqlSuger
             // 注册 SqlSugar 仓储
             //services.AddScoped(typeof(SqlSugarRepository<>));
 
-//#if DEBUG
-//            //If no exist create datebase 
-//            sqlSugarScope.DbMaintenance.CreateDatabase();
+            if (AppSettingsConfig.AppSettingsOptions.CodeFirst)
+            {
+                //If no exist create datebase 
+                sqlSugarScope.DbMaintenance.CreateDatabase();
 
-//            //Create tables 
-//            //SetStringDefaultLength(int.MaxValue)
-//            sqlSugarScope.CodeFirst.InitTables(types.Except(splittypes).ToArray());
+                //Create tables 
+                //SetStringDefaultLength(int.MaxValue)
+                sqlSugarScope.CodeFirst.InitTables(types.Except(splittypes).ToArray());
 
-//            //添加自定义分表服务
-//            //sqlSugarScope.CurrentConnectionConfig.ConfigureExternalServices.SplitTableService = new SqlSugarTenantSplitService();
-//            //使用自带的日期分表
-//            sqlSugarScope.CodeFirst.SplitTables().InitTables(splittypes.ToArray());
-//#endif
+                //添加自定义分表服务
+                //sqlSugarScope.CurrentConnectionConfig.ConfigureExternalServices.SplitTableService = new SqlSugarTenantSplitService();
+                //使用自带的日期分表
+                sqlSugarScope.CodeFirst.SplitTables().InitTables(splittypes.ToArray());
+            }
             return services;
         }
 

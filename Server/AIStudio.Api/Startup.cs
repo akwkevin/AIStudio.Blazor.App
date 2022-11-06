@@ -23,7 +23,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
 using NLog.Web;
 using System.Reflection;
-using WorkflowCore.Interface;
 
 namespace AIStudio.Api
 {
@@ -91,10 +90,10 @@ namespace AIStudio.Api
 
                 builder.Services.AddSqlSugar_();
 
-                //if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-                //{
-                //    builder.Services.AddWorkflow_();
-                //}
+                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+                {
+                    builder.Services.AddWorkflow_();
+                }
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
@@ -203,26 +202,29 @@ namespace AIStudio.Api
 
                 app.MapControllers();
 
-//                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-//                {
-//                    SeedData.EnsureSeedWorkflow(ServiceLocator.Instance);
+                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+                {
+                    SeedData.EnsureSeedWorkflow(ServiceLocator.Instance);
 
-//                    var defForm = app.Services.GetService<IOA_DefFormBusiness>();
-//                    defForm.LoadDefinition();
+                    var defForm = app.Services.GetService<Business.OA_Manage.IOA_DefFormBusiness>();
+                    defForm.LoadDefinition();
 
-//                    var host = app.Services.GetService<IWorkflowHost>();
-//                    host?.Start();
+                    var host = app.Services.GetService<WorkflowCore.Interface.IWorkflowHost>();
+                    host?.Start();
 
-//#if DEBUG
-//                    //host.RegisterWorkflow<HelloWorldWorkflow>();
+#if DEBUG
+                    //host.RegisterWorkflow<HelloWorldWorkflow>();
 
-//                    //host.StartWorkflow("HelloWorld").Wait();
-//#endif
-//                }
+                    //host.StartWorkflow("HelloWorld").Wait();
+#endif
+                }
+
                 //其他外部App启用
                 applicationAction?.Invoke(app);
 
                 app.Run();
+
+
             }
             catch (Exception ex)
             {

@@ -22,6 +22,11 @@ namespace AIStudio.Api
         /// <param name="provider"></param>
         public static void EnsureSeedData(IServiceProvider provider)
         {
+            if (!AppSettingsConfig.AppSettingsOptions.SeedData)
+            {
+                return;
+            }
+
             var logger = provider.GetRequiredService<ILogger<SeedData>>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
@@ -45,7 +50,7 @@ namespace AIStudio.Api
                         CreatorId = "System",
                         CreatorName = "System",
                     };
-                    dblinks.Add(dblink);                  
+                    dblinks.Add(dblink);
                 }
                 var result = dbLinkBusiness.Insert(dblinks);
                 logger.LogTrace($"Base_DbLink created");
@@ -196,7 +201,7 @@ namespace AIStudio.Api
                     new Base_Action(){ Id="Id0",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="首页",     Url=null,                               Value=null,                    NeedAction=true,    Icon="home",           Sort=0, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id0_1",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="框架介绍", Url="/Home/Introduce",                  Value=null,                    NeedAction=false,   Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id0_2",Deleted = false, ParentId="Id0", Type = ActionType.页面, Name="运营统计", Url="/Home/Statis",                     Value=null,                    NeedAction=false,   Icon=null,             Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-               
+
                     new Base_Action(){ Id="Id1",Deleted = false, ParentId=null,    Type = ActionType.菜单, Name="系统管理", Url=null,                               Value=null,                    NeedAction=true,    Icon="setting",        Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="权限管理", Url="/Base_Manage/Base_Action/List",    Value=null,                    NeedAction=true,    Icon="lock",           Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="密钥管理", Url="/Base_Manage/Base_AppSecret/List", Value=null,                    NeedAction=true,    Icon="key",            Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
@@ -207,7 +212,7 @@ namespace AIStudio.Api
                     new Base_Action(){ Id="Id1_7",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="表单配置", Url="/Base_Manage/Base_CommonFormConfig/List",Value=null,              NeedAction=true,    Icon="form",           Sort=7, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
                     new Base_Action(){ Id="Id1_9",Deleted = false, ParentId="Id1", Type = ActionType.页面, Name="任务管理", Url="/Quartz_Manage/Quartz_Task/List",  Value=null,                    NeedAction=true,    Icon="calendar",       Sort=9, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                   
+
                     new Base_Action(){ Id="Id1_1_1",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Action.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_1_2",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Action.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_1_3",Deleted = false, ParentId="Id1_1", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Action.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
@@ -293,7 +298,7 @@ namespace AIStudio.Api
                     new Base_Dictionary(){ Id="Id13_2",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项", Text = "紧急", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Dictionary(){ Id="Id13_3",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项", Text = "特级", Value="2", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
-                    new Base_Dictionary(){ Id="Id1000",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "流程", ControlType = ControlType.ComboBox,  Text = "分类", Value="Type", Code = "", Sort=1000, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "流程", ControlType = ControlType.ComboBox,  Text = "分类", Value="分类", Code = "", Sort=1000, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_1",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "请假", Value="请假", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_2",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "报销", Value="报销", Code = "", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_3",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "顺序", Value="顺序", Code = "", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
@@ -301,15 +306,15 @@ namespace AIStudio.Api
                     new Base_Dictionary(){ Id="Id1000_5",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "或签", Value="或签", Code = "", Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_6",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "与签", Value="与签", Code = "", Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
 
-                    new Base_Dictionary(){ Id="Id1000_1_1",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "病假", Value="病假", Code = "", Remark="天数", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1000_1_2",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "事假", Value="事假", Code = "", Remark="天数", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1000_1_3",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "调休", Value="调休", Code = "", Remark="天数", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1000_1_4",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "年假", Value="年假", Code = "", Remark="天数", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_1",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "病假", Value="病假", Code = "", Remark="天", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_2",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "事假", Value="事假", Code = "", Remark="天", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_3",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "调休", Value="调休", Code = "", Remark="天", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_4",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "年假", Value="年假", Code = "", Remark="天", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
 
-                    new Base_Dictionary(){ Id="Id1000_2_1",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "差旅费用", Value="差旅费用", Code = "", Remark="费用(元)", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1000_2_2",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "采购费用", Value="采购费用", Code = "", Remark="费用(元)", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1000_2_3",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "活动费用", Value="活动费用", Code = "", Remark="费用(元)", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1000_2_4",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "日常费用", Value="日常费用", Code = "", Remark="费用(元)", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_1",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "差旅费用", Value="差旅费用", Code = "", Remark="元", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_2",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "采购费用", Value="采购费用", Code = "", Remark="元", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_3",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "活动费用", Value="活动费用", Code = "", Remark="元", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_4",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "日常费用", Value="日常费用", Code = "", Remark="元", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                 };
 
                 var result = dictionaryBusiness.Insert(dictionaries);
@@ -374,6 +379,11 @@ namespace AIStudio.Api
         /// <param name="provider"></param>
         public static void EnsureSeedQuartzData(IServiceProvider provider)
         {
+            if (!AppSettingsConfig.AppSettingsOptions.SeedData)
+            {
+                return;
+            }
+
             var logger = provider.GetRequiredService<ILogger<SeedData>>();
 
             var quartz_TaskBusiness = provider.GetRequiredService<IQuartz_TaskBusiness>();
@@ -405,113 +415,118 @@ namespace AIStudio.Api
         /// <param name="provider"></param>
         public static void EnsureSeedWorkflow(IServiceProvider provider)
         {
-            //var logger = provider.GetRequiredService<ILogger<SeedData>>();
+            if (!AppSettingsConfig.AppSettingsOptions.SeedData)
+            {
+                return;
+            }
 
-            //var oA_DefFormBusiness = provider.GetRequiredService<IOA_DefFormBusiness>();
-            //var defformcount = oA_DefFormBusiness.GetIQueryable().Count();
-            //if (defformcount == 0)
-            //{
-            //    var directory = AppContext.BaseDirectory;
-            //    directory = directory.Replace("\\", "/");
+            var logger = provider.GetRequiredService<ILogger<SeedData>>();
 
-            //    List<OA_DefForm> defs = new List<OA_DefForm>();
-            //    string id = IdHelper.GetId();
-            //    var def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test1.json"),
-            //        JSONId = "1274618511506804736",
-            //        Type = "请假",
-            //        Name = "请假流程",
-            //        Text = "最简单的请假流程",
-            //        Status = 1,
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    id = IdHelper.GetId();
-            //    def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test2.json"),
-            //        JSONId = "1274620801831669760",
-            //        Type = "报销",
-            //        Name = "报销审批-与签",
-            //        Text = "所有审批人都要同意",
-            //        Status = 1,
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    id = IdHelper.GetId();
-            //    def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test3.json"),
-            //        JSONId = "1274621154383892480",
-            //        Type = "报销",
-            //        Name = "报销审批-或签",
-            //        Text = "只要有一个人审批就行",
-            //        Status = 1,
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    id = IdHelper.GetId();
-            //    def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test4.json"),
-            //        JSONId = "1274621654579810304",
-            //        Type = "顺序",
-            //        Name = "部门领导审批",
-            //        Text = "根据申请人所在部门自动查找生成审批人",
-            //        Status = 1,
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    id = IdHelper.GetId();
-            //    def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test5.json"),
-            //        JSONId = "1274622508779180032",
-            //        Type = "报销",
-            //        Name = "并行流程",
-            //        Text = "两个分管部门同时进行审批",
-            //        Status = 1,
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    id = IdHelper.GetId();
-            //    def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test6.json"),
-            //        JSONId = "1274623039325081600",
-            //        Type = "顺序",
-            //        Name = "有创建权限的流程",
-            //        Text = "只有管理员能创建的流程",
-            //        Status = 1,
-            //        Value = $"^{AdminTypes.Admin.ToString()}^",
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    id = IdHelper.GetId();
-            //    def = new OA_DefForm()
-            //    {
-            //        Id = id,
-            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test7.json"),
-            //        JSONId = "1274623664695808000",
-            //        Type = "请假",
-            //        Name = "请假流程-条件",
-            //        Text = "根据请假天数是否需要分管领导审批",
-            //        Status = 1,
-            //        CreateTime = DateTime.Now,
-            //    };
-            //    defs.Add(def);
-            //    var result = oA_DefFormBusiness.Insert(defs);
-            //    logger.LogDebug("OA_DefForm created");
-            //}
+            var oA_DefFormBusiness = provider.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
+            var defformcount = oA_DefFormBusiness.GetIQueryable().Count();
+            if (defformcount == 0)
+            {
+                var directory = AppContext.BaseDirectory;
+                directory = directory.Replace("\\", "/");
 
-       
+                List<OA_DefForm> defs = new List<OA_DefForm>();
+                string id = IdHelper.GetId();
+                var def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test1.json"),
+                    JSONId = "1274618511506804736",
+                    Type = "请假",
+                    Name = "请假流程",
+                    Text = "最简单的请假流程",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test2.json"),
+                    JSONId = "1274620801831669760",
+                    Type = "报销",
+                    Name = "报销审批-与签",
+                    Text = "所有审批人都要同意",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test3.json"),
+                    JSONId = "1274621154383892480",
+                    Type = "报销",
+                    Name = "报销审批-或签",
+                    Text = "只要有一个人审批就行",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test4.json"),
+                    JSONId = "1274621654579810304",
+                    Type = "顺序",
+                    Name = "部门领导审批",
+                    Text = "根据申请人所在部门自动查找生成审批人",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test5.json"),
+                    JSONId = "1274622508779180032",
+                    Type = "报销",
+                    Name = "并行流程",
+                    Text = "两个分管部门同时进行审批",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test6.json"),
+                    JSONId = "1274623039325081600",
+                    Type = "顺序",
+                    Name = "有创建权限的流程",
+                    Text = "只有管理员能创建的流程",
+                    Status = 1,
+                    Value = $"^{AdminTypes.Admin.ToString()}^",
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test7.json"),
+                    JSONId = "1274623664695808000",
+                    Type = "请假",
+                    Name = "请假流程-条件",
+                    Text = "根据请假天数是否需要分管领导审批",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                var result = oA_DefFormBusiness.Insert(defs);
+                logger.LogDebug("OA_DefForm created");
+            }
+
+
         }
     }
 }

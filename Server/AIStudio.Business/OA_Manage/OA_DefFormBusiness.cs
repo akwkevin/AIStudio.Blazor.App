@@ -3,6 +3,7 @@ using AIStudio.Business.OA_Manage;
 using AIStudio.Business.OA_Manage.Step;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
+using AIStudio.Common.Service;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.Enum;
 using AIStudio.Entity.OA_Manage;
@@ -12,6 +13,7 @@ using AIStudio.Util.Helper;
 using AutoMapper;
 using Castle.Core.Logging;
 using LinqKit;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz.Impl.AdoJobStore.Common;
 using SqlSugar;
@@ -41,17 +43,15 @@ namespace AIStudio.Business.OA_Manage
         /// <param name="ioperator"></param>
         /// <param name="logger"></param>
         public OA_DefFormBusiness(ISqlSugarClient db, 
-            IMapper mapper, 
-            IDefinitionLoader definitionLoader, 
-            IOA_UserFormBusiness oA_UserFormBus, 
-            IWorkflowRegistry workflowRegistry, 
+            IMapper mapper,
+            IDefinitionLoader definitionLoader,
+            IOA_UserFormBusiness oA_UserFormBus,
             ILogger<OA_DefFormBusiness> logger)
             : base(db)
         {
             _mapper = mapper;
+            _oA_UserFormBus = oA_UserFormBus; 
             _definitionLoader = definitionLoader;
-            _oA_UserFormBus = oA_UserFormBus;
-            _workflowRegistry = workflowRegistry;
             _logger = logger;
         }
 

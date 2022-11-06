@@ -175,33 +175,19 @@ namespace AIStudio.Business
         #region 删除数据
 
         /// <summary>
-        /// 删除所有数据
+        /// 删除所有数据,这个好像没有软删除
         /// </summary>
         public int DeleteAll()
         {
-            if (LogicDelete)//软删除
-            {
-                return Db.Deleteable<T>().IsLogic().ExecuteCommand(GlobalConst.Deleted);
-            }
-            else
-            {
-                return Db.Deleteable<T>().ExecuteCommand();
-            }
+            return Db.Deleteable<T>().ExecuteCommand();
         }
 
         /// <summary>
-        /// 删除所有数据
+        /// 删除所有数据,这个好像没有软删除
         /// </summary>
         public async Task<int> DeleteAllAsync()
         {
-            if (LogicDelete)//软删除
-            {
-                return await Db.Deleteable<T>().IsLogic().ExecuteCommandAsync(GlobalConst.Deleted);
-            }
-            else
-            {
-                return await Db.Deleteable<T>().ExecuteCommandAsync();
-            }
+            return await Db.Deleteable<T>().ExecuteCommandAsync();
         }
 
         /// <summary>
