@@ -83,6 +83,13 @@ namespace AIStudio.Common.AppSettings
             /// </summary>
             public static bool CodeFirst => Configuration.GetValue<bool>("AppSettings:CodeFirst");
 
+
+            /// <summary>
+            /// 使用Https
+            /// </summary>
+            public static bool UseKestrel => Configuration.GetValue<bool>("AppSettings:UseKestrel");
+            
+
             /// <summary>
             /// 开启InjectMiniProfiler
             /// </summary>

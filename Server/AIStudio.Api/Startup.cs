@@ -19,10 +19,14 @@ using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
 using AIStudio.Util;
 using Castle.DynamicProxy;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
 using NLog.Web;
+using Org.BouncyCastle.Asn1.IsisMtt.Ocsp;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace AIStudio.Api
 {
@@ -44,12 +48,28 @@ namespace AIStudio.Api
 
             try
             {
-                var builder = WebApplication.CreateBuilder(args);
+                var builder = WebApplication.CreateBuilder(args);         
 
                 // Add services to the container.
 
                 //读取配置文件appsettings
                 AppSettingsConfig.Configure_(builder.Configuration);
+
+                if (AppSettingsConfig.AppSettingsOptions.UseKestrel)
+                {
+                    builder.WebHost.UseKestrel(options =>
+                    {
+                        options.Listen(System.Net.IPAddress.Any, 5000);
+                        options.Listen(System.Net.IPAddress.Any, 5001,
+                         listenOptions =>
+                         {
+                             //var x509ca = new X509Certificate2("aistudio.pfx", "aistudio");
+                             //listenOptions.UseHttps(x509ca);
+                             listenOptions.UseHttps("aistudio.pfx", "aistudio");
+
+                         });
+                    });
+                }
 
                 // 日志
                 // NLog: Setup NLog for Dependency injection,需要先清除之前的，不然会打印两次
@@ -179,7 +199,11 @@ namespace AIStudio.Api
                     });
                 }
 
-                app.UseHttpsRedirection();
+                //使用了Kestrel，此处就不能用了
+                if (!AppSettingsConfig.AppSettingsOptions.UseKestrel)
+                {
+                    app.UseHttpsRedirection();
+                }
 
                 // UseCors 必须在 UseRouting 之后，UseResponseCaching、UseAuthorization 之前
                 app.UseCors();

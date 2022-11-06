@@ -25,6 +25,15 @@
     <ProjectReference Include="..\AIStudio.Business\AIStudio.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="aistudio.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="aistuido.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
