@@ -1,19 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace WorkflowCore.Persistence.SqlSugar.Models
-{    
+{
+    [Table("Wfc_Subscription")]
     public class PersistedSubscription
     {
         [Key]
         public long PersistenceId { get; set; }
 
-        [MaxLength(200)]
         public Guid SubscriptionId { get; set; }
 
         [MaxLength(200)]
-        public string WorkflowId { get; set; }
+        public string? WorkflowId { get; set; }
 
         public int StepId { get; set; }
 

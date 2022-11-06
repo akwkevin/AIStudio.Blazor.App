@@ -1,4 +1,5 @@
-﻿using AIStudio.Common.CustomAttribute;
+﻿using AIStudio.Common.AppSettings;
+using AIStudio.Common.CustomAttribute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,21 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Common.Types
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class GlobalType
     {
         static GlobalType()
         {
+            if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+            {
+                AssemblyPattern.Add("WorkflowCore");
+            }
+
             string rootPath = System.AppDomain.CurrentDomain.BaseDirectory;
             AllAssemblies = Directory.GetFiles(rootPath, "*.dll")
-                .Where(x => new FileInfo(x).Name.Contains(ASSEMBLY_PATTERN))
+                .Where(x => AssemblyPattern.Any(y => new FileInfo(x).Name.Contains(y)))
                 .Select(x => Assembly.LoadFrom(x))
                 .Where(x => !x.IsDynamic)
                 .ToList();
@@ -37,8 +46,7 @@ namespace AIStudio.Common.Types
         /// <summary>
         /// 解决方案程序集匹配名
         /// </summary>
-        public const string ASSEMBLY_PATTERN = "AIStudio";
-
+        public static readonly List<string> AssemblyPattern = new List<string> { "AIStudio" };
 
         /// <summary>
         /// 解决方案所有程序集

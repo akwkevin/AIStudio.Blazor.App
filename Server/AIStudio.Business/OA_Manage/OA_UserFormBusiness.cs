@@ -9,7 +9,6 @@ using AutoMapper;
 using LinqKit;
 using SqlSugar;
 using System.Collections.Concurrent;
-using System.Linq.Dynamic.Core;
 
 namespace AIStudio.Business.OA_Manage
 {

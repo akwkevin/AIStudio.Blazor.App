@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\OA_Manage\**" />
+    <Content Remove="Controllers\OA_Manage\**" />
+    <EmbeddedResource Remove="Controllers\OA_Manage\**" />
+    <None Remove="Controllers\OA_Manage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\index.html" />
   </ItemGroup>
 

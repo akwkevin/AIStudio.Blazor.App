@@ -15,6 +15,8 @@ namespace AIStudio.Entity.Base_Manage
         /// </summary>
         public string? ParentId { get; set; }
 
+        public string? Category { get; set; }
+
         /// <summary>
         /// 类型,字典项=0,数据集=1
         /// </summary>

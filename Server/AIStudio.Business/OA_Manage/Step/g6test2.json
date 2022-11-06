@@ -1,13 +1,13 @@
 ﻿{
   "Id": "1274620801831669760",
   "Version": 0,
-  "DataType": "Coldairarrow.Util.OAData, Coldairarrow.Util",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
       "Id": "node4",
       "Label": "开始",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAStartStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
       "NextStepId": "node11",
       "Status": 0,
       "ActRules": {}
@@ -15,7 +15,7 @@
     {
       "Id": "node11",
       "Label": "财务人力同时审批",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAMiddleStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node18",
       "Status": 0,
       "ActRules": {
@@ -26,7 +26,7 @@
     {
       "Id": "node18",
       "Label": "结束",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAEndStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {}
     }

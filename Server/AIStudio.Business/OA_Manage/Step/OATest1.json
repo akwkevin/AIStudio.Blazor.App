@@ -1,11 +1,11 @@
 {
   "Id": "OATest1",
   "Version": 1,
-  "DataType": "Coldairarrow.Util.OAData, Coldairarrow.Util",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, Coldairarrow.Util",
   "Steps": [
     {
       "Id": "Step1",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAStartStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
       "SelectNextStep": {
         "Hello": "3>2",
         "Bye": "4<5"
@@ -13,12 +13,12 @@
     },
     {
       "Id": "Hello",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.HelloWorld, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.HelloWorld, AIStudio.Business",
       "NextStepId": "Bye"
     },
     {
       "Id": "Bye",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.GoodbyeWorld, AIStudio.Service"
+      "StepType": "AIStudio.Business.OA_Manage.Step.GoodbyeWorld, AIStudio.Business"
     }
   ]
 }

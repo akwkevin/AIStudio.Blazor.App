@@ -8,7 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddWorkflow(this IServiceCollection services, string connectionString, bool canCreateDB, bool canMigrateDB, Action<DbConnection> initAction = null)
+        public static IServiceCollection AddWorkflow_(this IServiceCollection services)
         {
             services.AddWorkflow(x => x.UseSqlSugar(false, true));
             services.AddWorkflowDSL();

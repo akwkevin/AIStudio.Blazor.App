@@ -17,14 +17,11 @@ using AIStudio.Common.Service;
 using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
-using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using Castle.DynamicProxy;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog;
 using NLog.Web;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using WorkflowCore.Interface;
 
@@ -96,7 +93,7 @@ namespace AIStudio.Api
 
                 //if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
                 //{
-                //    builder.Services.AddWorkflow();
+                //    builder.Services.AddWorkflow_();
                 //}
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -206,6 +203,22 @@ namespace AIStudio.Api
 
                 app.MapControllers();
 
+//                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+//                {
+//                    SeedData.EnsureSeedWorkflow(ServiceLocator.Instance);
+
+//                    var defForm = app.Services.GetService<IOA_DefFormBusiness>();
+//                    defForm.LoadDefinition();
+
+//                    var host = app.Services.GetService<IWorkflowHost>();
+//                    host?.Start();
+
+//#if DEBUG
+//                    //host.RegisterWorkflow<HelloWorldWorkflow>();
+
+//                    //host.StartWorkflow("HelloWorld").Wait();
+//#endif
+//                }
                 //其他外部App启用
                 applicationAction?.Invoke(app);
 

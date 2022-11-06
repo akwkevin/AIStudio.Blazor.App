@@ -1,44 +1,81 @@
 ﻿using AIStudio.Business;
 using AIStudio.Business.OA_Manage;
+using AIStudio.Business.OA_Manage.Step;
+using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
 using AIStudio.Entity.DTO.OA_Manage;
+using AIStudio.Entity.Enum;
 using AIStudio.Entity.OA_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using AIStudio.Util.Helper;
 using AutoMapper;
+using Castle.Core.Logging;
 using LinqKit;
+using Microsoft.Extensions.Logging;
+using Quartz.Impl.AdoJobStore.Common;
 using SqlSugar;
 using System.Linq.Dynamic.Core;
+using WorkflowCore.Interface;
+using WorkflowCore.Services.DefinitionStorage;
 
 namespace AIStudio.Business.OA_Manage
 {
     public class OA_DefFormBusiness : BaseBusiness<OA_DefForm>, IOA_DefFormBusiness, ITransientDependency
     {
-        readonly IMapper _mapper;
-        public OA_DefFormBusiness(ISqlSugarClient db, IMapper mapper)
+        private readonly IMapper _mapper;
+        private readonly IDefinitionLoader _definitionLoader;
+        private readonly IOA_UserFormBusiness _oA_UserFormBus;
+        private readonly IWorkflowRegistry _workflowRegistry;
+        private readonly ILogger<OA_DefFormBusiness> _logger;
+
+        /// <summary>
+        /// 流程定义
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="mapper"></param>
+        /// <param name="definitionLoader"></param>
+        /// <param name="oA_DefFormBus"></param>
+        /// <param name="oA_UserFormBus"></param>
+        /// <param name="workflowRegistry"></param>
+        /// <param name="ioperator"></param>
+        /// <param name="logger"></param>
+        public OA_DefFormBusiness(ISqlSugarClient db, 
+            IMapper mapper, 
+            IDefinitionLoader definitionLoader, 
+            IOA_UserFormBusiness oA_UserFormBus, 
+            IWorkflowRegistry workflowRegistry, 
+            ILogger<OA_DefFormBusiness> logger)
             : base(db)
         {
             _mapper = mapper;
+            _definitionLoader = definitionLoader;
+            _oA_UserFormBus = oA_UserFormBus;
+            _workflowRegistry = workflowRegistry;
+            _logger = logger;
         }
 
         #region 外部接口
-
-        public async Task<List<OA_DefFormTree>> GetTreeDataListAsync(string type, List<string> roleidlist)
+        public void LoadDefinition()
         {
-            if (roleidlist == null)
+            var defForms = this.GetList();
+            foreach (var defform in defForms)
             {
-                roleidlist = new List<string>();
+                try
+                {
+                    var def = _definitionLoader.LoadDefinition(defform.WorkflowJSON, Deserializers.Json);
+                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Debug, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + def.Id + "-" + def.Version + "加载成功");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + defform.Name + "-" + ex.Message);
+                }
             }
+        }
 
-            var where = LinqHelper.True<OA_DefForm>();
-            if (!type.IsNullOrEmpty())
-                where = where.And(x => x.Type == type);
-
-            where = where.And(x => x.Status == 1);
-
-            var list = await GetIQueryable().Where(where).Select<OA_DefFormDTO>().ToListAsync();
-            list = list.Where(p => string.IsNullOrEmpty(p.Value) || roleidlist.Intersect(p.ValueRoles).Count() > 0).ToList();
+        public async Task<List<OA_DefFormTree>> GetTreeDataListAsync(SearchInput input)
+        {
+            var list = await GetIQueryable(input.SearchKeyValues).ToListAsync();
 
             List<OA_DefFormTree> treeList = new List<OA_DefFormTree>();
             foreach (var data in list.GroupBy(p => p.Type))
@@ -47,8 +84,7 @@ namespace AIStudio.Business.OA_Manage
                 {
                     Id = data.Key,
                     Text = data.Key,
-                    Value = data.Key,
-                    scopedSlots = new { title = "title" },
+                    Value = data.Key
                 };
 
                 node.Children = data.Select(x => new OA_DefFormTree
@@ -59,8 +95,7 @@ namespace AIStudio.Business.OA_Manage
                     type = data.Key,
                     jsonId = x.JSONId,
                     jsonVersion = x.JSONVersion,
-                    json = x.WorkflowJSON,
-                    scopedSlots = new { title = "titleExtend" },
+                    json = x.WorkflowJSON
                 }).ToList();
 
                 treeList.Add(node);
@@ -68,8 +103,6 @@ namespace AIStudio.Business.OA_Manage
 
             return treeList;
         }
-
-
 
         public async Task<PageResult<OA_DefFormDTO>> GetDataListAsync(PageInput input)
         {
@@ -83,6 +116,57 @@ namespace AIStudio.Business.OA_Manage
             return _mapper.Map<OA_DefFormDTO>(await GetEntityAsync(id));
         }
 
+        public async Task SaveDataAsync(OA_DefFormDTO theData)
+        {
+            if (theData.Id.IsNullOrEmpty())
+            {
+                theData.WorkflowJSON = OAExtension.InitOAData(theData.WorkflowJSON, theData.Id);
+
+                //去掉事务，sqlite不支持
+                //var res = await _oA_DefFormBus.RunTransactionAsync(async () =>
+                //{
+                var def = _definitionLoader.LoadDefinition(theData.WorkflowJSON, Deserializers.Json);
+                theData.JSONId = def.Id;
+                theData.JSONVersion = def.Version;
+                theData.Status = 0;
+                await AddDataAsync(theData);
+
+                //});
+                //if (!res.Success)
+                //    throw res.ex;
+            }
+            else
+            {
+                //修改只能改基础属性
+                await UpdateDataAsync(theData);
+            }
+        }
+
+        public async Task StartDataAsync(IdInputDTO input)
+        {
+            var data = await GetTheDataAsync(input.id);
+            data.Status = 1;
+
+            await SaveDataAsync(data);
+        }
+
+        public async Task StopDataAsync(IdInputDTO input)
+        {
+            var data = await GetTheDataAsync(input.id);
+            data.Status = 0;
+
+            await SaveDataAsync(data);
+        }
+
+        public override async Task DeleteDataAsync(List<string> ids)
+        {
+            int count = _oA_UserFormBus.GetDataListCount(ids, OAStatus.Being);
+            if (count > 0)
+            {
+                throw new Exception("还有正在使用该流程的审批,不能删除该流程");
+            }
+            await base.DeleteDataAsync(ids);
+        }
         #endregion
 
         #region 私有成员

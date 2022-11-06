@@ -85,14 +85,14 @@ namespace AIStudio.Common.SqlSuger
                                 }
                             }
 
-                            if (attributes.Any(it => it is MaxLengthAttribute))
-                            {
-                                var length = (attributes.First(it => it is MaxLengthAttribute) as MaxLengthAttribute).Length;
-                                column.Length = length;
-                            }
-
                             if (type.PropertyType == typeof(string))
                             {
+                                if (attributes.Any(it => it is MaxLengthAttribute))
+                                {
+                                    var length = (attributes.First(it => it is MaxLengthAttribute) as MaxLengthAttribute).Length;
+                                    column.Length = length;
+                                }
+
                                 if (column.Length == 0)
                                 {
                                     column.DataType = "Nvarchar(Max)";
@@ -219,18 +219,19 @@ namespace AIStudio.Common.SqlSuger
             // 注册 SqlSugar 仓储
             //services.AddScoped(typeof(SqlSugarRepository<>));
 
-            //If no exist create datebase 
-            sqlSugarScope.DbMaintenance.CreateDatabase();
+//#if DEBUG
+//            //If no exist create datebase 
+//            sqlSugarScope.DbMaintenance.CreateDatabase();
 
-            //Create tables 
-            //SetStringDefaultLength(int.MaxValue)
-            sqlSugarScope.CodeFirst.InitTables(types.Except(splittypes).ToArray());
+//            //Create tables 
+//            //SetStringDefaultLength(int.MaxValue)
+//            sqlSugarScope.CodeFirst.InitTables(types.Except(splittypes).ToArray());
 
-            //添加自定义分表服务
-            //sqlSugarScope.CurrentConnectionConfig.ConfigureExternalServices.SplitTableService = new SqlSugarTenantSplitService();
-            //使用自带的日期分表
-            sqlSugarScope.CodeFirst.SplitTables().InitTables(splittypes.ToArray());
-
+//            //添加自定义分表服务
+//            //sqlSugarScope.CurrentConnectionConfig.ConfigureExternalServices.SplitTableService = new SqlSugarTenantSplitService();
+//            //使用自带的日期分表
+//            sqlSugarScope.CodeFirst.SplitTables().InitTables(splittypes.ToArray());
+//#endif
             return services;
         }
 

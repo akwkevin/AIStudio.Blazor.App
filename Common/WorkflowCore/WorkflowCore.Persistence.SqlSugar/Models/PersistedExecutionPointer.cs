@@ -6,7 +6,8 @@ using System.Linq;
 using WorkflowCore.Models;
 
 namespace WorkflowCore.Persistence.SqlSugar.Models
-{    
+{
+    [Table("Wfc_ExecutionError")]
     public class PersistedExecutionPointer
     {
         [Key]

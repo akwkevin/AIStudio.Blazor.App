@@ -10,9 +10,13 @@ namespace AIStudio.Business.OA_Manage
 {
     public interface IOA_DefFormBusiness : IBaseBusiness<OA_DefForm>
     {
-        Task<List<OA_DefFormTree>> GetTreeDataListAsync(string type, List<string> roleidlist);
-        Task<PageResult<OA_DefFormDTO>> GetDataListAsync(PageInput pagination);
-        Task<OA_DefFormDTO> GetTheDataAsync(string id);
+        void LoadDefinition();
+        Task<List<OA_DefFormTree>> GetTreeDataListAsync(SearchInput input);
+        new Task<PageResult<OA_DefFormDTO>> GetDataListAsync(PageInput input);
+        new Task<OA_DefFormDTO> GetTheDataAsync(string id);
+        Task SaveDataAsync(OA_DefFormDTO theData);
+        Task StartDataAsync(IdInputDTO input);
+        Task StopDataAsync(IdInputDTO input);
     }
 
 

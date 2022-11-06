@@ -4,12 +4,10 @@ using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Quartz;
 using AIStudio.Entity;
 using AIStudio.Entity.Base_Manage;
+using AIStudio.Entity.OA_Manage;
 using AIStudio.Entity.Quartz_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
-using Quartz;
-using System.ComponentModel.DataAnnotations;
-using Yitter.IdGenerator;
 
 namespace AIStudio.Api
 {
@@ -276,25 +274,42 @@ namespace AIStudio.Api
             {
                 List<Base_Dictionary> dictionaries = new List<Base_Dictionary>()
                 {
-                    new Base_Dictionary(){ Id="Id1",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.ComboBox,  Text = "性别", Value="Sex", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集,  Text = "女", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集,  Text = "男", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id2",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "姓名", Value="UserName", Code = "", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id3",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "真实姓名", Value="RealName", Code = "", Sort=3, CreateTime=DateTime.Now , CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id4",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "密码", Value="Password", Code = "", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id5",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "生日", Value="Birthday", Code = "", Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id6",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.MultiComboBox,  Text = "角色", Value="RoleIdList", Code = "Base_Role", Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
-                    new Base_Dictionary(){ Id="Id7",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.TreeSelect,  Text = "部门", Value="DepartmentId", Code = "Base_Department", Sort=7, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id8",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "手机号码", Value="PhoneNumber", Code = "", Sort=8, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id9",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "创建时间", Value="CreateTime", Code = "", Sort=9, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id10",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "修改时间", Value="ModifyTime", Code = "", Sort=10, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id11",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "创建者", Value="CreatorName", Code = "", Sort=11, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id12",Deleted = false, ParentId=null,  Type = DictionaryType.字典项,  Text = "修改者", Value="ModifyName", Code = "", Sort=12, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id13",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, ControlType = ControlType.ComboBox,  Text = "紧急程度", Value="Grade", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id13_1",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "正常", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id13_2",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "紧急", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Dictionary(){ Id="Id13_3",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集,  Text = "特级", Value="2", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id1",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", ControlType = ControlType.ComboBox,  Text = "性别", Value="Sex", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1_1",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集, Category = "选项", Text = "女", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1_2",Deleted = false, ParentId="Id1", Type = DictionaryType.数据集, Category = "选项", Text = "男", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id2",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "姓名", Value="UserName", Code = "", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id3",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "真实姓名", Value="RealName", Code = "", Sort=3, CreateTime=DateTime.Now , CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id4",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "密码", Value="Password", Code = "", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id5",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "生日", Value="Birthday", Code = "", Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id6",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", ControlType = ControlType.MultiComboBox,  Text = "角色", Value="RoleIdList", Code = "Base_Role", Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id7",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", ControlType = ControlType.TreeSelect,  Text = "部门", Value="DepartmentId", Code = "Base_Department", Sort=7, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id8",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "手机号码", Value="PhoneNumber", Code = "", Sort=8, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id9",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项",  Text = "创建时间", Value="CreateTime", Code = "", Sort=9, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id10",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "修改时间", Value="ModifyTime", Code = "", Sort=10, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id11",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "创建者", Value="CreatorName", Code = "", Sort=11, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id12",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", Text = "修改者", Value="ModifyName", Code = "", Sort=12, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "选项", ControlType = ControlType.ComboBox,  Text = "紧急程度", Value="Grade", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13_1",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项",  Text = "正常", Value="0", Code ="",  Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13_2",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项", Text = "紧急", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Dictionary(){ Id="Id13_3",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项", Text = "特级", Value="2", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
+                    new Base_Dictionary(){ Id="Id1000",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "流程", ControlType = ControlType.ComboBox,  Text = "分类", Value="Type", Code = "", Sort=1000, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "请假", Value="请假", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "报销", Value="报销", Code = "", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_3",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "顺序", Value="顺序", Code = "", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_4",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "选择", Value="选择", Code = "", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_5",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "或签", Value="或签", Code = "", Sort=5, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_6",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "与签", Value="与签", Code = "", Sort=6, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+
+                    new Base_Dictionary(){ Id="Id1000_1_1",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "病假", Value="病假", Code = "", Remark="天数", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_2",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "事假", Value="事假", Code = "", Remark="天数", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_3",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "调休", Value="调休", Code = "", Remark="天数", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_1_4",Deleted = false, ParentId="Id1000_1",  Type = DictionaryType.数据集, Category = "流程", Text = "年假", Value="年假", Code = "", Remark="天数", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+
+                    new Base_Dictionary(){ Id="Id1000_2_1",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "差旅费用", Value="差旅费用", Code = "", Remark="费用(元)", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_2",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "采购费用", Value="采购费用", Code = "", Remark="费用(元)", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_3",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "活动费用", Value="活动费用", Code = "", Remark="费用(元)", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000_2_4",Deleted = false, ParentId="Id1000_2",  Type = DictionaryType.数据集, Category = "流程", Text = "日常费用", Value="日常费用", Code = "", Remark="费用(元)", Sort=4, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                 };
 
                 var result = dictionaryBusiness.Insert(dictionaries);
@@ -382,6 +397,121 @@ namespace AIStudio.Api
 
                 logger.LogDebug("TestJob created");
             }
+        }
+
+        /// <summary>
+        /// 初始化工作流
+        /// </summary>
+        /// <param name="provider"></param>
+        public static void EnsureSeedWorkflow(IServiceProvider provider)
+        {
+            //var logger = provider.GetRequiredService<ILogger<SeedData>>();
+
+            //var oA_DefFormBusiness = provider.GetRequiredService<IOA_DefFormBusiness>();
+            //var defformcount = oA_DefFormBusiness.GetIQueryable().Count();
+            //if (defformcount == 0)
+            //{
+            //    var directory = AppContext.BaseDirectory;
+            //    directory = directory.Replace("\\", "/");
+
+            //    List<OA_DefForm> defs = new List<OA_DefForm>();
+            //    string id = IdHelper.GetId();
+            //    var def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test1.json"),
+            //        JSONId = "1274618511506804736",
+            //        Type = "请假",
+            //        Name = "请假流程",
+            //        Text = "最简单的请假流程",
+            //        Status = 1,
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    id = IdHelper.GetId();
+            //    def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test2.json"),
+            //        JSONId = "1274620801831669760",
+            //        Type = "报销",
+            //        Name = "报销审批-与签",
+            //        Text = "所有审批人都要同意",
+            //        Status = 1,
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    id = IdHelper.GetId();
+            //    def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test3.json"),
+            //        JSONId = "1274621154383892480",
+            //        Type = "报销",
+            //        Name = "报销审批-或签",
+            //        Text = "只要有一个人审批就行",
+            //        Status = 1,
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    id = IdHelper.GetId();
+            //    def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test4.json"),
+            //        JSONId = "1274621654579810304",
+            //        Type = "顺序",
+            //        Name = "部门领导审批",
+            //        Text = "根据申请人所在部门自动查找生成审批人",
+            //        Status = 1,
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    id = IdHelper.GetId();
+            //    def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test5.json"),
+            //        JSONId = "1274622508779180032",
+            //        Type = "报销",
+            //        Name = "并行流程",
+            //        Text = "两个分管部门同时进行审批",
+            //        Status = 1,
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    id = IdHelper.GetId();
+            //    def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test6.json"),
+            //        JSONId = "1274623039325081600",
+            //        Type = "顺序",
+            //        Name = "有创建权限的流程",
+            //        Text = "只有管理员能创建的流程",
+            //        Status = 1,
+            //        Value = $"^{AdminTypes.Admin.ToString()}^",
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    id = IdHelper.GetId();
+            //    def = new OA_DefForm()
+            //    {
+            //        Id = id,
+            //        WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test7.json"),
+            //        JSONId = "1274623664695808000",
+            //        Type = "请假",
+            //        Name = "请假流程-条件",
+            //        Text = "根据请假天数是否需要分管领导审批",
+            //        Status = 1,
+            //        CreateTime = DateTime.Now,
+            //    };
+            //    defs.Add(def);
+            //    var result = oA_DefFormBusiness.Insert(defs);
+            //    logger.LogDebug("OA_DefForm created");
+            //}
+
+       
         }
     }
 }

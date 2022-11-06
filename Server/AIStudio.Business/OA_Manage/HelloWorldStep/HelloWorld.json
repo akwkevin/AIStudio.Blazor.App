@@ -4,12 +4,12 @@
   "Steps": [
     {
       "Id": "Hello",
-      "StepType": "AIStudio.Service.WorkflowCore.HelloWorld, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.HelloWorldStep.HelloWorld, AIStudio.Business",
       "NextStepId": "Bye"
     },
     {
       "Id": "Bye",
-      "StepType": "AIStudio.Service.WorkflowCore.GoodbyeWorld, AIStudio.Service"
+      "StepType": "AIStudio.Business.OA_Manage.HelloWorldStep.GoodbyeWorld, AIStudio.Business"
     }
   ]
 }

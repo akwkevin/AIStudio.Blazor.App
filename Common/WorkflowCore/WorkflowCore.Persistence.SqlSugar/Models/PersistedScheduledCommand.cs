@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace WorkflowCore.Persistence.SqlSugar.Models
-{    
+{
+    [Table("Wfc_ScheduledCommand")]
     public class PersistedScheduledCommand
     {
         [Key]

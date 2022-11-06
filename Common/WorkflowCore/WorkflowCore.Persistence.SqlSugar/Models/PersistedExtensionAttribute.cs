@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace WorkflowCore.Persistence.SqlSugar.Models
-{    
+{
+    [Table("Wfc_ExtensionAttribute")]
     public class PersistedExtensionAttribute
     {
         [Key]

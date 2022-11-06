@@ -1,5 +1,4 @@
-﻿using AIStudio.Api.Controllers;
-using AIStudio.Business.OA_Manage;
+﻿using AIStudio.Business.OA_Manage;
 using AIStudio.Business.OA_Manage.Step;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Entity.DTO.OA_Manage;
@@ -11,25 +10,23 @@ using WorkflowCore.Services.DefinitionStorage;
 
 namespace AIStudio.Api.Controllers.OA_Manage
 {
+    /// <summary>
+    /// 流程定义
+    /// </summary>
     [Route("/OA_Manage/[controller]/[action]")]
     public class OA_DefFormController : ApiControllerBase
     {
         #region DI
-
-        public OA_DefFormController(IOA_DefFormBusiness oA_DefFormBus, IOA_UserFormBusiness oA_UserFormBus, IDefinitionLoader definitionLoader, IWorkflowRegistry workflowRegistry, IOperator ioperator )
+        IOA_DefFormBusiness _oA_DefFormBus { get; }
+        /// <summary>
+        /// 流程定义控制器
+        /// </summary>
+        /// <param name="oA_DefFormBus"></param>
+        public OA_DefFormController(IOA_DefFormBusiness oA_DefFormBus)
         {
             _oA_DefFormBus = oA_DefFormBus;
-            _oA_UserFormBus = oA_UserFormBus;
-            _definitionLoader = definitionLoader;
-            _workflowRegistry = workflowRegistry;
-            _operator = ioperator;
         }
 
-        IOA_DefFormBusiness _oA_DefFormBus { get; }
-        IOA_UserFormBusiness _oA_UserFormBus { get; }
-        IDefinitionLoader _definitionLoader { get; }
-        IWorkflowRegistry _workflowRegistry { get; }
-        IOperator _operator { get; }
         #endregion
 
         #region 获取
@@ -43,18 +40,20 @@ namespace AIStudio.Api.Controllers.OA_Manage
         public async Task<PageResult<OA_DefFormDTO>> GetDataList(PageInput input)
         {
             var dataList = await _oA_DefFormBus.GetDataListAsync(input);
-
             return dataList;
         }
 
+        /// <summary>
+        /// 获取树列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         #region
         [HttpPost]
-        public async Task<List<OA_DefFormTree>> GetTreeDataList(string type)
+        public async Task<List<OA_DefFormTree>> GetTreeDataList(SearchInput input)
         {
-            //var roleidlist = _operator.Property.RoleIdList;
-            //return await _oA_DefFormBus.GetTreeDataListAsync(type, roleidlist);
-
-            throw new NotImplementedException();
+            var dataList = await _oA_DefFormBus.GetTreeDataListAsync(input);
+            return dataList;
         }
         #endregion
 
@@ -80,28 +79,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         [HttpPost]
         public async Task SaveData(OA_DefFormDTO data)
         {
-            if (data.Id.IsNullOrEmpty())
-            {
-                data.WorkflowJSON = OAExtension.InitOAData(data.WorkflowJSON, data.Id);
-
-                //去掉事务，sqlite不支持
-                //var res = await _oA_DefFormBus.RunTransactionAsync(async () =>
-                //{
-                    var def = _definitionLoader.LoadDefinition(data.WorkflowJSON, Deserializers.Json);
-                    data.JSONId = def.Id;
-                    data.JSONVersion = def.Version;
-                    data.Status = 0;
-                    await _oA_DefFormBus.AddDataAsync(data);
-
-                //});
-                //if (!res.Success)
-                //    throw res.ex;
-            }
-            else
-            {
-                //修改只能改基础属性
-                await _oA_DefFormBus.UpdateDataAsync(data);
-            }
+            await _oA_DefFormBus.SaveDataAsync(data);           
         }
 
         /// <summary>
@@ -111,10 +89,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         [HttpPost]
         public async Task StartData(IdInputDTO input)
         {
-            var data = await _oA_DefFormBus.GetTheDataAsync(input.id);
-            data.Status = 1;           
-
-            await SaveData(data);           
+            await _oA_DefFormBus.StartDataAsync(input);
         }
 
         /// <summary>
@@ -124,10 +99,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         [HttpPost]
         public async Task StopData(IdInputDTO input)
         {
-            var data = await _oA_DefFormBus.GetTheDataAsync(input.id);
-            data.Status = 0;
-
-            await SaveData(data);
+            await _oA_DefFormBus.StopDataAsync(input);
         }
 
         /// <summary>
@@ -137,13 +109,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         [HttpPost]
         public async Task DeleteData(List<string> ids)
         {
-            int count =  _oA_UserFormBus.GetDataListCount(ids, OAStatus.Being);
-            if (count > 0)
-            {
-                throw new Exception("还有正在使用该流程的审批,不能删除该流程");
-            }
             await _oA_DefFormBus.DeleteDataAsync(ids);
-
         }
 
         #endregion

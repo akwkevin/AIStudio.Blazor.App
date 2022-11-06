@@ -1,13 +1,13 @@
 ﻿{
   "Id": "1274622508779180032",
   "Version": 0,
-  "DataType": "Coldairarrow.Util.OAData, Coldairarrow.Util",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
       "Id": "node431",
       "Label": "开始",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAStartStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
       "NextStepId": "node445",
       "Status": 0,
       "ActRules": {}
@@ -15,7 +15,7 @@
     {
       "Id": "node445",
       "Label": "并行开始",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OACOBeginStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OACOBeginStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {},
       "SelectNextStep": {
@@ -26,7 +26,7 @@
     {
       "Id": "node438",
       "Label": "财务审批",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAMiddleStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node454",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -34,7 +34,7 @@
     {
       "Id": "node454",
       "Label": "财务主管审批",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAMiddleStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node475",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -42,7 +42,7 @@
     {
       "Id": "node461",
       "Label": "人力审批",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAMiddleStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node468",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -50,7 +50,7 @@
     {
       "Id": "node468",
       "Label": "人力主管审批",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAMiddleStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node475",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -58,7 +58,7 @@
     {
       "Id": "node475",
       "Label": "并行结束",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OACOEndStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OACOEndStep, AIStudio.Business",
       "NextStepId": "node484",
       "Status": 0,
       "ActRules": {}
@@ -66,7 +66,7 @@
     {
       "Id": "node484",
       "Label": "结束",
-      "StepType": "AIStudio.Business.OA_Manage.OAStep.OAEndStep, AIStudio.Service",
+      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {}
     }
