@@ -105,19 +105,19 @@
         foreach (var viewMenu in ViewMenus)
         {
             RenderFragment subTitle =
-    @<span style="font-size:15px">
-        @if (!string.IsNullOrEmpty(viewMenu.Icon))
+    @<span style="font-size:15px; display:flex; align-items:center;">
+                @if (!string.IsNullOrEmpty(viewMenu.Icon))
         {
-            <Icon Style="font-size:15px" Type="@viewMenu.Icon" Theme="outline"></Icon>
+                    <Icon Style="font-size:15px" Type="@viewMenu.Icon" Theme="outline"></Icon>
         }
-        <span>@viewMenu.Name</span>
+                <span>@viewMenu.Name</span>
     </span>
         ;
             if (viewMenu.Children != null && viewMenu.Children.Length > 0 && !viewMenu.HideChildrenInMenu)
             {
                 ViewSubMenu +=
     @<SubMenu Key="@viewMenu.Key" TitleTemplate="subTitle">
-        @GetSubMenu(viewMenu.Children)
+                @GetSubMenu(viewMenu.Children)
     </SubMenu>;
             }
             else

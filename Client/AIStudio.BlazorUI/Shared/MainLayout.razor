@@ -8,7 +8,7 @@
 <Layout Style="min-height:100vh;">
     @if (IsDrawer)
     {
-        <Drawer Closable="true" Visible="!Collapsed" Placement="left" Title='GetLogo()' OnClose="_=>DrawerClose()">
+        <Drawer Closable="true" Visible="!Collapsed" Placement="left" Title='HeaderDom' OnClose="_=>DrawerClose()">
             <HamburgerMenu Theme="MenuTheme.Light" Accordion=Layout.Accordion InlineCollapsed="false" MenuData="_menuData" @bind-BreadcrumbItemArr="BreadcrumbItemArr"></HamburgerMenu>
         </Drawer>
     }
@@ -17,17 +17,10 @@
         <Sider Collapsible CollapsedWidth="CollapsedWidth" Collapsed=@Collapsed
            OnCollapse=@OnCollapse NoTrigger Breakpoint="@BreakpointType.Lg"
            Style="overflow: auto; height: 100vh; position: fixed; left: 0;" Theme="Layout.SiderTheme">
-            @if (!Collapsed)
+            @if (HeaderDom != null)
             {
-                <div class="logo">
-                    <img src="@LogoImgSrc" width="16" />
-                    <a style="margin:16px 8px">@Layout.Title</a>
-                </div>
-            }
-            else
-            {
-                <div class="logo_Collapse">
-                    <img src="@LogoImgSrc" width="16" />
+                <div id="logo" class="logo">
+                    @HeaderDom
                 </div>
             }
 
@@ -83,14 +76,27 @@
         }
 
     .logo {
-        height: 16px;
-        margin: 16px 16px 16px 24px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .logo_Collapse {
-        height: 16px;
-        margin: 16px 16px 16px 32px;
-    }
+        .logo a {
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .logo a img {
+                height: 16px;
+                margin: 0px 0px 0px 24px;
+            }
+
+            .logo a h1 {
+                color: #1890ff;
+                margin: 0px 0px 0px 8px;
+                font-weight: 600;
+                font-size: 18px;
+            }
 </style>
 
 @code
@@ -192,8 +198,8 @@
         {
             if (clientWidth >= 576)
             {
-                HeaderStyle = "margin-left: 80px";
-                CollapsedWidth = 80;
+                HeaderStyle = "margin-left: 64px";
+                CollapsedWidth = 64;
             }
             else
             {
@@ -216,20 +222,35 @@
         StateHasChanged();
     }
 
-    public RenderFragment GetLogo()
-    {
-        RenderFragment logo =
-    @<div class="logo">
-        <img src="@LogoImgSrc" height="16" />
-    </div>
-        ;
-        return logo;
-    }
-
     void DrawerClose()
     {
         Collapsed = true;
     }
+
+    #region Logo
+    RenderFragment HeaderDom => DefaultRenderLogoAndTitle();
+
+    RenderFragment DefaultRenderLogoAndTitle()
+    {
+        var logoDom = DefaultRenderLogo();
+        RenderFragment titleDom = @<h1>@Layout.Title</h1>;
+
+        if (Collapsed || IsDrawer)
+        {
+            titleDom = null;
+        }
+
+        return @<a href="/">
+        @logoDom
+        @titleDom
+    </a>;
+    }
+
+    RenderFragment DefaultRenderLogo()
+    {
+        return @<img src="@LogoImgSrc" alt="logo" />;
+    }
+    #endregion
 
     public override void Dispose()
     {

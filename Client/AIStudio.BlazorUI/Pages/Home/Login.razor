@@ -64,7 +64,7 @@
         try
         {
             loading = true;
-            var result = await AuthStateProvider.Login(_model.UserName, _model.Password.ToMD5String());
+            var result = await AuthStateProvider.Login(_model.UserName, _model.Password);
             if (result.Success)
             {           
                 if (_model.AutoLogin)

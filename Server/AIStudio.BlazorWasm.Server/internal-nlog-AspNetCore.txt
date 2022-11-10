@@ -1611,3 +1611,13 @@
 2022-11-08 21:06:56.7525 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
 2022-11-08 21:06:57.0075 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
 2022-11-08 21:06:57.0075 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
+2022-11-10 20:55:40.0863 Info Message Template Auto Format enabled
+2022-11-10 20:55:40.1037 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-10 20:55:40.1758 Info Adding target FileTarget(Name=allfile)
+2022-11-10 20:55:40.1758 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-10 20:55:40.1758 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-10 20:55:40.2736 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-10 20:55:40.3070 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
+2022-11-10 20:55:41.9901 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
+2022-11-10 20:55:42.8203 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
+2022-11-10 20:55:42.8203 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.BlazorWasm.Server\bin\Debug\net6.0\NLog.config
