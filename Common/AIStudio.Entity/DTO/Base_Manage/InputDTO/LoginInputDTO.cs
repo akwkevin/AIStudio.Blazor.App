@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace AIStudio.Entity.DTO.Base_Manage.InputDTO
         [Required]
         public string? Password { get; set; }
 
+        [DefaultValue("Account")]
         public string? LoginType { get; set; }
 
         public bool AutoLogin { get; set; }

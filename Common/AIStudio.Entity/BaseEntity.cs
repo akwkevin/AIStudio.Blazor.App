@@ -84,7 +84,7 @@ namespace AIStudio.Entity
     /// <summary>
     /// 主键基类
     /// </summary>
-    public abstract class KeyBaseEntity : KeyBaseEntity<string>
+    public abstract class KeyBaseEntity : KeyBaseEntity<string>, IKeyBaseEntity
     {
 
     }
@@ -93,7 +93,7 @@ namespace AIStudio.Entity
     /// 定义默认主键类型为String的只读实体基类
     /// </summary>
 
-    public abstract class ReadOnlyBaseEntity : ReadOnlyBaseEntity<string>
+    public abstract class ReadOnlyBaseEntity : ReadOnlyBaseEntity<string>, IKeyBaseEntity
     {
 
 
@@ -103,7 +103,7 @@ namespace AIStudio.Entity
     /// 定义默认主键类型为String的硬删除实体基类
     /// </summary>
 
-    public abstract class PhysicDeleteBaseEntity : PhysicDeleteBaseEntity<string>
+    public abstract class PhysicDeleteBaseEntity : PhysicDeleteBaseEntity<string>, IKeyBaseEntity
     {
 
 
@@ -113,7 +113,7 @@ namespace AIStudio.Entity
     /// 定义默认主键类型为String的实体基类
     /// </summary>
 
-    public abstract class BaseEntity : BaseEntity<string>
+    public abstract class BaseEntity : BaseEntity<string>, IKeyBaseEntity
     {
 
 
