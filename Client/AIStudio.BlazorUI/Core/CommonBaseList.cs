@@ -107,7 +107,7 @@ namespace AIStudio.BlazorUI.Core
                     }
                 };
 
-                var result = await DataProvider.GetData<List<Base_CommonFormConfigDTO>>(ConfigUrl, data.ToJson());
+                var result = await DataProvider.PostData<List<Base_CommonFormConfigDTO>>(ConfigUrl, data.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);
@@ -168,7 +168,7 @@ namespace AIStudio.BlazorUI.Core
             {
                 ShowWait();
 
-                var result = await DataProvider.GetData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
+                var result = await DataProvider.PostData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);
@@ -283,7 +283,7 @@ namespace AIStudio.BlazorUI.Core
 
                 dictionary = dictionary.Where(p => p.Value != DBNull.Value).ToDictionary(p => p.Key, p => p.Value);
 
-                var result = await DataProvider.GetData<AjaxResult>($"/{Area}/{Name}/SaveData", dictionary.ToJson());
+                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/SaveData", dictionary.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);
@@ -315,7 +315,7 @@ namespace AIStudio.BlazorUI.Core
             {
                 ShowWait();
 
-                var result = await DataProvider.GetData<AjaxResult>($"/{Area}/{Name}/DeleteData", ids.ToJson());
+                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/DeleteData", ids.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

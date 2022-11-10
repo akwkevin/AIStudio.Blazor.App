@@ -91,7 +91,7 @@
                 }
             };
 
-            var result = await DataProvider.GetData<List<Base_LogOperatingDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
+            var result = await DataProvider.PostData<List<Base_LogOperatingDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

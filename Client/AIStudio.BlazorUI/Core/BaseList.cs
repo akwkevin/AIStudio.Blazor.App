@@ -61,7 +61,7 @@ namespace AIStudio.BlazorUI.Core
             {
                 ShowWait();
 
-                var result = await DataProvider.GetData<List<TData>>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree","")}/{GetDataList}", GetDataJson());
+                var result = await DataProvider.PostData<List<TData>>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree","")}/{GetDataList}", GetDataJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);
@@ -110,7 +110,7 @@ namespace AIStudio.BlazorUI.Core
             {
                 ShowWait();
 
-                var result = await DataProvider.GetData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/DeleteData", ids.ToJson());
+                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/DeleteData", ids.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

@@ -33,7 +33,7 @@
         try
         {
             ShowWait();
-            var result = await DataProvider.GetData<AjaxResult>($"/{Area}/BuildCode/Build", para.ToJson());
+            var result = await DataProvider.PostData<AjaxResult>($"/{Area}/BuildCode/Build", para.ToJson());
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

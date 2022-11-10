@@ -69,7 +69,7 @@
     {
         try
         {
-            var result = await DataProvider.GetData<List<Base_DbLinkDTO>>($"/{Area}/BuildCode/GetAllDbLink");
+            var result = await DataProvider.PostData<List<Base_DbLinkDTO>>($"/{Area}/BuildCode/GetAllDbLink");
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);
@@ -97,7 +97,7 @@
         {
             ShowWait();
 
-            var result = await DataProvider.GetData<List<DbTableInfo>>($"/{Area}/BuildCode/GetDbTableList", (new { linkId = LinkId }).ToJson());
+            var result = await DataProvider.PostData<List<DbTableInfo>>($"/{Area}/BuildCode/GetDbTableList", (new { linkId = LinkId }).ToJson());
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

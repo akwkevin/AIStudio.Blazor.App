@@ -28,7 +28,7 @@ namespace AIStudio.Client.Business
         {
             try
             {
-                var userinfo = await _dataProvider.GetData<Base_UserDTO>("/Base_Manage/Home/GetOperatorInfo");
+                var userinfo = await _dataProvider.PostData<Base_UserDTO>("/Base_Manage/Home/GetOperatorInfo");
                 if (userinfo.Success)
                 {
                     _operator.IsAuthenticated = true;
@@ -63,7 +63,7 @@ namespace AIStudio.Client.Business
         public async Task<List<Base_ActionTree>> GetMenus()
         {
             List<Base_ActionTree> menus = new List<Base_ActionTree>();
-            var result = await _dataProvider.GetData<List<Base_ActionTree>>("/Base_Manage/Home/GetOperatorMenuList");
+            var result = await _dataProvider.PostData<List<Base_ActionTree>>("/Base_Manage/Home/GetOperatorMenuList");
             if (result.Success)
             {
                 menus = result.Data;

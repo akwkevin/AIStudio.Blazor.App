@@ -21,7 +21,11 @@ namespace AIStudio.Api.Controllers.Test
         [HttpGet]
         public ActionResult<string> GetToken()
         {
+#if DEBUG
             return JwtHelper.CreateToken();
+#else
+            return null;
+#endif
         }
 
         /// <summary>

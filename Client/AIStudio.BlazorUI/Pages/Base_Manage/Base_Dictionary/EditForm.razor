@@ -57,7 +57,7 @@
     {
         try
         {
-            var result = await DataProvider.GetData<List<Base_DictionaryTree>>($"/Base_Manage/Base_Dictionary/GetTreeDataList");
+            var result = await DataProvider.PostData<List<Base_DictionaryTree>>($"/Base_Manage/Base_Dictionary/GetTreeDataList");
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

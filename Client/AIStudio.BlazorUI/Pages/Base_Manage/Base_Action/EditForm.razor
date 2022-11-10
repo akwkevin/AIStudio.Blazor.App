@@ -63,7 +63,7 @@
     {
         try
         {
-            var result = await DataProvider.GetData<List<Base_ActionTree>>($"/Base_Manage/Base_Action/GetMenuTreeList");
+            var result = await DataProvider.PostData<List<Base_ActionTree>>($"/Base_Manage/Base_Action/GetMenuTreeList");
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

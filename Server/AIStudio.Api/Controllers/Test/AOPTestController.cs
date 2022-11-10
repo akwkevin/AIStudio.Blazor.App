@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.DI;
 using AIStudio.Common.DI.AOP;
 using AIStudio.Common.Swagger;
+using AIStudio.Util;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIStudio.Api.Controllers.Test
@@ -34,7 +35,7 @@ namespace AIStudio.Api.Controllers.Test
         }
 
         /// <summary>
-        /// GET api/values/5
+        /// GET api/AOPTest/Get/5
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -43,6 +44,50 @@ namespace AIStudio.Api.Controllers.Test
         {
             return _valuesService.Find(id);
         }
+
+        /// <summary>
+        /// GET api/AOPTest/Get2?id=5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Get2")]
+        public string Get2([FromQuery]string id)
+        {
+            return id;
+        }
+
+        /// <summary>
+        /// GET api/AOPTest/Get3?id=5&amp;id2=6
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="id2"></param>
+        /// <returns></returns>
+        [HttpGet("Get3")]
+        public string Get3([FromQuery] string id, string id2)
+        {
+            return id + id2;
+        }
+
+        /// <summary>
+        /// GET api/AOPTest/Get4?Id=5&amp;Url=6&amp;PageId=7
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet("Get4")]
+        public string Get4(ApiModel model)
+        {
+            return model.ToJson(); ;
+        }
+    }
+
+    public class ApiModel
+    {
+        [FromRoute]
+        public int Id { get; set; }
+        [FromQuery]
+        public string Url { get; set; }
+        [FromQuery]
+        public int? PageId { get; set; }
     }
 
     /// <summary>

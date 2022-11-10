@@ -41,7 +41,7 @@
             _ = MessageService.Error("密码不一致");
             return false;
         }
-        var result = await DataProvider.GetData<string>("/Base_Manage/Home/ChangePwd", (new { oldPwd = _model.OldPassword, newPwd = _model.NewPassword }).ToJson());
+        var result = await DataProvider.PostData<string>("/Base_Manage/Home/ChangePwd", (new { oldPwd = _model.OldPassword, newPwd = _model.NewPassword }).ToJson());
         if (result.Success)
         {
             _ = MessageService.Success(result.Msg);

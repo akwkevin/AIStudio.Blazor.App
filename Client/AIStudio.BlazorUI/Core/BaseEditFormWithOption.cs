@@ -39,7 +39,7 @@ namespace AIStudio.BlazorUI.Core
                 }
                 else
                 {
-                    var result = await DataProvider.GetData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
+                    var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
                     if (!result.Success)
                     {
                         throw new MsgException(result.Msg);
@@ -63,7 +63,7 @@ namespace AIStudio.BlazorUI.Core
             try
             {
                 ShowWait();
-                var result = await DataProvider.GetData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/SaveData", para.ToJson());
+                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/SaveData", para.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

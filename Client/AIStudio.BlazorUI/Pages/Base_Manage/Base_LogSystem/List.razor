@@ -86,7 +86,7 @@
     {
         try
         {
-            var result = await DataProvider.GetData<List<SelectOption>>($"/Base_Manage/Base_LogSystem/GetLogTypeList");
+            var result = await DataProvider.PostData<List<SelectOption>>($"/Base_Manage/Base_LogSystem/GetLogTypeList");
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);

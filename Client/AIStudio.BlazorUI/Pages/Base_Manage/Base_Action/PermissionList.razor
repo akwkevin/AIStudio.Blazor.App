@@ -97,7 +97,7 @@
         {
             if (!string.IsNullOrEmpty(ParentId))
             {
-                var result = await DataProvider.GetData<List<Base_ActionDTO>>($"/Base_Manage/Base_Action/GetpermissionList", (new Base_ActionsInputDTO { ParentId = ParentId }).ToJson());
+                var result = await DataProvider.PostData<List<Base_ActionDTO>>($"/Base_Manage/Base_Action/GetpermissionList", (new Base_ActionsInputDTO { ParentId = ParentId }).ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

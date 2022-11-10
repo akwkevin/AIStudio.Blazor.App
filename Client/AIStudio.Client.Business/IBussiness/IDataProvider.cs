@@ -18,11 +18,13 @@ namespace AIStudio.Client.Business
 
         Task<AjaxResult> ClearToken();
         //[LogHandler]
-        Task<AjaxResult<T>> GetData<T>(string url, Dictionary<string, string> data);
+        Task<AjaxResult<T>> PostData<T>(string url, Dictionary<string, string> data);
         //[LogHandler]
-        Task<AjaxResult<T>> GetData<T>(string url, string json = "{}");
+        Task<AjaxResult<T>> PostData<T>(string url, string json = "{}");
 
-        Task<AjaxResult<T>> GetData<T>(string url, object data);
+        Task<AjaxResult<T>> PostData<T>(string url, object data);
+
+        Task<AjaxResult<T>> GetData<T>(string url, Dictionary<string, string> data);
 
         Task<UploadResult> UploadFileByForm(string path);
 

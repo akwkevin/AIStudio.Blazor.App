@@ -141,7 +141,7 @@
             {
                 ShowWait();
 
-                var result = await DataProvider.GetData<AjaxResult>($"/Quartz_Manage/Quartz_Task/{Action}", ids.ToJson());
+                var result = await DataProvider.PostData<AjaxResult>($"/Quartz_Manage/Quartz_Task/{Action}", ids.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);

@@ -38,7 +38,7 @@ namespace AIStudio.Client.Business
         {
             if (base_user.Count == 0)
             {
-                var result = await _dataProvider.GetData<List<SelectOption>>("/Base_Manage/Base_User/GetOptionList");
+                var result = await _dataProvider.PostData<List<SelectOption>>("/Base_Manage/Base_User/GetOptionList");
                 if (!result.Success)
                 {
                     throw new Exception(result.Msg);
@@ -61,7 +61,7 @@ namespace AIStudio.Client.Business
         {
             if (base_role.Count == 0)
             {
-                var result = await _dataProvider.GetData<List<SelectOption>>("/Base_Manage/Base_Role/GetOptionList");
+                var result = await _dataProvider.PostData<List<SelectOption>>("/Base_Manage/Base_Role/GetOptionList");
                 if (!result.Success)
                 {
                     throw new Exception(result.Msg);
@@ -84,7 +84,7 @@ namespace AIStudio.Client.Business
         {
             if (base_departmenttree.Count == 0)
             {
-                var result = await _dataProvider.GetData<List<TreeModel>>("/Base_Manage/Base_Department/GetTreeDataList");
+                var result = await _dataProvider.PostData<List<TreeModel>>("/Base_Manage/Base_Department/GetTreeDataList");
                 if (!result.Success)
                 {
                     throw new Exception(result.Msg);
@@ -119,7 +119,7 @@ namespace AIStudio.Client.Business
         {
             if (base_actiontree.Count == 0)
             {
-                var result = await _dataProvider.GetData<List<TreeModel>>("/Base_Manage/Base_Action/GetActionTreeList");
+                var result = await _dataProvider.PostData<List<TreeModel>>("/Base_Manage/Base_Action/GetActionTreeList");
                 if (!result.Success)
                 {
                     throw new Exception(result.Msg);
@@ -154,7 +154,7 @@ namespace AIStudio.Client.Business
         {
             if (base_dictionary.Count == 0)
             {
-                var result = await _dataProvider.GetData<List<DictionaryTreeModel>>("/Base_Manage/Base_Dictionary/GetTreeDataList");
+                var result = await _dataProvider.PostData<List<DictionaryTreeModel>>("/Base_Manage/Base_Dictionary/GetTreeDataList");
                 if (!result.Success)
                 {
                     throw new Exception(result.Msg);

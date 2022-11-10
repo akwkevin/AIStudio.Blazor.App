@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AIStudio.Client.Business
@@ -77,7 +78,7 @@ namespace AIStudio.Client.Business
         }
 
         //[LoggerAttribute]
-        public async Task<AjaxResult<T>> GetData<T>(string url, Dictionary<string, string> data)
+        public async Task<AjaxResult<T>> PostData<T>(string url, Dictionary<string, string> data)
         {
             try
             {
@@ -115,7 +116,7 @@ namespace AIStudio.Client.Business
         }
 
         //[LoggerAttribute]
-        public async Task<AjaxResult<T>> GetData<T>(string url, string json)
+        public async Task<AjaxResult<T>> PostData<T>(string url, string json)
         {
             try
             {
@@ -143,9 +144,36 @@ namespace AIStudio.Client.Business
         }
 
         //[LoggerAttribute]
-        public async Task<AjaxResult<T>> GetData<T>(string url, object data)
+        public async Task<AjaxResult<T>> PostData<T>(string url, object data)
         {
-            return await GetData<T>(url, data.ToJson());
+            return await PostData<T>(url, data.ToJson());
+        }
+
+        public async Task<AjaxResult<T>> GetData<T>(string url, Dictionary<string, string> data)
+        {
+            try
+            {
+                if (!url.StartsWith("http"))
+                {
+                    url = Url + url;
+                }
+
+                var content = await GetAsync(url, TimeOut, data, await GetHeader());
+                var result = content.ToObject<AjaxResult<T>>();
+                return result;
+            }
+            catch (System.Net.Http.HttpRequestException e)
+            {
+                if (e.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    _navigation.NavigateTo("/Home/Login");
+                }
+                return new AjaxResult<T>() { Msg = e.Message, Success = false };
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResult<T>() { Msg = ex.Message, Success = false };
+            }
         }
 
         /// <summary>
@@ -391,8 +419,24 @@ namespace AIStudio.Client.Business
         /// </summary>
         /// <param name="url">目标链接</param>
         /// <returns>返回的字符串</returns>
-        public async Task<string> GetAsync(string url, TimeSpan timeSpan, Dictionary<string, string> header = null)
+        public async Task<string> GetAsync(string url, TimeSpan timeSpan, Dictionary<string, string> data, Dictionary<string, string> header = null)
         {
+            string result = "";
+            StringBuilder builder = new StringBuilder();
+            builder.Append(url);
+            if (data.Count > 0)
+            {
+                builder.Append("?");
+                int i = 0;
+                foreach (var item in data)
+                {
+                    if (i > 0)
+                        builder.Append("&");
+                    builder.AppendFormat("{0}={1}", item.Key, item.Value);
+                    i++;
+                }
+            }
+
             HttpClient client = _httpClientFactory.CreateClient();
             client.Timeout = timeSpan;
             if (header != null)
@@ -408,7 +452,7 @@ namespace AIStudio.Client.Business
 
             try
             {
-                HttpResponseMessage response = await client.GetAsync(url);
+                HttpResponseMessage response = await client.GetAsync(builder.ToString());
                 response.EnsureSuccessStatusCode();//用来抛异常的
                 responseBody = await response.Content.ReadAsStringAsync();
             }
