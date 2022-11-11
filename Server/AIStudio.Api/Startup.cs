@@ -21,6 +21,7 @@ using AIStudio.Util;
 using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting.WindowsServices;
 using NLog;
 using NLog.Web;
 using Org.BouncyCastle.Asn1.IsisMtt.Ocsp;
@@ -48,7 +49,18 @@ namespace AIStudio.Api
 
             try
             {
-                var builder = WebApplication.CreateBuilder(args);         
+                var options = new WebApplicationOptions
+                {
+                    Args = args,
+                    ContentRootPath = WindowsServiceHelpers.IsWindowsService() ? AppContext.BaseDirectory : default
+                };
+                var builder = WebApplication.CreateBuilder(options);
+
+                //支持打包成window服务 
+                //sc create AIStudio.Service BinPath = XXXXX 添加服务
+                //sc stop AIStudio.Service 停止服务
+                //sc delete AIStudio.Service 删除服务
+                builder.Host.UseWindowsService();
 
                 // Add services to the container.
 

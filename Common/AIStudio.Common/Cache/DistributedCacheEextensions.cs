@@ -10,6 +10,8 @@ public static class DistributedCacheEextensions
     public static TCacheItem? Get<TCacheItem>(this IDistributedCache cache, string key)
     {
         var cachedBytes = cache.Get(key);
+        if (cachedBytes == null)
+            return default(TCacheItem);
         var cached = System.Text.UTF8Encoding.Default.GetString(cachedBytes);
         var value = cached.ToObject<TCacheItem>();
         return value;
@@ -18,6 +20,8 @@ public static class DistributedCacheEextensions
     public static async Task<TCacheItem?> GetAsync<TCacheItem>(this IDistributedCache cache, string key, CancellationToken token = default)
     {
         var cachedBytes = await cache.GetAsync(key, token);
+        if (cachedBytes == null)
+            return default(TCacheItem);
         string json =  System.Text.UTF8Encoding.Default.GetString(cachedBytes);
         var value = json.ToObject<TCacheItem>();
         return value;
