@@ -156,31 +156,6 @@ namespace AIStudio.Util
             return num;
         }
 
-        /// <summary> 
-        /// 将一个序列化后的byte[]数组还原
-        /// </summary>
-        /// <param name="bytes"></param>         
-        /// <returns></returns>
-        public static object ToObject(this byte[] bytes)
-        {
-            using (MemoryStream ms = new MemoryStream(bytes))
-            {
-                IFormatter formatter = new BinaryFormatter();
-                return formatter.Deserialize(ms);
-            }
-        }
-
-        /// <summary>
-        /// 将一个序列化后的byte[]数组还原
-        /// </summary>
-        /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="bytes">字节数组</param>
-        /// <returns></returns>
-        public static T ToObject<T>(this byte[] bytes)
-        {
-            return (T)ToObject(bytes);
-        }
-
         /// <summary>
         /// 将字节数组保存为文件
         /// </summary>

@@ -26,10 +26,10 @@ namespace AIStudio.Business.OA_Manage
     public class OA_DefFormBusiness : BaseBusiness<OA_DefForm>, IOA_DefFormBusiness, ITransientDependency
     {
         private readonly IMapper _mapper;
-        private readonly IDefinitionLoader _definitionLoader;
         private readonly IOA_UserFormBusiness _oA_UserFormBus;
         private readonly IWorkflowRegistry _workflowRegistry;
         private readonly ILogger<OA_DefFormBusiness> _logger;
+        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetService<IDefinitionLoader>(); } }
 
         /// <summary>
         /// 流程定义
@@ -44,14 +44,12 @@ namespace AIStudio.Business.OA_Manage
         /// <param name="logger"></param>
         public OA_DefFormBusiness(ISqlSugarClient db, 
             IMapper mapper,
-            IDefinitionLoader definitionLoader,
             IOA_UserFormBusiness oA_UserFormBus,
             ILogger<OA_DefFormBusiness> logger)
             : base(db)
         {
             _mapper = mapper;
             _oA_UserFormBus = oA_UserFormBus; 
-            _definitionLoader = definitionLoader;
             _logger = logger;
         }
 

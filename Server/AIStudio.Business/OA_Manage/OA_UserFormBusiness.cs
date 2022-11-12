@@ -26,30 +26,22 @@ namespace AIStudio.Business.OA_Manage
     {
         private readonly IOA_UserFormStepBusiness _oA_UserFormStepBusiness;
         private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
-        private readonly IDefinitionLoader _definitionLoader;
-        private readonly IPersistenceProvider _workflowStore;
-        private readonly IWorkflowRegistry _workflowRegistry;
-        private readonly IWorkflowHost _workflowHost;
         private readonly IMapper _mapper;
+
         private IOperator _operator { get { return ServiceLocator.Instance.GetService<IOperator>(); } }
+        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetService<IDefinitionLoader>(); } }
+        private IPersistenceProvider _workflowStore { get { return ServiceLocator.Instance.GetService<IPersistenceProvider>(); } }
+        private IWorkflowRegistry _workflowRegistry { get { return ServiceLocator.Instance.GetService<IWorkflowRegistry>(); } }
+        private IWorkflowHost _workflowHost { get { return ServiceLocator.Instance.GetService<IWorkflowHost>(); } }
 
-
-        public OA_UserFormBusiness(ISqlSugarClient db, 
+        public OA_UserFormBusiness(ISqlSugarClient db,
             IOA_UserFormStepBusiness oA_UserFormStepBusiness,
             IBase_DepartmentBusiness base_DepartmentBusiness,
-            IDefinitionLoader definitionLoader,
-            IPersistenceProvider workflowStore,
-            IWorkflowRegistry workflowRegistry,
-            IWorkflowHost workflowHost,
             IMapper mapper)
             : base(db)
-        {           
+        {
             _oA_UserFormStepBusiness = oA_UserFormStepBusiness;
             _base_DepartmentBusiness = base_DepartmentBusiness;
-            _workflowRegistry = workflowRegistry;
-            _definitionLoader = definitionLoader;
-            _workflowStore = workflowStore;
-            _workflowHost = workflowHost;
             _mapper = mapper;
         }
 
@@ -108,7 +100,7 @@ namespace AIStudio.Business.OA_Manage
             return await q.Select<OA_UserFormDTO>().GetPageResultAsync(input);
         }
 
-    
+
 
         public int GetDataListCount(List<string> jsonids, OAStatus status)
         {
@@ -131,11 +123,11 @@ namespace AIStudio.Business.OA_Manage
 
         public new async Task<OA_UserFormDTO> GetTheDataAsync(string id)
         {
-            var form = await GetIQueryable().LeftJoin<OA_UserFormStep>((o, i) => o.Id == i.UserFormId).Where(o => o.Id == id).Select((o, i) => new                              
-                              {
-                                  UserForm = o,
-                                  Comments = i
-                              }).FirstAsync();
+            var form = await GetIQueryable().LeftJoin<OA_UserFormStep>((o, i) => o.Id == i.UserFormId).Where(o => o.Id == id).Select((o, i) => new
+            {
+                UserForm = o,
+                Comments = i
+            }).FirstAsync();
 
             OA_UserFormDTO formdto = _mapper.Map<OA_UserFormDTO>(form.UserForm);
             formdto.Comments = _mapper.Map<List<OA_UserFormStepDTO>>(form.Comments);

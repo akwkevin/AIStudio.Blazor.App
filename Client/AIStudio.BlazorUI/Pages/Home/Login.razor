@@ -1,6 +1,8 @@
 ﻿@namespace AIStudio.BlazorUI.Pages.User
 @layout UserLayout
 @page "/Home/Login"
+@inject IJSRuntime JS
+
 @using Blazored.LocalStorage
 
 <div class="main__b__0">
@@ -59,12 +61,24 @@
         }
     }
 
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/AIStudio.BlazorUI/js/md5.js");
+        }
+    }
+
     public async void HandleSubmit()
     {
         try
         {
             loading = true;
-            var result = await AuthStateProvider.Login(_model.UserName, _model.Password);
+            var password = _model.Password;
+            password = await module.InvokeAsync<string>("hex_md5", password); 
+            var result = await AuthStateProvider.Login(_model.UserName, password);
             if (result.Success)
             {           
                 if (_model.AutoLogin)
@@ -83,6 +97,10 @@
                 loading = false;
                 await Message.Warning(result.Msg);
             }
+        }
+        catch (Exception ex)
+        {
+            await Message.Error(ex.Message);
         }
         finally
         {
