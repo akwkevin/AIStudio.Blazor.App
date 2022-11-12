@@ -15,10 +15,11 @@ using WorkflowCore.Interface;
 using WorkflowCore.Services.DefinitionStorage;
 using WorkflowCore.Services;
 using AIStudio.Entity.Base_Manage;
-using AIStudio.Business.OA_Manage.Step;
+using AIStudio.Business.OA_Manage.Steps;
 using NetTaste;
 using AIStudio.Common.Service;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace AIStudio.Business.OA_Manage
 {
@@ -28,11 +29,11 @@ namespace AIStudio.Business.OA_Manage
         private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
         private readonly IMapper _mapper;
 
-        private IOperator _operator { get { return ServiceLocator.Instance.GetService<IOperator>(); } }
-        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetService<IDefinitionLoader>(); } }
-        private IPersistenceProvider _workflowStore { get { return ServiceLocator.Instance.GetService<IPersistenceProvider>(); } }
-        private IWorkflowRegistry _workflowRegistry { get { return ServiceLocator.Instance.GetService<IWorkflowRegistry>(); } }
-        private IWorkflowHost _workflowHost { get { return ServiceLocator.Instance.GetService<IWorkflowHost>(); } }
+        private IOperator _operator { get { return ServiceLocator.Instance.GetRequiredService<IOperator>(); } }
+        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetRequiredService<IDefinitionLoader>(); } }
+        private IPersistenceProvider _workflowStore { get { return ServiceLocator.Instance.GetRequiredService<IPersistenceProvider>(); } }
+        private IWorkflowRegistry _workflowRegistry { get { return ServiceLocator.Instance.GetRequiredService<IWorkflowRegistry>(); } }
+        private IWorkflowHost _workflowHost { get { return ServiceLocator.Instance.GetRequiredService<IWorkflowHost>(); } }
 
         public OA_UserFormBusiness(ISqlSugarClient db,
             IOA_UserFormStepBusiness oA_UserFormStepBusiness,
@@ -100,8 +101,6 @@ namespace AIStudio.Business.OA_Manage
             return await q.Select<OA_UserFormDTO>().GetPageResultAsync(input);
         }
 
-
-
         public int GetDataListCount(List<string> jsonids, OAStatus status)
         {
             var q = GetIQueryable();
@@ -120,17 +119,15 @@ namespace AIStudio.Business.OA_Manage
             return q.Where(where).Count();
         }
 
-
         public new async Task<OA_UserFormDTO> GetTheDataAsync(string id)
         {
-            var form = await GetIQueryable().LeftJoin<OA_UserFormStep>((o, i) => o.Id == i.UserFormId).Where(o => o.Id == id).Select((o, i) => new
+            var forms = await GetIQueryable().Where(o => o.Id == id).Select<OA_UserFormDTO>().ToListAsync();
+            Db.ThenMapper(forms, async item =>
             {
-                UserForm = o,
-                Comments = i
-            }).FirstAsync();
+                item.Comments = await Db.Queryable<OA_UserFormStep>().Select<OA_UserFormStepDTO>().SetContextAsync(x => x.UserFormId, () => item.Id, item);
+            });
 
-            OA_UserFormDTO formdto = _mapper.Map<OA_UserFormDTO>(form.UserForm);
-            formdto.Comments = _mapper.Map<List<OA_UserFormStepDTO>>(form.Comments);
+            var formdto = forms.FirstOrDefault();
 
             var workflow = await _workflowStore.GetWorkflowInstance(id);
             OAData data = workflow.Data as OAData;
@@ -184,7 +181,7 @@ namespace AIStudio.Business.OA_Manage
             return oAData.Steps;
         }
 
-        public async Task SaveDataAysnc(OA_UserFormDTO data)
+        public async Task SaveDataAsync(OA_UserFormDTO data)
         {
             if (data.Id.IsNullOrEmpty())
             {

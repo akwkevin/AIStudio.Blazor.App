@@ -5,7 +5,7 @@
   "Steps": [
     {
       "Id": "Step1",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
       "NextStepId": "Step2",
       "ActRules": {
         "UserIds": "Admin",
@@ -17,7 +17,7 @@
     },
     {
       "Id": "Step2",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
       "NextStepId": "Hello",
       "ActRules": {
         "UserIds": "Admin",
@@ -29,17 +29,17 @@
     },
     {
       "Id": "Hello",
-      "StepType": "AIStudio.Business.OA_Manage.Step.HelloWorld, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.HelloWorld, AIStudio.Business",
       "NextStepId": "Bye"
     },
     {
       "Id": "Bye",
-      "StepType": "AIStudio.Business.OA_Manage.Step.GoodbyeWorld, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.GoodbyeWorld, AIStudio.Business",
       "NextStepId": "Step3"
     },
     {
       "Id": "Step3",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business"
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business"
     }
   ]
 }

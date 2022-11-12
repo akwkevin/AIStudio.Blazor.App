@@ -434,7 +434,7 @@ namespace AIStudio.Api
                 var def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test1.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test1.json"),
                     JSONId = "1274618511506804736",
                     Type = "请假",
                     Name = "请假流程",
@@ -447,7 +447,7 @@ namespace AIStudio.Api
                 def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test2.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test2.json"),
                     JSONId = "1274620801831669760",
                     Type = "报销",
                     Name = "报销审批-与签",
@@ -460,7 +460,7 @@ namespace AIStudio.Api
                 def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test3.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test3.json"),
                     JSONId = "1274621154383892480",
                     Type = "报销",
                     Name = "报销审批-或签",
@@ -473,7 +473,7 @@ namespace AIStudio.Api
                 def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test4.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test4.json"),
                     JSONId = "1274621654579810304",
                     Type = "顺序",
                     Name = "部门领导审批",
@@ -486,7 +486,7 @@ namespace AIStudio.Api
                 def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test5.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test5.json"),
                     JSONId = "1274622508779180032",
                     Type = "报销",
                     Name = "并行流程",
@@ -499,7 +499,7 @@ namespace AIStudio.Api
                 def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test6.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test6.json"),
                     JSONId = "1274623039325081600",
                     Type = "顺序",
                     Name = "有创建权限的流程",
@@ -513,7 +513,7 @@ namespace AIStudio.Api
                 def = new OA_DefForm()
                 {
                     Id = id,
-                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Step/g6test7.json"),
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test7.json"),
                     JSONId = "1274623664695808000",
                     Type = "请假",
                     Name = "请假流程-条件",

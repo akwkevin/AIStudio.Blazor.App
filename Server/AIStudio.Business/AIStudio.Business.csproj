@@ -10,4 +10,28 @@
     <ProjectReference Include="..\AIStudio.IBusiness\AIStudio.IBusiness.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="OA_Manage\Steps\g6test1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OA_Manage\Steps\g6test2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OA_Manage\Steps\g6test3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OA_Manage\Steps\g6test4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OA_Manage\Steps\g6test5.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OA_Manage\Steps\g6test6.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OA_Manage\Steps\g6test7.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

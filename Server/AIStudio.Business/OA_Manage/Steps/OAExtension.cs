@@ -6,7 +6,7 @@ using AIStudio.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace AIStudio.Business.OA_Manage.Step
+namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 扩展方法

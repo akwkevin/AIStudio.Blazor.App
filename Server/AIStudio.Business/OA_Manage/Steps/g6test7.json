@@ -1,5 +1,5 @@
 ﻿{
-  "Id": "1274618511506804736",
+  "Id": "1274623664695808000",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
   "FirstStart": true,
@@ -7,7 +7,7 @@
     {
       "Id": "node2",
       "Label": "开始",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
       "NextStepId": "node9",
       "Status": 0,
       "ActRules": {}
@@ -15,7 +15,7 @@
     {
       "Id": "node9",
       "Label": "主管审批",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node137",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -23,7 +23,26 @@
     {
       "Id": "node137",
       "Label": "人力审批",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
+      "NextStepId": "node467",
+      "Status": 0,
+      "ActRules": { "UserIds": [ "Admin" ] }
+    },
+    {
+      "Id": "node467",
+      "Label": "条件",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OADecideStep, AIStudio.Business",
+      "Status": 0,
+      "ActRules": {},
+      "SelectNextStep": {
+        "node144": "data.Flag<=3",
+        "node479": "data.Flag>3"
+      }
+    },
+    {
+      "Id": "node479",
+      "Label": "分管领导",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node144",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -31,7 +50,7 @@
     {
       "Id": "node144",
       "Label": "人力归档",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node61",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
@@ -39,7 +58,7 @@
     {
       "Id": "node61",
       "Label": "结束",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {}
     }
@@ -98,8 +117,8 @@
       "size": [ 170, 34 ],
       "stateImage": "/assets/end.dfe4a5ab.svg",
       "type": "node",
-      "x": 218.55001831054688,
-      "y": 408.0,
+      "x": 213.55001831054688,
+      "y": 550.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
@@ -137,8 +156,50 @@
       "size": [ 170, 34 ],
       "stateImage": "/assets/jiahao.ecf71c51.svg",
       "type": "node",
-      "x": 220.55001831054688,
-      "y": 323.0,
+      "x": 214.55001831054688,
+      "y": 464.0,
+      "inPoints": [ [ 0.0, 0.5 ] ],
+      "outPoints": [ [ 1.0, 0.5 ] ],
+      "isDoingStart": false,
+      "isDoingEnd": false,
+      "UserIds": [ "Admin" ]
+    },
+    {
+      "id": "node467",
+      "name": "条件节点",
+      "color": "#1890ff",
+      "image": "/assets/Shape.486da24a.svg",
+      "label": "条件",
+      "offsetX": 84,
+      "offsetY": 22,
+      "shape": "customNode",
+      "size": [ 170, 34 ],
+      "stateImage": "/assets/wenhao.71b31d27.svg",
+      "type": "node",
+      "x": 221.55001831054688,
+      "y": 329.0,
+      "inPoints": [ [ 0.0, 0.5 ] ],
+      "outPoints": [
+        [ 1.0, 0.4 ],
+        [ 1.0, 0.6 ]
+      ],
+      "isDoingStart": false,
+      "isDoingEnd": false
+    },
+    {
+      "id": "node479",
+      "name": "中间节点",
+      "color": "#1890ff",
+      "image": "/assets/Shape.486da24a.svg",
+      "label": "分管领导",
+      "offsetX": 104,
+      "offsetY": 24,
+      "shape": "customNode",
+      "size": [ 170, 34 ],
+      "stateImage": "/assets/jiahao.ecf71c51.svg",
+      "type": "node",
+      "x": 408.0752708357994,
+      "y": 396.07070707070704,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
@@ -198,53 +259,132 @@
       "type": "edge"
     },
     {
-      "id": "edge219",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 220.76876831054688,
-        "y": 305.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 221.33126831054688,
-        "y": 260.5
-      },
-      "shape": "customEdge",
-      "source": "node137",
-      "sourceId": "node137",
-      "target": "node144",
-      "targetId": "node144",
-      "type": "edge"
-    },
-    {
       "id": "edge261",
       "end": {
         "x": 0.0,
         "y": -17.0
       },
       "endPoint": {
-        "x": 218.96178301642922,
-        "y": 390.5
+        "x": 213.7535066826399,
+        "y": 532.5
       },
       "start": {
         "x": 0.0,
         "y": 17.0
       },
       "startPoint": {
-        "x": 220.13825360466453,
-        "y": 340.5
+        "x": 214.34652993845384,
+        "y": 481.5
       },
       "shape": "customEdge",
       "source": "node144",
       "sourceId": "node144",
       "target": "node61",
       "targetId": "node61",
+      "type": "edge"
+    },
+    {
+      "id": "edge539",
+      "end": {
+        "x": 0.0,
+        "y": -17.0
+      },
+      "endPoint": {
+        "x": 215.45742571795427,
+        "y": 446.5
+      },
+      "start": {
+        "x": -17.0,
+        "y": 17.0
+      },
+      "startPoint": {
+        "x": 220.64261090313948,
+        "y": 346.5
+      },
+      "shape": "customEdge",
+      "source": "node467",
+      "sourceId": "node467",
+      "target": "node144",
+      "targetId": "node144",
+      "type": "edge",
+      "label": "<=3",
+      "textColor": "#3AB70D"
+    },
+    {
+      "id": "edge622",
+      "end": {
+        "x": 0.0,
+        "y": -17.0
+      },
+      "endPoint": {
+        "x": 359.4073491490524,
+        "y": 378.57070707070704
+      },
+      "start": {
+        "x": 17.0,
+        "y": 17.0
+      },
+      "startPoint": {
+        "x": 270.2179399972939,
+        "y": 346.5
+      },
+      "shape": "customEdge",
+      "source": "node467",
+      "sourceId": "node467",
+      "target": "node479",
+      "targetId": "node479",
+      "type": "edge",
+      "label": ">3",
+      "textColor": "#D61F1F"
+    },
+    {
+      "id": "edge735",
+      "end": {
+        "x": 0.0,
+        "y": -17.0
+      },
+      "endPoint": {
+        "x": 264.4061521395431,
+        "y": 446.5
+      },
+      "start": {
+        "x": 0.0,
+        "y": 17.0
+      },
+      "startPoint": {
+        "x": 358.2191370068032,
+        "y": 413.57070707070704
+      },
+      "shape": "customEdge",
+      "source": "node479",
+      "sourceId": "node479",
+      "target": "node144",
+      "targetId": "node144",
+      "type": "edge"
+    },
+    {
+      "id": "edge770",
+      "end": {
+        "x": 0.0,
+        "y": -17.0
+      },
+      "endPoint": {
+        "x": 221.55001831054688,
+        "y": 311.5
+      },
+      "start": {
+        "x": 0.0,
+        "y": 17.0
+      },
+      "startPoint": {
+        "x": 221.55001831054688,
+        "y": 260.5
+      },
+      "shape": "customEdge",
+      "source": "node137",
+      "sourceId": "node137",
+      "target": "node467",
+      "targetId": "node467",
       "type": "edge"
     }
   ],

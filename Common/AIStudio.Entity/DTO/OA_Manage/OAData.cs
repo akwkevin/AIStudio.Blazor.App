@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AIStudio.Entity.DTO.OA_Manage
 {
@@ -54,11 +55,12 @@ namespace AIStudio.Entity.DTO.OA_Manage
 
     public class MyEvent
     {
+        [Required]
         public string EventName { get; set; }
+        [Required]
         public string EventKey { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
         public int Status { get; set; }
+        [Required]
         public string Remarks { get; set; }
     }
 
@@ -117,14 +119,14 @@ namespace AIStudio.Entity.DTO.OA_Manage
 
     public static class StepType
     {
-        public readonly static string Start = "AIStudio.Service.WorkflowCore.OAStartStep, AIStudio.Service";
-        public readonly static string Middle = "AIStudio.Service.WorkflowCore.OAMiddleStep, AIStudio.Service";
-        public readonly static string End = "AIStudio.Service.WorkflowCore.OAEndStep, AIStudio.Service";
-        public readonly static string Normal = "AIStudio.Service.WorkflowCore.OANormalStep, AIStudio.Service";
+        public readonly static string Start = "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business";
+        public readonly static string Middle = "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business";
+        public readonly static string End = "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business";
+        public readonly static string Normal = "AIStudio.Business.OA_Manage.Steps.OANormalStep, AIStudio.Business";
         public readonly static string Data = "Coldairarrow.Util.OAData, Coldairarrow.Util";
-        public readonly static string Decide = "AIStudio.Service.WorkflowCore.OADecideStep, AIStudio.Service"; //"WorkflowCore.Primitives.Decide, WorkflowCore";
-        public readonly static string COBegin = "AIStudio.Service.WorkflowCore.OACOBeginStep, AIStudio.Service";
-        public readonly static string COEnd = "AIStudio.Service.WorkflowCore.OACOEndStep, AIStudio.Service";
+        public readonly static string Decide = "AIStudio.Business.OA_Manage.Steps.OADecideStep, AIStudio.Business"; //"WorkflowCore.Primitives.Decide, WorkflowCore";
+        public readonly static string COBegin = "AIStudio.Business.OA_Manage.Steps.OACOBeginStep, AIStudio.Business";
+        public readonly static string COEnd = "AIStudio.Business.OA_Manage.Steps.OACOEndStep, AIStudio.Business";
     }
 
     public static class stateImage

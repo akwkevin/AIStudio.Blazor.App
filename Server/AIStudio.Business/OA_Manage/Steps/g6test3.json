@@ -1,29 +1,32 @@
 ﻿{
-  "Id": "1274623039325081600",
+  "Id": "1274621154383892480",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "node1036",
+      "Id": "node166",
       "Label": "开始",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
-      "NextStepId": "node1043",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
+      "NextStepId": "node173",
       "Status": 0,
       "ActRules": {}
     },
     {
-      "Id": "node1043",
-      "Label": "节点",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "node1050",
+      "Id": "node173",
+      "Label": "或签",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
+      "NextStepId": "node180",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "1267011853830066176", "1267011854366937088", "Admin" ],
+        "ActType": "or"
+      }
     },
     {
-      "Id": "node1050",
+      "Id": "node180",
       "Label": "结束",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {}
     }
@@ -32,58 +35,59 @@
   "Flag": 0.0,
   "nodes": [
     {
-      "id": "node1036",
+      "id": "node166",
       "name": "开始节点",
       "color": "#1890ff",
       "image": "/assets/Shape.486da24a.svg",
       "label": "开始",
-      "offsetX": 93,
-      "offsetY": 20,
+      "offsetX": 103,
+      "offsetY": 24,
       "shape": "customNode",
       "size": [ 170, 34 ],
       "stateImage": "/assets/start.e502ed95.svg",
       "type": "node",
-      "x": 422.5500183105469,
-      "y": 68.0,
+      "x": 393.5500183105469,
+      "y": 75.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
       "isDoingEnd": false
     },
     {
-      "id": "node1043",
+      "id": "node173",
       "name": "中间节点",
       "color": "#1890ff",
       "image": "/assets/Shape.486da24a.svg",
-      "label": "节点",
-      "offsetX": 83,
-      "offsetY": 12,
+      "label": "或签",
+      "offsetX": 105,
+      "offsetY": 15,
       "shape": "customNode",
       "size": [ 170, 34 ],
       "stateImage": "/assets/jiahao.ecf71c51.svg",
       "type": "node",
-      "x": 420.5500183105469,
-      "y": 157.0,
+      "x": 395.5500183105469,
+      "y": 164.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
       "isDoingEnd": false,
-      "UserIds": [ "Admin" ]
+      "UserIds": [ "1267011853830066176", "1267011854366937088", "Admin" ],
+      "ActType": "or"
     },
     {
-      "id": "node1050",
+      "id": "node180",
       "name": "结束节点",
       "color": "#1890ff",
       "image": "/assets/Shape.486da24a.svg",
       "label": "结束",
-      "offsetX": 106,
-      "offsetY": 18,
+      "offsetX": 94,
+      "offsetY": 16,
       "shape": "customNode",
       "size": [ 170, 34 ],
       "stateImage": "/assets/end.dfe4a5ab.svg",
       "type": "node",
-      "x": 423.5500183105469,
-      "y": 244.0,
+      "x": 396.5500183105469,
+      "y": 254.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
@@ -92,53 +96,53 @@
   ],
   "edges": [
     {
-      "id": "edge1091",
+      "id": "edge215",
       "end": {
         "x": 0.0,
         "y": -17.0
       },
       "endPoint": {
-        "x": 420.94327673751314,
-        "y": 139.5
+        "x": 395.15675988358055,
+        "y": 146.5
       },
       "start": {
         "x": 0.0,
         "y": 17.0
       },
       "startPoint": {
-        "x": 422.1567598835806,
-        "y": 85.5
+        "x": 393.9432767375132,
+        "y": 92.5
       },
       "shape": "customEdge",
-      "source": "node1036",
-      "sourceId": "node1036",
-      "target": "node1043",
-      "targetId": "node1043",
+      "source": "node166",
+      "sourceId": "node166",
+      "target": "node173",
+      "targetId": "node173",
       "type": "edge"
     },
     {
-      "id": "edge1128",
+      "id": "edge253",
       "end": {
         "x": 0.0,
         "y": -17.0
       },
       "endPoint": {
-        "x": 422.9465700346848,
-        "y": 226.5
+        "x": 396.3555738661024,
+        "y": 236.5
       },
       "start": {
         "x": 0.0,
         "y": 17.0
       },
       "startPoint": {
-        "x": 421.15346658640897,
-        "y": 174.5
+        "x": 395.74446275499133,
+        "y": 181.5
       },
       "shape": "customEdge",
-      "source": "node1043",
-      "sourceId": "node1043",
-      "target": "node1050",
-      "targetId": "node1050",
+      "source": "node173",
+      "sourceId": "node173",
+      "target": "node180",
+      "targetId": "node180",
       "type": "edge"
     }
   ],

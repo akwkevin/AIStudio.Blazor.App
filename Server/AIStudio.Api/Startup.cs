@@ -19,15 +19,11 @@ using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
 using AIStudio.Util;
 using Castle.DynamicProxy;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting.WindowsServices;
 using NLog;
 using NLog.Web;
-using Org.BouncyCastle.Asn1.IsisMtt.Ocsp;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace AIStudio.Api
 {
@@ -249,9 +245,9 @@ namespace AIStudio.Api
                     host?.Start();
 
 #if DEBUG
-                    //host.RegisterWorkflow<HelloWorldWorkflow>();
+                    host.RegisterWorkflow<AIStudio.Business.OA_Manage.HelloWorldSteps.HelloWorldWorkflow>();
 
-                    //host.StartWorkflow("HelloWorld").Wait();
+                    host.StartWorkflow("HelloWorld").Wait();
 #endif
                 }
 

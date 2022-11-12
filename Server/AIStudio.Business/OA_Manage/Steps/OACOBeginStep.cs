@@ -1,14 +1,13 @@
 ﻿using AIStudio.Entity.DTO.OA_Manage;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
-using WorkflowCore.Primitives;
 
-namespace AIStudio.Business.OA_Manage.Step
+namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
-    /// 条件分支
+    /// 并行开始
     /// </summary>
-    public class OADecideStep: Decide
+    public class OACOBeginStep : StepBody
     {
         /// <summary>
         /// 节点触发
@@ -29,9 +28,9 @@ namespace AIStudio.Business.OA_Manage.Step
             if (node != null)
             {
                 node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen);
-            }     
+            }
 
-            return base.Run(context);
+            return ExecutionResult.Next();
         }
     }
 }

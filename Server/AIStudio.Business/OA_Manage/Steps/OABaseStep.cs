@@ -1,4 +1,5 @@
-﻿using AIStudio.Common.IdGenerator;
+﻿using AIStudio.Common.CurrentUser;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Service;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.OA_Manage;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace AIStudio.Business.OA_Manage.Step
+namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 基类
@@ -18,6 +19,7 @@ namespace AIStudio.Business.OA_Manage.Step
         protected IOA_UserFormStepBusiness _userFormStepBusiness { get => ServiceLocator.Instance.GetRequiredService<IOA_UserFormStepBusiness>(); }
         protected IOA_UserFormBusiness _userFormBusiness { get => ServiceLocator.Instance.GetRequiredService<IOA_UserFormBusiness>(); }
         protected IWorkflowRegistry _registry { get => ServiceLocator.Instance.GetRequiredService<IWorkflowRegistry>(); }
+        protected IOperator _operator { get => ServiceLocator.Instance.GetRequiredService<IOperator>(); }
 
         protected OAStep OAStep { get; set; }
 
@@ -68,14 +70,14 @@ namespace AIStudio.Business.OA_Manage.Step
             {
                 MyEvent myEvent = context.ExecutionPointer.EventData as MyEvent;
 
-                if (!context.ExecutionPointer.ExtensionAttributes.ContainsKey("ActionUser") || context.ExecutionPointer.ExtensionAttributes["ActionUser"]?.ToString() != myEvent.UserId)
+                if (!context.ExecutionPointer.ExtensionAttributes.ContainsKey("ActionUser") || context.ExecutionPointer.ExtensionAttributes["ActionUser"]?.ToString() != _operator.UserId)
                 {
                     OA_UserFormStep step = new OA_UserFormStep()
                     {
                         Id = IdHelper.GetId(),
                         UserFormId = context.Workflow.Id,
-                        CreatorId = myEvent.UserId,
-                        CreatorName = myEvent.UserName,
+                        CreatorId = _operator.UserId,
+                        CreatorName = _operator.UserName,
                         RoleIds = string.Join(",", OAStep.ActRules?.RoleIds??new List<string>()),
                         RoleNames = string.Join(",", OAStep.ActRules?.RoleNames??new List<string>()),
                         Remarks = myEvent.Remarks,
@@ -97,7 +99,7 @@ namespace AIStudio.Business.OA_Manage.Step
                         return ExecutionResult.WaitForEvent("MyEvent", context.Workflow.Id + OAStep.Id, DateTime.Now.ToUniversalTime());
                     }                    
 
-                    context.ExecutionPointer.ExtensionAttributes["ActionUser"] = myEvent.UserId;
+                    context.ExecutionPointer.ExtensionAttributes["ActionUser"] = _operator.UserId;
 
                    
                 }
@@ -143,16 +145,16 @@ namespace AIStudio.Business.OA_Manage.Step
 
             if (string.IsNullOrEmpty(form.AlreadyUserNames))
             {
-                form.AlreadyUserNames = "^" + myEvent.UserName + "^";
-                form.AlreadyUserIds = "^" + myEvent.UserId + "^";
+                form.AlreadyUserNames = "^" + _operator.UserName + "^";
+                form.AlreadyUserIds = "^" + _operator.UserId + "^";
             }
             else
             {
-                form.AlreadyUserNames += myEvent.UserName + "^";
-                form.AlreadyUserIds += myEvent.UserId + "^";
+                form.AlreadyUserNames += _operator.UserName + "^";
+                form.AlreadyUserIds += _operator.UserId + "^";
             }
-            form.ModifyId = myEvent.UserId;
-            form.ModifyName = myEvent.UserName;
+            form.ModifyId = _operator.UserId;
+            form.ModifyName = _operator.UserName;
             form.ModifyTime = DateTime.Now;
 
             var currentstepid = oAData.CurrentStepIds.FirstOrDefault(p => p.StepId == OAStep.Id);
@@ -167,8 +169,8 @@ namespace AIStudio.Business.OA_Manage.Step
                                 //部分审批
                                 myEvent.Status = (int)OAStatus.PartialApproval;
 
-                                currentstepid.ActRules?.UserIds.Remove(myEvent.UserId);
-                                currentstepid.ActRules?.UserNames.Remove(myEvent.UserName);
+                                currentstepid.ActRules?.UserIds.Remove(_operator.UserId);
+                                currentstepid.ActRules?.UserNames.Remove(_operator.UserName);
                                 SetFormCurrentStepIds(form, oAData.CurrentStepIds);
                             }
                         }

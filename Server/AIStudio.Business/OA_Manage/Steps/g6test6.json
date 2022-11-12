@@ -1,32 +1,29 @@
 ﻿{
-  "Id": "1274620801831669760",
+  "Id": "1274623039325081600",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "node4",
+      "Id": "node1036",
       "Label": "开始",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
-      "NextStepId": "node11",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
+      "NextStepId": "node1043",
       "Status": 0,
       "ActRules": {}
     },
     {
-      "Id": "node11",
-      "Label": "财务人力同时审批",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "node18",
+      "Id": "node1043",
+      "Label": "节点",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
+      "NextStepId": "node1050",
       "Status": 0,
-      "ActRules": {
-        "UserIds": [ "Admin", "1267011854366937088", "1267011853830066176" ],
-        "ActType": "and"
-      }
+      "ActRules": { "UserIds": [ "Admin" ] }
     },
     {
-      "Id": "node18",
+      "Id": "node1050",
       "Label": "结束",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {}
     }
@@ -35,59 +32,58 @@
   "Flag": 0.0,
   "nodes": [
     {
-      "id": "node4",
+      "id": "node1036",
       "name": "开始节点",
       "color": "#1890ff",
       "image": "/assets/Shape.486da24a.svg",
       "label": "开始",
-      "offsetX": 106,
-      "offsetY": 24,
+      "offsetX": 93,
+      "offsetY": 20,
       "shape": "customNode",
       "size": [ 170, 34 ],
       "stateImage": "/assets/start.e502ed95.svg",
       "type": "node",
-      "x": 358.5500183105469,
-      "y": 112.0,
+      "x": 422.5500183105469,
+      "y": 68.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
       "isDoingEnd": false
     },
     {
-      "id": "node11",
+      "id": "node1043",
       "name": "中间节点",
       "color": "#1890ff",
       "image": "/assets/Shape.486da24a.svg",
-      "label": "财务人力同时审批",
-      "offsetX": 95,
+      "label": "节点",
+      "offsetX": 83,
       "offsetY": 12,
       "shape": "customNode",
       "size": [ 170, 34 ],
       "stateImage": "/assets/jiahao.ecf71c51.svg",
       "type": "node",
-      "x": 361.5500183105469,
-      "y": 212.0,
+      "x": 420.5500183105469,
+      "y": 157.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
       "isDoingEnd": false,
-      "UserIds": [ "Admin", "1267011854366937088", "1267011853830066176" ],
-      "ActType": "and"
+      "UserIds": [ "Admin" ]
     },
     {
-      "id": "node18",
+      "id": "node1050",
       "name": "结束节点",
       "color": "#1890ff",
       "image": "/assets/Shape.486da24a.svg",
       "label": "结束",
-      "offsetX": 115,
-      "offsetY": 22,
+      "offsetX": 106,
+      "offsetY": 18,
       "shape": "customNode",
       "size": [ 170, 34 ],
       "stateImage": "/assets/end.dfe4a5ab.svg",
       "type": "node",
-      "x": 363.5500183105469,
-      "y": 314.0,
+      "x": 423.5500183105469,
+      "y": 244.0,
       "inPoints": [ [ 0.0, 0.5 ] ],
       "outPoints": [ [ 1.0, 0.5 ] ],
       "isDoingStart": false,
@@ -96,53 +92,53 @@
   ],
   "edges": [
     {
-      "id": "edge68",
+      "id": "edge1091",
       "end": {
         "x": 0.0,
         "y": -17.0
       },
       "endPoint": {
-        "x": 361.0250183105469,
-        "y": 194.5
+        "x": 420.94327673751314,
+        "y": 139.5
       },
       "start": {
         "x": 0.0,
         "y": 17.0
       },
       "startPoint": {
-        "x": 359.07501831054685,
-        "y": 129.5
+        "x": 422.1567598835806,
+        "y": 85.5
       },
       "shape": "customEdge",
-      "source": "node4",
-      "sourceId": "node4",
-      "target": "node11",
-      "targetId": "node11",
+      "source": "node1036",
+      "sourceId": "node1036",
+      "target": "node1043",
+      "targetId": "node1043",
       "type": "edge"
     },
     {
-      "id": "edge111",
+      "id": "edge1128",
       "end": {
         "x": 0.0,
         "y": -17.0
       },
       "endPoint": {
-        "x": 363.2068810556449,
-        "y": 296.5
+        "x": 422.9465700346848,
+        "y": 226.5
       },
       "start": {
         "x": 0.0,
         "y": 17.0
       },
       "startPoint": {
-        "x": 361.89315556544886,
-        "y": 229.5
+        "x": 421.15346658640897,
+        "y": 174.5
       },
       "shape": "customEdge",
-      "source": "node11",
-      "sourceId": "node11",
-      "target": "node18",
-      "targetId": "node18",
+      "source": "node1043",
+      "sourceId": "node1043",
+      "target": "node1050",
+      "targetId": "node1050",
       "type": "edge"
     }
   ],

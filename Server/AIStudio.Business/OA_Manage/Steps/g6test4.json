@@ -7,7 +7,7 @@
     {
       "Id": "node285",
       "Label": "开始",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
       "NextStepId": "node292",
       "Status": 0,
       "ActRules": {}
@@ -15,7 +15,7 @@
     {
       "Id": "node292",
       "Label": "角色审批",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAMiddleStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
       "NextStepId": "node299",
       "Status": 0,
       "ActRules": { "RoleIds": [ "1267011847224037376" ] }
@@ -23,7 +23,7 @@
     {
       "Id": "node299",
       "Label": "结束",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAEndStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
       "Status": 0,
       "ActRules": {}
     }

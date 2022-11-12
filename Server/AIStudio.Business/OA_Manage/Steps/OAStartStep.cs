@@ -2,7 +2,7 @@
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace AIStudio.Business.OA_Manage.Step
+namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 开始节点

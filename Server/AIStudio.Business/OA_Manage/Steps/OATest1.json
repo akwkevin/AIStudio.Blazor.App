@@ -5,7 +5,7 @@
   "Steps": [
     {
       "Id": "Step1",
-      "StepType": "AIStudio.Business.OA_Manage.Step.OAStartStep, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
       "SelectNextStep": {
         "Hello": "3>2",
         "Bye": "4<5"
@@ -13,12 +13,12 @@
     },
     {
       "Id": "Hello",
-      "StepType": "AIStudio.Business.OA_Manage.Step.HelloWorld, AIStudio.Business",
+      "StepType": "AIStudio.Business.OA_Manage.Steps.HelloWorld, AIStudio.Business",
       "NextStepId": "Bye"
     },
     {
       "Id": "Bye",
-      "StepType": "AIStudio.Business.OA_Manage.Step.GoodbyeWorld, AIStudio.Business"
+      "StepType": "AIStudio.Business.OA_Manage.Steps.GoodbyeWorld, AIStudio.Business"
     }
   ]
 }

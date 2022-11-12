@@ -1,8 +1,8 @@
-﻿using AIStudio.Business.OA_Manage.Step;
+﻿using AIStudio.Business.OA_Manage.Steps;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace AIStudio.Business.OA_Manage.HelloWorldStep
+namespace AIStudio.Business.OA_Manage.HelloWorldSteps
 {
     public class GoodbyeWorld : OANormalStep
     {

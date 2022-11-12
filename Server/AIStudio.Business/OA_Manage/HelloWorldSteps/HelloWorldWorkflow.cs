@@ -1,6 +1,6 @@
 ﻿using WorkflowCore.Interface;
 
-namespace AIStudio.Business.OA_Manage.HelloWorldStep
+namespace AIStudio.Business.OA_Manage.HelloWorldSteps
 {
     public class HelloWorldWorkflow : IWorkflow
     {

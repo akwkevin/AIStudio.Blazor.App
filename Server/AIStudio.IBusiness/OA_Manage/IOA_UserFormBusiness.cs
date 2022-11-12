@@ -15,7 +15,7 @@ namespace AIStudio.Business.OA_Manage
 
         Task<List<OAStep>> PreStepAsync(OA_UserFormDTO data);
 
-        Task SaveDataAysnc(OA_UserFormDTO data);
+        Task SaveDataAsync(OA_UserFormDTO data);
         Task<AjaxResult> EventDataAsync(MyEvent eventData);
 
         Task DisCardDataAsync(DisCardInput input);

@@ -1,6 +1,6 @@
 ﻿using AIStudio.Business;
 using AIStudio.Business.OA_Manage;
-using AIStudio.Business.OA_Manage.Step;
+using AIStudio.Business.OA_Manage.Steps;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
 using AIStudio.Common.Service;
@@ -29,7 +29,7 @@ namespace AIStudio.Business.OA_Manage
         private readonly IOA_UserFormBusiness _oA_UserFormBus;
         private readonly IWorkflowRegistry _workflowRegistry;
         private readonly ILogger<OA_DefFormBusiness> _logger;
-        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetService<IDefinitionLoader>(); } }
+        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetRequiredService<IDefinitionLoader>(); } }
 
         /// <summary>
         /// 流程定义
