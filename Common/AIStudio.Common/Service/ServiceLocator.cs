@@ -15,14 +15,19 @@ namespace AIStudio.Common.Service
     public static class ServiceLocator
     {
         /// <summary>
-        /// 服务提供
+        /// 服务提供,单例使用这个
         /// </summary>
-        public static IServiceProvider Instance { get; set; }
+        public static IServiceProvider RootProvider { get; set; }
+
+        /// <summary>
+        /// 服务提供，Scope使用这个
+        /// </summary>
+        public static IServiceProvider ScopeProvider { get; set; }
 
         /// <summary>
         /// 获取请求上下文
         /// </summary>
-        public static HttpContext HttpContext => Instance?.GetService<IHttpContextAccessor>()?.HttpContext;
+        public static HttpContext HttpContext => ScopeProvider?.GetService<IHttpContextAccessor>()?.HttpContext;
 
         /// <summary>
         /// 获取请求上下文用户,只有授权访问的页面或接口才存在值，否则为 null

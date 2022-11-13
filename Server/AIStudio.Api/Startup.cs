@@ -251,8 +251,8 @@ namespace AIStudio.Api
                 applicationAction?.Invoke(app);
 
                 //服务提供器
-                ServiceLocator.Instance = app.Services;
-
+                ServiceLocator.RootProvider = app.Services;
+                ServiceLocator.ScopeProvider = builder.Services.BuildServiceProvider(false);
                 //初始化数据
                 SeedData.EnsureSeedData(app.Services);
 

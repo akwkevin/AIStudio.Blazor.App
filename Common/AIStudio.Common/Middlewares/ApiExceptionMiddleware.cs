@@ -93,7 +93,7 @@ public class ApiExceptionMiddleware
             CreatorId = userId,
             CreatorName = userName,
             TenantId = tenantId,
-            Name = exception.Message,
+            Name = exception.GetType().Name,
             Message = exception.Message,
             ClassName = exception.TargetSite?.DeclaringType?.FullName,
             MethodName = exception.TargetSite?.Name,

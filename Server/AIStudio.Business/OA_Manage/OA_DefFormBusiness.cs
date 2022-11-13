@@ -29,7 +29,7 @@ namespace AIStudio.Business.OA_Manage
         private readonly IOA_UserFormBusiness _oA_UserFormBus;
         private readonly IWorkflowRegistry _workflowRegistry;
         private readonly ILogger<OA_DefFormBusiness> _logger;
-        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetRequiredService<IDefinitionLoader>(); } }
+        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.RootProvider.GetRequiredService<IDefinitionLoader>(); } }
 
         /// <summary>
         /// 流程定义

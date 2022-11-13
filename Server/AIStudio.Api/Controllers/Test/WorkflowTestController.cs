@@ -15,7 +15,7 @@ namespace AIStudio.Api.Controllers.Test
     [Route("[controller]/[action]")]
     public class WorkflowTestController : ControllerBase
     {
-        private IWorkflowHost _workflowHost { get { return ServiceLocator.Instance.GetRequiredService<IWorkflowHost>(); } }
+        private IWorkflowHost _workflowHost { get { return ServiceLocator.RootProvider.GetRequiredService<IWorkflowHost>(); } }
         private readonly ILogger _logger;
 
         /// <summary>

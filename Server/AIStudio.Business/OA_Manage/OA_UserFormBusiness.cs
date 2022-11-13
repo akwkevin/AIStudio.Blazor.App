@@ -29,11 +29,11 @@ namespace AIStudio.Business.OA_Manage
         private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
         private readonly IMapper _mapper;
 
-        private IOperator _operator { get { return ServiceLocator.Instance.GetRequiredService<IOperator>(); } }
-        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.Instance.GetRequiredService<IDefinitionLoader>(); } }
-        private IPersistenceProvider _workflowStore { get { return ServiceLocator.Instance.GetRequiredService<IPersistenceProvider>(); } }
-        private IWorkflowRegistry _workflowRegistry { get { return ServiceLocator.Instance.GetRequiredService<IWorkflowRegistry>(); } }
-        private IWorkflowHost _workflowHost { get { return ServiceLocator.Instance.GetRequiredService<IWorkflowHost>(); } }
+        private IOperator _operator { get { return ServiceLocator.ScopeProvider.GetRequiredService<IOperator>(); } }
+        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.RootProvider.GetRequiredService<IDefinitionLoader>(); } }
+        private IPersistenceProvider _workflowStore { get { return ServiceLocator.RootProvider.GetRequiredService<IPersistenceProvider>(); } }
+        private IWorkflowRegistry _workflowRegistry { get { return ServiceLocator.RootProvider.GetRequiredService<IWorkflowRegistry>(); } }
+        private IWorkflowHost _workflowHost { get { return ServiceLocator.RootProvider.GetRequiredService<IWorkflowHost>(); } }
 
         public OA_UserFormBusiness(ISqlSugarClient db,
             IOA_UserFormStepBusiness oA_UserFormStepBusiness,

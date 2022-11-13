@@ -16,10 +16,10 @@ namespace AIStudio.Business.OA_Manage.Steps
     public abstract class OABaseStep : StepBodyAsync
     {
 
-        protected IOA_UserFormStepBusiness _userFormStepBusiness { get => ServiceLocator.Instance.GetRequiredService<IOA_UserFormStepBusiness>(); }
-        protected IOA_UserFormBusiness _userFormBusiness { get => ServiceLocator.Instance.GetRequiredService<IOA_UserFormBusiness>(); }
-        protected IWorkflowRegistry _registry { get => ServiceLocator.Instance.GetRequiredService<IWorkflowRegistry>(); }
-        protected IOperator _operator { get => ServiceLocator.Instance.GetRequiredService<IOperator>(); }
+        protected IOA_UserFormStepBusiness _userFormStepBusiness { get => ServiceLocator.ScopeProvider.GetRequiredService<IOA_UserFormStepBusiness>(); }
+        protected IOA_UserFormBusiness _userFormBusiness { get => ServiceLocator.ScopeProvider.GetRequiredService<IOA_UserFormBusiness>(); }
+        protected IWorkflowRegistry _registry { get => ServiceLocator.RootProvider.GetRequiredService<IWorkflowRegistry>(); }
+        protected IOperator _operator { get => ServiceLocator.ScopeProvider.GetRequiredService<IOperator>(); }
 
         protected OAStep OAStep { get; set; }
 
