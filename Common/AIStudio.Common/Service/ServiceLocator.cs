@@ -9,8 +9,14 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Common.Service
 {
+    /// <summary>
+    /// 本地服务
+    /// </summary>
     public static class ServiceLocator
     {
+        /// <summary>
+        /// 服务提供
+        /// </summary>
         public static IServiceProvider Instance { get; set; }
 
         /// <summary>

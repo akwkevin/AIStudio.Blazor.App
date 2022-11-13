@@ -1,7 +1,4 @@
-﻿using AIStudio.Api.Controllers.Test;
-using AIStudio.Business.Base_Manage;
-using AIStudio.Business.Quartz_Manage;
-using AIStudio.Common.AppSettings;
+﻿using AIStudio.Common.AppSettings;
 using AIStudio.Common.Authentication.Jwt;
 using AIStudio.Common.Authorization;
 using AIStudio.Common.Cache;
@@ -24,6 +21,7 @@ using Microsoft.Extensions.Hosting.WindowsServices;
 using NLog;
 using NLog.Web;
 using System.Reflection;
+using WorkflowCore.Persistence.SqlSugar;
 
 namespace AIStudio.Api
 {
@@ -63,6 +61,7 @@ namespace AIStudio.Api
                 //读取配置文件appsettings
                 AppSettingsConfig.Configure_(builder.Configuration);
 
+                //支持https的证书
                 if (AppSettingsConfig.AppSettingsOptions.UseKestrel)
                 {
                     builder.WebHost.UseKestrel(options =>
@@ -90,10 +89,10 @@ namespace AIStudio.Api
                 builder.Services.AddEventBusLocal_().AddSubscriber(subscribers =>
                 {
                     subscribers.Add<TestEvent, TestEventHandler>();
-                    subscribers.Add<ExceptionEvent, Base_LogExceptionBusiness>();
-                    subscribers.Add<RequestEvent, Base_LogOperatingBusiness>();
-                    subscribers.Add<VisitEvent, Base_LogVisitBusiness>();
-                    subscribers.Add<SystemEvent, Base_LogSystemBusiness>();
+                    subscribers.Add<ExceptionEvent, Business.Base_Manage.Base_LogExceptionBusiness>();
+                    subscribers.Add<RequestEvent, Business.Base_Manage.Base_LogOperatingBusiness>();
+                    subscribers.Add<VisitEvent, Business.Base_Manage.Base_LogVisitBusiness>();
+                    subscribers.Add<SystemEvent, Business.Base_Manage.Base_LogSystemBusiness>();
                 });
 
                 ////数据过滤与Json配置
@@ -116,12 +115,7 @@ namespace AIStudio.Api
                 // 缓存
                 builder.Services.AddCache_();
 
-                builder.Services.AddSqlSugar_();
-
-                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-                {
-                    builder.Services.AddWorkflow_();
-                }
+                builder.Services.AddSqlSugar_();             
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
@@ -140,7 +134,7 @@ namespace AIStudio.Api
                 // 添加自定义的拦截类，声明周期为
                 builder.Services.AddSingleton<IInterceptor, TestAOP>();
                 //注入AOP
-                builder.Services.AddProxiedService<IValuesService, ValuesService>(ServiceLifetime.Transient, typeof(TestAOP));
+                builder.Services.AddProxiedService<Controllers.Test.IValuesService, Controllers.Test.ValuesService>(ServiceLifetime.Transient, typeof(TestAOP));
 #endif
 
                 //jwt Authentication 
@@ -149,7 +143,7 @@ namespace AIStudio.Api
                 builder.Services.AddAuthorization_();
                 // 替换默认 PermissionChecker,测试使用
                 //builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(TestPermissionChecker), ServiceLifetime.Transient));
-                builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(PermissionBusiness), ServiceLifetime.Transient));
+                builder.Services.Replace(new ServiceDescriptor(typeof(IPermissionChecker), typeof(Business.Base_Manage.PermissionBusiness), ServiceLifetime.Transient));
 
                 //使用AutoMapper自动映射拥有MapAttribute的类
                 builder.Services.AddMapper_(GlobalType.AllTypes, GlobalType.AllAssemblies);
@@ -171,22 +165,30 @@ namespace AIStudio.Api
                         SeedData.EnsureSeedQuartzData(sp);
                         withoutTestJob = false;
 #endif
-                        var jobService = sp.GetService<IQuartz_TaskBusiness>();
+                        var jobService = sp.GetRequiredService<Business.Quartz_Manage.IQuartz_TaskBusiness>();
                         if (jobService == null) return;
 
                         await jobService.StartAllAsync(withoutTestJob);
                     };
                 });
 
+                // 工作流
+                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+                {
+                    builder.Services.AddWorkflow_(options =>
+                    {
+                        options.StartHandle = async sp =>
+                        {
+                            SeedData.EnsureSeedWorkflow(sp);
+
+                            var defForm = sp.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
+                            await defForm.LoadDefinitionAsync();
+                        };
+                    });
+                }
+
                 //其他外部服务注册
                 serviceAction?.Invoke(builder.Services);
-
-                //服务提供器
-                ServiceLocator.Instance = builder.Services.BuildServiceProvider(false);
-
-                //初始化数据
-                SeedData.EnsureSeedData(ServiceLocator.Instance);
-
 
                 var app = builder.Build();
 
@@ -234,25 +236,25 @@ namespace AIStudio.Api
 
                 app.MapControllers();
 
-                if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-                {
-                    SeedData.EnsureSeedWorkflow(ServiceLocator.Instance);
+                //if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
+                //{
+                //    //SeedData.EnsureSeedWorkflow(ServiceLocator.Instance);
 
-                    var defForm = app.Services.GetService<Business.OA_Manage.IOA_DefFormBusiness>();
-                    defForm.LoadDefinition();
+                //    //var defForm = app.Services.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
+                //    //defForm.LoadDefinition();
 
-                    var host = app.Services.GetService<WorkflowCore.Interface.IWorkflowHost>();
-                    host?.Start();
-
-#if DEBUG
-                    host.RegisterWorkflow<AIStudio.Business.OA_Manage.HelloWorldSteps.HelloWorldWorkflow>();
-
-                    host.StartWorkflow("HelloWorld").Wait();
-#endif
-                }
+                //    var host = app.Services.GetRequiredService<WorkflowCore.Interface.IWorkflowHost>();
+                //    await host?.StartAsync(CancellationToken.None);
+                //}
 
                 //其他外部App启用
                 applicationAction?.Invoke(app);
+
+                //服务提供器
+                ServiceLocator.Instance = app.Services;
+
+                //初始化数据
+                SeedData.EnsureSeedData(app.Services);
 
                 app.Run();
 

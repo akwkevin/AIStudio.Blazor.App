@@ -54,9 +54,20 @@ namespace AIStudio.Business.OA_Manage
         }
 
         #region 外部接口
+        public async Task LoadDefinitionAsync()
+        {
+            var defForms = await GetListAsync();
+            LoadDefinition(defForms);
+        }
+
         public void LoadDefinition()
         {
-            var defForms = this.GetList();
+            var defForms = GetList();
+            LoadDefinition(defForms);
+        }
+
+        private void LoadDefinition(List<OA_DefForm> defForms)
+        {
             foreach (var defform in defForms)
             {
                 try

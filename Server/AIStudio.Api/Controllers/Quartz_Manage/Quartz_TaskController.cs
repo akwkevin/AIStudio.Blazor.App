@@ -1,5 +1,6 @@
 ﻿using AIStudio.Business.Quartz_Manage;
 using AIStudio.Common.Filter.FilterAttribute;
+using AIStudio.Common.Swagger;
 using AIStudio.Entity.DTO.Quartz_Manage;
 using AIStudio.Entity.Quartz_Manage;
 using AIStudio.Util;
@@ -15,6 +16,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
     /// <summary>
     /// 作业调度
     /// </summary>
+    [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/Quartz_Manage/[controller]/[action]")]
     public class Quartz_TaskController : ApiControllerBase
     {

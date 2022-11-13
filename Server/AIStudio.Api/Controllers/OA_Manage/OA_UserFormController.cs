@@ -1,6 +1,7 @@
 ﻿using AIStudio.Business.OA_Manage;
 using AIStudio.Business.OA_Manage.Steps;
 using AIStudio.Common.CurrentUser;
+using AIStudio.Common.Swagger;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.OA_Manage;
 using AIStudio.IBusiness.Base_Manage;
@@ -15,6 +16,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
     /// <summary>
     /// 流程控制
     /// </summary>
+    [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.V1))]
     [Route("/OA_Manage/[controller]/[action]")]
     public class OA_UserFormController : ApiControllerBase
     {
