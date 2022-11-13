@@ -236,17 +236,6 @@ namespace AIStudio.Api
 
                 app.MapControllers();
 
-                //if (AppSettingsConfig.AppSettingsOptions.UseWorkflow)
-                //{
-                //    //SeedData.EnsureSeedWorkflow(ServiceLocator.Instance);
-
-                //    //var defForm = app.Services.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
-                //    //defForm.LoadDefinition();
-
-                //    var host = app.Services.GetRequiredService<WorkflowCore.Interface.IWorkflowHost>();
-                //    await host?.StartAsync(CancellationToken.None);
-                //}
-
                 //其他外部App启用
                 applicationAction?.Invoke(app);
 
@@ -254,11 +243,9 @@ namespace AIStudio.Api
                 ServiceLocator.RootProvider = app.Services;
                 ServiceLocator.ScopeProvider = builder.Services.BuildServiceProvider(false);
                 //初始化数据
-                SeedData.EnsureSeedData(app.Services);
+                SeedData.EnsureSeedData(ServiceLocator.ScopeProvider);
 
                 app.Run();
-
-
             }
             catch (Exception ex)
             {
