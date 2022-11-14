@@ -20,14 +20,20 @@ namespace AIStudio.Common.Workflow
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            if (_options.StartHandle != null) await _options.StartHandle(_serviceProvider);
-
             await _workflowHost.StartAsync(cancellationToken);
+
+            using var scope = _serviceProvider.CreateScope();
+            var serviceProvider = scope.ServiceProvider;
+            if (_options.StartHandle != null) await _options.StartHandle(serviceProvider);  
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             await _workflowHost.StopAsync(cancellationToken);
+
+            using var scope = _serviceProvider.CreateScope();
+            var serviceProvider = scope.ServiceProvider;
+            if (_options.ShutdownHandle != null) await _options.ShutdownHandle(serviceProvider);
         }
     }
 

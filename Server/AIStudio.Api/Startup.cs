@@ -14,6 +14,7 @@ using AIStudio.Common.Service;
 using AIStudio.Common.SqlSuger;
 using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
+using AIStudio.Common.Workflow;
 using AIStudio.Util;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,7 +22,6 @@ using Microsoft.Extensions.Hosting.WindowsServices;
 using NLog;
 using NLog.Web;
 using System.Reflection;
-using WorkflowCore.Persistence.SqlSugar;
 
 namespace AIStudio.Api
 {

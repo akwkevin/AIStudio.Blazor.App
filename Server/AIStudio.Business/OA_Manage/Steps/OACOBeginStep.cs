@@ -1,4 +1,5 @@
-﻿using AIStudio.Entity.DTO.OA_Manage;
+﻿using AIStudio.Common.DI;
+using AIStudio.Entity.DTO.OA_Manage;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -7,7 +8,7 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// <summary>
     /// 并行开始
     /// </summary>
-    public class OACOBeginStep : StepBody
+    public class OACOBeginStep : StepBody, ITransientDependency
     {
         /// <summary>
         /// 节点触发
