@@ -5,13 +5,22 @@ using SqlSugar;
 
 namespace AIStudio.Common.Workflow
 {
+    /// <summary>
+    /// WorkflowServiceCollectionExtensions
+    /// </summary>
     public static class WorkflowServiceCollectionExtensions
     {
+        /// <summary>
+        /// 工作流
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="setupAction"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static IServiceCollection AddWorkflow_(this IServiceCollection services, Action<WorkflowSetupOptions>? setupAction = null)
         {
-            //services.AddWorkflow();
-            //services.AddWorkflowDSL();
-
+            //services.AddWorkflow(); 
+            //持久化选项，还是使用官方实现好的，开发也不用关注这几张表
             switch ((DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbType)))
             {
                 case DbType.SqlServer: services.AddWorkflow(x => x.UseSqlServer(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, false, true)); break;
