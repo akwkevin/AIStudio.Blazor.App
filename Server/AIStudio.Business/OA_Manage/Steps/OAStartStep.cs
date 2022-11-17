@@ -1,6 +1,7 @@
 ﻿using AIStudio.Entity.DTO.OA_Manage;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+using AIStudio.Common.CurrentUser;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -10,11 +11,15 @@ namespace AIStudio.Business.OA_Manage.Steps
     public class OAStartStep : OABaseStep, IStepBody
     {
         /// <summary>
-        /// 
+        /// 开始节点
         /// </summary>
-        public OAStartStep()
+        /// <param name="userFormStepBusiness"></param>
+        /// <param name="userFormBusiness"></param>
+        /// <param name="registry"></param>
+        /// <param name="operator"></param>
+        public OAStartStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) 
+            : base(userFormStepBusiness, userFormBusiness, registry, @operator)
         {
-
         }
 
         /// <summary>

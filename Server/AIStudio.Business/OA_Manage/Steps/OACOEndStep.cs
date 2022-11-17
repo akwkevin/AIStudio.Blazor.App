@@ -1,4 +1,5 @@
-﻿using AIStudio.Entity.DTO.OA_Manage;
+﻿using AIStudio.Common.CurrentUser;
+using AIStudio.Entity.DTO.OA_Manage;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -9,6 +10,18 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// </summary>
     public class OACOEndStep : OABaseStep , IEndStep
     {
+        /// <summary>
+        /// 并行结束
+        /// </summary>
+        /// <param name="userFormStepBusiness"></param>
+        /// <param name="userFormBusiness"></param>
+        /// <param name="registry"></param>
+        /// <param name="operator"></param>
+        public OACOEndStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) 
+            : base(userFormStepBusiness, userFormBusiness, registry, @operator)
+        {
+        }
+
         /// <summary>
         /// 节点触发
         /// </summary>

@@ -29,21 +29,26 @@ namespace AIStudio.Business.OA_Manage
         private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
         private readonly IMapper _mapper;
 
-        private IOperator _operator { get { return ServiceLocator.ScopeProvider.GetRequiredService<IOperator>(); } }
-        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.RootProvider.GetRequiredService<IDefinitionLoader>(); } }
-        private IPersistenceProvider _workflowStore { get { return ServiceLocator.RootProvider.GetRequiredService<IPersistenceProvider>(); } }
-        private IWorkflowRegistry _workflowRegistry { get { return ServiceLocator.RootProvider.GetRequiredService<IWorkflowRegistry>(); } }
-        private IWorkflowHost _workflowHost { get { return ServiceLocator.RootProvider.GetRequiredService<IWorkflowHost>(); } }
+        private readonly IOperator _operator;
+        private readonly IPersistenceProvider _workflowStore;
+        private readonly IWorkflowRegistry _workflowRegistry;
+        private readonly IWorkflowHost _workflowHost;
 
         public OA_UserFormBusiness(ISqlSugarClient db,
             IOA_UserFormStepBusiness oA_UserFormStepBusiness,
             IBase_DepartmentBusiness base_DepartmentBusiness,
-            IMapper mapper)
+            IMapper mapper,
+            IOperator @operator,
+            IServiceProvider serviceProvider)
             : base(db)
         {
             _oA_UserFormStepBusiness = oA_UserFormStepBusiness;
             _base_DepartmentBusiness = base_DepartmentBusiness;
             _mapper = mapper;
+            _operator = @operator;
+            _workflowStore = serviceProvider.GetRequiredService<IPersistenceProvider>();
+            _workflowRegistry = serviceProvider.GetRequiredService<IWorkflowRegistry>();
+            _workflowHost = serviceProvider.GetRequiredService<IWorkflowHost>();
         }
 
         private static ConcurrentBag<string> _queues = new ConcurrentBag<string>();

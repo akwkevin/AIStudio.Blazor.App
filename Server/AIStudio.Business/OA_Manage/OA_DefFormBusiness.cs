@@ -27,30 +27,28 @@ namespace AIStudio.Business.OA_Manage
     {
         private readonly IMapper _mapper;
         private readonly IOA_UserFormBusiness _oA_UserFormBus;
-        private readonly IWorkflowRegistry _workflowRegistry;
         private readonly ILogger<OA_DefFormBusiness> _logger;
-        private IDefinitionLoader _definitionLoader { get { return ServiceLocator.RootProvider.GetRequiredService<IDefinitionLoader>(); } }
+        private readonly IDefinitionLoader _definitionLoader;
 
         /// <summary>
         /// 流程定义
         /// </summary>
         /// <param name="db"></param>
         /// <param name="mapper"></param>
-        /// <param name="definitionLoader"></param>
-        /// <param name="oA_DefFormBus"></param>
         /// <param name="oA_UserFormBus"></param>
-        /// <param name="workflowRegistry"></param>
-        /// <param name="ioperator"></param>
         /// <param name="logger"></param>
+        /// <param name="serviceProvider"></param>
         public OA_DefFormBusiness(ISqlSugarClient db, 
             IMapper mapper,
-            IOA_UserFormBusiness oA_UserFormBus,
-            ILogger<OA_DefFormBusiness> logger)
+            IOA_UserFormBusiness oA_UserFormBus,            
+            ILogger<OA_DefFormBusiness> logger,
+            IServiceProvider serviceProvider)
             : base(db)
         {
             _mapper = mapper;
             _oA_UserFormBus = oA_UserFormBus; 
             _logger = logger;
+            _definitionLoader = serviceProvider.GetRequiredService<IDefinitionLoader>();
         }
 
         #region 外部接口

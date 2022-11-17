@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.CurrentUser;
+using AIStudio.Common.DI;
 using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Service;
 using AIStudio.Entity.DTO.OA_Manage;
@@ -16,16 +17,26 @@ namespace AIStudio.Business.OA_Manage.Steps
     public abstract class OABaseStep : StepBodyAsync
     {
 
-        protected IOA_UserFormStepBusiness _userFormStepBusiness { get => ServiceLocator.ScopeProvider.GetRequiredService<IOA_UserFormStepBusiness>(); }
-        protected IOA_UserFormBusiness _userFormBusiness { get => ServiceLocator.ScopeProvider.GetRequiredService<IOA_UserFormBusiness>(); }
-        protected IWorkflowRegistry _registry { get => ServiceLocator.RootProvider.GetRequiredService<IWorkflowRegistry>(); }
-        protected IOperator _operator { get => ServiceLocator.ScopeProvider.GetRequiredService<IOperator>(); }
+        protected IOA_UserFormStepBusiness _userFormStepBusiness;
+        protected IOA_UserFormBusiness _userFormBusiness;
+        protected IWorkflowRegistry _registry;
+        protected IOperator _operator;
 
         protected OAStep OAStep { get; set; }
 
-        public OABaseStep()
+        /// <summary>
+        /// 基类
+        /// </summary>
+        /// <param name="userFormStepBusiness"></param>
+        /// <param name="userFormBusiness"></param>
+        /// <param name="registry"></param>
+        /// <param name="operator"></param>
+        public OABaseStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator)
         {
-
+            _userFormStepBusiness = userFormStepBusiness;
+            _userFormBusiness = userFormBusiness;
+            _registry = registry;
+            _operator = @operator;
         }
 
         /// <summary>
