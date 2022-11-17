@@ -32,6 +32,9 @@
     <None Update="OA_Manage\Steps\g6test7.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="OA_Manage\Steps\helloworld.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

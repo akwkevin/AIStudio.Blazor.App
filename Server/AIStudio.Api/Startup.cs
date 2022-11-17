@@ -240,10 +240,10 @@ namespace AIStudio.Api
                 applicationAction?.Invoke(app);
 
                 //服务提供器
-                ServiceLocator.RootProvider = app.Services;
-                ServiceLocator.ScopeProvider = builder.Services.BuildServiceProvider(false);
+                ServiceLocator.AppliactionServices = app.Services;
+                ServiceLocator.RequestServices = builder.Services.BuildServiceProvider(false);
                 //初始化数据
-                SeedData.EnsureSeedData(ServiceLocator.ScopeProvider);
+                SeedData.EnsureSeedData(ServiceLocator.RequestServices);
 
                 app.Run();
             }

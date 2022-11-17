@@ -48,6 +48,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AIStudio.Util\AIStudio.Util.csproj" />
+    <ProjectReference Include="..\WorkflowCore\providers\WorkflowCore.Persistence.MySQL\WorkflowCore.Persistence.MySQL.csproj" />
+    <ProjectReference Include="..\WorkflowCore\providers\WorkflowCore.Persistence.PostgreSQL\WorkflowCore.Persistence.PostgreSQL.csproj" />
+    <ProjectReference Include="..\WorkflowCore\providers\WorkflowCore.Persistence.Sqlite\WorkflowCore.Persistence.Sqlite.csproj" />
     <ProjectReference Include="..\WorkflowCore\providers\WorkflowCore.Persistence.SqlServer\WorkflowCore.Persistence.SqlServer.csproj" />
     <ProjectReference Include="..\WorkflowCore\WorkflowCore.DSL\WorkflowCore.DSL.csproj" />
   </ItemGroup>

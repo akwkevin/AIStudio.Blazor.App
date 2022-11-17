@@ -10,19 +10,6 @@ namespace AIStudio.Business.OA_Manage.Steps
     public class OAMiddleStep : OABaseStep
     {
         /// <summary>
-        /// 中间节点
-        /// </summary>
-        /// <param name="userFormStepBusiness"></param>
-        /// <param name="userFormBusiness"></param>
-        /// <param name="registry"></param>
-        /// <param name="operator"></param>
-        public OAMiddleStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) 
-            : base(userFormStepBusiness, userFormBusiness, registry, @operator)
-        {
-        }
-
-
-        /// <summary>
         /// 节点触发
         /// </summary>
         /// <param name="context"></param>

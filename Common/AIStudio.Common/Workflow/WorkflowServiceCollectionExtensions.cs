@@ -24,9 +24,9 @@ namespace AIStudio.Common.Workflow
             switch ((DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbType)))
             {
                 case DbType.SqlServer: services.AddWorkflow(x => x.UseSqlServer(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, false, true)); break;
-                //case DbType.MySql.ToString(): services.AddWorkflow(x => x.UseMySQL(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, false, true)); break;
-                //case DbType.PostgreSql.ToString(): services.AddWorkflow(x => x.UsePostgreSQL(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, false, true)); break;
-                //case DbType.SQLite.ToString(): services.AddWorkflow(x => x.UseSqlite(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, true)); break;
+                case DbType.MySql: services.AddWorkflow(x => x.UseMySQL(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, false, true)); break;
+                case DbType.PostgreSQL: services.AddWorkflow(x => x.UsePostgreSQL(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, false, true)); break;
+                case DbType.Sqlite: services.AddWorkflow(x => x.UseSqlite(AppSettingsConfig.ConnectionStringsOptions.DbConfigs[0].DbString, true)); break;
                 default: throw new Exception("暂不支持该数据库！");
             }
             services.AddWorkflowDSL();       

@@ -4,6 +4,7 @@ using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Service;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.OA_Manage;
+using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using Microsoft.Extensions.DependencyInjection;
 using WorkflowCore.Interface;
@@ -31,12 +32,12 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <param name="userFormBusiness"></param>
         /// <param name="registry"></param>
         /// <param name="operator"></param>
-        public OABaseStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator)
+        public OABaseStep()
         {
-            _userFormStepBusiness = userFormStepBusiness;
-            _userFormBusiness = userFormBusiness;
-            _registry = registry;
-            _operator = @operator;
+            _userFormStepBusiness = ServiceLocator.RequestServices.GetRequiredService<IOA_UserFormStepBusiness>();
+            _userFormBusiness = ServiceLocator.RequestServices.GetRequiredService<IOA_UserFormBusiness>();
+            _registry = ServiceLocator.AppliactionServices.GetRequiredService<IWorkflowRegistry>();
+            _operator = ServiceLocator.RequestServices.GetRequiredService<IOperator>();
         }
 
         /// <summary>

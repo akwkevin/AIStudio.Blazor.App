@@ -423,6 +423,7 @@ namespace AIStudio.Api
             var logger = provider.GetRequiredService<ILogger<SeedData>>();
 
             var oA_DefFormBusiness = provider.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
+            oA_DefFormBusiness.DeleteAll();
             var defformcount = oA_DefFormBusiness.GetIQueryable().Count();
             if (defformcount == 0)
             {
@@ -518,6 +519,19 @@ namespace AIStudio.Api
                     Type = "请假",
                     Name = "请假流程-条件",
                     Text = "根据请假天数是否需要分管领导审批",
+                    Status = 1,
+                    CreateTime = DateTime.Now,
+                };
+                defs.Add(def);
+                id = IdHelper.GetId();
+                def = new OA_DefForm()
+                {
+                    Id = id,
+                    WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/helloworld.json"),
+                    JSONId = "OAHelloWorld",
+                    Type = "测试",
+                    Name = "测试流程-HelloWorld",
+                    Text = "HelloWorld",
                     Status = 1,
                     CreateTime = DateTime.Now,
                 };
