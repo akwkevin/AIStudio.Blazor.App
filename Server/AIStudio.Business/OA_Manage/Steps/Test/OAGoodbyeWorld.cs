@@ -1,4 +1,5 @@
 ﻿using AIStudio.Common.CurrentUser;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ using WorkflowCore.Models;
 namespace AIStudio.Business.OA_Manage.Steps.Test
 {
     public class OAGoodbyeWorld: OACOEndStep
-    {
+    { 
+
         public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
             GetStep(context);

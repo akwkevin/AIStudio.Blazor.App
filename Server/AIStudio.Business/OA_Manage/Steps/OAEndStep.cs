@@ -2,6 +2,7 @@
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using AIStudio.Common.CurrentUser;
+using Microsoft.Extensions.Logging;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -9,7 +10,7 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// 终止节点
     /// </summary>
     public class OAEndStep : OABaseStep, IEndStep
-    {
+    {   
 
         /// <summary>
         /// 节点触发

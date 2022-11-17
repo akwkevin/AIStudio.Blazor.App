@@ -1,5 +1,6 @@
 ﻿using AIStudio.Common.CurrentUser;
 using AIStudio.Entity.DTO.OA_Manage;
+using Microsoft.Extensions.Logging;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -9,7 +10,7 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// 并行结束
     /// </summary>
     public class OACOEndStep : OABaseStep , IEndStep
-    {
+    {    
 
         /// <summary>
         /// 节点触发
