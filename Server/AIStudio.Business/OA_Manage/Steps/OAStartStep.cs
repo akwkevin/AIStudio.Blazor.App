@@ -3,14 +3,19 @@ using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using AIStudio.Common.CurrentUser;
 using Microsoft.Extensions.Logging;
+using AIStudio.Common.DI;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 开始节点
     /// </summary>
-    public class OAStartStep : OABaseStep, IStepBody
-    { 
+    public class OAStartStep : OABaseStep, IStepBody, ITransientDependency
+    {
+        public OAStartStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
+        {
+        }
+
         /// <summary>
         /// 节点触发
         /// </summary>

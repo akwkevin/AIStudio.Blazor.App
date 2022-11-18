@@ -156,12 +156,12 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static async Task<OAData> InitOAStep(OA_UserFormDTO data)
+        public static async Task<OAData> InitOAStep(OA_UserFormDTO data, IServiceProvider serviceProvider)
         {
-            IBase_DepartmentBusiness _base_DepartmentBusiness = ServiceLocator.RequestServices.GetRequiredService<IBase_DepartmentBusiness>();
-            IBase_UserBusiness _base_UserBusiness = ServiceLocator.RequestServices.GetRequiredService<IBase_UserBusiness>();
-            IBase_RoleBusiness _base_RoleBusiness = ServiceLocator.RequestServices.GetRequiredService<IBase_RoleBusiness>();
-            IBase_UserRoleBusiness _base_UserRoleBusiness = ServiceLocator.RequestServices.GetRequiredService<IBase_UserRoleBusiness>();
+            IBase_DepartmentBusiness _base_DepartmentBusiness = serviceProvider.GetRequiredService<IBase_DepartmentBusiness>();
+            IBase_UserBusiness _base_UserBusiness = serviceProvider.GetRequiredService<IBase_UserBusiness>();
+            IBase_RoleBusiness _base_RoleBusiness = serviceProvider.GetRequiredService<IBase_RoleBusiness>();
+            IBase_UserRoleBusiness _base_UserRoleBusiness = serviceProvider.GetRequiredService<IBase_UserRoleBusiness>();
             Base_Department department = null;
 
             if (!string.IsNullOrEmpty(data.ApplicantDepartmentId))

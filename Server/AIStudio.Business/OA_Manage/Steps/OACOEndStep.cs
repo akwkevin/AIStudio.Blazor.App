@@ -3,14 +3,18 @@ using AIStudio.Entity.DTO.OA_Manage;
 using Microsoft.Extensions.Logging;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+using AIStudio.Common.DI;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 并行结束
     /// </summary>
-    public class OACOEndStep : OABaseStep , IEndStep
-    {    
+    public class OACOEndStep : OABaseStep , IEndStep, ITransientDependency
+    {
+        public OACOEndStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
+        {
+        }
 
         /// <summary>
         /// 节点触发
@@ -22,7 +26,7 @@ namespace AIStudio.Business.OA_Manage.Steps
             OAData oAData = GetStep(context);
 
             //改变流程图颜色
-            var node = oAData.nodes.FirstOrDefault(p => p.id == OAStep.Id);
+            var node = oAData.nodes?.FirstOrDefault(p => p.id == OAStep.Id);
             if (node != null)
             {
                 node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Orange);

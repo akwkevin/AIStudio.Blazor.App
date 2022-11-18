@@ -3421,3 +3421,75 @@
 2022-11-18 22:09:26.0997 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
 2022-11-18 22:09:27.5075 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
 2022-11-18 22:09:27.8954 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:16:22.1556 Info Message Template Auto Format enabled
+2022-11-18 22:16:22.1692 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-18 22:16:22.2210 Info Adding target FileTarget(Name=allfile)
+2022-11-18 22:16:22.2210 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-18 22:16:22.2301 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-18 22:16:22.2892 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-18 22:16:22.3126 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:16:23.5440 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:16:23.6885 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:16:23.6971 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:16:24.4767 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:16:24.7506 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:20:33.4429 Info Message Template Auto Format enabled
+2022-11-18 22:20:33.4570 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-18 22:20:33.5156 Info Adding target FileTarget(Name=allfile)
+2022-11-18 22:20:33.5156 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-18 22:20:33.5294 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-18 22:20:33.5917 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-18 22:20:33.8523 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:20:35.2976 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:20:35.4757 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:20:35.4817 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:20:36.3385 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:20:36.5961 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:22:18.3243 Info Message Template Auto Format enabled
+2022-11-18 22:22:18.3381 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-18 22:22:18.3925 Info Adding target FileTarget(Name=allfile)
+2022-11-18 22:22:18.3925 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-18 22:22:18.3925 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-18 22:22:18.4604 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-18 22:22:18.4845 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:22:19.6615 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:22:19.8138 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:22:19.8138 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:22:20.6440 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:22:20.8975 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:24:49.9384 Info Message Template Auto Format enabled
+2022-11-18 22:24:49.9504 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-18 22:24:50.0002 Info Adding target FileTarget(Name=allfile)
+2022-11-18 22:24:50.0002 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-18 22:24:50.0002 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-18 22:24:50.0840 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-18 22:24:50.1114 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:24:51.2718 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:24:51.4057 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:24:51.4057 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:24:52.3868 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:24:52.6511 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:28:53.9292 Info Message Template Auto Format enabled
+2022-11-18 22:28:53.9443 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-18 22:28:53.9900 Info Adding target FileTarget(Name=allfile)
+2022-11-18 22:28:53.9965 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-18 22:28:53.9965 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-18 22:28:54.0652 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-18 22:28:54.0967 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:28:55.2300 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:28:55.3936 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:28:55.3936 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:28:56.3143 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:28:56.5684 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:37:05.3983 Info Message Template Auto Format enabled
+2022-11-18 22:37:05.4125 Info Loading assembly: NLog.Web.AspNetCore
+2022-11-18 22:37:05.4619 Info Adding target FileTarget(Name=allfile)
+2022-11-18 22:37:05.4670 Info Adding target FileTarget(Name=ownFile-web)
+2022-11-18 22:37:05.4670 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-11-18 22:37:05.5265 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-11-18 22:37:05.5594 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:37:06.7522 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:37:06.9227 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:37:06.9227 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:37:07.9863 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-11-18 22:37:08.2649 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config

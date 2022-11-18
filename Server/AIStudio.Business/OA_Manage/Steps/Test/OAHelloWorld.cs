@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+using AIStudio.Common.DI;
 
 namespace AIStudio.Business.OA_Manage.Steps.Test
 {
-    public class OAHelloWorld : OANormalStep
+    public class OAHelloWorld : OANormalStep, ITransientDependency
     {
         public string HelloName { get; set; }
         //在这中实现需要执行的方法

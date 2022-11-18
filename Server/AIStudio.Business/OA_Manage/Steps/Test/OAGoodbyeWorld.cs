@@ -7,18 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+using AIStudio.Common.DI;
 
 namespace AIStudio.Business.OA_Manage.Steps.Test
 {
-    public class OAGoodbyeWorld: OACOEndStep
-    { 
-
-        public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
+    public class OAGoodbyeWorld: OAEndStep, ITransientDependency
+    {
+        public OAGoodbyeWorld(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
         {
-            GetStep(context);
+        }
 
+        public override async Task<ExecutionResult> RunAsync(IStepExecutionContext context)
+        {
             Console.WriteLine("Goodbye world");
-            return Task.FromResult(ExecutionResult.Next());
+            return await base.RunAsync(context);
         }
     }
 }

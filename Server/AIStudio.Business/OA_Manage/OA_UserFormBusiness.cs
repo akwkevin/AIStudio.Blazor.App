@@ -28,6 +28,7 @@ namespace AIStudio.Business.OA_Manage
         private readonly IOA_UserFormStepBusiness _oA_UserFormStepBusiness;
         private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
         private readonly IMapper _mapper;
+        private readonly IServiceProvider _serviceProvider;
 
         private readonly IOperator _operator;
         private readonly IPersistenceProvider _workflowStore;
@@ -46,6 +47,8 @@ namespace AIStudio.Business.OA_Manage
             _base_DepartmentBusiness = base_DepartmentBusiness;
             _mapper = mapper;
             _operator = @operator;
+            _serviceProvider = serviceProvider;
+
             _workflowStore = serviceProvider.GetRequiredService<IPersistenceProvider>();
             _workflowRegistry = serviceProvider.GetRequiredService<IWorkflowRegistry>();
             _workflowHost = serviceProvider.GetRequiredService<IWorkflowHost>();
@@ -181,7 +184,7 @@ namespace AIStudio.Business.OA_Manage
             if (data.ContainsProperty("CreatorId"))
                 data.SetPropertyValue("CreatorId", _operator?.UserId);
 
-            OAData oAData = await OAExtension.InitOAStep(data);
+            OAData oAData = await OAExtension.InitOAStep(data, _serviceProvider);
 
             return oAData.Steps;
         }
@@ -190,7 +193,7 @@ namespace AIStudio.Business.OA_Manage
         {
             if (data.Id.IsNullOrEmpty())
             {
-                OAData oAData = await OAExtension.InitOAStep(data);
+                OAData oAData = await OAExtension.InitOAStep(data, _serviceProvider);
 
                 //去掉事务，sqlite不支持
                 //var res = await _oA_UserFormBus.RunTransactionAsync(async () =>

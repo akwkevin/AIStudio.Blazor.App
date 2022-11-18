@@ -3,13 +3,14 @@ using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using WorkflowCore.Primitives;
 using AIStudio.Common.CurrentUser;
+using AIStudio.Common.DI;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 条件分支
     /// </summary>
-    public class OADecideStep: Decide
+    public class OADecideStep: Decide, ITransientDependency
     {
         /// <summary>
         /// 节点触发

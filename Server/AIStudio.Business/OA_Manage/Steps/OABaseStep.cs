@@ -34,12 +34,12 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <param name="userFormBusiness"></param>
         /// <param name="registry"></param>
         /// <param name="operator"></param>
-        public OABaseStep()
+        public OABaseStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator)
         {
-            _userFormStepBusiness = ServiceLocator.RequestServices.GetRequiredService<IOA_UserFormStepBusiness>();
-            _userFormBusiness = ServiceLocator.RequestServices.GetRequiredService<IOA_UserFormBusiness>();
-            _registry = ServiceLocator.AppliactionServices.GetRequiredService<IWorkflowRegistry>();
-            _operator = ServiceLocator.RequestServices.GetRequiredService<IOperator>();
+            _userFormStepBusiness = userFormStepBusiness;
+            _userFormBusiness = userFormBusiness;
+            _registry = registry;
+            _operator = @operator;
         }
 
         /// <summary>

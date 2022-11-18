@@ -2,13 +2,14 @@
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using AIStudio.Common.CurrentUser;
+using AIStudio.Common.DI;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
     /// <summary>
     /// 普通节点，不带审批
     /// </summary>
-    public class OANormalStep : StepBodyAsync
+    public class OANormalStep : StepBodyAsync, ITransientDependency
     {
         /// <summary>
         /// 节点触发
