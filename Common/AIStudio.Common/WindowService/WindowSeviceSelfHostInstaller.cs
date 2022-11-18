@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace AIStudio.Common.WindowService
 {
-    public class WindowSeviceSelfHost
+    public class WindowSeviceSelfHostInstaller
     {
         static string ServiceName = "";
         static string FilePath = "";
@@ -22,7 +22,7 @@ namespace AIStudio.Common.WindowService
             Username = username;
             Password = password;
 
-            _PrintUsage();
+            PrintUsage();
 
             string key;
             while (!string.IsNullOrEmpty(key = Console.ReadLine()))
@@ -31,19 +31,19 @@ namespace AIStudio.Common.WindowService
                 switch (key)
                 {
                     case "/status":
-                        _PrintStatus(ServiceName);
+                        PrintStatus(ServiceName);
                         break;
                     case "/stop":
-                        _StopService(ServiceName);
+                        StopService(ServiceName);
                         break;
                     case "/start":
-                        _StartService(ServiceName, out runapp);
+                        StartService(ServiceName, out runapp);
                         break;
                     case "/install":
-                        _InstallService(ServiceName);
+                        InstallService(ServiceName);
                         break;
                     case "/uninstall":
-                        _UninstallService(ServiceName);
+                        UninstallService(ServiceName);
                         break;
                 }
 
@@ -52,7 +52,7 @@ namespace AIStudio.Common.WindowService
             }
         }
 
-        static void _InstallService(string name)
+        static void InstallService(string name)
         {
             var createdNew = true;
             using (var mutex = new Mutex(true, name, out createdNew))
@@ -63,7 +63,7 @@ namespace AIStudio.Common.WindowService
 
                     Process p = new Process();
                     p.StartInfo.FileName = "cmd.exe";
-                    p.StartInfo.UseShellExecte = false;
+                    p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardInput = true;
                     p.StartInfo.RedirectStandardOutput = true;
                     p.StartInfo.RedirectStandardError = true;
@@ -88,7 +88,7 @@ namespace AIStudio.Common.WindowService
                     Console.WriteLine(output);
                     p.Close();
 
-                    Theard.Sleep(1000);
+                    Thread.Sleep(1000);
                     Console.Error.WriteLine("Service " + name + " installed");
                 }
                 else
@@ -97,7 +97,7 @@ namespace AIStudio.Common.WindowService
                 }
             }
         }
-        static void _UninstallService(string name)
+        static void UninstallService(string name)
         {
             var createdNew = true;
             using (var mutex = new Mutex(true, name, out createdNew))
@@ -108,7 +108,7 @@ namespace AIStudio.Common.WindowService
 
                     Process p = new Process();
                     p.StartInfo.FileName = "cmd.exe";
-                    p.StartInfo.UseShellExecte = false;
+                    p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardInput = true;
                     p.StartInfo.RedirectStandardOutput = true;
                     p.StartInfo.RedirectStandardError = true;
@@ -127,7 +127,7 @@ namespace AIStudio.Common.WindowService
                     Console.WriteLine(output);
                     p.Close();
 
-                    Theard.Sleep(1000);
+                    Thread.Sleep(1000);
                     Console.Error.WriteLine("Service " + name + " uninstalled");
                 }
                 else
@@ -136,7 +136,7 @@ namespace AIStudio.Common.WindowService
                 }
             }
         }
-        static void _StartService(Service svc, out bool runapp)
+        static void StartService(string name, out bool runapp)
         {
             runapp = false;
             bool isInstalled = ServiceInstaller.IsInstalled(name);
@@ -147,7 +147,7 @@ namespace AIStudio.Common.WindowService
                 Thread.Sleep(1000);
 
                 Console.Error.WriteLine("Service " + name + " start");
-                _PrintStatus(name);
+                PrintStatus(name);
             }
             else
             {
@@ -160,7 +160,7 @@ namespace AIStudio.Common.WindowService
 
                         runapp = true;
 
-                        Theard.Sleep(1000);
+                        Thread.Sleep(1000);
                         Console.Error.WriteLine("Service " + name + " start");
                     }
                     else
@@ -171,7 +171,7 @@ namespace AIStudio.Common.WindowService
             }
         }
 
-        static void _StopService(string name)
+        static void StopService(string name)
         {
             bool isInstalled = ServiceInstaller.IsInstalled(name);
             if (isInstalled)
@@ -180,19 +180,19 @@ namespace AIStudio.Common.WindowService
 
                 Thread.Sleep(1000);
                 Console.Error.WriteLine("Service " + name + " stop");
-                _PrintStatus(name);
+                PrintStatus(name);
             }
           
         }
 
-        static void _PrintStatus(string name)
+        static void PrintStatus(string name)
         {
             var isInstalled = ServiceInstaller.IsInstalled(name);
             if (isInstalled)
             {
                 Process p = new Process();
                 p.StartInfo.FileName = "cmd.exe";
-                p.StartInfo.UseShellExecte = false;
+                p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardInput = true;
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.RedirectStandardError = true;
@@ -212,10 +212,10 @@ namespace AIStudio.Common.WindowService
         }
 
 
-        static void _PrintUsage()
+        static void PrintUsage()
         {
             var t = Console.Error;
-            t.Write("Usage: " + _File);
+            t.Write("Usage: " + FilePath);
             t.WriteLine(" /start | /stop | /install | /uninstall | /status");
             t.WriteLine();
             t.WriteLine("   /start      Starts the service, if it's not already running. When not installed, this runs in console mode and exit install mode.");
