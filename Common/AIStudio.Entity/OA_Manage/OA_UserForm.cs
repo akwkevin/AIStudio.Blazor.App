@@ -17,7 +17,6 @@ namespace AIStudio.Entity.OA_Manage
         [MaxLength(50)]
         public string? DefFormJsonId { get; set; }
         public int DefFormJsonVersion { get; set; }
-        public string WorkflowId { get; set; }
         public int Grade { get; set; }
         public double Flag { get; set; }
         public string? Remarks { get; set; }
