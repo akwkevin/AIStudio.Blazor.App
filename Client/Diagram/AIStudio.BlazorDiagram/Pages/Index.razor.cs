@@ -18,6 +18,8 @@ namespace AIStudio.BlazorDiagram.Pages
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
+        public string JsonString { get; set; }
+
         public Diagram Diagram { get; } = new Diagram(new DiagramOptions
         {
             GridSize = 40,
@@ -96,6 +98,11 @@ namespace AIStudio.BlazorDiagram.Pages
 
             await JSRuntime.InvokeVoidAsync("console.log", json);
         }
+
+        private async Task LoadJson()
+        {
+        }
+
 
         private void Debug()
         {

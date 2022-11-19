@@ -1,6 +1,7 @@
-﻿@page "/flowchart"
+﻿@page "/DatabaseDesigner/Index"
 @attribute [ReuseTabsPageTitle("数据库设计")]
 
+<link href="_content/AIStudio.BlazorDiagram/vendor/bootstrap-4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 <link href="_content/AIStudio.BlazorDiagram/vendor/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet" />
 <link href="_content/Z.Blazor.Diagrams/style.css" rel="stylesheet" />
 
@@ -13,6 +14,10 @@
             </li>
             <li class="nav-item">
                 <button class="btn-primary" @onclick="ShowJson">Show JSON</button>
+            </li>
+            <li class="nav-item">
+                <input id="name" @bind="JsonString" />
+                <button class="btn-primary" @onclick="LoadJson">Load JSON</button>
             </li>
             <li class="nav-item">
                 <button class="btn-primary" @onclick="Debug">DEBUG</button>
