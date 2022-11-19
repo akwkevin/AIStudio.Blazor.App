@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AIStudio.Client.Business\AIStudio.Client.Business.csproj" />
-    <ProjectReference Include="..\Flowchart\AIStudio.BlazorFlowchart\AIStudio.BlazorFlowchart.csproj" />
+    <ProjectReference Include="..\Diagram\AIStudio.BlazorDiagram\AIStudio.BlazorDiagram.csproj" />
   </ItemGroup>
 
 

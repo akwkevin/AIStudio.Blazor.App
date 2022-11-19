@@ -1,0 +1,31 @@
+﻿@page "/DatabaseDesigner/Index"
+
+<link href="_content/AIStudio.BlazorDiagram/vendor/bootstrap-4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+<link href="_content/AIStudio.BlazorDiagram/vendor/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet" />
+<link href="_content/Z.Blazor.Diagrams/style.css" rel="stylesheet" />
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <span class="navbar-brand" href="#">Database Designer</span>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <button class="btn-primary" @onclick="NewTable">New table</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn-primary" @onclick="ShowJson">Show JSON</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn-primary" @onclick="Debug">DEBUG</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="wrapper">
+    <CascadingValue Value="Diagram">
+        <div class="diagram-container">
+            <DiagramCanvas></DiagramCanvas>
+        </div>
+        <Sidebar></Sidebar>
+    </CascadingValue>
+</div>
