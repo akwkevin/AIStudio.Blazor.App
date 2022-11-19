@@ -89,7 +89,7 @@ namespace AIStudio.BlazorDiagram.Pages
             {
                 Nodes = Diagram.Nodes.Select(p => new CustomTableNode(p)),
                 Links = Diagram.Links.Select(p => new DiagramLink(p))
-            }, Formatting.Indented, new JsonSerializerSettings
+            }, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
