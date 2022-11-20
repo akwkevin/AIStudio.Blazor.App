@@ -73,7 +73,7 @@ namespace AIStudio.Client.Business
             Base_ActionTree code = new Base_ActionTree() { Icon = "code", Text = "开发", Url = "Demo", Type = ActionType.菜单 };
             code.Children = new List<Base_ActionTree>();
             code.Children.Add(new Base_ActionTree() { Text = "数据库连接", Url = "/Base_Manage/Base_DbLink/List", Type = ActionType.页面 });
-            code.Children.Add(new Base_ActionTree() { Text = "数据库设计", Url = "/DatabaseDesigner/Index", Type = ActionType.页面 });
+            code.Children.Add(new Base_ActionTree() { Text = "数据库设计", Url = "/DatabaseDesigner", Type = ActionType.页面 });
             code.Children.Add(new Base_ActionTree() { Text = "代码生成", Url = "/Base_Manage/BuildCode/List", Type = ActionType.页面 });
             code.Children.Add(new Base_ActionTree() { Text = "Swagger", Url = "/Develop/Swagger/List", Type = ActionType.页面 });
             code.Children.Add(new Base_ActionTree() { Text = "文件上传", Url = "/Develop/FileUpload/List", Type = ActionType.页面 });

@@ -1,0 +1,27 @@
+﻿@page "/drag-and-drop"
+
+<div class="row h-100">
+    <div class="col-4">
+        @* Toolbox *@
+        <div class="row h-100 p-4 no-gutters" style="background: #eee;">
+            <div class="col-6">
+                <div class="text-center" draggable="true" @ondragstart="() => OnDragStart(0)">
+                    <img class="d-block m-auto" src="_content/AIStudio.BlazorDiagram/img/DefaultNodeWidget.png" />
+                    <span>Default Node</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-center" draggable="true" @ondragstart="() => OnDragStart(1)">
+                    <img class="d-block m-auto" src="_content/AIStudio.BlazorDiagram/img/BotAnswerNodeWidget.png" />
+                    <span>Bot Answer Node</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="width:100vw; height: 100vh" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+    <CascadingValue Value="_diagram">
+        <DiagramCanvas></DiagramCanvas>
+    </CascadingValue>
+</div>
