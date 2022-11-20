@@ -9,6 +9,11 @@ namespace AIStudio.BlazorDiagram.Models
 {
     public class FlowchartNode : DiagramNode
     {
+        public FlowchartNode() : base() 
+        {
+
+        }
+
         public FlowchartNode(NodeModel nodeModel) : base(nodeModel)
         {
         }

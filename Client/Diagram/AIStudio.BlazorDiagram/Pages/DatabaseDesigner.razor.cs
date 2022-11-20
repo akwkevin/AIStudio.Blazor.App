@@ -7,13 +7,11 @@ using Blazor.Diagrams.Core.Models.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Reflection;
 
 namespace AIStudio.BlazorDiagram.Pages
 {
 
-    public partial class Index : IDisposable
+    public partial class DatabaseDesigner : IDisposable
     {
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
@@ -46,7 +44,7 @@ namespace AIStudio.BlazorDiagram.Pages
 
         protected override void OnInitialized()
         {
-            base.OnInitialized();            
+            base.OnInitialized();
 
             Diagram.RegisterModelComponent<Table, TableNode>();
             Diagram.Nodes.Add(new Table());
@@ -87,20 +85,46 @@ namespace AIStudio.BlazorDiagram.Pages
 
         private async Task ShowJson()
         {
-            var json = JsonConvert.SerializeObject(new
+            var json = JsonConvert.SerializeObject(new 
             {
-                Nodes = Diagram.Nodes.Select(p => new CustomTableNode(p)),
-                Links = Diagram.Links.Select(p => new DiagramLink(p))
+                Nodes = Diagram.Nodes.Select(p => new DatabaseDesignerTableNode(p)),
+                Links = Diagram.Links.Select(p => new DatabaseDesignerTableLink(p))
             }, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
 
+            JsonString = json;
             await JSRuntime.InvokeVoidAsync("console.log", json);
         }
 
-        private async Task LoadJson()
+        private void LoadJson()
         {
+            Diagram.Nodes.Clear();
+            Diagram.Links.Clear();
+
+            List<NodeModel> nodes = new List<NodeModel>();
+            var data = JsonConvert.DeserializeObject<DiagramData>(JsonString, new JsonConverter[] { new DiagramNodeConverter(), new DiagramLinkConverter() });
+            if (data.Nodes != null)
+            {
+                foreach (var node in data.Nodes)
+                {
+                    var nodemodel = node.ToNodelModel();
+                    nodes.Add(nodemodel);
+                    Diagram.Nodes.Add(nodemodel);
+                }
+            }
+            if (data.Links != null)
+            {
+                foreach (var link in data.Links)
+                {
+                    var source = nodes.FirstOrDefault(p => p.Id == link.SourceId);
+                    var target = nodes.FirstOrDefault(p => p.Id == link.TargetId);
+                    var linkmodel = link.ToLinkModel(source, target);
+                    Diagram.Links.Add(linkmodel);
+                }
+            }
+            
         }
 
 
@@ -110,5 +134,7 @@ namespace AIStudio.BlazorDiagram.Pages
             foreach (var port in Diagram.Nodes.ToList()[0].Ports)
                 Console.WriteLine(port.Position);
         }
+
+
     }
 }

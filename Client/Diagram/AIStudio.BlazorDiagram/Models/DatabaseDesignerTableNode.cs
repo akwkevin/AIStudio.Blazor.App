@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace AIStudio.BlazorDiagram.Models
 {
-    public class CustomTableNode : DiagramNode
+    public class DatabaseDesignerTableNode : DiagramNode
     {
         public List<Column> Columns { get; } = new List<Column>();
 
+        public DatabaseDesignerTableNode() :base() 
+        {
+
+        }
         /// <summary>
         /// 将diagram信息转换成自己的类
         /// </summary>
         /// <param name="nodeModel"></param>
-        public CustomTableNode(NodeModel nodeModel) : base(nodeModel) 
+        public DatabaseDesignerTableNode(NodeModel nodeModel) : base(nodeModel) 
         {
             if (nodeModel is Table table)
             {
@@ -24,15 +28,18 @@ namespace AIStudio.BlazorDiagram.Models
             }
         }
 
+        public override void AddPorts(NodeModel nodeModel)
+        {
+
+        }
+
         public override NodeModel ToNodelModel()
         {
-            Table table = new Table();
+            Table table = new Table(Id);
             table.Name = Name;
-            table.Columns.Clear();
-            table.Columns.AddRange(Columns);
-            ToNodelModel(table);
+            Columns.ForEach(p => table.AddColumn(p));
 
-            return table;
+            return ToNodelModel(table);
 
         }
     }

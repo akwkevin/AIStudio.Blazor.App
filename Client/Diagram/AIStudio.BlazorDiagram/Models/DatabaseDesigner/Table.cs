@@ -28,6 +28,11 @@ namespace AIStudio.BlazorDiagram.Models
             AddPort(Columns[1], PortAlignment.Left);
         }
 
+        public Table(string id, Point position = null) : base(id, position, RenderLayer.HTML)
+        {
+            Columns = new List<Column>();
+        }
+
         public string Name { get; set; } = "Table";
         public List<Column> Columns { get; }
         public bool HasPrimaryColumn => Columns.Any(c => c.Primary);
@@ -35,5 +40,17 @@ namespace AIStudio.BlazorDiagram.Models
         public ColumnPort GetPort(Column column) => Ports.Cast<ColumnPort>().FirstOrDefault(p => p.Column == column);
 
         public void AddPort(Column column, PortAlignment alignment) => AddPort(new ColumnPort(this, column, alignment));
+
+        public void RemoveColumn(Column column)
+        {
+            RemovePort(GetPort(column));
+            Columns.Remove(column);
+        }
+
+        public void AddColumn(Column column)
+        {
+            Columns.Add(column);
+            AddPort(column, column.Primary ? PortAlignment.Right : PortAlignment.Left);
+        }
     }
 }

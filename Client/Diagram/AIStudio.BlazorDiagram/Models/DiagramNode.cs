@@ -23,6 +23,11 @@ namespace AIStudio.BlazorDiagram.Models
         public string? Type { get; set; }
         public int ZIndex { get; set; }
 
+        public DiagramNode()
+        {
+
+        }
+
         /// <summary>
         /// 将diagram信息转换成自己的类
         /// </summary>
@@ -37,27 +42,25 @@ namespace AIStudio.BlazorDiagram.Models
             Height = nodeModel.Size.Height;
             X = nodeModel.Position.X;
             Y = nodeModel.Position.Y;
-            Type = nodeModel.GetType().Name;
+            Type = this.GetType().Name;
         }
 
         public virtual NodeModel ToNodelModel()
         {
-            return ToNodelModel(new NodeModel());
+            return ToNodelModel(new NodeModel(Id));
+        }
+
+        public virtual void AddPorts(NodeModel nodeModel)
+        {
+            nodeModel.AddPort(PortAlignment.Bottom);
+            nodeModel.AddPort(PortAlignment.Top);
+            nodeModel.AddPort(PortAlignment.Left);
+            nodeModel.AddPort(PortAlignment.Right);
         }
 
         public NodeModel ToNodelModel(NodeModel nodeModel) 
         {
-            switch (Type)
-            {
-                default:
-                    {
-                        nodeModel.AddPort(PortAlignment.Bottom);
-                        nodeModel.AddPort(PortAlignment.Top);
-                        nodeModel.AddPort(PortAlignment.Left);
-                        nodeModel.AddPort(PortAlignment.Right);
-                    }
-                    break;
-            }
+            AddPorts(nodeModel);
 
             nodeModel.Title = Label;
             nodeModel.Size = new Blazor.Diagrams.Core.Geometry.Size(Width, Height);

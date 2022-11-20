@@ -38,7 +38,7 @@ namespace AIStudio.BlazorUI.Services
             //services.AddScoped<BrowserResizeService>();
 
             services.AddScoped<IValueConverter, ObjectToStringConverter>();
-           // services.AddNamedSingleton<IValueConverter, ObjectToStringConverter>(nameof(ObjectToStringConverter));
+            // services.AddNamedSingleton<IValueConverter, ObjectToStringConverter>(nameof(ObjectToStringConverter));
         }
     }
 }
