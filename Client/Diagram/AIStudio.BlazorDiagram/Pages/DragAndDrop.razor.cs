@@ -15,7 +15,7 @@ namespace AIStudio.BlazorDiagram.Pages
         private IJSRuntime JSRuntime { get; set; }
 
         private readonly Diagram Diagram = new Diagram();
-        private int? _draggedType;
+        private string? _draggedType;
         private string JsonString { get; set; }
 
         protected override void OnInitialized()
@@ -26,7 +26,7 @@ namespace AIStudio.BlazorDiagram.Pages
             Diagram.RegisterModelComponent<BotAnswerNodeModel, BotAnswerWidget>();
         }
 
-        private void OnDragStart(int key)
+        private void OnDragStart(string key)
         {
             // Can also use transferData, but this is probably "faster"
             _draggedType = key;
@@ -38,7 +38,7 @@ namespace AIStudio.BlazorDiagram.Pages
                 return;
 
             var position = Diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-            var node = _draggedType == 0 ? new NodeModel(position) : new BotAnswerNodeModel(position);
+            var node = _draggedType == "0" ? new NodeModel(position) : new BotAnswerNodeModel(position);
             node.AddPort(PortAlignment.Top);
             node.AddPort(PortAlignment.Bottom);
             Diagram.Nodes.Add(node);
