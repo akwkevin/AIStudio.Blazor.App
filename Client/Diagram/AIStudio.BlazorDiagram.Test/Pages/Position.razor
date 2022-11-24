@@ -1,0 +1,85 @@
+﻿@page "/position"
+<div>
+    <h1>Fixed positioning</h1>
+
+    <p>I am a basic block level element. My adjacent block level elements sit on new lines below me.</p>
+
+    <p class="positioned">Now I'm absolutely positioned relative to the <code>&lt;body&gt;</code> element, not the <code>&lt;html&gt;</code> element!</p>
+
+    <p>We are separated by our margins. Because of margin collapsing, we are separated by the width of one of our margins, not both.</p>
+
+    <p>inline elements <span>like this one</span> and <span>this one</span> sit on the same line as one another, and adjacent text nodes, if there is space on the same line. Overflowing inline elements <span>wrap onto a new line if possible — like this one containing text</span>, or just go on to a new line if not, much like this image will do: <img src="long.jpg" alt="a wide but short section of a photo of several fabrics"></p>
+</div>
+
+<div>
+    <h2>Sticky positioning</h2>
+
+    <dl>
+        <dt>A</dt>
+        <dd>Apple</dd>
+        <dd>Ant</dd>
+        <dd>Altimeter</dd>
+        <dd>Airplane</dd>
+        <dt>B</dt>
+        <dd>Bird</dd>
+        <dd>Buzzard</dd>
+        <dd>Bee</dd>
+        <dd>Banana</dd>
+        <dd>Beanstalk</dd>
+        <dt>C</dt>
+        <dd>Calculator</dd>
+        <dd>Cane</dd>
+        <dd>Camera</dd>
+        <dd>Camel</dd>
+        <dt>D</dt>
+        <dd>Duck</dd>
+        <dd>Dime</dd>
+        <dd>Dipstick</dd>
+        <dd>Drone</dd>
+        <dt>E</dt>
+        <dd>Egg</dd>
+        <dd>Elephant</dd>
+        <dd>Egret</dd>
+    </dl>
+</div>
+
+<style>
+    p {
+        background: aqua;
+        border: 3px solid blue;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    span {
+        background: red;
+        border: 1px solid black;
+    }
+
+    h1 {
+        position: fixed;
+        top: 50px;
+        width: 500px;
+        margin-top: 0;
+        background: white;
+        padding: 10px;
+    }
+
+    p:nth-of-type(1) {
+        margin-top: 60px;
+    }
+
+    dt {
+        background-color: black;
+        color: white;
+        padding: 10px;
+        position: sticky;
+        top: 0;
+        left: 0;
+        margin: 1em 0;
+    }
+</style>
+
+@code {
+
+}

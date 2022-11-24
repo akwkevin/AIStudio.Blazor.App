@@ -13,7 +13,7 @@ namespace AIStudio.BlazorDiagram.Models
     public class DiagramNode
     {
         public string? Id { get; set; }
-        public  string? Name { get; set; }
+        public string? Name { get; set; }
         public string? Color { get; set; }
         public string? Label { get; set; }
         public double Width { get; set; }
@@ -22,6 +22,7 @@ namespace AIStudio.BlazorDiagram.Models
         public double Y { get; set; }
         public string? Type { get; set; }
         public int ZIndex { get; set; }
+        public List<PortAlignment> PortAlignmentList { get; set; }
 
         public DiagramNode()
         {
@@ -43,6 +44,7 @@ namespace AIStudio.BlazorDiagram.Models
             X = nodeModel.Position.X;
             Y = nodeModel.Position.Y;
             Type = this.GetType().Name;
+            PortAlignmentList = nodeModel.Ports.Select(p => p.Alignment).ToList();
         }
 
         public virtual NodeModel ToNodelModel()
@@ -52,13 +54,10 @@ namespace AIStudio.BlazorDiagram.Models
 
         public virtual void AddPorts(NodeModel nodeModel)
         {
-            nodeModel.AddPort(PortAlignment.Bottom);
-            nodeModel.AddPort(PortAlignment.Top);
-            nodeModel.AddPort(PortAlignment.Left);
-            nodeModel.AddPort(PortAlignment.Right);
+            PortAlignmentList?.ForEach(p => nodeModel.AddPort(p));
         }
 
-        public NodeModel ToNodelModel(NodeModel nodeModel) 
+        public NodeModel ToNodelModel(NodeModel nodeModel)
         {
             AddPorts(nodeModel);
 

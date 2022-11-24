@@ -11,16 +11,11 @@
 
 <p>This component demonstrates a diagram.</p>
 
-<!--
-Parent of DiagramCanvas has to have a fixed width/height
-or it will not be rendered.
-
-100vw = 100% viewport width
-100vh = 100% viewport height
--->
-<div style="width:100vw; height: 100vh">
+<div class="wrapper">
     <CascadingValue Value="Diagram">
-        <DiagramCanvas></DiagramCanvas>
+        <div class="diagram-container">
+            <DiagramCanvas></DiagramCanvas>
+        </div>
     </CascadingValue>
 </div>
 

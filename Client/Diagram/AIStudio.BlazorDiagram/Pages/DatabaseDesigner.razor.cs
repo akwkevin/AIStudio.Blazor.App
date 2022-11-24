@@ -14,9 +14,9 @@ namespace AIStudio.BlazorDiagram.Pages
     public partial class DatabaseDesigner : IDisposable
     {
         [Inject]
-        public IJSRuntime JSRuntime { get; set; }
+        private IJSRuntime JSRuntime { get; set; }
 
-        public string JsonString { get; set; }
+        private string JsonString { get; set; }
 
         public Diagram Diagram { get; } = new Diagram(new DiagramOptions
         {
@@ -85,46 +85,13 @@ namespace AIStudio.BlazorDiagram.Pages
 
         private async Task ShowJson()
         {
-            var json = JsonConvert.SerializeObject(new 
-            {
-                Nodes = Diagram.Nodes.Select(p => new DatabaseDesignerTableNode(p)),
-                Links = Diagram.Links.Select(p => new DatabaseDesignerTableLink(p))
-            }, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-
-            JsonString = json;
-            await JSRuntime.InvokeVoidAsync("console.log", json);
+            JsonString = DiagramHelper.ToJson(Diagram);
+            await JSRuntime.InvokeVoidAsync("console.log", JsonString);
         }
 
         private void LoadJson()
         {
-            Diagram.Nodes.Clear();
-            Diagram.Links.Clear();
-
-            List<NodeModel> nodes = new List<NodeModel>();
-            var data = JsonConvert.DeserializeObject<DiagramData>(JsonString, new JsonConverter[] { new DiagramNodeConverter(), new DiagramLinkConverter() });
-            if (data.Nodes != null)
-            {
-                foreach (var node in data.Nodes)
-                {
-                    var nodemodel = node.ToNodelModel();
-                    nodes.Add(nodemodel);
-                    Diagram.Nodes.Add(nodemodel);
-                }
-            }
-            if (data.Links != null)
-            {
-                foreach (var link in data.Links)
-                {
-                    var source = nodes.FirstOrDefault(p => p.Id == link.SourceId);
-                    var target = nodes.FirstOrDefault(p => p.Id == link.TargetId);
-                    var linkmodel = link.ToLinkModel(source, target);
-                    Diagram.Links.Add(linkmodel);
-                }
-            }
-            
+            DiagramHelper.ToObject(Diagram, JsonString);    
         }
 
 

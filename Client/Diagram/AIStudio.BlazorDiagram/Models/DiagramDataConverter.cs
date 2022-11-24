@@ -14,6 +14,10 @@ namespace AIStudio.BlazorDiagram.Models
                 {
                     return new DatabaseDesignerTableNode();
                 }
+                else if (type == "BotAnswerNode")
+                {
+                    return new BotAnswerNode();
+                }
                 else
                 {
                     return new DiagramNode();

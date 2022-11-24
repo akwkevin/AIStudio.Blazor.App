@@ -88,7 +88,7 @@ namespace AIStudio.BlazorDiagram.Models
             {
                 PortAlignment targetPortAlignment;
                 Enum.TryParse(TargetPortAlignment, out targetPortAlignment);
-                TargetPort = SourceNode.GetPort(targetPortAlignment);
+                TargetPort = TargetNode.GetPort(targetPortAlignment);
             }
 
             LinkModel linkModel = new LinkModel(Id, SourcePort, TargetPort);

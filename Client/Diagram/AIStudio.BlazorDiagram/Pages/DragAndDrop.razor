@@ -1,27 +1,31 @@
 ﻿@page "/drag-and-drop"
 
-<div class="row h-100">
-    <div class="col-4">
-        @* Toolbox *@
-        <div class="row h-100 p-4 no-gutters" style="background: #eee;">
-            <div class="col-6">
-                <div class="text-center" draggable="true" @ondragstart="() => OnDragStart(0)">
-                    <img class="d-block m-auto" src="_content/AIStudio.BlazorDiagram/img/DefaultNodeWidget.png" />
-                    <span>Default Node</span>
-                </div>
+<link id="theme-style" rel="stylesheet" href="_content/AIStudio.BlazorDiagram/css/diagram.css">
+
+<div class="wrapper">
+    <CascadingValue Value="Diagram">
+        <div class="toolbar">
+            <div class="text-center" draggable="true" @ondragstart="() => OnDragStart(0)">
+                <img class="d-block m-auto" src="_content/AIStudio.BlazorDiagram/img/DefaultNodeWidget.png" />
+                <span>Default Node</span>
             </div>
-            <div class="col-6">
-                <div class="text-center" draggable="true" @ondragstart="() => OnDragStart(1)">
-                    <img class="d-block m-auto" src="_content/AIStudio.BlazorDiagram/img/BotAnswerNodeWidget.png" />
-                    <span>Bot Answer Node</span>
-                </div>
+            <div class="text-center" draggable="true" @ondragstart="() => OnDragStart(1)">
+                <img class="d-block m-auto" src="_content/AIStudio.BlazorDiagram/img/BotAnswerNodeWidget.png" />
+                <span>Bot Answer Node</span>
+            </div>
+            <div class="text-center">
+                <button class="btn-primary" style="width:80px;height:80px;margin:10px" @onclick="ShowJson">Show JSON</button>
+            </div>
+            <div class="text-center">
+                <input id="name" style="width:80px;height:80px;margin:10px" @bind="JsonString" />
+            </div>
+            <div class="text-center">
+                <button class="btn-primary" style="width:80px;height:80px;margin:10px" @onclick="LoadJson">Load JSON</button>
             </div>
         </div>
-    </div>
-</div>
-
-<div style="width:100vw; height: 100vh" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
-    <CascadingValue Value="_diagram">
-        <DiagramCanvas></DiagramCanvas>
+        <div class="diagram-container" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+            <DiagramCanvas></DiagramCanvas>
+        </div>
+        <Sidebar></Sidebar>
     </CascadingValue>
 </div>

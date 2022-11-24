@@ -1,0 +1,147 @@
+﻿@page "/layout"
+
+<div class="container container1">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+<div class="container container2">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+<div class="container container3">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+<div class="container container4">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+<div class="container container5">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+<div class="container container6">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+<div class="container container7">
+    <div class="left">左边左边左边左边左边左边左边左边左边左边</div>
+    <div class="right">右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边右边</div>
+</div>
+
+<style>
+    .container {
+        padding: 10px;
+        border: 1px solid #ffa200;
+        margin-bottom: 40px;
+    }
+
+        .container .left {
+            background-color: #4b83e2;
+        }
+
+        .container .right {
+            background-color: #ff3b30;
+        }
+    /*左浮动固定宽度，右边盒子overflow:hidden触发bfc，使其不与浮动盒子区域重叠，因此会重新计算宽度。*/
+    .container1 .left {
+        float: left;
+        width: 100px;
+    }
+
+    .container1 .right {
+        overflow: hidden;
+    }
+    /*清除浮动*/
+    .container1:after {
+        content: "";
+        height: 0;
+        line-height: 0;
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
+    /*左浮动固定宽度,右边margin-left*/
+    .container2 .left {
+        float: left;
+        width: 100px;
+    }
+
+    .container2 .right {
+        margin-left: 100px;
+    }
+    /*清除浮动*/
+    .container2:after {
+        content: "";
+        height: 0;
+        line-height: 0;
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
+    /*左边绝对定位，右边设置margin-left，缺点：当左边高于右边时，左边会超出父元素，需要使用js补救。*/
+    .container3 {
+        position: relative;
+    }
+
+        .container3 .left {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 100px;
+        }
+
+        .container3 .right {
+            margin-left: 100px;
+        }
+    /*双display:inline-block*/
+    .container4 {
+        font-size: 0;
+    }
+
+        .container4 .left {
+            width: 100px;
+        }
+
+        .container4 .left, .container4 .right {
+            display: inline-block;
+            font-size: 16px;
+            vertical-align: top;
+        }
+
+        .container4 .right {
+            width: calc(100% - 100px);
+        }
+    /*table*/
+    .container5 {
+        display: table;
+    }
+
+        .container5 .left, .container5 .right {
+            display: table-cell;
+        }
+    /*flex*/
+    .container6 {
+        display: flex;
+    }
+
+        .container6 .right {
+            flex-grow: 1;
+        }
+    /*grid*/
+    .container7 {
+        display: grid;
+    }
+
+        .container7 .left {
+            grid-column: 1;
+        }
+
+        .container7 .right {
+            grid-column: 2;
+        }
+</style>
+
+@code {
+
+}

@@ -2,15 +2,6 @@
     display: flex;
 }
 
-.toolbar {
-    float: left;
-    width: 120px;
-    background-color: #f8f9fa;
-    border-right: 1px solid #a9afb8;
-    padding: 1rem;
-
-}
-
 .diagram-container {
     flex: 1;
     height: calc(100vh - 56.59px);
