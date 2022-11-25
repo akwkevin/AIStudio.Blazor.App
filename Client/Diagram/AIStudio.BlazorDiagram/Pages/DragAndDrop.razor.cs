@@ -22,8 +22,8 @@ namespace AIStudio.BlazorDiagram.Pages
         {
             base.OnInitialized();
 
-
             Diagram.RegisterModelComponent<BotAnswerNodeModel, BotAnswerWidget>();
+            Diagram.RegisterModelComponent<FlowchartNodelModel, FlowchartWidget>();
         }
 
         private void OnDragStart(string key)
@@ -38,12 +38,39 @@ namespace AIStudio.BlazorDiagram.Pages
                 return;
 
             var position = Diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-            var node = _draggedType == "0" ? new NodeModel(position) : new BotAnswerNodeModel(position);
+            var node = _draggedType switch
+            {
+                "0" => NewNode(position),
+                "1" => NewNode(position),
+                _ => NewNode(position, (NodeKinds)System.Enum.Parse(typeof(NodeKinds), _draggedType)),
+            };
+
             node.AddPort(PortAlignment.Top);
             node.AddPort(PortAlignment.Bottom);
             Diagram.Nodes.Add(node);
             _draggedType = null;
         }
+
+        private NodeModel NewNode(Blazor.Diagrams.Core.Geometry.Point position)
+        {
+            var node = _draggedType == "0" ? new NodeModel(position) : new BotAnswerNodeModel(position);
+            node.AddPort(PortAlignment.Bottom);
+            node.AddPort(PortAlignment.Top);
+            return node;
+        }
+
+        private NodeModel NewNode(Blazor.Diagrams.Core.Geometry.Point position, NodeKinds nodeKinds)
+        {
+            var node = new FlowchartNodelModel(position);
+            node.Kind = nodeKinds;
+            node.Title = DiagramHelper.GetDescription(nodeKinds);
+            node.AddPort(PortAlignment.Bottom);
+            node.AddPort(PortAlignment.Top);
+            node.AddPort(PortAlignment.Left);
+            node.AddPort(PortAlignment.Right);
+            return node;
+        }
+
 
         private async Task ShowJson()
         {

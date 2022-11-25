@@ -1,0 +1,16 @@
+﻿<div class="sidebar">
+    @if (Model == null)
+    {
+        <div class="d-flex h-100 align-items-center justify-content-center">
+            No table selected
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" type="text" class="form-control" value="@Model.Title" @oninput="OnTitleChanged" />
+        </div>
+       
+    }
+</div>

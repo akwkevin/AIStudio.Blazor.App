@@ -12,6 +12,7 @@ namespace AIStudio.BlazorDiagram.Components
         {
 
         }
+        public string Color { get; set; } = "#1cbbb4";
         public NodeKinds Kind { get; set; }
         public List<string> UserIds { get; set; }
         public List<string> RoleIds { get; set; }

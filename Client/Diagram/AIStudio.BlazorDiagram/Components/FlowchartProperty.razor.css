@@ -1,0 +1,20 @@
+﻿.sidebar {
+    width: 350px;
+    height: calc(100vh - 56.59px);
+    background-color: #f8f9fa;
+    border-left: 1px solid #a9afb8;
+    padding: 1rem;
+}
+
+select.column-type {
+    width: 120px;
+}
+
+tr {
+    cursor: pointer;
+}
+
+tr.active {
+    color: #343a40;
+    background-color: rgba(0,0,0,0.075);
+}

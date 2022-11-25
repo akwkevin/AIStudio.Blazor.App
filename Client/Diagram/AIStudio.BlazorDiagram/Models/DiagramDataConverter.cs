@@ -18,6 +18,10 @@ namespace AIStudio.BlazorDiagram.Models
                 {
                     return new BotAnswerNode();
                 }
+                else if (type == "FlowchartNode")
+                {
+                    return new FlowchartNode();
+                }
                 else
                 {
                     return new DiagramNode();

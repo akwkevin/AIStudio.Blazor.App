@@ -1,4 +1,5 @@
-﻿using Blazor.Diagrams.Core.Models;
+﻿using AIStudio.BlazorDiagram.Components;
+using Blazor.Diagrams.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,13 @@ namespace AIStudio.BlazorDiagram.Models
 {
     public class FlowchartNode : DiagramNode
     {
+        public string? Color { get; set; }
+        public NodeKinds Kind { get; set; }
+
+        public List<string> UserIds { get; set; }
+        public List<string> RoleIds { get; set; }
+        public string ActType { get; set; }
+
         public FlowchartNode() : base() 
         {
 
@@ -17,13 +25,29 @@ namespace AIStudio.BlazorDiagram.Models
 
         public FlowchartNode(NodeModel nodeModel) : base(nodeModel)
         {
+            if (nodeModel is FlowchartNodelModel flowchartNodelModel)
+            {
+                Color = flowchartNodelModel.Color;
+                Kind = flowchartNodelModel.Kind;
+                UserIds = flowchartNodelModel.UserIds;
+                RoleIds= flowchartNodelModel.RoleIds;
+                ActType= flowchartNodelModel.ActType;
+            }
         }
 
-        public NodeKinds Kind { get; set; }
+        public override NodeModel ToNodelModel()
+        {
+            FlowchartNodelModel flowchartNodelModel = new FlowchartNodelModel(Id);
+            flowchartNodelModel.Color = Color;
+            flowchartNodelModel.Kind = Kind;
+            flowchartNodelModel.UserIds = UserIds;
+            flowchartNodelModel.RoleIds = RoleIds;
+            flowchartNodelModel.ActType = ActType;
 
-        public List<string> UserIds { get; set; }
-        public List<string> RoleIds { get; set; }
-        public string ActType { get; set; }
+            return ToNodelModel(flowchartNodelModel);
+
+        }
+
     }
 
     public enum NodeKinds

@@ -1,12 +1,34 @@
 ﻿<div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")">
-    @(Node.Title ?? "Title")
+    <div class="divleft">
+        <span class="spancenter">@(Node.Title ?? "Title")</span>
+    </div>
+
     @foreach (var port in Node.Ports)
     {
         <PortRenderer Port="port" Class="default"></PortRenderer>
     }
 </div>
 
+
+
+<style>
+    .divleft {
+        float: left;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        border-left: 6px solid @Node.Color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .spancenter {
+        margin-left: -6px;
+    }
+
+</style>
 @code {
     [Parameter]
-    public NodeModel Node { get; set; }
+    public FlowchartNodelModel Node { get; set; }
 }

@@ -14,7 +14,6 @@ namespace AIStudio.BlazorDiagram.Models
     {
         public string? Id { get; set; }
         public string? Name { get; set; }
-        public string? Color { get; set; }
         public string? Label { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }

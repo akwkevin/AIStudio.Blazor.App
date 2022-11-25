@@ -8,5 +8,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddAntDesign();   // Õâ¾ä¹Ø¼ü´úÂë
 
 await builder.Build().RunAsync();
