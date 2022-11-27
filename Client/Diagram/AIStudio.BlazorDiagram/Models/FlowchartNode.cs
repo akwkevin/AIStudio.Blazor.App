@@ -14,39 +14,9 @@ namespace AIStudio.BlazorDiagram.Models
         public string? Color { get; set; }
         public NodeKinds Kind { get; set; }
 
-        public List<string> UserIds { get; set; }
-        public List<string> RoleIds { get; set; }
+        public IEnumerable<string> UserIds { get; set; }
+        public IEnumerable<string> RoleIds { get; set; }
         public string ActType { get; set; }
-
-        public FlowchartNode() : base() 
-        {
-
-        }
-
-        public FlowchartNode(NodeModel nodeModel) : base(nodeModel)
-        {
-            if (nodeModel is FlowchartNodelModel flowchartNodelModel)
-            {
-                Color = flowchartNodelModel.Color;
-                Kind = flowchartNodelModel.Kind;
-                UserIds = flowchartNodelModel.UserIds;
-                RoleIds= flowchartNodelModel.RoleIds;
-                ActType= flowchartNodelModel.ActType;
-            }
-        }
-
-        public override NodeModel ToNodelModel()
-        {
-            FlowchartNodelModel flowchartNodelModel = new FlowchartNodelModel(Id);
-            flowchartNodelModel.Color = Color;
-            flowchartNodelModel.Kind = Kind;
-            flowchartNodelModel.UserIds = UserIds;
-            flowchartNodelModel.RoleIds = RoleIds;
-            flowchartNodelModel.ActType = ActType;
-
-            return ToNodelModel(flowchartNodelModel);
-
-        }
 
     }
 

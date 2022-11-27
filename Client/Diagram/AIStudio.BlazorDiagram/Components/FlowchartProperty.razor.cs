@@ -5,6 +5,8 @@ using AIStudio.BlazorDiagram.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
+using AntDesign;
+using AIStudio.Util.Common;
 
 namespace AIStudio.BlazorDiagram.Components
 {
@@ -14,6 +16,12 @@ namespace AIStudio.BlazorDiagram.Components
 
         [CascadingParameter]
         public Diagram Diagram { get; set; }
+
+        [Parameter]
+        public List<SelectOption> Users { get; set; } = new List<SelectOption>();
+
+        [Parameter]
+        public List<SelectOption> Roles { get; set; } = new List<SelectOption>();
 
         public void Dispose()
         {
@@ -42,6 +50,12 @@ namespace AIStudio.BlazorDiagram.Components
                 return;
 
             Model.Title = e.Value.ToString();
+            Model.Refresh();
+        }
+
+        private void OnActTypeChanged(string value)
+        {
+            Model.ActType = value;
             Model.Refresh();
         }
     }

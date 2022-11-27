@@ -1,0 +1,30 @@
+﻿<link id="theme-style" rel="stylesheet" href="_content/AIStudio.BlazorDiagram/css/diagram.css">
+
+<div class="wrapper">
+    <CascadingValue Value="Diagram">
+        <div class="toolbar">
+            <div class="default-node" style="width:80px;height:60px;margin:10px" draggable="true" @ondragstart='() => OnDragStart(NodeKinds.Start)'>
+                <span>开始</span>
+            </div>
+            <div class="default-node" style="width:80px;height:60px;margin:10px" draggable="true" @ondragstart='() => OnDragStart(NodeKinds.End)'>
+                <span>结束</span>
+            </div>
+            <div class="default-node" style="width:80px;height:60px;margin:10px" draggable="true" @ondragstart='() => OnDragStart(NodeKinds.Middle)'>
+                <span>中间节点</span>
+            </div>   
+            <div class="default-node" style="width:80px;height:60px;margin:10px;border-radius:30px" draggable="true" @ondragstart='() => OnDragStart(NodeKinds.Decide)'>
+                <span>条件节点</span>
+            </div>
+            <div class="default-node" style="width:80px;height:60px;margin:10px" draggable="true" @ondragstart='() => OnDragStart(NodeKinds.COBegin)'>
+                <span>并行开始</span>
+            </div>
+            <div class="default-node" style="width:80px;height:60px;margin:10px" draggable="true" @ondragstart='() => OnDragStart(NodeKinds.COEnd)'>
+                <span>并行结束</span>
+            </div>
+        </div>
+        <div class="diagram-container" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+            <DiagramCanvas></DiagramCanvas>
+        </div>
+        <FlowchartProperty Users="@Users" Roles="@Roles"></FlowchartProperty>
+    </CascadingValue>
+</div>

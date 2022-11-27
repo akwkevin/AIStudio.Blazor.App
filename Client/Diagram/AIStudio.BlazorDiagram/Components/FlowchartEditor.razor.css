@@ -1,0 +1,19 @@
+﻿.wrapper {
+    display: flex;
+}
+
+.toolbar {
+    float: left;
+    width: 120px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #a9afb8;
+    padding: 1rem;
+}
+
+.diagram-container {
+    flex: 1;
+    height: calc(100vh - 56.59px);
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgb(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+

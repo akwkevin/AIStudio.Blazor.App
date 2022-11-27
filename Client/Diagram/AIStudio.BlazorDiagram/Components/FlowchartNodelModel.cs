@@ -14,8 +14,8 @@ namespace AIStudio.BlazorDiagram.Components
         }
         public string Color { get; set; } = "#1cbbb4";
         public NodeKinds Kind { get; set; }
-        public List<string> UserIds { get; set; }
-        public List<string> RoleIds { get; set; }
+        public IEnumerable<string> UserIds { get; set; }
+        public IEnumerable<string> RoleIds { get; set; }
         public string ActType { get; set; }
     }
 }

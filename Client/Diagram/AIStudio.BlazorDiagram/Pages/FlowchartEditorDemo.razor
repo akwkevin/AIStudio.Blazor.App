@@ -1,0 +1,38 @@
+﻿@page "/flowcharteditor"
+<Space>
+    <SpaceItem>
+        <Input Placeholder="输入" @bind-Value="@_inputData" />
+    </SpaceItem>
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" @onclick='()=> OnGetData()'>获取数据</Button>
+    </SpaceItem>
+    <SpaceItem>
+        <Input Placeholder="输出" @bind-Value="@_outputData" />
+    </SpaceItem>
+</Space>
+<FlowchartEditor @ref="@_flowchartEditor" @bind-Data="@_inputData" Users="@Users" Roles="@Roles" />
+
+@code {
+    string? _inputData;
+    string? _outputData;
+    FlowchartEditor? _flowchartEditor;
+
+    List<Util.Common.SelectOption> Users { get; set; } = new List<Util.Common.SelectOption>
+    {
+        new Util.Common.SelectOption(){ Value = "操作员1",Text = "操作员1" },
+        new Util.Common.SelectOption(){ Value = "操作员2",Text = "操作员2" },
+        new Util.Common.SelectOption(){ Value = "Admin",Text = "Admin" },
+    };
+
+    List<Util.Common.SelectOption> Roles { get; set; } = new List<Util.Common.SelectOption>
+    {
+        new Util.Common.SelectOption(){ Value = "操作员",Text = "操作员" },
+        new Util.Common.SelectOption(){ Value = "管理员",Text = "管理员" },
+    };
+
+    void OnGetData()
+    {
+        _outputData = _flowchartEditor?.GetData();
+    }
+
+}

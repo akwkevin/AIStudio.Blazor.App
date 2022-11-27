@@ -1,0 +1,43 @@
+﻿@page "/select"
+<h3>Select</h3>
+
+<p>
+    <label>
+        Select one or more colors:
+    </label>
+    <select @bind="colorsSelected" multiple>
+        <option value="white">White</option>
+        <option value="red">Red</option>
+        <option value="yellow">Yellow</option>
+        <option value="blue">Blue</option>
+        <option value="black">Black</option>
+    </select>
+</p>
+<p>
+<ul>
+        @foreach (var item in colorsSelected)
+        {
+            <li>@item</li>
+        }
+</ul>
+</p>
+
+<p>
+    <label>
+        Select classifications (Minimum: 2, Maximum: 3):
+        <InputSelect @bind-Value="color.SelectedColors">
+            <option value="white">White</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+            <option value="blue">Blue</option>
+            <option value="black">Black</option>
+        </InputSelect>
+    </label>
+</p>
+
+@code {
+    string[] colorsSelected = new[] { "white", "black" };
+
+    private Color color = new();
+}
+

@@ -1,6 +1,7 @@
 ﻿using AIStudio.BlazorDiagram.Components;
 using AIStudio.BlazorDiagram.Models;
 using AIStudio.Util;
+using AIStudio.Util.Common;
 using Blazor.Diagrams.Core;
 using Blazor.Diagrams.Core.Models;
 using Microsoft.AspNetCore.Components;
@@ -8,26 +9,33 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 
-namespace AIStudio.BlazorDiagram.Pages
+namespace AIStudio.BlazorDiagram.Components
 {
-    public partial class DragAndDrop
+    public partial class FlowchartEditor
     {
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; }
-
         private readonly Diagram Diagram = new Diagram();
-        private string? _draggedType;
-        private string JsonString { get; set; }
+        private NodeKinds? _draggedType;
+
+        [Parameter]
+        public string Data { get; set; }
+
+        [Parameter]
+        public EventCallback<string> DataChanged { get; set; }
+
+        [Parameter]
+        public List<SelectOption> Users { get; set; } = new List<SelectOption>();
+
+        [Parameter]
+        public List<SelectOption> Roles { get; set; } = new List<SelectOption>();
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
-            Diagram.RegisterModelComponent<BotAnswerNodeModel, BotAnswerWidget>();
             Diagram.RegisterModelComponent<FlowchartNodelModel, FlowchartWidget>();
         }
 
-        private void OnDragStart(string key)
+        private void OnDragStart(NodeKinds key)
         {
             // Can also use transferData, but this is probably "faster"
             _draggedType = key;
@@ -39,25 +47,12 @@ namespace AIStudio.BlazorDiagram.Pages
                 return;
 
             var position = Diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-            var node = _draggedType switch
-            {
-                "0" => NewNode(position),
-                "1" => NewNode(position),
-                _ => NewNode(position, (NodeKinds)System.Enum.Parse(typeof(NodeKinds), _draggedType)),
-            };
+            var node = NewNode(position, _draggedType.Value);
 
             node.AddPort(PortAlignment.Top);
             node.AddPort(PortAlignment.Bottom);
             Diagram.Nodes.Add(node);
             _draggedType = null;
-        }
-
-        private NodeModel NewNode(Blazor.Diagrams.Core.Geometry.Point position)
-        {
-            var node = _draggedType == "0" ? new NodeModel(position) : new BotAnswerNodeModel(position);
-            node.AddPort(PortAlignment.Bottom);
-            node.AddPort(PortAlignment.Top);
-            return node;
         }
 
         private NodeModel NewNode(Blazor.Diagrams.Core.Geometry.Point position, NodeKinds nodeKinds)
@@ -72,16 +67,16 @@ namespace AIStudio.BlazorDiagram.Pages
             return node;
         }
 
-
-        private async Task ShowJson()
+        protected override void OnParametersSet()
         {
-            JsonString = DiagramHelper.ToJson(Diagram);
-            await JSRuntime.InvokeVoidAsync("console.log", JsonString);
+            DiagramHelper.ToObject(Diagram, Data??"");
         }
 
-        private void LoadJson()
+        public string GetData()
         {
-            DiagramHelper.ToObject(Diagram, JsonString);
+            var data = DiagramHelper.ToJson(Diagram);
+            return data;
         }
+
     }
 }

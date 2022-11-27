@@ -15,4 +15,8 @@
     <PackageReference Include="AntDesign" Version="0.12.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\AIStudio.Util\AIStudio.Util.csproj" />
+  </ItemGroup>
+
 </Project>

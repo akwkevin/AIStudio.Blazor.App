@@ -7,10 +7,90 @@
     }
     else
     {
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input id="title" type="text" class="form-control" value="@Model.Title" @oninput="OnTitleChanged" />
-        </div>
-       
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="center">
+                            <label for="title">Title</label>
+                        </div>
+                    </td>
+                    <td>
+                        <Input Placeholder="Title" @bind-Value="@Model.Title" @oninput="OnTitleChanged" />
+                    </td>
+                </tr>
+                @if (Model.Kind == NodeKinds.Middle)
+                {
+                    <tr>
+                        <td>
+                            <div class="center">
+                                <label for="title">用户名</label>
+                            </div>
+                        </td>
+                        <td>
+                            <Select TItem="AIStudio.Util.Common.SelectOption"
+                                TItemValue="string"
+                                @bind-Values="@Model.UserIds"
+                                AllowClear
+                                DataSource="Users"
+                                Placeholder="请选择用户"
+                                LabelName="@nameof(AIStudio.Util.Common.SelectOption.Text)"
+                                ValueName="@nameof(AIStudio.Util.Common.SelectOption.Value)"
+                                Mode="multiple">
+                            </Select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="center">
+                                <label for="title">角色名</label>
+                            </div>
+                        </td>
+                        <td>
+                            <Select TItem="AIStudio.Util.Common.SelectOption"
+                                TItemValue="string"
+                                @bind-Values="@Model.RoleIds"
+                                AllowClear
+                                DataSource="Roles"
+                                Placeholder="请选择角色"
+                                LabelName="@nameof(AIStudio.Util.Common.SelectOption.Text)"
+                                ValueName="@nameof(AIStudio.Util.Common.SelectOption.Value)"
+                                Mode="multiple">
+                            </Select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="center">
+                                <label for="title">or/and</label>
+                            </div>
+                        </td>
+                        <td>
+                            <SimpleSelect @bind-Value="@Model.ActType">
+                                <SelectOptions>
+                                    <SimpleSelectOption Value="or" Label="or"></SimpleSelectOption>
+                                    <SimpleSelectOption Value="and" Label="and"></SimpleSelectOption>
+                                </SelectOptions>
+                            </SimpleSelect>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 </div>
+
+<style>
+    .center {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>

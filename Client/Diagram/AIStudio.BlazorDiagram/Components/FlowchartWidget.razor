@@ -1,13 +1,30 @@
-﻿<div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")">
-    <div class="divleft">
-        <span class="spancenter">@(Node.Title ?? "Title")</span>
-    </div>
+﻿@if (Node.Kind != NodeKinds.Decide)
+{
+    <div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")">
+        <div class="divleft">
+            <span class="spancenter">
+                @(
+                    Node.Title
+                    )
+            </span>
+        </div>
 
-    @foreach (var port in Node.Ports)
-    {
-        <PortRenderer Port="port" Class="default"></PortRenderer>
-    }
-</div>
+        @foreach (var port in Node.Ports)
+        {
+            <PortRenderer Port="port" Class="default"></PortRenderer>
+        }
+    </div>
+}
+else
+{
+    <div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")" style="border-radius: 30px">
+        Node.Title
+        @foreach (var port in Node.Ports)
+        {
+            <PortRenderer Port="port" Class="default"></PortRenderer>
+        }
+    </div>
+}
 
 
 
