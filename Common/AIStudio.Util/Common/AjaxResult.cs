@@ -27,6 +27,13 @@
 
         public int Total { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="message"></param>
+        /// <param name="data"></param>
+        /// <param name="success"></param>
         public AjaxResult(int code = StatusCodes.Status200OK, string? message = AjaxResultMessage.Status200OK, object? data = null, bool success = true)
         {
             Code = code;

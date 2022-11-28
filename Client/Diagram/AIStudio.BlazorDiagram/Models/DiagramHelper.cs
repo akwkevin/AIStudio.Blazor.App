@@ -1,20 +1,11 @@
 ﻿using AIStudio.BlazorDiagram.Components;
+using AIStudio.Util;
+using AIStudio.Util.DiagramEntity;
 using Blazor.Diagrams.Core;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace AIStudio.BlazorDiagram.Models
 {
@@ -82,7 +73,7 @@ namespace AIStudio.BlazorDiagram.Models
             diagramNode.X = nodeModel.Position.X;
             diagramNode.Y = nodeModel.Position.Y;
             diagramNode.Type = diagramNode.GetType().Name;
-            diagramNode.PortAlignmentList = nodeModel.Ports.Select(p => p.Alignment).ToList();
+            diagramNode.PortAlignmentList = nodeModel.Ports.Select(p => p.Alignment.ToString()).ToList();
 
             return diagramNode;
         }
@@ -208,7 +199,7 @@ namespace AIStudio.BlazorDiagram.Models
             nodeModel.Title = diagramNode.Label;
             nodeModel.Size = new Blazor.Diagrams.Core.Geometry.Size(diagramNode.Width, diagramNode.Height);
             nodeModel.Position = new Blazor.Diagrams.Core.Geometry.Point(diagramNode.X, diagramNode.Y);
-            diagramNode.PortAlignmentList?.ForEach(p => nodeModel.AddPort(p));
+            diagramNode.PortAlignmentList?.ForEach(p => nodeModel.AddPort(p.ToEnum<PortAlignment>()));
 
             return nodeModel;
         }

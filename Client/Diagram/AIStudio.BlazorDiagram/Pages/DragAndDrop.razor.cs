@@ -1,6 +1,7 @@
 ﻿using AIStudio.BlazorDiagram.Components;
 using AIStudio.BlazorDiagram.Models;
 using AIStudio.Util;
+using AIStudio.Util.DiagramEntity;
 using Blazor.Diagrams.Core;
 using Blazor.Diagrams.Core.Models;
 using Microsoft.AspNetCore.Components;

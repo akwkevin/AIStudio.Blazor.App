@@ -1,11 +1,4 @@
-﻿using Blazor.Diagrams.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AIStudio.BlazorDiagram.Models
+﻿namespace AIStudio.Util.DiagramEntity
 {
     /// <summary>
     /// FlowNode
@@ -21,6 +14,6 @@ namespace AIStudio.BlazorDiagram.Models
         public double Y { get; set; }
         public string? Type { get; set; }
         public int ZIndex { get; set; }
-        public List<PortAlignment> PortAlignmentList { get; set; }      
+        public List<string> PortAlignmentList { get; set; }
     }
 }

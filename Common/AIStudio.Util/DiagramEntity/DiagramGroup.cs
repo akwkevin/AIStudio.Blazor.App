@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIStudio.BlazorDiagram.Models
+namespace AIStudio.Util.DiagramEntity
 {
     public class DiagramGroup
     {

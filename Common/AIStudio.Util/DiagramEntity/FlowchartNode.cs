@@ -1,13 +1,6 @@
-﻿using AIStudio.BlazorDiagram.Components;
-using Blazor.Diagrams.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace AIStudio.BlazorDiagram.Models
+namespace AIStudio.Util.DiagramEntity
 {
     public class FlowchartNode : DiagramNode
     {

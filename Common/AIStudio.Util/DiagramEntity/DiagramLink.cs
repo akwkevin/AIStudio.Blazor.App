@@ -1,15 +1,4 @@
-﻿using Blazor.Diagrams.Core;
-using Blazor.Diagrams.Core.Models;
-using Blazor.Diagrams.Core.Models.Base;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AIStudio.BlazorDiagram.Models
+﻿namespace AIStudio.Util.DiagramEntity
 {
     public class DiagramLink
     {
@@ -33,6 +22,6 @@ namespace AIStudio.BlazorDiagram.Models
         public double? SourceMarkerWidth { get; set; }
 
         public string? TargetMarkerPath { get; set; }
-        public double? TargetMarkerWidth { get; set; } 
+        public double? TargetMarkerWidth { get; set; }
     }
 }
