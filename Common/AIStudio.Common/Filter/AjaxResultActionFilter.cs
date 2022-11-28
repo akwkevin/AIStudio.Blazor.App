@@ -9,18 +9,64 @@ using Simple.Common;
 
 namespace AIStudio.Common.Filter;
 
+/// <summary>
+/// 
+/// </summary>
+/// <seealso cref="System.Attribute" />
+/// <seealso cref="Microsoft.AspNetCore.Mvc.Filters.IAsyncActionFilter" />
+/// <seealso cref="Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter" />
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFilter
 {
+    /// <summary>
+    /// The options
+    /// </summary>
     private readonly AjaxResultOptions _options;
 
+    /// <summary>
+    /// Gets the order value for determining the order of execution of filters. Filters execute in
+    /// ascending numeric value of the <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" /> property.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Filters are executed in an ordering determined by an ascending sort of the <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" /> property.
+    /// </para>
+    /// <para>
+    /// Asynchronous filters, such as <see cref="T:Microsoft.AspNetCore.Mvc.Filters.IAsyncActionFilter" />, surround the execution of subsequent
+    /// filters of the same filter kind. An asynchronous filter with a lower numeric <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />
+    /// value will have its filter method, such as <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IAsyncActionFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)" />,
+    /// executed before that of a filter with a higher value of <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />.
+    /// </para>
+    /// <para>
+    /// Synchronous filters, such as <see cref="T:Microsoft.AspNetCore.Mvc.Filters.IActionFilter" />, have a before-method, such as
+    /// <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)" />, and an after-method, such as
+    /// <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)" />. A synchronous filter with a lower numeric <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />
+    /// value will have its before-method executed before that of a filter with a higher value of
+    /// <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />. During the after-stage of the filter, a synchronous filter with a lower
+    /// numeric <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" /> value will have its after-method executed after that of a filter with a higher
+    /// value of <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />.
+    /// </para>
+    /// <para>
+    /// If two filters have the same numeric value of <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />, then their relative execution order
+    /// is determined by the filter scope.
+    /// </para>
+    /// </remarks>
     public int Order { get; set; } = -6000;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AjaxResultActionFilter"/> class.
+    /// </summary>
+    /// <param name="options">The options.</param>
     public AjaxResultActionFilter(IOptions<AjaxResultOptions> options)
     {
         _options = options.Value;
     }
 
+    /// <summary>
+    /// Called asynchronously before the action, after model binding is complete.
+    /// </summary>
+    /// <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext" />.</param>
+    /// <param name="next">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate" />. Invoked to execute the next action filter or the action itself.</param>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var actionContext = await next();
@@ -95,6 +141,7 @@ public class AjaxResultActionFilter : Attribute, IAsyncActionFilter, IOrderedFil
     /// <summary>
     /// 返回成功
     /// </summary>
+    /// <typeparam name="T"></typeparam>
     /// <param name="data">返回的数据</param>
     /// <returns></returns>
     public static ObjectResult Success<T>(T data)

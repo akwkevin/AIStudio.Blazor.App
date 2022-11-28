@@ -1,7 +1,7 @@
 ﻿using AIStudio.Common.DI;
-using AIStudio.Entity.DTO.OA_Manage;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+using AIStudio.Util.DiagramEntity;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -17,18 +17,18 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <returns></returns>
         public override ExecutionResult Run(IStepExecutionContext context)
         {
-            if (!(context.Workflow.Data is OAData))
+            if (!(context.Workflow.Data is OA_Data))
                 throw new ArgumentException();
 
-            OAData oAData = context.Workflow.Data as OAData;
+            OA_Data oAData = context.Workflow.Data as OA_Data;
             var OAStep = oAData.Steps.FirstOrDefault(p => p.Id == context.Step.ExternalId);
             OAStep.Status = 100;
 
             //改变流程图颜色
-            var node = oAData.nodes.FirstOrDefault(p => p.id == context.Step.ExternalId);
+            var node = oAData.Nodes.FirstOrDefault(p => p.Id == context.Step.ExternalId);
             if (node != null)
             {
-                node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen);
+                node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen);
             }
 
             return ExecutionResult.Next();

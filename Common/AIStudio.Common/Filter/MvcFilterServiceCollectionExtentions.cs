@@ -7,13 +7,16 @@ using Simple.Common.Filters;
 namespace AIStudio.Common.Filter
 {
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class MvcFilterServiceCollectionExtentions
-    { 
+    {
         /// <summary>
-       /// 配置模型验证
-       /// </summary>
-       /// <param name="builder"></param>
-       /// <returns></returns>
+        /// 配置模型验证
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns></returns>
         public static IMvcBuilder AddDataValidation_(this IMvcBuilder builder)
         {
             builder.ConfigureApiBehaviorOptions(options =>
@@ -33,6 +36,12 @@ namespace AIStudio.Common.Filter
 
 
 
+        /// <summary>
+        /// Adds the filter.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="setupAction">The setup action.</param>
+        /// <returns></returns>
         public static IMvcBuilder AddFilter_(this IMvcBuilder builder, Action<AjaxResultOptions>? setupAction = null)
         {
             // 添加过滤器

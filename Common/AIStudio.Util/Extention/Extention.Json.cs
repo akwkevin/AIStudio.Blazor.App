@@ -9,10 +9,16 @@ namespace AIStudio.Util
     /// </summary>
     public static class JsonExtention
     {
+        /// <summary>
+        /// Initializes the <see cref="JsonExtention"/> class.
+        /// </summary>
         static JsonExtention()
         {
             JsonConvert.DefaultSettings = () => DefaultJsonSetting;
         }
+        /// <summary>
+        /// The default json setting
+        /// </summary>
         public static JsonSerializerSettings DefaultJsonSetting = new JsonSerializerSettings
         {
             ContractResolver = new DefaultContractResolver(),

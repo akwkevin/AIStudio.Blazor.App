@@ -11,12 +11,19 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Common.Mapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class MapperServiceCollectionExtensions
-    {    /// <summary>
-         /// 使用AutoMapper自动映射拥有MapAttribute的类
-         /// </summary>
-         /// <param name="services">服务集合</param>
-         /// <param name="configure">自定义配置</param>
+    {
+        /// <summary>
+        /// 使用AutoMapper自动映射拥有MapAttribute的类
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="types">The types.</param>
+        /// <param name="assemblies">The assemblies.</param>
+        /// <param name="configure">自定义配置</param>
+        /// <returns></returns>
         public static IServiceCollection AddMapper_(this IServiceCollection services, IEnumerable<Type> types, IEnumerable<Assembly> assemblies, Action<IMapperConfigurationExpression> configure = null)
         {
             List<(Type from, Type[] targets)> maps = new List<(Type from, Type[] targets)>();

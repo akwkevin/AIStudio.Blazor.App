@@ -4,6 +4,7 @@ using WorkflowCore.Models;
 using AIStudio.Common.CurrentUser;
 using Microsoft.Extensions.Logging;
 using AIStudio.Common.DI;
+using AIStudio.Util.DiagramEntity;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -12,6 +13,11 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// </summary>
     public class OAStartStep : OABaseStep, IStepBody, ITransientDependency
     {
+        /// <summary>Initializes a new instance of the <see cref="OAStartStep" /> class.</summary>
+        /// <param name="userFormStepBusiness"></param>
+        /// <param name="userFormBusiness"></param>
+        /// <param name="registry"></param>
+        /// <param name="operator"></param>
         public OAStartStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
         {
         }
@@ -23,7 +29,7 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <returns></returns>
         public override async Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            OAData oAData = GetStep(context);            
+            OA_Data oAData = GetStep(context);            
 
             if (oAData.FirstStart)
             {
@@ -31,10 +37,10 @@ namespace AIStudio.Business.OA_Manage.Steps
                 OAStep.Status = 100;
 
                 //改变流程图颜色
-                var node = oAData.nodes.FirstOrDefault(p => p.id == OAStep.Id);
+                var node = oAData.Nodes.FirstOrDefault(p => p.Id == OAStep.Id);
                 if (node != null)
                 {
-                    node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen); 
+                    node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen); 
                 }
 
                 return ExecutionResult.Next();

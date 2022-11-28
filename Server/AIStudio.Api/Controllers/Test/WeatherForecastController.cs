@@ -6,18 +6,29 @@ namespace AIStudio.Api.Controllers.Test
     /// <summary>
     /// 工程自带Api
     /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.Test))]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        /// <summary>
+        /// The summaries
+        /// </summary>
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        /// <summary>
+        /// The logger
+        /// </summary>
         private readonly ILogger<WeatherForecastController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherForecastController"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
@@ -48,21 +59,33 @@ namespace AIStudio.Api.Controllers.Test
         /// <summary>
         /// 日期
         /// </summary>
+        /// <value>
+        /// The date.
+        /// </value>
         public DateTime Date { get; set; }
 
         /// <summary>
         /// 温度C
         /// </summary>
+        /// <value>
+        /// The temperature c.
+        /// </value>
         public int TemperatureC { get; set; }
 
         /// <summary>
         /// 温度F
         /// </summary>
+        /// <value>
+        /// The temperature f.
+        /// </value>
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
         /// <summary>
         /// 汇总
         /// </summary>
+        /// <value>
+        /// The summary.
+        /// </value>
         public string? Summary { get; set; }
     }
 }

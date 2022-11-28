@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Common.Mapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class MiniProfilerServiceCollectionExtensions
     {    /// <summary>
          /// 添加 MiniProfiler 配置

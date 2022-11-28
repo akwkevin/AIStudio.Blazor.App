@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Common.EventBus.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="AIStudio.Common.EventBus.Models.RequestEvent" />
     public class VisitEvent : RequestEvent
     {
     }

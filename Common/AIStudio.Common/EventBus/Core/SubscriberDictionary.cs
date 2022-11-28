@@ -7,12 +7,23 @@ namespace AIStudio.Common.EventBus.Core;
 /// </summary>
 public class SubscriberDictionary
 {
+    /// <summary>
+    /// The subscribers
+    /// </summary>
     private readonly IDictionary<Type, List<Type>> _subscribers = new Dictionary<Type, List<Type>>();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SubscriberDictionary"/> class.
+    /// </summary>
     internal SubscriberDictionary()
     {
     }
 
+    /// <summary>
+    /// Adds this instance.
+    /// </summary>
+    /// <typeparam name="TEvent">The type of the event.</typeparam>
+    /// <typeparam name="THandler">The type of the handler.</typeparam>
     public void Add<TEvent, THandler>()
         where TEvent : class, IEventModel
         where THandler : IEventHandler<TEvent>
@@ -28,6 +39,10 @@ public class SubscriberDictionary
         _subscribers[eventType].Add(handlerType);
     }
 
+    /// <summary>
+    /// Adds the specified subscribers.
+    /// </summary>
+    /// <param name="subscribers">The subscribers.</param>
     internal void Add(SubscriberDictionary subscribers)
     {
         foreach (var subscriber in subscribers.ToDictionary())
@@ -36,6 +51,10 @@ public class SubscriberDictionary
         }
     }
 
+    /// <summary>
+    /// Converts to dictionary.
+    /// </summary>
+    /// <returns></returns>
     internal IDictionary<Type, List<Type>> ToDictionary()
     {
         return _subscribers;

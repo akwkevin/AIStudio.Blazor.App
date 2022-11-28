@@ -4,18 +4,30 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AIStudio.Common.Extensions;
 
+/// <summary>
+/// 
+/// </summary>
 public static class SummaryExtensions
 {
+    /// <summary>
+    /// The summary x path template
+    /// </summary>
     private const string SummaryXPathTemplate = "doc/members/member[@name='{0}']/summary";
 
+    /// <summary>
+    /// The cache
+    /// </summary>
     private static readonly Dictionary<Assembly, XmlDocument> _cache = new Dictionary<Assembly, XmlDocument>();
 
+    /// <summary>
+    /// The cache fail
+    /// </summary>
     private static readonly Dictionary<Assembly, Exception> _cacheFail = new Dictionary<Assembly, Exception>();
 
     /// <summary>
     /// 获取注释
     /// </summary>
-    /// <param name="type"></param>
+    /// <param name="type">The type.</param>
     /// <returns></returns>
     public static string GetSummary(this Type type)
     {
@@ -31,7 +43,7 @@ public static class SummaryExtensions
     /// <summary>
     /// 获取注释
     /// </summary>
-    /// <param name="info"></param>
+    /// <param name="info">The information.</param>
     /// <returns></returns>
     public static string GetSummary(this MemberInfo info)
     {
@@ -61,8 +73,8 @@ public static class SummaryExtensions
     /// <summary>
     /// 获取注释
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="name"></param>
+    /// <param name="type">The type.</param>
+    /// <param name="name">The name.</param>
     /// <returns></returns>
     public static string GetSummary(Type type, string name)
     {
@@ -84,7 +96,7 @@ public static class SummaryExtensions
     /// <summary>
     /// 获取程序集对应的 XML 注释文档
     /// </summary>
-    /// <param name="assembly"></param>
+    /// <param name="assembly">The assembly.</param>
     /// <returns></returns>
     private static XmlDocument? GetXmlDocument(Assembly assembly)
     {
@@ -114,7 +126,7 @@ public static class SummaryExtensions
     /// <summary>
     /// 获取程序集对应的 XML 注释文档
     /// </summary>
-    /// <param name="assembly"></param>
+    /// <param name="assembly">The assembly.</param>
     /// <returns></returns>
     private static XmlDocument GetXmlDocumentNoCache(Assembly assembly)
     {

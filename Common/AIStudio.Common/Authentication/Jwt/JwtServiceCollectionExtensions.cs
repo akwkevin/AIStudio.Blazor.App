@@ -14,8 +14,16 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Common.Authentication.Jwt
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class JwtServiceCollectionExtensions
     {
+        /// <summary>
+        /// Adds the JWT authentication.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <returns></returns>
         public static IServiceCollection AddJwtAuthentication_(this IServiceCollection services)
         {
             // 读取配置

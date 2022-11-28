@@ -1,5 +1,6 @@
 ﻿using AIStudio.Entity.OA_Manage;
 using AIStudio.Util.Common;
+using AIStudio.Util.DiagramEntity;
 using AIStudio.Util.Mapper;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace AIStudio.Entity.DTO.OA_Manage
 
         public List<OA_UserFormStepDTO>? Comments { get; set; } = new List<OA_UserFormStepDTO>();
 
-        public List<OAStep>? Steps { get; set; } = new List<OAStep>();
+        public List<OA_Step>? Steps { get; set; } = new List<OA_Step>();
 
         public int CurrentStepIndex { get; set; }
         public string? CurrentStepId { get; set; }

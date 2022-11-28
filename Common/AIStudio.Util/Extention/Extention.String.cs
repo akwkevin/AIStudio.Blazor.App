@@ -14,6 +14,9 @@ using System.Xml;
 
 namespace AIStudio.Util
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static partial class Extention
     {
         /// <summary>
@@ -29,7 +32,7 @@ namespace AIStudio.Util
         /// <summary>
         /// 转换为MD5加密后的字符串（默认加密为32位）
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="str">The string.</param>
         /// <returns></returns>
         public static string ToMD5String(this string str)
         {
@@ -52,7 +55,9 @@ namespace AIStudio.Util
         /// </summary>
         /// <param name="str">字符串</param>
         /// <param name="length">MD5长度（默认32）</param>
-        /// <returns></returns>
+        /// <returns>
+        ///   <c>true</c> if the specified length is MD5; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsMd5(this string str, int length = 32)
         {
             if (str.Length < length || str.Length > length)
@@ -72,7 +77,7 @@ namespace AIStudio.Util
         /// <summary>
         /// 转换为MD5加密后的字符串（16位）
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="str">The string.</param>
         /// <returns></returns>
         public static string ToMD5String16(this string str)
         {
@@ -84,7 +89,9 @@ namespace AIStudio.Util
         /// 注:默认采用UTF8编码
         /// </summary>
         /// <param name="source">待加密的明文</param>
-        /// <returns>加密后的字符串</returns>
+        /// <returns>
+        /// 加密后的字符串
+        /// </returns>
         public static string Base64Encode(this string source)
         {
             return Base64Encode(source, Encoding.UTF8);
@@ -116,7 +123,9 @@ namespace AIStudio.Util
         /// 注:默认使用UTF8编码
         /// </summary>
         /// <param name="result">待解密的密文</param>
-        /// <returns>解密后的字符串</returns>
+        /// <returns>
+        /// 解密后的字符串
+        /// </returns>
         public static string Base64Decode(this string result)
         {
             return Base64Decode(result, Encoding.UTF8);
@@ -127,7 +136,9 @@ namespace AIStudio.Util
         /// </summary>
         /// <param name="result">待解密的密文</param>
         /// <param name="encoding">解密采用的编码方式，注意和加密时采用的方式一致</param>
-        /// <returns>解密后的字符串</returns>
+        /// <returns>
+        /// 解密后的字符串
+        /// </returns>
         public static string Base64Decode(this string result, Encoding encoding)
         {
             string decode = string.Empty;
@@ -147,7 +158,9 @@ namespace AIStudio.Util
         /// Base64Url编码
         /// </summary>
         /// <param name="text">待编码的文本字符串</param>
-        /// <returns>编码的文本字符串</returns>
+        /// <returns>
+        /// 编码的文本字符串
+        /// </returns>
         public static string Base64UrlEncode(this string text)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(text);
@@ -160,7 +173,9 @@ namespace AIStudio.Util
         /// Base64Url解码
         /// </summary>
         /// <param name="base64UrlStr">使用Base64Url编码后的字符串</param>
-        /// <returns>解码后的内容</returns>
+        /// <returns>
+        /// 解码后的内容
+        /// </returns>
         public static string Base64UrlDecode(this string base64UrlStr)
         {
             base64UrlStr = base64UrlStr.Replace('-', '+').Replace('_', '/');
@@ -375,7 +390,7 @@ namespace AIStudio.Util
         /// <summary>
         /// 转换为日期格式
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="str">The string.</param>
         /// <returns></returns>
         public static DateTime ToDateTime(this string str)
         {
@@ -449,9 +464,10 @@ namespace AIStudio.Util
 
         /// <summary>
         /// 转为网络终结点IPEndPoint
-        /// </summary>=
+        /// </summary>
         /// <param name="str">字符串</param>
         /// <returns></returns>
+        /// =
         public static IPEndPoint ToIPEndPoint(this string str)
         {
             IPEndPoint iPEndPoint = null;
@@ -475,7 +491,10 @@ namespace AIStudio.Util
         /// 注:密码必须包含数字、小写字母、大写字母和其他符号中的两种并且长度大于8
         /// </summary>
         /// <param name="pwd">密码</param>
-        /// <returns></returns>
+        /// <returns>
+        ///   <c>true</c> if [is weak password] [the specified password]; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="System.Exception">pwd不能为空</exception>
         public static bool IsWeakPwd(this string pwd)
         {
             if (pwd.IsNullOrEmpty())
@@ -491,6 +510,12 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Adds a char to end of given string if it does not ends with the char.
+        /// <summary>
+        /// Ensures the ends with.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <returns></returns>
         public static string EnsureEndsWith(this string str, char c)
         {
             return str.EnsureEndsWith(c, StringComparison.Ordinal);
@@ -499,6 +524,14 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Adds a char to end of given string if it does not ends with the char.
+        /// <summary>
+        /// Ensures the ends with.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <param name="comparisonType">Type of the comparison.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
         public static string EnsureEndsWith(this string str, char c, StringComparison comparisonType)
         {
             if (str == null)
@@ -517,6 +550,15 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Adds a char to end of given string if it does not ends with the char.
+        /// <summary>
+        /// Ensures the ends with.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
         public static string EnsureEndsWith(this string str, char c, bool ignoreCase, CultureInfo culture)
         {
             if (str == null)
@@ -535,6 +577,12 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Adds a char to beginning of given string if it does not starts with the char.
+        /// <summary>
+        /// Ensures the starts with.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <returns></returns>
         public static string EnsureStartsWith(this string str, char c)
         {
             return str.EnsureStartsWith(c, StringComparison.Ordinal);
@@ -543,6 +591,14 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Adds a char to beginning of given string if it does not starts with the char.
+        /// <summary>
+        /// Ensures the starts with.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <param name="comparisonType">Type of the comparison.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
         public static string EnsureStartsWith(this string str, char c, StringComparison comparisonType)
         {
             if (str == null)
@@ -561,6 +617,15 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Adds a char to beginning of given string if it does not starts with the char.
+        /// <summary>
+        /// Ensures the starts with.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
         public static string EnsureStartsWith(this string str, char c, bool ignoreCase, CultureInfo culture)
         {
             if (str == null)
@@ -579,6 +644,13 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Indicates whether this string is null or an System.String.Empty string.
+        /// <summary>
+        /// Determines whether [is null or empty].
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns>
+        ///   <c>true</c> if [is null or empty] [the specified string]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsNullOrEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
@@ -588,6 +660,13 @@ namespace AIStudio.Util
         // 摘要:
         //     indicates whether this string is null, empty, or consists only of white-space
         //     characters.
+        /// <summary>
+        /// Determines whether [is null or white space].
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns>
+        ///   <c>true</c> if [is null or white space] [the specified string]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsNullOrWhiteSpace(this string str)
         {
             return string.IsNullOrWhiteSpace(str);
@@ -603,6 +682,14 @@ namespace AIStudio.Util
         //
         //   T:System.ArgumentException:
         //     Thrown if len is bigger that string's length
+        /// <summary>
+        /// Lefts the specified length.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="len">The length.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
+        /// <exception cref="System.ArgumentException">len argument can not be bigger than given string's length!</exception>
         public static string Left(this string str, int len)
         {
             if (str == null)
@@ -621,6 +708,11 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Converts line endings in the string to System.Environment.NewLine.
+        /// <summary>
+        /// Normalizes the line endings.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns></returns>
         public static string NormalizeLineEndings(this string str)
         {
             return str.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", Environment.NewLine);
@@ -639,6 +731,14 @@ namespace AIStudio.Util
         //
         //   n:
         //     Count of the occurence
+        /// <summary>
+        /// NTHs the index of.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="c">The c.</param>
+        /// <param name="n">The n.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
         public static int NthIndexOf(this string str, char c, int n)
         {
             if (str == null)
@@ -673,6 +773,12 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     Modified string or the same string if it has not any of given postfixes
+        /// <summary>
+        /// Removes the post fix.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="postFixes">The post fixes.</param>
+        /// <returns></returns>
         public static string RemovePostFix(this string str, params string[] postFixes)
         {
             if (str == null)
@@ -716,6 +822,12 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     Modified string or the same string if it has not any of given prefixes
+        /// <summary>
+        /// Removes the pre fix.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="preFixes">The pre fixes.</param>
+        /// <returns></returns>
         public static string RemovePreFix(this string str, params string[] preFixes)
         {
             if (str == null)
@@ -754,6 +866,14 @@ namespace AIStudio.Util
         //
         //   T:System.ArgumentException:
         //     Thrown if len is bigger that string's length
+        /// <summary>
+        /// Rights the specified length.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="len">The length.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">str</exception>
+        /// <exception cref="System.ArgumentException">len argument can not be bigger than given string's length!</exception>
         public static string Right(this string str, int len)
         {
             if (str == null)
@@ -772,6 +892,12 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Uses string.Split method to split given string by given separator.
+        /// <summary>
+        /// Splits the specified separator.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="separator">The separator.</param>
+        /// <returns></returns>
         public static string[] Split(this string str, string separator)
         {
             return str.Split(new string[1] { separator }, StringSplitOptions.None);
@@ -780,6 +906,13 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Uses string.Split method to split given string by given separator.
+        /// <summary>
+        /// Splits the specified separator.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="separator">The separator.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public static string[] Split(this string str, string separator, StringSplitOptions options)
         {
             return str.Split(new string[1] { separator }, options);
@@ -788,6 +921,11 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Uses string.Split method to split given string by System.Environment.NewLine.
+        /// <summary>
+        /// Splits to lines.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns></returns>
         public static string[] SplitToLines(this string str)
         {
             return Split(str, Environment.NewLine);
@@ -796,6 +934,12 @@ namespace AIStudio.Util
         //
         // 摘要:
         //     Uses string.Split method to split given string by System.Environment.NewLine.
+        /// <summary>
+        /// Splits to lines.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public static string[] SplitToLines(this string str, StringSplitOptions options)
         {
             return Split(str, Environment.NewLine, options);
@@ -814,6 +958,12 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     camelCase of the string
+        /// <summary>
+        /// Converts to camelcase.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="invariantCulture">if set to <c>true</c> [invariant culture].</param>
+        /// <returns></returns>
         public static string ToCamelCase(this string str, bool invariantCulture = true)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -847,6 +997,12 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     camelCase of the string
+        /// <summary>
+        /// Converts to camelcase.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
         public static string ToCamelCase(this string str, CultureInfo culture)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -873,6 +1029,12 @@ namespace AIStudio.Util
         //
         //   invariantCulture:
         //     Invariant culture
+        /// <summary>
+        /// Converts to sentencecase.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="invariantCulture">if set to <c>true</c> [invariant culture].</param>
+        /// <returns></returns>
         public static string ToSentenceCase(this string str, bool invariantCulture = false)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -894,6 +1056,12 @@ namespace AIStudio.Util
         //
         //   culture:
         //     An object that supplies culture-specific casing rules.
+        /// <summary>
+        /// Converts to sentencecase.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
         public static string ToSentenceCase(this string str, CultureInfo culture)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -945,6 +1113,14 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     Returns enum object
+        /// <summary>
+        /// Converts to enum.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">The value.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">value</exception>
         public static T ToEnum<T>(this string value, bool ignoreCase) where T : struct
         {
             if (value == null)
@@ -955,6 +1131,11 @@ namespace AIStudio.Util
             return (T)Enum.Parse(typeof(T), value, ignoreCase);
         }
 
+        /// <summary>
+        /// Converts to md5.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns></returns>
         public static string ToMd5(this string str)
         {
             using MD5 mD = MD5.Create();
@@ -983,6 +1164,12 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     PascalCase of the string
+        /// <summary>
+        /// Converts to pascalcase.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="invariantCulture">if set to <c>true</c> [invariant culture].</param>
+        /// <returns></returns>
         public static string ToPascalCase(this string str, bool invariantCulture = true)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -1016,6 +1203,12 @@ namespace AIStudio.Util
         //
         // 返回结果:
         //     PascalCase of the string
+        /// <summary>
+        /// Converts to pascalcase.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
         public static string ToPascalCase(this string str, CultureInfo culture)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -1039,6 +1232,12 @@ namespace AIStudio.Util
         // 异常:
         //   T:System.ArgumentNullException:
         //     Thrown if str is null
+        /// <summary>
+        /// Truncates the specified maximum length.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="maxLength">The maximum length.</param>
+        /// <returns></returns>
         public static string Truncate(this string str, int maxLength)
         {
             if (str == null)
@@ -1063,6 +1262,12 @@ namespace AIStudio.Util
         // 异常:
         //   T:System.ArgumentNullException:
         //     Thrown if str is null
+        /// <summary>
+        /// Truncates the with postfix.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="maxLength">The maximum length.</param>
+        /// <returns></returns>
         public static string TruncateWithPostfix(this string str, int maxLength)
         {
             return str.TruncateWithPostfix(maxLength, "...");
@@ -1077,6 +1282,13 @@ namespace AIStudio.Util
         // 异常:
         //   T:System.ArgumentNullException:
         //     Thrown if str is null
+        /// <summary>
+        /// Truncates the with postfix.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="maxLength">The maximum length.</param>
+        /// <param name="postfix">The postfix.</param>
+        /// <returns></returns>
         public static string TruncateWithPostfix(this string str, int maxLength, string postfix)
         {
             if (str == null)
@@ -1102,6 +1314,11 @@ namespace AIStudio.Util
             return str.Left(maxLength - postfix.Length) + postfix;
         }
 
+        /// <summary>
+        /// Objects to string.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
         public static string ObjToString(this object obj)
         {
             if (obj is Enum)

@@ -6,13 +6,16 @@ using System;
 
 namespace AIStudio.Common.Quartz;
 
+/// <summary>
+/// 
+/// </summary>
 public static class JobSchedulingServiceCollectionExtensions
 {
     /// <summary>
     /// 添加定时任务相关服务（基于 Quartz 实现）
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="setupAction"></param>
+    /// <param name="services">The services.</param>
+    /// <param name="setupAction">The setup action.</param>
     /// <returns></returns>
     public static IServiceCollection AddJobScheduling_(this IServiceCollection services, Action<JobSchedulingOptions>? setupAction = null)
     {

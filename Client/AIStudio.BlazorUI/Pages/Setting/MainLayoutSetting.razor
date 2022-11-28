@@ -49,13 +49,7 @@
     </Body>
 </Card>
 
-<link type="text/css" rel="stylesheet" id="theme-style" href="@_url" @ref="_linkRef">
-
 @code {
-
-    private ElementReference _linkRef;
-    private string _url;
-
     [Inject]
     IOptions<LayoutSettings> LayoutSettings { get; set; }
 

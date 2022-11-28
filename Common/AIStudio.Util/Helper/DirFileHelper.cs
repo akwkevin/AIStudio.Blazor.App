@@ -3,40 +3,51 @@
 namespace AIStudio.Util.Helper
 {
     /// <summary>
-        /// 文件操作夹
-        /// </summary>
+    /// 文件操作夹
+    /// </summary>
     public static class DirFileHelper
     {
 
+        /// <summary>
+        /// The encoding
+        /// </summary>
         private static readonly Encoding Encoding = Encoding.UTF8;
         #region 检测指定目录是否存在
+
         /// <summary>
-                /// 检测指定目录是否存在
-                /// </summary>
-                /// <param name="directoryPath">目录的绝对路径</param>
-                /// <returns></returns>
+        /// Determines whether [is exist directory] [the specified directory path].
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is exist directory] [the specified directory path]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsExistDirectory(string directoryPath)
         {
             return Directory.Exists(directoryPath);
         }
         #endregion
 
-        #region 检测指定文件是否存在,如果存在返回true
+        #region 检测指定文件是否存在,如果存在返回true     
         /// <summary>
-                /// 检测指定文件是否存在,如果存在则返回true。
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>        
+        /// Determines whether [is exist file] [the specified file path].
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is exist file] [the specified file path]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsExistFile(string filePath)
         {
             return File.Exists(filePath);
         }
         #endregion
 
-        #region 获取指定目录中的文件列表
+        #region 获取指定目录中的文件列表   
         /// <summary>
-                /// 获取指定目录中所有文件列表
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>        
+        /// Gets the file names.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns></returns>
+        /// <exception cref="System.IO.FileNotFoundException"></exception>
         public static string[] GetFileNames(string directoryPath)
         {
             //如果目录不存在，则抛出异常
@@ -50,11 +61,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 获取指定目录中所有子目录列表,若要搜索嵌套的子目录列表,请使用重载方法.
+        #region 获取指定目录中所有子目录列表,若要搜索嵌套的子目录列表,请使用重载方法.   
         /// <summary>
-                /// 获取指定目录中所有子目录列表,若要搜索嵌套的子目录列表,请使用重载方法.
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>        
+        /// Gets the directories.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns></returns>
         public static string[] GetDirectories(string directoryPath)
         {
             try
@@ -68,14 +80,15 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 获取指定目录及子目录中所有文件列表
+        #region 获取指定目录及子目录中所有文件列表       
         /// <summary>
-                /// 获取指定目录及子目录中所有文件列表
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>
-                /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
-                /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
-                /// <param name="isSearchChild">是否搜索子目录</param>
+        /// Gets the file names.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <param name="searchPattern">The search pattern.</param>
+        /// <param name="isSearchChild">if set to <c>true</c> [is search child].</param>
+        /// <returns></returns>
+        /// <exception cref="System.IO.FileNotFoundException"></exception>
         public static string[] GetFileNames(string directoryPath, string searchPattern, bool isSearchChild)
         {
             //如果目录不存在，则抛出异常
@@ -102,11 +115,14 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 检测指定目录是否为空
+        #region 检测指定目录是否为空          
         /// <summary>
-                /// 检测指定目录是否为空
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>        
+        /// Determines whether [is empty directory] [the specified directory path].
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is empty directory] [the specified directory path]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsEmptyDirectory(string directoryPath)
         {
             try
@@ -136,13 +152,16 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 检测指定目录中是否存在指定的文件
+        #region 检测指定目录中是否存在指定的文件      
         /// <summary>
-                /// 检测指定目录中是否存在指定的文件,若要搜索子目录请使用重载方法.
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>
-                /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
-                /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>        
+        /// Determines whether this instance contains the object.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <param name="searchPattern">The search pattern.</param>
+        /// <returns>
+        ///   <c>true</c> if [contains] [the specified directory path]; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="System.Exception"></exception>
         public static bool Contains(string directoryPath, string searchPattern)
         {
             try
@@ -168,12 +187,15 @@ namespace AIStudio.Util.Helper
         }
 
         /// <summary>
-                /// 检测指定目录中是否存在指定的文件
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>
-                /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
-                /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param> 
-                /// <param name="isSearchChild">是否搜索子目录</param>
+        /// Determines whether this instance contains the object.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <param name="searchPattern">The search pattern.</param>
+        /// <param name="isSearchChild">if set to <c>true</c> [is search child].</param>
+        /// <returns>
+        ///   <c>true</c> if [contains] [the specified directory path]; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="System.Exception"></exception>
         public static bool Contains(string directoryPath, string searchPattern, bool isSearchChild)
         {
             try
@@ -201,9 +223,9 @@ namespace AIStudio.Util.Helper
 
         #region 创建目录
         /// <summary>
-                /// 创建目录
-                /// </summary>
-                /// <param name="dir">要创建的目录路径包括目录名</param>
+        /// Creates the dir.
+        /// </summary>
+        /// <param name="dir">The dir.</param>
         public static void CreateDir(string dir)
         {
             if (dir.Length == 0) return;
@@ -214,9 +236,9 @@ namespace AIStudio.Util.Helper
 
         #region 删除目录
         /// <summary>
-                /// 删除目录
-                /// </summary>
-                /// <param name="dir">要删除的目录路径和名称</param>
+        /// Deletes the dir.
+        /// </summary>
+        /// <param name="dir">The dir.</param>
         public static void DeleteDir(string dir)
         {
             if (dir.Length == 0) return;
@@ -227,9 +249,9 @@ namespace AIStudio.Util.Helper
 
         #region 删除文件
         /// <summary>
-                /// 删除文件
-                /// </summary>
-                /// <param name="file">要删除的文件路径和名称</param>
+        /// Deletes the file.
+        /// </summary>
+        /// <param name="file">The file.</param>
         public static void DeleteFile(string file)
         {
             if (File.Exists(file))
@@ -237,12 +259,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 创建文件
+        #region 创建文件    
         /// <summary>
-                /// 创建文件
-                /// </summary>
-                /// <param name="dir">带后缀的文件名</param>
-                /// <param name="pagestr">文件内容</param>
+        /// Creates the file.
+        /// </summary>
+        /// <param name="dir">The dir.</param>
+        /// <param name="pagestr">The pagestr.</param>
         public static void CreateFile(string dir, string pagestr)
         {
             var path = Path.GetDirectoryName(dir);
@@ -253,12 +275,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 移动文件(剪贴--粘贴)
+        #region 移动文件(剪贴--粘贴)    
         /// <summary>
-                /// 移动文件(剪贴--粘贴)
-                /// </summary>
-                /// <param name="dir1">要移动的文件的路径及全名(包括后缀)</param>
-                /// <param name="dir2">文件移动到新的位置,并指定新的文件名</param>
+        /// Moves the file.
+        /// </summary>
+        /// <param name="dir1">The dir1.</param>
+        /// <param name="dir2">The dir2.</param>
         public static void MoveFile(string dir1, string dir2)
         {
             dir1 = dir1.Replace("/", "\\");
@@ -268,12 +290,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 复制文件
+        #region 复制文件   
         /// <summary>
-                /// 复制文件
-                /// </summary>
-                /// <param name="dir1">要复制的文件的路径已经全名(包括后缀)</param>
-                /// <param name="dir2">目标位置,并指定新的文件名</param>
+        /// Copies the file.
+        /// </summary>
+        /// <param name="dir1">The dir1.</param>
+        /// <param name="dir2">The dir2.</param>
         public static void CopyFile(string dir1, string dir2)
         {
             dir1 = dir1.Replace("/", "\\");
@@ -285,31 +307,31 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 根据时间得到目录名 / 格式:yyyyMMdd 或者 HHmmssff
+        #region 根据时间得到目录名 / 格式:yyyyMMdd 或者 HHmmssff   
         /// <summary>
-                /// 根据时间得到目录名yyyyMMdd
-                /// </summary>
-                /// <returns></returns>
+        /// Gets the date dir.
+        /// </summary>
+        /// <returns></returns>
         public static string GetDateDir()
         {
             return DateTime.Now.ToString("yyyyMMdd");
         }
         /// <summary>
-                /// 根据时间得到文件名HHmmssff
-                /// </summary>
-                /// <returns></returns>
+        /// Gets the date file.
+        /// </summary>
+        /// <returns></returns>
         public static string GetDateFile()
         {
             return DateTime.Now.ToString("HHmmssff");
         }
         #endregion
 
-        #region 复制文件夹
+        #region 复制文件夹     
         /// <summary>
-                /// 复制文件夹(递归)
-                /// </summary>
-                /// <param name="varFromDirectory">源文件夹路径</param>
-                /// <param name="varToDirectory">目标文件夹路径</param>
+        /// Copies the folder.
+        /// </summary>
+        /// <param name="varFromDirectory">The variable from directory.</param>
+        /// <param name="varToDirectory">The variable to directory.</param>
         public static void CopyFolder(string varFromDirectory, string varToDirectory)
         {
             Directory.CreateDirectory(varToDirectory);
@@ -336,11 +358,11 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 检查文件,如果文件不存在则创建
+        #region 检查文件,如果文件不存在则创建      
         /// <summary>
-                /// 检查文件,如果文件不存在则创建  
-                /// </summary>
-                /// <param name="FilePath">路径,包括文件名</param>
+        /// Existses the file.
+        /// </summary>
+        /// <param name="FilePath">The file path.</param>
         public static void ExistsFile(string FilePath)
         {
             //if(!File.Exists(FilePath))    
@@ -354,12 +376,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 删除指定文件夹对应其他文件夹里的文件
+        #region 删除指定文件夹对应其他文件夹里的文件      
         /// <summary>
-                /// 删除指定文件夹对应其他文件夹里的文件
-                /// </summary>
-                /// <param name="varFromDirectory">指定文件夹路径</param>
-                /// <param name="varToDirectory">对应其他文件夹路径</param>
+        /// Deletes the folder files.
+        /// </summary>
+        /// <param name="varFromDirectory">The variable from directory.</param>
+        /// <param name="varToDirectory">The variable to directory.</param>
         public static void DeleteFolderFiles(string varFromDirectory, string varToDirectory)
         {
             Directory.CreateDirectory(varToDirectory);
@@ -389,11 +411,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 从文件的绝对路径中获取文件名( 包含扩展名 )
+        #region 从文件的绝对路径中获取文件名( 包含扩展名 )       
         /// <summary>
-                /// 从文件的绝对路径中获取文件名( 包含扩展名 )
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>        
+        /// Gets the name of the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static string GetFileName(string filePath)
         {
             //获取文件的名称
@@ -404,9 +427,9 @@ namespace AIStudio.Util.Helper
 
         #region 创建一个目录
         /// <summary>
-                /// 创建一个目录
-                /// </summary>
-                /// <param name="directoryPath">目录的绝对路径</param>
+        /// Creates the directory.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
         public static void CreateDirectory(string directoryPath)
         {
             //如果目录不存在则创建该目录
@@ -417,11 +440,11 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 创建一个文件
+        #region 创建一个文件     
         /// <summary>
-                /// 创建一个文件。
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>
+        /// Creates the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
         public static void CreateFile(string filePath)
         {
             try
@@ -447,10 +470,10 @@ namespace AIStudio.Util.Helper
         }
 
         /// <summary>
-                /// 创建一个文件,并将字节流写入文件。
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>
-                /// <param name="buffer">二进制流数据</param>
+        /// Creates the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="buffer">The buffer.</param>
         public static void CreateFile(string filePath, byte[] buffer)
         {
             try
@@ -479,11 +502,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 获取文本文件的行数
+        #region 获取文本文件的行数    
         /// <summary>
-                /// 获取文本文件的行数
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>        
+        /// Gets the line count.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static int GetLineCount(string filePath)
         {
             //将文本文件的各行读到一个字符串数组中
@@ -494,11 +518,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 获取一个文件的长度
+        #region 获取一个文件的长度   
         /// <summary>
-                /// 获取一个文件的长度,单位为Byte
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>        
+        /// Gets the size of the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static int GetFileSize(string filePath)
         {
             //创建一个文件对象
@@ -509,14 +534,14 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 获取指定目录中的子目录列表
+        #region 获取指定目录中的子目录列表   
         /// <summary>
-                /// 获取指定目录及子目录中所有子目录列表
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>
-                /// <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
-                /// 范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
-                /// <param name="isSearchChild">是否搜索子目录</param>
+        /// Gets the directories.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <param name="searchPattern">The search pattern.</param>
+        /// <param name="isSearchChild">if set to <c>true</c> [is search child].</param>
+        /// <returns></returns>
         public static string[] GetDirectories(string directoryPath, string searchPattern, bool isSearchChild)
         {
             try
@@ -540,10 +565,11 @@ namespace AIStudio.Util.Helper
         #region 向文本文件写入内容
 
         /// <summary>
-                /// 向文本文件中写入内容
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>
-                /// <param name="text">写入的内容</param>
+        /// Writes the text.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
         public static void WriteText(string filePath, string text)
         {
             //向文件写入内容
@@ -551,23 +577,24 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 向文本文件的尾部追加内容
+        #region 向文本文件的尾部追加内容       
         /// <summary>
-                /// 向文本文件的尾部追加内容
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>
-                /// <param name="content">写入的内容</param>
+        /// Appends the text.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
         public static void AppendText(string filePath, string content)
         {
             File.AppendAllText(filePath, content);
         }
         #endregion
 
-        /// <summary>  
-                ///     写入文件  
-                /// </summary>  
-                /// <param name="filePath">文件名</param>  
-                /// <param name="content">文件内容</param>  
+        /// <summary>
+        /// Writes the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="content">The content.</param>
         public static void WriteFile(string filePath, string content)
         {
             try
@@ -588,22 +615,22 @@ namespace AIStudio.Util.Helper
             }
         }
 
-        /// <summary>  
-                ///     读取文件  
-                /// </summary>  
-                /// <param name="filePath"></param>  
-                /// <returns></returns>  
+        /// <summary>
+        /// Reads the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static string ReadFile(string filePath)
         {
             return ReadFile(filePath, Encoding);
         }
 
-        /// <summary>  
-                ///     读取文件  
-                /// </summary>  
-                /// <param name="filePath"></param>  
-                /// <param name="encoding"></param>  
-                /// <returns></returns>  
+        /// <summary>
+        /// Reads the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <returns></returns>
         public static string ReadFile(string filePath, Encoding encoding)
         {
             using (var sr = new StreamReader(filePath, encoding))
@@ -612,11 +639,11 @@ namespace AIStudio.Util.Helper
             }
         }
 
-        /// <summary>  
-                ///     读取文件  
-                /// </summary>  
-                /// <param name="filePath"></param>  
-                /// <returns></returns>  
+        /// <summary>
+        /// Reads the file lines.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static List<string> ReadFileLines(string filePath)
         {
             var str = new List<string>();
@@ -631,11 +658,11 @@ namespace AIStudio.Util.Helper
             return str;
         }
 
-        /// <summary>  
-                ///     读取文件最后一行  
-                /// </summary>  
-                /// <param name="filePath"></param>  
-                /// <returns></returns>  
+        /// <summary>
+        /// Reads the last lines.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static string ReadLastLines(string filePath)
         {
             StreamReader sr = new StreamReader(filePath);
@@ -647,24 +674,26 @@ namespace AIStudio.Util.Helper
             return str;
         }
 
-        #region 将现有文件的内容复制到新文件中
+        #region 将现有文件的内容复制到新文件中      
         /// <summary>
-                /// 将源文件的内容复制到目标文件中
-                /// </summary>
-                /// <param name="sourceFilePath">源文件的绝对路径</param>
-                /// <param name="destFilePath">目标文件的绝对路径</param>
+        /// Copies the specified source file path.
+        /// </summary>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="destFilePath">The dest file path.</param>
+        /// <returns></returns>
         public static void Copy(string sourceFilePath, string destFilePath)
         {
             File.Copy(sourceFilePath, destFilePath, true);
         }
         #endregion
 
-        #region 将文件移动到指定目录
+        #region 将文件移动到指定目录        
         /// <summary>
-                /// 将文件移动到指定目录
-                /// </summary>
-                /// <param name="sourceFilePath">需要移动的源文件的绝对路径</param>
-                /// <param name="descDirectoryPath">移动到的目录的绝对路径</param>
+        /// Moves the specified source file path.
+        /// </summary>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="descDirectoryPath">The desc directory path.</param>
+        /// <returns></returns>
         public static void Move(string sourceFilePath, string descDirectoryPath)
         {
             //获取源文件的名称
@@ -683,11 +712,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 从文件的绝对路径中获取文件名( 不包含扩展名 )
+        #region 从文件的绝对路径中获取文件名( 不包含扩展名 )            
         /// <summary>
-                /// 从文件的绝对路径中获取文件名( 不包含扩展名 )
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>        
+        /// Gets the file name no extension.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static string GetFileNameNoExtension(string filePath)
         {
             //获取文件的名称
@@ -696,11 +726,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 从文件的绝对路径中获取扩展名
+        #region 从文件的绝对路径中获取扩展名          
         /// <summary>
-                /// 从文件的绝对路径中获取扩展名
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>        
+        /// Gets the extension.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static string GetExtension(string filePath)
         {
             //获取文件的名称
@@ -709,11 +740,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 清空指定目录
+        #region 清空指定目录     
         /// <summary>
-                /// 清空指定目录下所有文件及子目录,但该目录依然保存.
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>
+        /// Clears the directory.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns></returns>
         public static void ClearDirectory(string directoryPath)
         {
             if (IsExistDirectory(directoryPath))
@@ -735,11 +767,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 清空文件内容
+        #region 清空文件内容      
         /// <summary>
-                /// 清空文件内容
-                /// </summary>
-                /// <param name="filePath">文件的绝对路径</param>
+        /// Clears the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static void ClearFile(string filePath)
         {
             //删除文件
@@ -750,11 +783,12 @@ namespace AIStudio.Util.Helper
         }
         #endregion
 
-        #region 删除指定目录
+        #region 删除指定目录     
         /// <summary>
-                /// 删除指定目录及其所有子目录
-                /// </summary>
-                /// <param name="directoryPath">指定目录的绝对路径</param>
+        /// Deletes the directory.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns></returns>
         public static void DeleteDirectory(string directoryPath)
         {
             if (IsExistDirectory(directoryPath))

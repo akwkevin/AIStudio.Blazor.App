@@ -2,12 +2,15 @@
 
 namespace AIStudio.Common.Extensions;
 
+/// <summary>
+/// 
+/// </summary>
 public static class HttpContextExtensions
 {
     /// <summary>
     /// 获取请求的ip4
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">The context.</param>
     /// <returns></returns>
     public static string GetRequestIPv4(this HttpContext context)
     {

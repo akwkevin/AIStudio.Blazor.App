@@ -3,12 +3,15 @@ using Simple.Common.Middlewares;
 
 namespace Microsoft.AspNetCore.Builder;
 
+/// <summary>
+/// 
+/// </summary>
 public static class MiddlewareApplicationBuilderExtensions
 {
     /// <summary>
     /// Api 异常处理中间件
     /// </summary>
-    /// <param name="app"></param>
+    /// <param name="app">The application.</param>
     /// <returns></returns>
     public static IApplicationBuilder UseMiddleware_(this IApplicationBuilder app)
     {

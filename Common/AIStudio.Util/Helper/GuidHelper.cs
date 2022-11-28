@@ -2,11 +2,14 @@
 
 namespace AIStudio.Util.Helper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public enum SequentialGuidType
     {
         /// <summary>
         /// 用于 MySql 和 PostgreSql.
-        ///  当使用 <see cref="Guid.ToString()" /> 方法进行格式化时连续.
+        /// 当使用 <see cref="Guid.ToString()" /> 方法进行格式化时连续.
         /// </summary>
         AsString,
 
@@ -23,17 +26,38 @@ namespace AIStudio.Util.Helper
         AtEnd
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class GuidHelper
     {
+        /// <summary>
+        /// The RFC4122 version4
+        /// </summary>
         private const byte Rfc4122Version4 = 4;
+        /// <summary>
+        /// The RFC4122 variant
+        /// </summary>
         private const byte Rfc4122Variant = 8;
+        /// <summary>
+        /// The filter high bit
+        /// </summary>
         private const byte FilterHighBit = 0b00001111;
+        /// <summary>
+        /// The filter low bit
+        /// </summary>
         private const byte FilterLowBit = 0b11110000;
+        /// <summary>
+        /// The random number generator
+        /// </summary>
         private static readonly RandomNumberGenerator _randomNumberGenerator = RandomNumberGenerator.Create();
 
         /// <summary>
         /// 连续 Guid 类型，默认：AsString.
         /// </summary>
+        /// <value>
+        /// The type of the sequential unique identifier.
+        /// </value>
         public static SequentialGuidType SequentialGuidType { get; set; } = SequentialGuidType.AsString;
 
         /// <summary>
@@ -49,7 +73,7 @@ namespace AIStudio.Util.Helper
         /// 生成连续 Guid（生成的 Guid 并不符合 RFC 4122 标准）.
         /// 来源：Abp. from jhtodd/SequentialGuid https://github.com/jhtodd/SequentialGuid/blob/master/SequentialGuid/Classes/SequentialGuid.cs .
         /// </summary>
-        /// <param name="guidType"></param>
+        /// <param name="guidType">Type of the unique identifier.</param>
         /// <returns></returns>
         public static Guid NextOld(SequentialGuidType guidType)
         {
@@ -100,7 +124,7 @@ namespace AIStudio.Util.Helper
         /// <summary>
         /// 生成连续 Guid.
         /// </summary>
-        /// <param name="guidType"></param>
+        /// <param name="guidType">Type of the unique identifier.</param>
         /// <returns></returns>
         public static Guid Next(SequentialGuidType guidType)
         {

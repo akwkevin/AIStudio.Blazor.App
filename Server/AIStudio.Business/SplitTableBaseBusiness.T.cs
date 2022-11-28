@@ -367,7 +367,7 @@ namespace AIStudio.Business
         /// </summary>
         /// <param name="whereExpre">筛选表达式</param>
         /// <param name="set">更改属性回调</param>
-        public async Task<int> UpdateAsync(Expression<Func<T, bool>> whereExpre, Action<T> set)
+        public Task<int> UpdateAsync(Expression<Func<T, bool>> whereExpre, Action<T> set)
         {
             throw new Exception("暂未实现");
         }

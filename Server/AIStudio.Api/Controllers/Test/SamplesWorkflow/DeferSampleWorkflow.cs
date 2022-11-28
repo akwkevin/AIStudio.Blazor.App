@@ -6,13 +6,17 @@ namespace AIStudio.Api.Controllers.Test.SamplesWorkflow
     /// <summary>
     /// DeferSampleWorkflow
     /// </summary>
+    /// <seealso cref="WorkflowCore.Interface.IWorkflow" />
     public class DeferSampleWorkflow : IWorkflow
     {
+        /// <summary>
+        /// The logger
+        /// </summary>
         private readonly ILogger<DeferSampleWorkflow> _logger;
         /// <summary>
         /// DeferSampleWorkflow
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">The logger.</param>
         public DeferSampleWorkflow(ILogger<DeferSampleWorkflow> logger)
         {
             _logger = logger;
@@ -20,17 +24,23 @@ namespace AIStudio.Api.Controllers.Test.SamplesWorkflow
         /// <summary>
         /// Id
         /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public string Id => "DeferSampleWorkflow";
 
         /// <summary>
         /// Version
         /// </summary>
+        /// <value>
+        /// The version.
+        /// </value>
         public int Version => 1;
 
         /// <summary>
         /// Build
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="builder">The builder.</param>
         public void Build(IWorkflowBuilder<object> builder)
         {
             builder
@@ -49,11 +59,26 @@ namespace AIStudio.Api.Controllers.Test.SamplesWorkflow
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="WorkflowCore.Models.StepBody" />
     public class SleepStep : StepBody
     {
 
+        /// <summary>
+        /// Gets or sets the period.
+        /// </summary>
+        /// <value>
+        /// The period.
+        /// </value>
         public TimeSpan Period { get; set; }
 
+        /// <summary>
+        /// Runs the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
         public override ExecutionResult Run(IStepExecutionContext context)
         {
             if (context.PersistenceData == null)

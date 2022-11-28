@@ -8,11 +8,16 @@ namespace AIStudio.Util.Common
     /// <summary>
     /// 树模型（可以作为父类）
     /// </summary>
+    /// <seealso cref="AIStudio.Util.Common.SelectOption" />
+    /// <seealso cref="AIStudio.Util.Common.IKeyBaseEntity" />
     public class TreeModel : SelectOption, IKeyBaseEntity
     {
         /// <summary>
         /// 唯一标识Id
         /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public string? Id { get; set; }
 
         ///// <summary>
@@ -23,11 +28,17 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 父Id
         /// </summary>
+        /// <value>
+        /// The parent identifier.
+        /// </value>
         public string? ParentId { get; set; }
 
         /// <summary>
         /// 节点深度
         /// </summary>
+        /// <value>
+        /// The level.
+        /// </value>
         public int? Level { get; set; } = 1;
 
         ///// <summary>
@@ -38,17 +49,27 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 孩子节点
         /// </summary>
-        //public List<TreeModel> children { get { return Children; } }
-
-        /// <summary>
-        /// 孩子节点
-        /// </summary>
+        /// <value>
+        /// The children.
+        /// </value>
         public List<TreeModel> Children { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is expand.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is expand; otherwise, <c>false</c>.
+        /// </value>
         public bool IsExpand { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="AIStudio.Util.Common.SelectOption" />
+    /// <seealso cref="AIStudio.Util.Common.IKeyBaseEntity" />
     public class TreeModel<T> : TreeModel
     {
         /// <summary>
@@ -63,13 +84,16 @@ namespace AIStudio.Util.Common
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TreeHelper
     {
         /// <summary>
         /// 构建树
         /// </summary>
-        /// <param name="trees"></param>
-        /// <param name="id"></param>
+        /// <param name="trees">The trees.</param>
+        /// <param name="id">The identifier.</param>
         /// <returns></returns>
         public static TreeModel GetTreeModel(IEnumerable<TreeModel> trees, string id)
         {
@@ -95,7 +119,7 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 获取所有树的节点
         /// </summary>
-        /// <param name="trees"></param>
+        /// <param name="trees">The trees.</param>
         /// <returns></returns>
 
         public static List<TreeModel> GetTreeToList(IEnumerable<TreeModel> trees)
@@ -121,6 +145,7 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 建造树结构
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="allNodes">所有的节点</param>
         /// <returns></returns>
         public static List<T> BuildTree<T>(List<T> allNodes) where T : TreeModel, new()
@@ -137,7 +162,7 @@ namespace AIStudio.Util.Common
             return resData;
         }
 
-       
+
 
         /// <summary>
         /// 获取所有子节点
@@ -220,8 +245,13 @@ namespace AIStudio.Util.Common
 
         #endregion
 
-        #region 泛型类使用
-
+        #region 泛型类使用        
+        /// <summary>
+        /// Gets the tree to list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="trees">The trees.</param>
+        /// <returns></returns>
         public static List<T> GetTreeToList<T>(IEnumerable<T> trees) where T : TreeModel<T>
         {
             List<T> treemodels = new List<T>();
@@ -241,9 +271,10 @@ namespace AIStudio.Util.Common
         }
 
         /// <summary>
-        /// 建造树结构，继承TreeModel<T>的模型使用使用
+        /// Builds the generics tree.
         /// </summary>
-        /// <param name="allNodes">所有的节点</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="allNodes">All nodes.</param>
         /// <returns></returns>
         public static List<T> BuildGenericsTree<T>(List<T> allNodes) where T : TreeModel<T>, new()
         {
@@ -257,14 +288,14 @@ namespace AIStudio.Util.Common
             });
 
             return resData;
-        }      
+        }
 
         /// <summary>
-        /// 获取所有子节点，继承TreeModel<T>的模型使用使用
+        /// Gets the generics children.
         /// </summary>
-        /// <typeparam name="T">树模型（TreeModel或继承它的模型）</typeparam>
-        /// <param name="nodes">所有节点列表</param>
-        /// <param name="parentNode">父节点Id</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="nodes">The nodes.</param>
+        /// <param name="parentNode">The parent node.</param>
         /// <returns></returns>
         private static List<T> _GetGenericsChildren<T>(List<T> nodes, T parentNode) where T : TreeModel<T>, new()
         {

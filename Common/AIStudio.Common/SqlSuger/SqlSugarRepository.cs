@@ -11,10 +11,13 @@ namespace AIStudio.Common.SqlSuger;
 /// <summary>
 /// SqlSugar 仓储实现类
 /// </summary>
-/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TEntity">The type of the entity.</typeparam>
 public partial class SqlSugarRepository<TEntity>
 where TEntity : class, new()
 {
+    /// <summary>
+    /// The update ignore columns
+    /// </summary>
     private readonly string[] UpdateIgnoreColumns = new string[] { "CreateTime", "CreatorId", "CreatorName" };
 
     #region 属性
@@ -22,16 +25,29 @@ where TEntity : class, new()
     /// 初始化 SqlSugar 客户端
     /// </summary>
     private readonly SqlSugarScope _db;
+    /// <summary>
+    /// The service provider
+    /// </summary>
     private readonly IServiceProvider _serviceProvider;
     /// <summary>
     /// 数据库上下文
     /// </summary>
+    /// <value>
+    /// The context.
+    /// </value>
     public virtual SqlSugarScope Context { get; }
+    /// <summary>
+    /// Gets the entity context.
+    /// </summary>
+    /// <value>
+    /// The entity context.
+    /// </value>
     public virtual SqlSugarProvider EntityContext { get; }
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="db"></param>
+    /// <param name="db">The database.</param>
+    /// <param name="serviceProvider">The service provider.</param>
     public SqlSugarRepository(ISqlSugarClient db, IServiceProvider serviceProvider)
     {
         Context = _db = (SqlSugarScope)db;
@@ -43,11 +59,17 @@ where TEntity : class, new()
     /// <summary>
     /// 实体集合
     /// </summary>
+    /// <value>
+    /// The entities.
+    /// </value>
     public virtual ISugarQueryable<TEntity> Entities => EntityContext.Queryable<TEntity>();
 
     /// <summary>
     /// 原生 Ado 对象
     /// </summary>
+    /// <value>
+    /// The ADO.
+    /// </value>
     public virtual IAdo Ado { get; }
     #endregion
 
@@ -55,7 +77,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取总数
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public int Count(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -65,7 +87,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取总数
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -75,7 +97,7 @@ where TEntity : class, new()
     /// <summary>
     /// 检查是否存在
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public bool Any(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -85,7 +107,7 @@ where TEntity : class, new()
     /// <summary>
     /// 检查是否存在
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -95,7 +117,7 @@ where TEntity : class, new()
     /// <summary>
     /// 通过主键获取实体
     /// </summary>
-    /// <param name="Id"></param>
+    /// <param name="Id">The identifier.</param>
     /// <returns></returns>
     public TEntity Single(dynamic Id)
     {
@@ -105,7 +127,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取一个实体
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public TEntity Single(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -115,7 +137,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取一个实体
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -125,7 +147,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取一个实体
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -135,7 +157,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取一个实体
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -154,7 +176,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取列表
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -164,9 +186,9 @@ where TEntity : class, new()
     /// <summary>
     /// 获取列表
     /// </summary>
-    /// <param name="whereExpression"></param>
-    /// <param name="orderByExpression"></param>
-    /// <param name="orderByType"></param>
+    /// <param name="whereExpression">The where expression.</param>
+    /// <param name="orderByExpression">The order by expression.</param>
+    /// <param name="orderByType">Type of the order by.</param>
     /// <returns></returns>
     public List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
     {
@@ -185,7 +207,7 @@ where TEntity : class, new()
     /// <summary>
     /// 获取列表
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -195,9 +217,9 @@ where TEntity : class, new()
     /// <summary>
     /// 获取列表
     /// </summary>
-    /// <param name="whereExpression"></param>
-    /// <param name="orderByExpression"></param>
-    /// <param name="orderByType"></param>
+    /// <param name="whereExpression">The where expression.</param>
+    /// <param name="orderByExpression">The order by expression.</param>
+    /// <param name="orderByType">Type of the order by.</param>
     /// <returns></returns>
     public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
     {
@@ -206,11 +228,21 @@ where TEntity : class, new()
     #endregion
 
     #region 新增
+    /// <summary>
+    /// Ases the insertable.
+    /// </summary>
+    /// <param name="entity">The entity.</param>
+    /// <returns></returns>
     public virtual IInsertable<TEntity> AsInsertable(TEntity entity)
     {
         return EntityContext.Insertable(entity);
     }
 
+    /// <summary>
+    /// Ases the insertable.
+    /// </summary>
+    /// <param name="entities">The entities.</param>
+    /// <returns></returns>
     public virtual IInsertable<TEntity> AsInsertable(params TEntity[] entities)
     {
         return EntityContext.Insertable(entities);
@@ -219,7 +251,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual int Insert(TEntity entity)
     {
@@ -229,7 +261,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual int Insert(params TEntity[] entities)
     {
@@ -239,7 +271,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual int Insert(IEnumerable<TEntity> entities)
     {
@@ -249,7 +281,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录返回自增Id
     /// </summary>
-    /// <param name="insertObj"></param>
+    /// <param name="insertObj">The insert object.</param>
     /// <returns></returns>
     public virtual int InsertReturnIdentity(TEntity insertObj)
     {
@@ -259,7 +291,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录返回雪花Id
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual long InsertReturnSnowflakeId(TEntity entity)
     {
@@ -269,7 +301,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录返回实体
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual TEntity InsertReturnEntity(TEntity entity)
     {
@@ -281,7 +313,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual Task<int> InsertAsync(TEntity entity)
     {
@@ -291,7 +323,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual Task<int> InsertAsync(params TEntity[] entities)
     {
@@ -301,7 +333,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual Task<int> InsertAsync(IEnumerable<TEntity> entities)
     {
@@ -315,7 +347,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录返回自增Id
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual async Task<long> InsertReturnIdentityAsync(TEntity entity)
     {
@@ -325,7 +357,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录返回雪花Id
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual async Task<long> InsertReturnSnowflakeIdAsync(TEntity entity)
     {
@@ -335,7 +367,7 @@ where TEntity : class, new()
     /// <summary>
     /// 新增一条记录返回实体
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual async Task<TEntity> InsertReturnEntityAsync(TEntity entity)
     {
@@ -348,7 +380,7 @@ where TEntity : class, new()
     /// <summary>
     /// 更新一条记录
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual int Update(TEntity entity)
     {
@@ -358,7 +390,7 @@ where TEntity : class, new()
     /// <summary>
     /// 更新多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual int Update(params TEntity[] entities)
     {
@@ -367,7 +399,7 @@ where TEntity : class, new()
     /// <summary>
     /// 更新多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual int Update(IEnumerable<TEntity> entities)
     {
@@ -377,7 +409,7 @@ where TEntity : class, new()
     /// <summary>
     /// 更新一条记录
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual async Task<int> UpdateAsync(TEntity entity)
     {
@@ -408,7 +440,7 @@ where TEntity : class, new()
     /// <summary>
     /// 更新多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual Task<int> UpdateAsync(params TEntity[] entities)
     {
@@ -418,18 +450,28 @@ where TEntity : class, new()
     /// <summary>
     /// 更新多条记录
     /// </summary>
-    /// <param name="entities"></param>
+    /// <param name="entities">The entities.</param>
     /// <returns></returns>
     public virtual Task<int> UpdateAsync(IEnumerable<TEntity> entities)
     {
         return EntityContext.Updateable(entities.ToArray()).IgnoreColumns(UpdateIgnoreColumns).ExecuteCommandAsync();
     }
 
+    /// <summary>
+    /// Ases the updateable.
+    /// </summary>
+    /// <param name="entity">The entity.</param>
+    /// <returns></returns>
     public virtual IUpdateable<TEntity> AsUpdateable(TEntity entity)
     {
         return EntityContext.Updateable(entity).IgnoreColumns(UpdateIgnoreColumns);
     }
 
+    /// <summary>
+    /// Ases the updateable.
+    /// </summary>
+    /// <param name="entities">The entities.</param>
+    /// <returns></returns>
     public virtual IUpdateable<TEntity> AsUpdateable(IEnumerable<TEntity> entities)
     {
         return EntityContext.Updateable<TEntity>(entities).IgnoreColumns(UpdateIgnoreColumns);
@@ -440,7 +482,7 @@ where TEntity : class, new()
     /// <summary>
     /// 删除一条记录
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual int Delete(TEntity entity)
     {
@@ -450,7 +492,7 @@ where TEntity : class, new()
     /// <summary>
     /// 删除一条记录
     /// </summary>
-    /// <param name="key"></param>
+    /// <param name="key">The key.</param>
     /// <returns></returns>
     public virtual int Delete(object key)
     {
@@ -460,7 +502,7 @@ where TEntity : class, new()
     /// <summary>
     /// 删除多条记录
     /// </summary>
-    /// <param name="keys"></param>
+    /// <param name="keys">The keys.</param>
     /// <returns></returns>
     public virtual int Delete(params object[] keys)
     {
@@ -470,7 +512,7 @@ where TEntity : class, new()
     /// <summary>
     /// 自定义条件删除记录
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public int Delete(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -480,7 +522,7 @@ where TEntity : class, new()
     /// <summary>
     /// 删除一条记录
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity">The entity.</param>
     /// <returns></returns>
     public virtual Task<int> DeleteAsync(TEntity entity)
     {
@@ -490,7 +532,7 @@ where TEntity : class, new()
     /// <summary>
     /// 删除一条记录
     /// </summary>
-    /// <param name="key"></param>
+    /// <param name="key">The key.</param>
     /// <returns></returns>
     public virtual Task<int> DeleteAsync(object key)
     {
@@ -500,7 +542,7 @@ where TEntity : class, new()
     /// <summary>
     /// 删除多条记录
     /// </summary>
-    /// <param name="keys"></param>
+    /// <param name="keys">The keys.</param>
     /// <returns></returns>
     public virtual Task<int> DeleteAsync(params object[] keys)
     {
@@ -510,7 +552,7 @@ where TEntity : class, new()
     /// <summary>
     /// 自定义条件删除记录
     /// </summary>
-    /// <param name="whereExpression"></param>
+    /// <param name="whereExpression">The where expression.</param>
     /// <returns></returns>
     public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
@@ -522,7 +564,7 @@ where TEntity : class, new()
     /// <summary>
     /// 根据表达式查询多条记录
     /// </summary>
-    /// <param name="predicate"></param>
+    /// <param name="predicate">The predicate.</param>
     /// <returns></returns>
     public virtual ISugarQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
     {
@@ -532,8 +574,8 @@ where TEntity : class, new()
     /// <summary>
     /// 根据表达式查询多条记录
     /// </summary>
-    /// <param name="condition"></param>
-    /// <param name="predicate"></param>
+    /// <param name="condition">if set to <c>true</c> [condition].</param>
+    /// <param name="predicate">The predicate.</param>
     /// <returns></returns>
     public virtual ISugarQueryable<TEntity> Where(bool condition, Expression<Func<TEntity, bool>> predicate)
     {
@@ -552,7 +594,7 @@ where TEntity : class, new()
     /// <summary>
     /// 构建查询分析器
     /// </summary>
-    /// <param name="predicate"></param>
+    /// <param name="predicate">The predicate.</param>
     /// <returns></returns>
     public virtual ISugarQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate)
     {
@@ -571,7 +613,7 @@ where TEntity : class, new()
     /// <summary>
     /// 直接返回数据库结果
     /// </summary>
-    /// <param name="predicate"></param>
+    /// <param name="predicate">The predicate.</param>
     /// <returns></returns>
     public virtual List<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate)
     {
@@ -590,18 +632,30 @@ where TEntity : class, new()
     /// <summary>
     /// 直接返回数据库结果
     /// </summary>
-    /// <param name="predicate"></param>
+    /// <param name="predicate">The predicate.</param>
     /// <returns></returns>
     public virtual Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate)
     {
         return AsQueryable(predicate).ToListAsync();
     }
 
+    /// <summary>
+    /// Determines whether the specified where expression is exists.
+    /// </summary>
+    /// <param name="whereExpression">The where expression.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified where expression is exists; otherwise, <c>false</c>.
+    /// </returns>
     public virtual bool IsExists(Expression<Func<TEntity, bool>> whereExpression)
     {
         return Entities.Any(whereExpression);
     }
 
+    /// <summary>
+    /// Determines whether [is exists asynchronous] [the specified where expression].
+    /// </summary>
+    /// <param name="whereExpression">The where expression.</param>
+    /// <returns></returns>
     public virtual Task<bool> IsExistsAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
         return Entities.AnyAsync(whereExpression);
@@ -613,7 +667,9 @@ where TEntity : class, new()
     /// 切换仓储(注意使用环境)
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
-    /// <returns>仓储</returns>
+    /// <returns>
+    /// 仓储
+    /// </returns>
     public virtual SqlSugarRepository<T> Change<T>()
         where T : class, new()
     {

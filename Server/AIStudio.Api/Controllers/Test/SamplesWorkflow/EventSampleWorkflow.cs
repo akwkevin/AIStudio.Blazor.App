@@ -6,22 +6,42 @@ namespace AIStudio.Api.Controllers.Test.SamplesWorkflow
     /// <summary>
     /// EventSampleWorkflow
     /// </summary>
+    /// <seealso cref="WorkflowCore.Interface.IWorkflow&lt;AIStudio.Api.Controllers.Test.SamplesWorkflow.MyDataClass&gt;" />
     public class EventSampleWorkflow : IWorkflow<MyDataClass>
     {
+        /// <summary>
+        /// The logger
+        /// </summary>
         private readonly ILogger<EventSampleWorkflow> _logger;
         /// <summary>
         /// EventSampleWorkflow
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">The logger.</param>
         public EventSampleWorkflow(ILogger<EventSampleWorkflow> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public string Id => "EventSampleWorkflow";
-            
+
+        /// <summary>
+        /// Gets the version.
+        /// </summary>
+        /// <value>
+        /// The version.
+        /// </value>
         public int Version => 1;
-            
+
+        /// <summary>
+        /// Builds the specified builder.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
         public void Build(IWorkflowBuilder<MyDataClass> builder)
         {
             builder

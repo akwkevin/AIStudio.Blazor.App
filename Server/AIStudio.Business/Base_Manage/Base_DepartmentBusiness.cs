@@ -73,7 +73,7 @@ namespace AIStudio.Business.Base_Manage
             return children;
         }
 
-        public async Task<Base_Department> GetTheDataAsync(string id)
+        public override async Task<Base_Department> GetTheDataAsync(string id)
         {
             return await GetIQueryable().FirstAsync(x => x.Id.Equals(id));
         }

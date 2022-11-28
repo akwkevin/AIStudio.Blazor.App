@@ -4,14 +4,36 @@ using Microsoft.Extensions.Logging;
 
 namespace AIStudio.Common.EventBus.Core;
 
+/// <summary>
+/// 
+/// </summary>
+/// <seealso cref="AIStudio.Common.EventBus.Abstract.ISubscribeManager" />
 public class SubscribeManager : ISubscribeManager
 {
+    /// <summary>
+    /// The logger
+    /// </summary>
     private readonly ILogger<SubscribeManager> _logger;
+    /// <summary>
+    /// The service provider
+    /// </summary>
     private readonly IServiceProvider _serviceProvider;
+    /// <summary>
+    /// The subscriber dictionary
+    /// </summary>
     private readonly SubscriberDictionary _subscriberDictionary;
 
+    /// <summary>
+    /// 订阅者列表
+    /// </summary>
     public IDictionary<Type, List<Type>> Subscribers => _subscriberDictionary.ToDictionary();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SubscribeManager"/> class.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <param name="subscriberDictionary">The subscriber dictionary.</param>
     public SubscribeManager(ILogger<SubscribeManager> logger,
                             IServiceProvider serviceProvider,
                             SubscriberDictionary subscriberDictionary)
@@ -21,6 +43,10 @@ public class SubscribeManager : ISubscribeManager
         _subscriberDictionary = subscriberDictionary;
     }
 
+    /// <summary>
+    /// 处理事件
+    /// </summary>
+    /// <param name="event"></param>
     public virtual async Task ProcessEvent(object @event)
     {
         Type eventType = @event.GetType();

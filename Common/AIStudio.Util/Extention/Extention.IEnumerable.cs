@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace AIStudio.Util
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static partial class Extention
     {
         /// <summary>
@@ -71,12 +74,21 @@ namespace AIStudio.Util
         /// </summary>
         /// <typeparam name="T">数据模型</typeparam>
         /// <param name="iEnumberable">数据源</param>
-        /// <returns>DataTable</returns>
+        /// <returns>
+        /// DataTable
+        /// </returns>
         public static DataTable ToDataTable<T>(this IEnumerable<T> iEnumberable)
         {
             return iEnumberable.ToJson().ToDataTable();
         }
 
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="oc">The oc.</param>
+        /// <param name="collection">The collection.</param>
+        /// <exception cref="System.ArgumentNullException">collection</exception>
         public static void AddRange<T>(this ObservableCollection<T> oc, IEnumerable<T> collection)
         {
             if (collection == null) { throw new ArgumentNullException("collection"); }

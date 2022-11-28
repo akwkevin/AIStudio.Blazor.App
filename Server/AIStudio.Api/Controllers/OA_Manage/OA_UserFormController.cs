@@ -7,6 +7,7 @@ using AIStudio.Entity.OA_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using AIStudio.Util.DiagramEntity;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WorkflowCore.Interface;
@@ -70,7 +71,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="data">保存的数据</param>
         [HttpPost]
-        public async Task<List<OAStep>> PreStep(OA_UserFormDTO data)
+        public async Task<List<OA_Step>> PreStep(OA_UserFormDTO data)
         {
             return await _oA_UserFormBus.PreStepAsync(data);
         }

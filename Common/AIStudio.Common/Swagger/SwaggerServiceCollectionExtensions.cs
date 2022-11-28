@@ -5,13 +5,16 @@ using System.Reflection;
 
 namespace AIStudio.Common.Swagger;
 
+/// <summary>
+/// 
+/// </summary>
 public static class SwaggerServiceCollectionExtensions
 {
     /// <summary>
     /// SwaggerGen
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="setupAction"></param>
+    /// <param name="services">The services.</param>
+    /// <param name="setupAction">The setup action.</param>
     /// <returns></returns>
     public static IServiceCollection AddSwaggerGen_(this IServiceCollection services, Action<SwaggerGenOptions>? setupAction = null)
     {

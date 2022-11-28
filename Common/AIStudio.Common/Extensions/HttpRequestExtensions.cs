@@ -3,12 +3,15 @@ using System.Text;
 
 namespace AIStudio.Common.Extensions;
 
+/// <summary>
+/// 
+/// </summary>
 public static class HttpRequestExtensions
 {
     /// <summary>
     /// 获取完整请求地址
     /// </summary>
-    /// <param name="request"></param>
+    /// <param name="request">The request.</param>
     /// <returns></returns>
     public static string GetRequestUrlAddress(this HttpRequest request)
     {
