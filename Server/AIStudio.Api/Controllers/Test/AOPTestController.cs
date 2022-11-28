@@ -78,6 +78,42 @@ namespace AIStudio.Api.Controllers.Test
         {
             return model.ToJson(); ;
         }
+
+        /// <summary>
+        /// GET api/AOPTest/Get5?Id=5&amp;Url=6&amp;PageId=7
+        /// </summary>
+        /// <param name="schoolName"></param>
+        /// <param name="classNum"></param>
+        /// <returns></returns>
+        [HttpGet("Get5/{schoolName}/class/{classNo}")]
+        public string Get5(string schoolName, [FromRoute(Name= "classNo")]string classNum)
+        {
+            return schoolName + " " + classNum;
+        }
+
+        /// <summary>
+        /// GET api/AOPTest/Get6?Id=5&amp;Url=6&amp;PageId=7
+        /// </summary>
+        /// <param name="pageNum"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("Get6")]
+        public string Get6([FromQuery]string pageNum, [FromQuery(Name = "pSize")] int pageSize)
+        {
+            return pageNum + " " + pageSize;
+        }
+
+        /// <summary>
+        /// GET api/AOPTest/Get5?Id=5&amp;Url=6&amp;PageId=7
+        /// </summary>
+        /// <param name="schoolName"></param>
+        /// <param name="classNum"></param>
+        /// <returns></returns>
+        [HttpGet("Get7/{schoolName}/class/{classNo}")]
+        public string Get7(string schoolName, [FromRoute(Name = "classNo")] string classNum, [FromQuery] string pageNum, [FromQuery(Name = "pSize")] int pageSize)
+        {
+            return schoolName + " " + classNum + " " + pageNum + " " + pageSize;
+        }
     }
 
     public class ApiModel
