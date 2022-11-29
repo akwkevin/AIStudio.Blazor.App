@@ -19,6 +19,9 @@ using System.Reflection;
 
 namespace AIStudio.Common.SqlSuger
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class SqlsugarServiceCollectionExtensions
     {
 
@@ -27,7 +30,8 @@ namespace AIStudio.Common.SqlSuger
         /// Scope必须用单例注入
         /// 不可以用Action委托注入
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">The services.</param>
+        /// <returns></returns>
         public static IServiceCollection AddSqlSugar_(this IServiceCollection services)
         {
             //数据库序号从0开始,默认数据库为0
@@ -256,6 +260,7 @@ namespace AIStudio.Common.SqlSuger
         /// <summary>
         /// 获取当前租户id
         /// </summary>
+        /// <param name="obj">The object.</param>
         /// <returns></returns>
         private static bool GetTenantId(out object obj)
         {
@@ -265,6 +270,11 @@ namespace AIStudio.Common.SqlSuger
             return obj != null;
         }
 
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
         private static bool GetUserId(out object obj)
         {
             obj = null;
@@ -273,6 +283,11 @@ namespace AIStudio.Common.SqlSuger
             return obj != null;
         }
 
+        /// <summary>
+        /// Gets the name of the user.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
         private static bool GetUserName(out object obj)
         {
             obj = null;
@@ -284,7 +299,9 @@ namespace AIStudio.Common.SqlSuger
         /// <summary>
         /// 判断是不是超级管理员
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        ///   <c>true</c> if [is super admin]; otherwise, <c>false</c>.
+        /// </returns>
         private static bool IsSuperAdmin()
         {
             if (ServiceLocator.User == null) return false;
@@ -294,7 +311,8 @@ namespace AIStudio.Common.SqlSuger
         /// <summary>
         /// 测试用法
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">The services.</param>
+        /// <returns></returns>
         public static IServiceCollection AddSqlSugar(this IServiceCollection services)
         {
             SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
@@ -320,9 +338,9 @@ namespace AIStudio.Common.SqlSuger
         /// <summary>
         /// 添加 SqlSugar 拓展
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="config"></param>
-        /// <param name="buildAction"></param>
+        /// <param name="services">The services.</param>
+        /// <param name="config">The configuration.</param>
+        /// <param name="buildAction">The build action.</param>
         /// <returns></returns>
         public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig config, Action<ISqlSugarClient> buildAction = default)
         {
@@ -334,9 +352,9 @@ namespace AIStudio.Common.SqlSuger
         /// <summary>
         /// 添加 SqlSugar 拓展
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configs"></param>
-        /// <param name="buildAction"></param>
+        /// <param name="services">The services.</param>
+        /// <param name="configs">The configs.</param>
+        /// <param name="buildAction">The build action.</param>
         /// <returns></returns>
         public static IServiceCollection AddSqlSugar(this IServiceCollection services, List<ConnectionConfig> configs, Action<ISqlSugarClient> buildAction = default)
         {

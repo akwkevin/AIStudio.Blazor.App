@@ -9,6 +9,7 @@ using AIStudio.Entity.Enum;
 using AIStudio.Entity.OA_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using AIStudio.Util.DiagramEntity;
 using AIStudio.Util.Helper;
 using AutoMapper;
 using Castle.Core.Logging;
@@ -111,6 +112,11 @@ namespace AIStudio.Business.OA_Manage
             return treeList;
         }
 
+        /// <summary>
+        /// Gets the data list asynchronous.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
         public async Task<PageResult<OA_DefFormDTO>> GetDataListAsync(PageInput input)
         {
             var q = GetIQueryable(input.SearchKeyValues);     
@@ -118,11 +124,20 @@ namespace AIStudio.Business.OA_Manage
             return await q.Select<OA_DefFormDTO>().GetPageResultAsync(input);
         }
 
+        /// <summary>
+        /// Gets the data asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public async Task<OA_DefFormDTO> GetTheDataAsync(string id)
         {
             return _mapper.Map<OA_DefFormDTO>(await GetEntityAsync(id));
         }
 
+        /// <summary>
+        /// Saves the data asynchronous.
+        /// </summary>
+        /// <param name="theData">The data.</param>
         public async Task SaveDataAsync(OA_DefFormDTO theData)
         {
             if (theData.Id.IsNullOrEmpty())
@@ -149,6 +164,10 @@ namespace AIStudio.Business.OA_Manage
             }
         }
 
+        /// <summary>
+        /// Starts the data asynchronous.
+        /// </summary>
+        /// <param name="input">The input.</param>
         public async Task StartDataAsync(IdInputDTO input)
         {
             var data = await GetTheDataAsync(input.id);
@@ -157,6 +176,10 @@ namespace AIStudio.Business.OA_Manage
             await SaveDataAsync(data);
         }
 
+        /// <summary>
+        /// Stops the data asynchronous.
+        /// </summary>
+        /// <param name="input">The input.</param>
         public async Task StopDataAsync(IdInputDTO input)
         {
             var data = await GetTheDataAsync(input.id);
@@ -165,9 +188,14 @@ namespace AIStudio.Business.OA_Manage
             await SaveDataAsync(data);
         }
 
+        /// <summary>
+        /// Deletes the data asynchronous.
+        /// </summary>
+        /// <param name="ids">The ids.</param>
+        /// <exception cref="System.Exception">还有正在使用该流程的审批,不能删除该流程</exception>
         public override async Task DeleteDataAsync(List<string> ids)
         {
-            int count = _oA_UserFormBus.GetDataListCount(ids, OAStatus.Being);
+            int count = _oA_UserFormBus.GetDataListCount(ids, OA_Status.Being);
             if (count > 0)
             {
                 throw new Exception("还有正在使用该流程的审批,不能删除该流程");

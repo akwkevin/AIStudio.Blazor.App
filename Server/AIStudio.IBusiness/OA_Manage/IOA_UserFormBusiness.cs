@@ -2,6 +2,7 @@
 using AIStudio.Entity.OA_Manage;
 using AIStudio.IBusiness;
 using AIStudio.Util.Common;
+using AIStudio.Util.DiagramEntity;
 
 namespace AIStudio.Business.OA_Manage
 {
@@ -11,9 +12,9 @@ namespace AIStudio.Business.OA_Manage
         Task<string> DequeueWork(string id);
         Task<PageResult<OA_UserFormDTO>> GetDataListAsync(PageInput<OA_UserFormInputDTO> input);
         new Task<OA_UserFormDTO> GetTheDataAsync(string id);
-        int GetDataListCount(List<string> jsonids, OAStatus status);
+        int GetDataListCount(List<string> jsonids, OA_Status status);
 
-        Task<List<OAStep>> PreStepAsync(OA_UserFormDTO data);
+        Task<List<OA_Step>> PreStepAsync(OA_UserFormDTO data);
 
         Task SaveDataAsync(OA_UserFormDTO data);
         Task<AjaxResult> EventDataAsync(MyEvent eventData);

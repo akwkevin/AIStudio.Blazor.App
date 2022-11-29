@@ -10,12 +10,30 @@ using System.Runtime.ExceptionServices;
 
 namespace Simple.Common.Middlewares;
 
+/// <summary>
+/// 
+/// </summary>
 public class ApiExceptionMiddleware
 {
+    /// <summary>
+    /// The next
+    /// </summary>
     private readonly RequestDelegate _next;
+    /// <summary>
+    /// The logger
+    /// </summary>
     private readonly ILogger _logger;
+    /// <summary>
+    /// The publisher
+    /// </summary>
     private readonly IEventPublisher _publisher;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApiExceptionMiddleware" /> class.
+    /// </summary>
+    /// <param name="next">The next.</param>
+    /// <param name="logger">The logger.</param>
+    /// <param name="publisher">The publisher.</param>
     public ApiExceptionMiddleware(RequestDelegate next,
                                   ILogger<ApiExceptionMiddleware> logger,
                                   IEventPublisher publisher)
@@ -25,6 +43,10 @@ public class ApiExceptionMiddleware
         _publisher = publisher;
     }
 
+    /// <summary>
+    /// Invokes the asynchronous.
+    /// </summary>
+    /// <param name="context">The context.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         ExceptionDispatchInfo edi;
@@ -44,6 +66,11 @@ public class ApiExceptionMiddleware
 
     }
 
+    /// <summary>
+    /// Handles the exception asynchronous.
+    /// </summary>
+    /// <param name="context">The context.</param>
+    /// <param name="edi">The edi.</param>
     private async Task HandleExceptionAsync(HttpContext context, ExceptionDispatchInfo edi)
     {
         // 发布异常事件
@@ -83,8 +110,12 @@ public class ApiExceptionMiddleware
     /// 发布异常事件
     /// </summary>
     /// <param name="exception">异常</param>
+    /// <param name="userName">Name of the user.</param>
     /// <param name="userId">操作人账号</param>
-    /// <returns>事件Id</returns>
+    /// <param name="tenantId">The tenant identifier.</param>
+    /// <returns>
+    /// 事件Id
+    /// </returns>
     private async Task<string> PublishEventAsync(Exception exception, string? userName, string? userId,  string? tenantId)
     {
         // 定义异常事件模型

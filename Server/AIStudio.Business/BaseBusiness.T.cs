@@ -19,6 +19,7 @@ namespace AIStudio.Business
     /// 描述：业务处理基类
     /// </summary>
     /// <typeparam name="T">泛型约束（数据库实体）</typeparam>
+    /// <seealso cref="AIStudio.IBusiness.IBaseBusiness&lt;T&gt;" />
     public abstract class BaseBusiness<T> : IBaseBusiness<T> where T : class, new()
     {
         #region 构造函数
@@ -38,22 +39,59 @@ namespace AIStudio.Business
 
         #region 私有成员
 
+        /// <summary>
+        /// Gets the value field.
+        /// </summary>
+        /// <value>
+        /// The value field.
+        /// </value>
         protected virtual string _valueField { get; } = "Id";
+        /// <summary>
+        /// Gets the text field.
+        /// </summary>
+        /// <value>
+        /// The text field.
+        /// </value>
+        /// <exception cref="System.Exception">请在子类重写</exception>
         protected virtual string _textField { get => throw new Exception("请在子类重写"); }
 
         #endregion
 
         #region 外部属性
 
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>
+        /// The database.
+        /// </value>
         public ISqlSugarClient Db { get; }
 
+        /// <summary>
+        /// Gets the name of the entity.
+        /// </summary>
+        /// <value>
+        /// The name of the entity.
+        /// </value>
         public string EntityName { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether [logic delete].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [logic delete]; otherwise, <c>false</c>.
+        /// </value>
         public bool LogicDelete { get; }
         #endregion
 
         #region 事物提交
 
+        /// <summary>
+        /// Runs the transaction.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="isolationLevel">The isolation level.</param>
+        /// <returns></returns>
         public (bool Success, Exception ex) RunTransaction(Action action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
             bool success = true;
@@ -79,6 +117,12 @@ namespace AIStudio.Business
 
             return (success, resEx);
         }
+        /// <summary>
+        /// Runs the transaction asynchronous.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="isolationLevel">The isolation level.</param>
+        /// <returns></returns>
         public async Task<(bool Success, Exception ex)> RunTransactionAsync(Func<Task> action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
             bool success = true;
@@ -112,6 +156,7 @@ namespace AIStudio.Business
         /// 添加数据
         /// </summary>
         /// <param name="entity">实体对象</param>
+        /// <returns></returns>
         public int Insert(T entity)
         {
             return Db.Insertable(entity).ExecuteCommand();
@@ -121,6 +166,7 @@ namespace AIStudio.Business
         /// 添加数据
         /// </summary>
         /// <param name="entity">实体对象</param>
+        /// <returns></returns>
         public async Task<int> InsertAsync(T entity)
         {
             return await Db.Insertable(entity).ExecuteCommandAsync();
@@ -130,6 +176,7 @@ namespace AIStudio.Business
         /// 添加多条数据
         /// </summary>
         /// <param name="entities">实体对象集合</param>
+        /// <returns></returns>
         public int Insert(List<T> entities)
         {
             return Db.Insertable(entities).ExecuteCommand();
@@ -139,6 +186,7 @@ namespace AIStudio.Business
         /// 添加多条数据
         /// </summary>
         /// <param name="entities">实体对象集合</param>
+        /// <returns></returns>
         public async Task<int> InsertAsync(List<T> entities)
         {
             return await Db.Insertable(entities).ExecuteCommandAsync();
@@ -148,6 +196,7 @@ namespace AIStudio.Business
         /// 添加多条数据
         /// </summary>
         /// <param name="entities">实体对象集合</param>
+        /// <returns></returns>
         public async Task<int> InsertAsync(List<object> entities)
         {
             return await Db.Insertable(entities.OfType<T>().ToList()).ExecuteCommandAsync();
@@ -165,7 +214,7 @@ namespace AIStudio.Business
         /// <summary>
         /// 批量添加数据,速度快
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">The entities.</param>
         public async Task BulkInsertAsync(List<T> entities)
         {
             await Db.Fastest<T>().BulkCopyAsync(entities);
@@ -177,6 +226,7 @@ namespace AIStudio.Business
         /// <summary>
         /// 删除所有数据,这个好像没有软删除
         /// </summary>
+        /// <returns></returns>
         public int DeleteAll()
         {
             return Db.Deleteable<T>().ExecuteCommand();
@@ -185,6 +235,7 @@ namespace AIStudio.Business
         /// <summary>
         /// 删除所有数据,这个好像没有软删除
         /// </summary>
+        /// <returns></returns>
         public async Task<int> DeleteAllAsync()
         {
             return await Db.Deleteable<T>().ExecuteCommandAsync();
@@ -194,6 +245,7 @@ namespace AIStudio.Business
         /// 删除指定主键数据
         /// </summary>
         /// <param name="key"></param>
+        /// <returns></returns>
         public int Delete(string key)
         {
             if (LogicDelete)//软删除
@@ -210,6 +262,7 @@ namespace AIStudio.Business
         /// 删除指定主键数据
         /// </summary>
         /// <param name="key"></param>
+        /// <returns></returns>
         public async Task<int> DeleteAsync(string key)
         {
             if (LogicDelete)//软删除
@@ -226,6 +279,7 @@ namespace AIStudio.Business
         /// 通过主键删除多条数据
         /// </summary>
         /// <param name="keys"></param>
+        /// <returns></returns>
         public int Delete(List<string> keys)
         {
             if (LogicDelete)//软删除
@@ -242,6 +296,7 @@ namespace AIStudio.Business
         /// 通过主键删除多条数据
         /// </summary>
         /// <param name="keys"></param>
+        /// <returns></returns>
         public async Task<int> DeleteAsync(List<string> keys)
         {
             if (LogicDelete)//软删除
@@ -258,6 +313,7 @@ namespace AIStudio.Business
         /// 删除单条数据
         /// </summary>
         /// <param name="entity">实体对象</param>
+        /// <returns></returns>
         public int Delete(T entity)
         {
             if (LogicDelete)//软删除
@@ -274,6 +330,7 @@ namespace AIStudio.Business
         /// 删除单条数据
         /// </summary>
         /// <param name="entity">实体对象</param>
+        /// <returns></returns>
         public async Task<int> DeleteAsync(T entity)
         {
             if (LogicDelete)//软删除
@@ -290,6 +347,7 @@ namespace AIStudio.Business
         /// 删除多条数据
         /// </summary>
         /// <param name="entities">实体对象集合</param>
+        /// <returns></returns>
         public int Delete(List<T> entities)
         {
             if (LogicDelete)//软删除
@@ -306,6 +364,7 @@ namespace AIStudio.Business
         /// 删除多条数据
         /// </summary>
         /// <param name="entities">实体对象集合</param>
+        /// <returns></returns>
         public async Task<int> DeleteAsync(List<T> entities)
         {
             if (LogicDelete)//软删除
@@ -322,6 +381,7 @@ namespace AIStudio.Business
         /// 删除指定条件数据
         /// </summary>
         /// <param name="condition">筛选条件</param>
+        /// <returns></returns>
         public int Delete(Expression<Func<T, bool>> condition)
         {
             if (LogicDelete)//软删除
@@ -338,6 +398,7 @@ namespace AIStudio.Business
         /// 删除指定条件数据
         /// </summary>
         /// <param name="condition">筛选条件</param>
+        /// <returns></returns>
         public async Task<int> DeleteAsync(Expression<Func<T, bool>> condition)
         {
             if (LogicDelete)//软删除
@@ -400,6 +461,7 @@ namespace AIStudio.Business
         /// 更新一条数据
         /// </summary>
         /// <param name="entity">实体对象</param>
+        /// <returns></returns>
         public int Update(T entity)
         {
             return Db.Updateable(entity).ExecuteCommand();
@@ -409,6 +471,7 @@ namespace AIStudio.Business
         /// 更新一条数据
         /// </summary>
         /// <param name="entity">实体对象</param>
+        /// <returns></returns>
         public async Task<int> UpdateAsync(T entity)
         {
             return await Db.Updateable(entity).ExecuteCommandAsync();
@@ -418,6 +481,7 @@ namespace AIStudio.Business
         /// 更新多条数据
         /// </summary>
         /// <param name="entities">数据列表</param>
+        /// <returns></returns>
         public int Update(List<T> entities)
         {
             return Db.Updateable(entities).ExecuteCommand();
@@ -427,6 +491,7 @@ namespace AIStudio.Business
         /// 更新多条数据
         /// </summary>
         /// <param name="entities">数据列表</param>
+        /// <returns></returns>
         public async Task<int> UpdateAsync(List<T> entities)
         {
             return await Db.Updateable(entities).ExecuteCommandAsync();
@@ -436,6 +501,7 @@ namespace AIStudio.Business
         /// 更新多条数据
         /// </summary>
         /// <param name="entities">数据列表</param>
+        /// <returns></returns>
         public async Task<int> UpdateAsync(List<object> entities)
         {
             return await Db.Updateable(entities.OfType<T>().ToList()).ExecuteCommandAsync();
@@ -446,6 +512,8 @@ namespace AIStudio.Business
         /// </summary>
         /// <param name="whereExpre">筛选表达式</param>
         /// <param name="set">更改属性回调</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">暂未实现</exception>
         public int Update(Expression<Func<T, bool>> whereExpre, Action<T> set)
         {
             throw new Exception("暂未实现");
@@ -456,6 +524,8 @@ namespace AIStudio.Business
         /// </summary>
         /// <param name="whereExpre">筛选表达式</param>
         /// <param name="set">更改属性回调</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">暂未实现</exception>
         public async Task<int> UpdateAsync(Expression<Func<T, bool>> whereExpre, Action<T> set)
         {
             throw new Exception("暂未实现");
@@ -530,11 +600,20 @@ namespace AIStudio.Business
             return Db.Queryable<T>().WithCache();
         }
 
+        /// <summary>
+        /// Gets the i queryable dynamic.
+        /// </summary>
+        /// <returns></returns>
         public virtual ISugarQueryable<dynamic> GetIQueryableDynamic()
         {
             return Db.Queryable<dynamic>().AS($"{EntityName}").WithCache();
         }
 
+        /// <summary>
+        /// Gets the i queryable.
+        /// </summary>
+        /// <param name="searchKeyValues">The search key values.</param>
+        /// <returns></returns>
         public virtual ISugarQueryable<T> GetIQueryable(Dictionary<string, object> searchKeyValues)
         {
             var q = GetIQueryable();
@@ -565,7 +644,7 @@ namespace AIStudio.Business
         /// <summary>
         /// 全部数据
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">The input.</param>
         /// <returns></returns>
         public async Task<List<T>> GetDataListAsync(SearchInput input)
         {
@@ -577,7 +656,7 @@ namespace AIStudio.Business
         /// <summary>
         /// 分页数据
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">The input.</param>
         /// <returns></returns>
         public virtual async Task<PageResult<T>> GetDataListAsync(PageInput input)
         {
@@ -586,26 +665,49 @@ namespace AIStudio.Business
             return await q.GetPageResultAsync(input);
         }
 
+        /// <summary>
+        /// Gets the data asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public virtual async Task<T> GetTheDataAsync(string id)
         {
             return await GetIQueryable().In(id).FirstAsync();
         }
 
+        /// <summary>
+        /// Gets the data dto asynchronous.
+        /// </summary>
+        /// <typeparam name="DTO">The type of to.</typeparam>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public virtual async Task<DTO> GetTheDataDTOAsync<DTO>(string id) where DTO : T
         {
             return await GetIQueryable().In(id).Select<DTO>().FirstAsync();
         }
 
+        /// <summary>
+        /// Adds the data asynchronous.
+        /// </summary>
+        /// <param name="newData">The new data.</param>
         public virtual async Task AddDataAsync(T newData)
         {
             await Db.Insertable(newData).ExecuteCommandAsync();
         }
 
+        /// <summary>
+        /// Updates the data asynchronous.
+        /// </summary>
+        /// <param name="theData">The data.</param>
         public virtual async Task UpdateDataAsync(T theData)
         {
             await Db.Updateable(theData).ExecuteCommandAsync();
         }
 
+        /// <summary>
+        /// Saves the data asynchronous.
+        /// </summary>
+        /// <param name="theData">The data.</param>
         public virtual async Task SaveDataAsync(T theData)
         {
             if (theData.GetPropertyValue(GlobalConst.Id).IsNullOrEmpty())
@@ -618,6 +720,10 @@ namespace AIStudio.Business
             }
         }
 
+        /// <summary>
+        /// Deletes the data asynchronous.
+        /// </summary>
+        /// <param name="ids">The ids.</param>
         public virtual async Task DeleteDataAsync(List<string> ids)
         {
             await Db.Deleteable<T>().In(ids).ExecuteCommandAsync();
@@ -674,6 +780,12 @@ namespace AIStudio.Business
         #endregion
 
         #region 历史数据查询
+        /// <summary>
+        /// Gets the data list asynchronous.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="dateField">The date field.</param>
+        /// <returns></returns>
         public async Task<List<T>> GetDataListAsync(SearchInput<HistorySearch> input, string dateField = GlobalConst.CreateTime)
         {
             var q = GetIQueryable(input.SearchKeyValues);
@@ -699,6 +811,12 @@ namespace AIStudio.Business
 
             return await q.OrderBy($@"{input.SortField} {input.SortType} ").ToListAsync();
         }
+        /// <summary>
+        /// Gets the data list asynchronous.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="dateField">The date field.</param>
+        /// <returns></returns>
         public async Task<PageResult<T>> GetDataListAsync(PageInput<HistorySearch> input, string dateField = GlobalConst.CreateTime)
         {
             input.SortField = dateField;
@@ -731,14 +849,31 @@ namespace AIStudio.Business
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class BaseBusinessExtension
     {
+        /// <summary>
+        /// Gets the page result.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
         public static async Task<PageResult<T>> GetPageResult<T>(this ISugarQueryable<T> source, PageInput input)
         {
             int total = 0;
             var list = source.OrderBy($@"{input.SortField} {input.SortType} ").ToPageList(input.PageIndex, input.PageRows, ref total);
             return new PageResult<T> { Data = list, Total = total };
         }
+        /// <summary>
+        /// Gets the page result asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
         public static async Task<PageResult<T>> GetPageResultAsync<T>(this ISugarQueryable<T> source, PageInput input)
         {
             RefAsync<int> total = 0;

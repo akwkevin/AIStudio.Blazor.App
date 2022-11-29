@@ -11,16 +11,44 @@ using System.ServiceModel.Channels;
 
 namespace AIStudio.Common.Quartz
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Quartz.IJob" />
     public class HttpResultfulJob : IJob
     {
+        /// <summary>
+        /// The logger
+        /// </summary>
         private readonly ILogger<HttpResultfulJob> _logger;
+        /// <summary>
+        /// The publisher
+        /// </summary>
         private readonly IEventPublisher _publisher;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpResultfulJob"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="publisher">The publisher.</param>
         public HttpResultfulJob(ILogger<HttpResultfulJob> logger, IEventPublisher publisher)
         {
             _logger = logger;
             _publisher = publisher;
         }
 
+        /// <summary>
+        /// Called by the <see cref="T:Quartz.IScheduler" /> when a <see cref="T:Quartz.ITrigger" />
+        /// fires that is associated with the <see cref="T:Quartz.IJob" />.
+        /// </summary>
+        /// <param name="context">The execution context.</param>
+        /// <remarks>
+        /// The implementation may wish to set a  result object on the
+        /// JobExecutionContext before this method exits.  The result itself
+        /// is meaningless to Quartz, but may be informative to
+        /// <see cref="T:Quartz.IJobListener" />s or
+        /// <see cref="T:Quartz.ITriggerListener" />s that are watching the job's
+        /// execution.
+        /// </remarks>
         public async Task Execute(IJobExecutionContext context)
         {
             JobDataMap jobdatamap = context.MergedJobDataMap;

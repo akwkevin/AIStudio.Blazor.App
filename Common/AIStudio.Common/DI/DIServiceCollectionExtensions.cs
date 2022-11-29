@@ -5,14 +5,20 @@ using Microsoft.Extensions.DependencyInjection;
 namespace AIStudio.Common.DI
 {
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DIServiceCollectionExtensions
     {
+        /// <summary>
+        /// The generator
+        /// </summary>
         private static readonly ProxyGenerator _generator = new ProxyGenerator();
         /// <summary>
         /// 自动注册程序集的服务
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="types"></param>
+        /// <param name="services">The services.</param>
+        /// <param name="types">The types.</param>
         /// <returns></returns>
         public static IServiceCollection AddServices_(this IServiceCollection services, List<Type> types)
         {
@@ -63,11 +69,11 @@ namespace AIStudio.Common.DI
         /// <summary>
         /// 注入AOP服务
         /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <typeparam name="TImplementation"></typeparam>
-        /// <param name="services"></param>
-        /// <param name="serviceLifetime"></param>
-        /// <param name="aoptypes"></param>
+        /// <typeparam name="TService">The type of the service.</typeparam>
+        /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
+        /// <param name="services">The services.</param>
+        /// <param name="serviceLifetime">The service lifetime.</param>
+        /// <param name="aoptypes">The aoptypes.</param>
         public static void AddProxiedService<TService, TImplementation>(this IServiceCollection services, ServiceLifetime serviceLifetime, params Type[] aoptypes)
             where TService : class  where TImplementation : class, TService
         {

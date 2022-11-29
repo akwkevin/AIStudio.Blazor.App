@@ -4,6 +4,7 @@ using WorkflowCore.Models;
 using AIStudio.Common.CurrentUser;
 using Microsoft.Extensions.Logging;
 using AIStudio.Common.DI;
+using AIStudio.Util.DiagramEntity;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -23,14 +24,14 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <returns></returns>
         public override async Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            OAData oAData = GetStep(context);
+            OA_Data oAData = GetStep(context);
             OAStep.Status = 100;
 
             //改变流程图颜色
-            var node = oAData.nodes?.FirstOrDefault(p => p.id == OAStep.Id);
+            var node = oAData.Nodes?.FirstOrDefault(p => p.Id == OAStep.Id);
             if (node != null)
             {
-                node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen);
+                node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen);
             }
 
             var form = await _userFormBusiness.GetEntityAsync(context.Workflow.Id);

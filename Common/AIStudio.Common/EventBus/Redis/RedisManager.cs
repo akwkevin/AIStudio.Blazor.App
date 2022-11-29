@@ -7,23 +7,75 @@ using StackExchange.Redis;
 
 namespace AIStudio.Common.EventBus.Redis;
 
+/// <summary>
+/// 
+/// </summary>
+/// <seealso cref="AIStudio.Common.EventBus.Redis.IRedisManager" />
+/// <seealso cref="System.IDisposable" />
 public class RedisManager : IRedisManager, IDisposable
 {
+    /// <summary>
+    /// The logger
+    /// </summary>
     private readonly ILogger<RedisManager> _logger;
+    /// <summary>
+    /// The subscribe executer
+    /// </summary>
     private readonly ISubscribeManager _subscribeExecuter;
+    /// <summary>
+    /// The options
+    /// </summary>
     private readonly RedisEventBusOptions _options;
 
+    /// <summary>
+    /// The connection
+    /// </summary>
     private volatile IConnectionMultiplexer? _connection;
+    /// <summary>
+    /// The subscriber
+    /// </summary>
     private ISubscriber? _subscriber;
+    /// <summary>
+    /// The disposed
+    /// </summary>
     private bool _disposed;
+    /// <summary>
+    /// The started
+    /// </summary>
     private bool _started;
+    /// <summary>
+    /// The connection lock
+    /// </summary>
     private readonly SemaphoreSlim _connectionLock = new SemaphoreSlim(1, 1);
+    /// <summary>
+    /// The start lock
+    /// </summary>
     private readonly SemaphoreSlim _startLock = new SemaphoreSlim(1, 1);
 
+    /// <summary>
+    /// Gets the connection.
+    /// </summary>
+    /// <value>
+    /// The connection.
+    /// </value>
+    /// <exception cref="System.NullReferenceException">Connection</exception>
     public IConnectionMultiplexer Connection => _connection ?? throw new NullReferenceException(nameof(Connection));
 
+    /// <summary>
+    /// Gets the subscriber.
+    /// </summary>
+    /// <value>
+    /// The subscriber.
+    /// </value>
+    /// <exception cref="System.NullReferenceException">Subscriber</exception>
     public ISubscriber Subscriber => _subscriber ?? throw new NullReferenceException(nameof(Subscriber));
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RedisManager"/> class.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="subscribeExecuter">The subscribe executer.</param>
+    /// <param name="options">The options.</param>
     public RedisManager(ILogger<RedisManager> logger,
                         ISubscribeManager subscribeExecuter,
                         IOptions<RedisEventBusOptions> options)
@@ -33,6 +85,9 @@ public class RedisManager : IRedisManager, IDisposable
         _options = options.Value;
     }
 
+    /// <summary>
+    /// Connects this instance.
+    /// </summary>
     private void Connect()
     {
         CheckDisposed();
@@ -71,6 +126,10 @@ public class RedisManager : IRedisManager, IDisposable
         }
     }
 
+    /// <summary>
+    /// Connects the asynchronous.
+    /// </summary>
+    /// <param name="token">The token.</param>
     private async Task ConnectAsync(CancellationToken token = default)
     {
         CheckDisposed();
@@ -111,6 +170,9 @@ public class RedisManager : IRedisManager, IDisposable
         }
     }
 
+    /// <summary>
+    /// Starts the subscribe.
+    /// </summary>
     public virtual void StartSubscribe()
     {
         Connect();
@@ -147,6 +209,12 @@ public class RedisManager : IRedisManager, IDisposable
         }
     }
 
+    /// <summary>
+    /// Publishes the asynchronous.
+    /// </summary>
+    /// <typeparam name="TEvent">The type of the event.</typeparam>
+    /// <param name="event">The event.</param>
+    /// <param name="token">The token.</param>
     public virtual async Task PublishAsync<TEvent>(TEvent @event, CancellationToken token = default)
         where TEvent : class, IEventModel
     {
@@ -158,6 +226,11 @@ public class RedisManager : IRedisManager, IDisposable
         await Subscriber.PublishAsync(eventName, message);
     }
 
+    /// <summary>
+    /// Creates the delegate consumer received.
+    /// </summary>
+    /// <param name="eventType">Type of the event.</param>
+    /// <returns></returns>
     protected virtual Action<RedisChannel, RedisValue> CreateDelegateConsumerReceived(Type eventType)
     {
         Func<object, Task> processEvent = _subscribeExecuter.ProcessEvent;
@@ -174,6 +247,9 @@ public class RedisManager : IRedisManager, IDisposable
         return handler;
     }
 
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
     public void Dispose()
     {
         if (_disposed)
@@ -184,6 +260,10 @@ public class RedisManager : IRedisManager, IDisposable
         _connection?.Dispose();
     }
 
+    /// <summary>
+    /// Checks the disposed.
+    /// </summary>
+    /// <exception cref="System.ObjectDisposedException"></exception>
     private void CheckDisposed()
     {
         if (_disposed)

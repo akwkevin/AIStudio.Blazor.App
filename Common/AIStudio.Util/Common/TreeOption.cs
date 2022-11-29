@@ -10,12 +10,17 @@ namespace AIStudio.Util.Common
     /// 暂时未使用，先放在这里
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <seealso cref="AIStudio.Util.Common.SelectOption" />
+    /// <seealso cref="AIStudio.Util.Common.IKeyBaseEntity" />
     public class TreeOption<T> : SelectOption, IKeyBaseEntity
     {
 
         /// <summary>
         /// 唯一标识Id
         /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public string Id { get; set; }
 
         ///// <summary>
@@ -31,34 +36,67 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 父Id
         /// </summary>
+        /// <value>
+        /// The parent identifier.
+        /// </value>
         public string ParentId { get; set; }
 
         /// <summary>
         /// 节点深度
         /// </summary>
+        /// <value>
+        /// The level.
+        /// </value>
         public int? Level { get; set; } = 1;
 
         /// <summary>
         /// 实体数据
         /// </summary>
+        /// <value>
+        /// The entity.
+        /// </value>
         public T Entity { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is expand.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is expand; otherwise, <c>false</c>.
+        /// </value>
         public bool IsExpand { get; set; }
 
         /// <summary>
         /// 孩子节点
         /// </summary>
+        /// <value>
+        /// The children.
+        /// </value>
         public List<TreeOption<T>> Children { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="AIStudio.Util.Common.SelectOption" />
+    /// <seealso cref="AIStudio.Util.Common.IKeyBaseEntity" />
     public class TreeOption : TreeOption<object>
     {
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TreeOptionHelper
     {
+        /// <summary>
+        /// Gets the tree model.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="trees">The trees.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public static TreeOption<T> GetTreeModel<T>(IEnumerable<TreeOption<T>> trees, string id)
         {
             TreeOption<T> treemodel = null;
@@ -80,6 +118,12 @@ namespace AIStudio.Util.Common
             return treemodel;
         }
 
+        /// <summary>
+        /// Gets the tree to list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="trees">The trees.</param>
+        /// <returns></returns>
         public static List<TreeOption<T>> GetTreeToList<T>(IEnumerable<TreeOption<T>> trees)
         {
             List<TreeOption<T>> treemodels = new List<TreeOption<T>>();
@@ -103,6 +147,7 @@ namespace AIStudio.Util.Common
         /// <summary>
         /// 建造树结构
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="allNodes">所有的节点</param>
         /// <returns></returns>
         public static List<TreeOption<T>> BuildTree<T>(List<TreeOption<T>> allNodes)

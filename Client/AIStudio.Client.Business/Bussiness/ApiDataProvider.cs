@@ -421,7 +421,6 @@ namespace AIStudio.Client.Business
         /// <returns>返回的字符串</returns>
         public async Task<string> GetAsync(string url, TimeSpan timeSpan, Dictionary<string, string> data, Dictionary<string, string> header = null)
         {
-            string result = "";
             StringBuilder builder = new StringBuilder();
             builder.Append(url);
             if (data.Count > 0)

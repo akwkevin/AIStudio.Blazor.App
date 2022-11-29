@@ -25,7 +25,7 @@
                         <Input Placeholder="Title" @bind-Value="@Model.Title" @oninput="OnTitleChanged" />
                     </td>
                 </tr>
-                @if (Model.Kind == NodeKinds.Middle)
+                @if (Model.Kind == AIStudio.Util.DiagramEntity.NodeKinds.Middle)
                 {
                     <tr>
                         <td>

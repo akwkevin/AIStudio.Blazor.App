@@ -3,15 +3,32 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AIStudio.Common.EventBus.Core;
 
+/// <summary>
+/// 
+/// </summary>
 public class EventBusBuilder
 {
+    /// <summary>
+    /// Gets the services.
+    /// </summary>
+    /// <value>
+    /// The services.
+    /// </value>
     public IServiceCollection Services { get; private set; }
 
     /// <summary>
     /// 订阅者字典列表
     /// </summary>
+    /// <value>
+    /// The subscribers.
+    /// </value>
     public SubscriberDictionary Subscribers { get; private set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EventBusBuilder"/> class.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <param name="subscribers">The subscribers.</param>
     public EventBusBuilder(IServiceCollection services, SubscriberDictionary subscribers)
     {
         Services = services;

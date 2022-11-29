@@ -1,16 +1,11 @@
 ﻿using AIStudio.Common.CurrentUser;
-using AIStudio.Common.DI;
 using AIStudio.Common.IdGenerator;
-using AIStudio.Common.Service;
-using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.OA_Manage;
-using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
+using AIStudio.Util.DiagramEntity;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -25,7 +20,7 @@ namespace AIStudio.Business.OA_Manage.Steps
         protected IWorkflowRegistry _registry;
         protected IOperator _operator;
 
-        protected OAStep OAStep { get; set; }
+        protected OA_Step OAStep { get; set; }
 
         /// <summary>
         /// 基类
@@ -49,15 +44,15 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <returns></returns>
         public override async Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            OAData oAData = GetStep(context);
-            if (OAStep.Status == (int)OAStatus.Default)
+            OA_Data oAData = GetStep(context);
+            if (OAStep.Status == (int)OA_Status.Default)
             {
-                OAStep.Status = (int)OAStatus.Being;
+                OAStep.Status = (int)OA_Status.Being;
             }
 
             if (!context.ExecutionPointer.EventPublished)
             {
-                if (OAStep.Status != (int)OAStatus.PartialApproval)
+                if (OAStep.Status != (int)OA_Status.PartialApproval)
                 {
                     var form = await _userFormBusiness.GetEntityAsync(context.Workflow.Id);
                     if (form == null)
@@ -69,10 +64,10 @@ namespace AIStudio.Business.OA_Manage.Steps
                     await _userFormBusiness.UpdateDataAsync(form);
 
                     //改变流程图颜色
-                    var node = oAData.nodes.FirstOrDefault(p => p.id == OAStep.Id);
+                    var node = oAData.Nodes.FirstOrDefault(p => p.Id == OAStep.Id);
                     if (node != null)
                     {
-                        node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Orange);
+                        node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Orange);
                     }
                 }
 
@@ -102,7 +97,7 @@ namespace AIStudio.Business.OA_Manage.Steps
                     string error = CheckEvent(context, myEvent, oAData);
                     if (!string.IsNullOrEmpty(error))
                     {
-                        step.Status = (int)OAStatus.Fail;
+                        step.Status = (int)OA_Status.Fail;
                         step.Remarks += error;
                     }
                     await _userFormStepBusiness.AddDataAsync(step);
@@ -129,7 +124,7 @@ namespace AIStudio.Business.OA_Manage.Steps
                 {
                     if (context.Workflow.IsBranchComplete(context.ExecutionPointer.Id))
                     {
-                        if (await FinishStep(context, myEvent, oAData) == OAStatus.PartialApproval)
+                        if (await FinishStep(context, myEvent, oAData) == OA_Status.PartialApproval)
                         {
                             context.ExecutionPointer.EventPublished = false;
                             return ExecutionResult.WaitForEvent("MyEvent", context.Workflow.Id + OAStep.Id, DateTime.Now.ToUniversalTime());
@@ -151,7 +146,7 @@ namespace AIStudio.Business.OA_Manage.Steps
             throw new ArgumentException("PersistenceData");
         }
 
-        protected async Task<OAStatus> FinishStep(IStepExecutionContext context, MyEvent myEvent, OAData oAData)
+        protected async Task<OA_Status> FinishStep(IStepExecutionContext context, MyEvent myEvent, OA_Data oAData)
         {
             var form = await _userFormBusiness.GetEntityAsync(context.Workflow.Id);
             if (form == null)
@@ -172,16 +167,16 @@ namespace AIStudio.Business.OA_Manage.Steps
             form.ModifyTime = DateTime.Now;
 
             var currentstepid = oAData.CurrentStepIds.FirstOrDefault(p => p.StepId == OAStep.Id);
-            switch ((OAStatus)myEvent.Status)
+            switch ((OA_Status)myEvent.Status)
             {
-                case OAStatus.Approve:
+                case OA_Status.Approve:
                     {
                         if (OAStep.ActRules.ActType == "and")//与签
                         {
                             if (currentstepid.ActRules?.UserIds?.Count > 1)
                             {
                                 //部分审批
-                                myEvent.Status = (int)OAStatus.PartialApproval;
+                                myEvent.Status = (int)OA_Status.PartialApproval;
 
                                 currentstepid.ActRules?.UserIds.Remove(_operator.UserId);
                                 currentstepid.ActRules?.UserNames.Remove(_operator.UserName);
@@ -189,7 +184,7 @@ namespace AIStudio.Business.OA_Manage.Steps
                             }
                         }
 
-                        if (context.Step.Outcomes.Count == 0 && myEvent.Status != (int)OAStatus.PartialApproval)
+                        if (context.Step.Outcomes.Count == 0 && myEvent.Status != (int)OA_Status.PartialApproval)
                         {
                             form.Status = myEvent.Status;
                         }
@@ -203,14 +198,14 @@ namespace AIStudio.Business.OA_Manage.Steps
                         }
                         break;
                     }
-                case OAStatus.Discard:
-                case OAStatus.Reject:
+                case OA_Status.Discard:
+                case OA_Status.Reject:
                     {
                         context.Step.Outcomes.Clear();
                         form.Status = myEvent.Status;
                         break;
                     }
-                case OAStatus.Goback:
+                case OA_Status.Goback:
                     {
                         if (OAStep.PreStepId != null && OAStep.PreStepId.Count == 1 && context.Step.Outcomes.Count >= 1)
                         {
@@ -223,7 +218,7 @@ namespace AIStudio.Business.OA_Manage.Steps
                             }
                             context.Step.Outcomes[0].NextStep = pre.Id;
                             context.Step.Outcomes[0].ExternalNextStepId = pre.ExternalId;                           
-                            step.Status = (int)OAStatus.Being;
+                            step.Status = (int)OA_Status.Being;
 
                         }
                         else
@@ -232,20 +227,20 @@ namespace AIStudio.Business.OA_Manage.Steps
                         }
                         break;
                     }
-                case OAStatus.Restart:
+                case OA_Status.Restart:
                     {
                         var def = _registry.GetDefinition(context.Workflow.WorkflowDefinitionId, context.Workflow.Version);
                         var pre = def.Steps.Find(p => p.Id == 0);
                         context.Step.Outcomes[0].NextStep = pre.Id;
                         context.Step.Outcomes[0].ExternalNextStepId = pre.ExternalId;
                         var step = oAData.Steps.FirstOrDefault(p => p.Id == pre.ExternalId);
-                        step.Status = (int)OAStatus.Being;
+                        step.Status = (int)OA_Status.Being;
                         break;
                     }
             }
 
             //如果不是部分审批
-            if (myEvent.Status != (int)OAStatus.PartialApproval)
+            if (myEvent.Status != (int)OA_Status.PartialApproval)
             {
                 oAData.CurrentStepIds.Remove(currentstepid);
             }
@@ -254,50 +249,49 @@ namespace AIStudio.Business.OA_Manage.Steps
             await _userFormBusiness.UpdateAsync(form);
 
             //改变流程图颜色
-            var node = oAData.nodes.FirstOrDefault(p => p.id == OAStep.Id);
+            var node = oAData.Nodes.FirstOrDefault(p => p.Id == OAStep.Id);
             if (node != null)
             {
-                switch ((OAStatus)myEvent.Status)
+                switch ((OA_Status)myEvent.Status)
                 {
-                    case OAStatus.Approve:
+                    case OA_Status.Approve:
                         {
-                            node.stateImage = stateImage.ok;
-                            node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen); break;
+                            node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen); break;
                         }
-                    case OAStatus.Discard:
-                    case OAStatus.Reject:
-                    case OAStatus.Goback:
-                    case OAStatus.Restart:
+                    case OA_Status.Discard:
+                    case OA_Status.Reject:
+                    case OA_Status.Goback:
+                    case OA_Status.Restart:
                         {
-                            node.stateImage = stateImage.no; node.color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Red); break;
+                             node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Red); break;
                         }
                 }
 
             }
 
-            return (OAStatus)myEvent.Status;
+            return (OA_Status)myEvent.Status;
         }
 
-        private string CheckEvent(IStepExecutionContext context, MyEvent myEvent, OAData oAData)
+        private string CheckEvent(IStepExecutionContext context, MyEvent myEvent, OA_Data oAData)
         {
             try
             {
-                switch ((OAStatus)myEvent.Status)
+                switch ((OA_Status)myEvent.Status)
                 {
-                    case OAStatus.Goback:
+                    case OA_Status.Goback:
                         {
                             if (OAStep.PreStepId != null && OAStep.PreStepId.Count == 1 && context.Step.Outcomes.Count >= 1)
                             {
                                 var step = oAData.Steps.FirstOrDefault(p => p.Id == OAStep.PreStepId[0]);
                                 if (step.StepType == StepType.COBegin || step.StepType == StepType.End)
                                 {
-                                    throw new Exception(string.Format("\n{0}失败，该节点不支持{0}", ((OAStatus)myEvent.Status).GetDescription()));
+                                    throw new Exception(string.Format("\n{0}失败，该节点不支持{0}", ((OA_Status)myEvent.Status).GetDescription()));
                                 }
 
                             }
                             else
                             {
-                                throw new Exception(string.Format("\n{0}失败，该节点不支持{0}", ((OAStatus)myEvent.Status).GetDescription()));
+                                throw new Exception(string.Format("\n{0}失败，该节点不支持{0}", ((OA_Status)myEvent.Status).GetDescription()));
                             }
                         }
                         break;
@@ -311,12 +305,12 @@ namespace AIStudio.Business.OA_Manage.Steps
             return string.Empty;
         }
 
-        protected OAData GetStep(IStepExecutionContext context)
+        protected OA_Data GetStep(IStepExecutionContext context)
         {
-            if (!(context.Workflow.Data is OAData))
+            if (!(context.Workflow.Data is OA_Data))
                 throw new ArgumentException();
 
-            OAData oAData = context.Workflow.Data as OAData;
+            OA_Data oAData = context.Workflow.Data as OA_Data;
             if (OAStep == null)
             {
                 OAStep = oAData.Steps.FirstOrDefault(p => p.Id == context.Step.ExternalId);

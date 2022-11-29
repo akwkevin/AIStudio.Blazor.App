@@ -3,6 +3,7 @@ using AIStudio.Entity.Base_Manage;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
+using AIStudio.Util.DiagramEntity;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -13,64 +14,64 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// </summary>
     public class OAExtension
     {
-        /// <summary>
-        /// 初始化数据
-        /// </summary>
+        /// <summary>初始化数据</summary>
         /// <param name="json"></param>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public static string InitOAData(string json, string id)
         {
-            var oaData = json.ToObject<OAData>();
-            List<OAStep> oASteps = new List<OAStep>();
-            if (oaData.nodes.Count(p => p.name == "开始节点") != 1)
+            var oaData = json.ToObject<OA_Data>();
+            List<OA_Step> oASteps = new List<OA_Step>();
+            if (oaData.Nodes.Count(p => p.Kind == NodeKinds.Start) != 1)
             {
                 throw new Exception("开始节点的个数不等于1个");
             }
 
-            if (oaData.nodes.Count(p => p.name == "结束节点") != 1)
+            if (oaData.Nodes.Count(p => p.Kind == NodeKinds.End) != 1)
             {
                 throw new Exception("结束节点的个数不等于1个");
             }
 
-            if (oaData.nodes.Count(p => p.name.Contains("并行")) % 2 != 0)
+            if (oaData.Nodes.Count(p => p.Kind == NodeKinds.COBegin) != oaData.Nodes.Count(p => p.Kind == NodeKinds.COEnd))
             {
                 throw new Exception("并行节点的个数不是成对出现");
             }
 
             oaData.Id = id;
             oaData.DataType = StepType.Data;
-            oaData.Steps = new List<OAStep>();
+            oaData.Steps = new List<OA_Step>();
 
-            foreach (var node in oaData.nodes)
+            foreach (var node in oaData.Nodes)
             {
-                OAStep oAStep = new OAStep();
-                oAStep.Id = node.id;
-                oAStep.Label = node.label;
-                oAStep.StepType = NameToType(node.name);
+                OA_Step oAStep = new OA_Step();
+                oAStep.Id = node.Id;
+                oAStep.Label = node.Label;
+                oAStep.StepType = KindToType(node.Kind);
                 oAStep.ActRules = new ActRule();
-                oAStep.ActRules.UserIds = node.UserIds;
-                oAStep.ActRules.RoleIds = node.RoleIds;
+                oAStep.ActRules.UserIds = node.UserIds?.ToList();
+                oAStep.ActRules.RoleIds = node.RoleIds?.ToList();
                 oAStep.ActRules.ActType = node.ActType;
                 oASteps.Add(oAStep);
             }
 
-            foreach (var edge in oaData.edges)
+            foreach (var edge in oaData.Links)
             {
-                var source = oASteps.FirstOrDefault(p => p.Id == edge.sourceId);
+                var source = oASteps.FirstOrDefault(p => p.Id == edge.SourceId);
                 if (source != null)
                 {
                     if (source.StepType == StepType.Decide)
                     {
-                        source.SelectNextStep.Add(edge.targetId, "data.Flag" + edge.label);
+                        source.SelectNextStep.Add(edge.TargetId, "data.Flag" + edge.Label);
                     }
                     else if (source.StepType == StepType.COBegin)
                     {
-                        source.SelectNextStep.Add(edge.targetId, "True");
+                        source.SelectNextStep.Add(edge.TargetId, "True");
                     }
                     else
                     {
-                        source.NextStepId = edge.targetId;
+                        source.NextStepId = edge.TargetId;
                     }
                 }
             }
@@ -102,9 +103,9 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <param name="oASteps"></param>
         /// <param name="nextstepid"></param>
         /// <returns></returns>
-        public static List<OAStep> GetNextStep(List<OAStep> oASteps, string nextstepid)
+        public static List<OA_Step> GetNextStep(List<OA_Step> oASteps, string nextstepid)
         {
-            List<OAStep> outsteps = new List<OAStep>();
+            List<OA_Step> outsteps = new List<OA_Step>();
             List<string> nextids = new List<string>();
             var step = oASteps.FirstOrDefault(p => p.Id == nextstepid);
             if (step != null)
@@ -137,16 +138,16 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static string NameToType(string name)
+        public static string KindToType(NodeKinds kind)
         {
-            switch (name)
+            switch (kind)
             {
-                case "开始节点": return StepType.Start;
-                case "中间节点": return StepType.Middle;
-                case "结束节点": return StepType.End;
-                case "条件节点": return StepType.Decide;
-                case "并行开始节点": return StepType.COBegin;
-                case "并行结束节点": return StepType.COEnd;
+                case NodeKinds.Start: return StepType.Start;
+                case NodeKinds.Middle: return StepType.Middle;
+                case NodeKinds.End: return StepType.End;
+                case NodeKinds.Decide: return StepType.Decide;
+                case NodeKinds.COBegin: return StepType.COBegin;
+                case NodeKinds.COEnd: return StepType.COEnd;
                 default: return StepType.Normal;
             }
         }
@@ -156,7 +157,7 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static async Task<OAData> InitOAStep(OA_UserFormDTO data, IServiceProvider serviceProvider)
+        public static async Task<OA_Data> InitOAStep(OA_UserFormDTO data, IServiceProvider serviceProvider)
         {
             IBase_DepartmentBusiness _base_DepartmentBusiness = serviceProvider.GetRequiredService<IBase_DepartmentBusiness>();
             IBase_UserBusiness _base_UserBusiness = serviceProvider.GetRequiredService<IBase_UserBusiness>();
@@ -175,7 +176,7 @@ namespace AIStudio.Business.OA_Manage.Steps
             var userlist = await _base_UserBusiness.GetListAsync();
             var rolelist = await _base_RoleBusiness.GetListAsync();
             var userrolelist = await _base_UserRoleBusiness.GetListAsync();
-            OAData oAData = data.WorkflowJSON.ToObject<OAData>();
+            OA_Data oAData = data.WorkflowJSON.ToObject<OA_Data>();
             oAData.Flag = data.Flag;
 
             foreach (var step in oAData.Steps)

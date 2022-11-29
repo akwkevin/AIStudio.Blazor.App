@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AIStudio.Util.DiagramEntity;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AIStudio.BlazorDiagram.Models
@@ -92,7 +93,7 @@ namespace AIStudio.BlazorDiagram.Models
 
         public override object ReadJson(JsonReader reader,
                                         Type objectType,
-                                         object existingValue,
+                                         object? existingValue,
                                          JsonSerializer serializer)
         {
             // Load JObject from stream
@@ -108,7 +109,7 @@ namespace AIStudio.BlazorDiagram.Models
         }
 
         public override void WriteJson(JsonWriter writer,
-                                       object value,
+                                       object? value,
                                        JsonSerializer serializer)
         {
             throw new NotImplementedException();

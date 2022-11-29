@@ -7,10 +7,18 @@ namespace AIStudio.Common.EventBus.Local;
 /// <summary>
 /// 基于 Channel 的队列存储器
 /// </summary>
+/// <seealso cref="AIStudio.Common.EventBus.Local.IEventStore" />
 public class ChannelEventStore : IEventStore
 {
+    /// <summary>
+    /// The queue
+    /// </summary>
     private readonly Channel<object> _queue;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChannelEventStore"/> class.
+    /// </summary>
+    /// <param name="options">The options.</param>
     public ChannelEventStore(IOptions<LocalEventBusOptions> options)
     {
         // 通道容量
@@ -26,6 +34,13 @@ public class ChannelEventStore : IEventStore
         _queue = Channel.CreateBounded<object>(channelOptions);
     }
 
+    /// <summary>
+    /// Writes the asynchronous.
+    /// </summary>
+    /// <typeparam name="TEvent">The type of the event.</typeparam>
+    /// <param name="event">The event.</param>
+    /// <returns></returns>
+    /// <exception cref="System.ArgumentNullException">event</exception>
     public async ValueTask WriteAsync<TEvent>(TEvent @event)
         where TEvent : class, IEventModel
     {
@@ -37,6 +52,11 @@ public class ChannelEventStore : IEventStore
         await _queue.Writer.WriteAsync(@event);
     }
 
+    /// <summary>
+    /// Reads the asynchronous.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns></returns>
     public async ValueTask<object> ReadAsync(CancellationToken cancellationToken)
     {
         return await _queue.Reader.ReadAsync(cancellationToken);

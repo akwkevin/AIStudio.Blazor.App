@@ -9,36 +9,92 @@ using System.Text;
 
 namespace AIStudio.Common.EventBus.RabbitMq;
 
+/// <summary>
+/// 
+/// </summary>
+/// <seealso cref="AIStudio.Common.EventBus.RabbitMq.IRabbitMqManager" />
+/// <seealso cref="System.IDisposable" />
 public class RabbitMqManager : IRabbitMqManager, IDisposable
 {
+    /// <summary>
+    /// The logger
+    /// </summary>
     private readonly ILogger<RabbitMqManager> _logger;
+    /// <summary>
+    /// The connection factory
+    /// </summary>
     private readonly IConnectionFactory _connectionFactory;
+    /// <summary>
+    /// The subscribe executer
+    /// </summary>
     private readonly ISubscribeManager _subscribeExecuter;
+    /// <summary>
+    /// The options
+    /// </summary>
     private readonly RabbitMqEventBusOptions _options;
 
+    /// <summary>
+    /// The connection
+    /// </summary>
     private IConnection? _connection;
+    /// <summary>
+    /// The consumer channel
+    /// </summary>
     private IModel? _consumerChannel;
+    /// <summary>
+    /// The disposed
+    /// </summary>
     private bool _disposed;
+    /// <summary>
+    /// The started
+    /// </summary>
     private bool _started;
+    /// <summary>
+    /// The connection lock
+    /// </summary>
     private readonly SemaphoreSlim _connectionLock = new SemaphoreSlim(1, 1);
+    /// <summary>
+    /// The start lock
+    /// </summary>
     private readonly SemaphoreSlim _startLock = new SemaphoreSlim(1, 1);
 
     /// <summary>
     /// RabbitMQ 连接实例
     /// </summary>
+    /// <exception cref="System.NullReferenceException">Connection</exception>
     public IConnection Connection => _connection ?? throw new NullReferenceException(nameof(Connection));
 
     /// <summary>
     /// 消费者 Channel 实例
     /// </summary>
+    /// <value>
+    /// The consumer channel.
+    /// </value>
+    /// <exception cref="System.NullReferenceException">ConsumerChannel</exception>
     public IModel ConsumerChannel => _consumerChannel ?? throw new NullReferenceException(nameof(ConsumerChannel));
 
+    /// <summary>
+    /// 启用的交换机名称
+    /// </summary>
     public string ExChangeName => _options.ExChangeName;
 
+    /// <summary>
+    /// 启用的交换机类型
+    /// </summary>
     public string ExChangeType => _options.ExChangeType;
 
+    /// <summary>
+    /// 启用的队列名称
+    /// </summary>
     public string QueueName => _options.QueueName;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RabbitMqManager"/> class.
+    /// </summary>
+    /// <param name="connectionFactory">The connection factory.</param>
+    /// <param name="logger">The logger.</param>
+    /// <param name="subscribeExecuter">The subscribe executer.</param>
+    /// <param name="options">The options.</param>
     public RabbitMqManager(IConnectionFactory connectionFactory,
                            ILogger<RabbitMqManager> logger,
                            ISubscribeManager subscribeExecuter,
@@ -50,6 +106,9 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
         _options = options.Value;
     }
 
+    /// <summary>
+    /// Connects this instance.
+    /// </summary>
     private void Connect()
     {
         CheckDisposed();
@@ -80,6 +139,9 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
         }
     }
 
+    /// <summary>
+    /// 启动订阅。
+    /// </summary>
     public virtual void StartSubscribe()
     {
         Connect();
@@ -122,6 +184,12 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
         }
     }
 
+    /// <summary>
+    /// 发布消息。
+    /// </summary>
+    /// <typeparam name="TEvent"></typeparam>
+    /// <param name="event"></param>
+    /// <returns></returns>
     public virtual Task PublishAsync<TEvent>(TEvent @event)
         where TEvent : class, IEventModel
     {
@@ -147,6 +215,11 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Creates the delegate consumer received.
+    /// </summary>
+    /// <param name="eventType">Type of the event.</param>
+    /// <returns></returns>
     protected virtual EventHandler<BasicDeliverEventArgs> CreateDelegateConsumerReceived(Type eventType)
     {
         Func<object, Task> processEvent = _subscribeExecuter.ProcessEvent;
@@ -168,6 +241,9 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
         return eventHandler;
     }
 
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
     public virtual void Dispose()
     {
         if (_disposed)
@@ -179,6 +255,10 @@ public class RabbitMqManager : IRabbitMqManager, IDisposable
         _connection?.Close();
     }
 
+    /// <summary>
+    /// Checks the disposed.
+    /// </summary>
+    /// <exception cref="System.ObjectDisposedException"></exception>
     private void CheckDisposed()
     {
         if (_disposed)

@@ -9,8 +9,16 @@ using AIStudio.Common.EventBus.Redis;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// 
+/// </summary>
 public static partial class EventBusServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds the event bus core.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <returns></returns>
     private static EventBusBuilder AddEventBusCore(this IServiceCollection services)
     {
         // 构建 EventBusBuilder
@@ -26,6 +34,11 @@ public static partial class EventBusServiceCollectionExtensions
         return builder;
     }
 
+    /// <summary>
+    /// Adds the event bus default.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <returns></returns>
     public static IServiceCollection AddEventBusDefault_(this IServiceCollection services)
     {
         services.AddSingleton<IEventPublisher, DefaultEventPublisher>();
@@ -33,6 +46,12 @@ public static partial class EventBusServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Adds the event bus local.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <param name="setupAction">The setup action.</param>
+    /// <returns></returns>
     public static EventBusBuilder AddEventBusLocal_(this IServiceCollection services, Action<LocalEventBusOptions>? setupAction = null)
     {
         // 替换 IEventPublisher 实现
@@ -47,6 +66,12 @@ public static partial class EventBusServiceCollectionExtensions
         return AddEventBusCore(services);
     }
 
+    /// <summary>
+    /// Adds the event bus rabbit mq.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <param name="setupAction">The setup action.</param>
+    /// <returns></returns>
     public static EventBusBuilder AddEventBusRabbitMq(this IServiceCollection services, Action<RabbitMqEventBusOptions>? setupAction = null)
     {
         // 注入默认连接工厂
@@ -77,6 +102,12 @@ public static partial class EventBusServiceCollectionExtensions
         return AddEventBusCore(services);
     }
 
+    /// <summary>
+    /// Adds the event bus redis.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <param name="setupAction">The setup action.</param>
+    /// <returns></returns>
     public static EventBusBuilder AddEventBusRedis(this IServiceCollection services,Action<RedisEventBusOptions>? setupAction = null)
     {
         // 替换 IEventPublisher 实现

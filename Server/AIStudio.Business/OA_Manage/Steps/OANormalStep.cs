@@ -3,6 +3,7 @@ using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
+using AIStudio.Util.DiagramEntity;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {
@@ -39,9 +40,9 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <param name="context"></param>
         protected void GetStep(IStepExecutionContext context)
         {
-            if (context.Workflow.Data is OAData)
+            if (context.Workflow.Data is OA_Data)
             {
-                OAData oAData = context.Workflow.Data as OAData;
+                OA_Data oAData = context.Workflow.Data as OA_Data;
 
                 var oAStep = oAData.Steps.FirstOrDefault(p => p.Id == context.Step.ExternalId);
                 oAStep.Status = 100;             

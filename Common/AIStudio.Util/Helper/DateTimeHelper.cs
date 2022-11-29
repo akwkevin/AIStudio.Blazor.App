@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace AIStudio.Util.Helper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DateTimeExtensions
-    {/// <summary>
-     /// 时间戳转本地时间-时间戳精确到秒
-     /// </summary>
-     /// <param name="seconds"></param>
-     /// <returns></returns>
+    {
+        /// <summary>
+        /// 时间戳转本地时间-时间戳精确到秒
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
         public static DateTime FromUnixTimeSeconds(long seconds)
         {
             var dto = DateTimeOffset.FromUnixTimeSeconds(seconds);
@@ -21,6 +25,7 @@ namespace AIStudio.Util.Helper
         /// <summary>
         /// 时间戳转本地时间-时间戳精确到毫秒
         /// </summary>
+        /// <param name="milliseconds">The milliseconds.</param>
         /// <returns></returns>
         public static DateTime FromUnixTimeMilliseconds(long milliseconds)
         {
@@ -32,7 +37,7 @@ namespace AIStudio.Util.Helper
         /// <summary>
         /// 时间转时间戳Unix-时间戳精确到秒
         /// </summary>
-        /// <param name="dateTime"></param>
+        /// <param name="dateTime">The date time.</param>
         /// <returns></returns>
         public static long ToUnixTimeSeconds(DateTime? dateTime = null)
         {
@@ -44,7 +49,7 @@ namespace AIStudio.Util.Helper
         /// <summary>
         /// 时间转时间戳Unix-时间戳精确到毫秒
         /// </summary>
-        /// <param name="dateTime"></param>
+        /// <param name="dateTime">The date time.</param>
         /// <returns></returns>
         public static long ToUnixTimeMilliseconds(DateTime? dateTime = null)
         {
@@ -57,7 +62,7 @@ namespace AIStudio.Util.Helper
         /// <summary>
         /// 时间转时间戳Unix-时间戳精确到秒
         /// </summary>
-        /// <param name="dateTime"></param>
+        /// <param name="dateTime">The date time.</param>
         /// <returns></returns>
         public static long ToUnixTimeSeconds(this DateTime dateTime)
         {
@@ -67,7 +72,7 @@ namespace AIStudio.Util.Helper
         /// <summary>
         /// 时间转时间戳Unix-时间戳精确到毫秒
         /// </summary>
-        /// <param name="dateTime"></param>
+        /// <param name="dateTime">The date time.</param>
         /// <returns></returns>
         public static long ToUnixTimeMilliseconds(this DateTime dateTime)
         {

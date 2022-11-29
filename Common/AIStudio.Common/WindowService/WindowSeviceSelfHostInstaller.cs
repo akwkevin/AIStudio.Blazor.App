@@ -8,13 +8,35 @@ using System.Diagnostics;
 
 namespace AIStudio.Common.WindowService
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class WindowSeviceSelfHostInstaller
     {
+        /// <summary>
+        /// The service name
+        /// </summary>
         static string ServiceName = "";
+        /// <summary>
+        /// The file path
+        /// </summary>
         static string FilePath = "";
+        /// <summary>
+        /// The username
+        /// </summary>
         static string Username = "";
+        /// <summary>
+        /// The password
+        /// </summary>
         static string Password = "";
 
+        /// <summary>
+        /// Runs the specified service name.
+        /// </summary>
+        /// <param name="serviceName">Name of the service.</param>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
         public static void Run(string serviceName, string filePath, string username, string password)
         {
             ServiceName = serviceName;
@@ -52,6 +74,10 @@ namespace AIStudio.Common.WindowService
             }
         }
 
+        /// <summary>
+        /// Installs the service.
+        /// </summary>
+        /// <param name="name">The name.</param>
         static void InstallService(string name)
         {
             var createdNew = true;
@@ -97,6 +123,10 @@ namespace AIStudio.Common.WindowService
                 }
             }
         }
+        /// <summary>
+        /// Uninstalls the service.
+        /// </summary>
+        /// <param name="name">The name.</param>
         static void UninstallService(string name)
         {
             var createdNew = true;
@@ -136,6 +166,11 @@ namespace AIStudio.Common.WindowService
                 }
             }
         }
+        /// <summary>
+        /// Starts the service.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="runapp">if set to <c>true</c> [runapp].</param>
         static void StartService(string name, out bool runapp)
         {
             runapp = false;
@@ -171,6 +206,10 @@ namespace AIStudio.Common.WindowService
             }
         }
 
+        /// <summary>
+        /// Stops the service.
+        /// </summary>
+        /// <param name="name">The name.</param>
         static void StopService(string name)
         {
             bool isInstalled = ServiceInstaller.IsInstalled(name);
@@ -185,6 +224,10 @@ namespace AIStudio.Common.WindowService
           
         }
 
+        /// <summary>
+        /// Prints the status.
+        /// </summary>
+        /// <param name="name">The name.</param>
         static void PrintStatus(string name)
         {
             var isInstalled = ServiceInstaller.IsInstalled(name);
@@ -212,6 +255,9 @@ namespace AIStudio.Common.WindowService
         }
 
 
+        /// <summary>
+        /// Prints the usage.
+        /// </summary>
         static void PrintUsage()
         {
             var t = Console.Error;

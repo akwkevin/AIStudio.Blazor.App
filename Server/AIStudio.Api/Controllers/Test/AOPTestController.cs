@@ -9,16 +9,20 @@ namespace AIStudio.Api.Controllers.Test
     /// <summary>
     /// 测试TestAOP注入.
     /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     /// <seealso cref="Controller" />
     [ApiExplorerSettings(GroupName = nameof(ApiVersionInfo.Test))]
     [Route("api/[controller]")]
     public class AOPTestController : Controller
     {
+        /// <summary>
+        /// The values service
+        /// </summary>
         private readonly IValuesService _valuesService;
         /// <summary>
         /// AOPTestController
         /// </summary>
-        /// <param name="valuesService"></param>
+        /// <param name="valuesService">The values service.</param>
         public AOPTestController(IValuesService valuesService)
         {
             _valuesService = valuesService;
@@ -37,7 +41,7 @@ namespace AIStudio.Api.Controllers.Test
         /// <summary>
         /// GET api/AOPTest/Get/5
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
         public string Get(int id)
@@ -48,7 +52,7 @@ namespace AIStudio.Api.Controllers.Test
         /// <summary>
         /// GET api/AOPTest/Get2?id=5
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet("Get2")]
         public string Get2([FromQuery]string id)
@@ -59,8 +63,8 @@ namespace AIStudio.Api.Controllers.Test
         /// <summary>
         /// GET api/AOPTest/Get3?id=5&amp;id2=6
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="id2"></param>
+        /// <param name="id">The identifier.</param>
+        /// <param name="id2">The id2.</param>
         /// <returns></returns>
         [HttpGet("Get3")]
         public string Get3([FromQuery] string id, string id2)
@@ -71,7 +75,7 @@ namespace AIStudio.Api.Controllers.Test
         /// <summary>
         /// GET api/AOPTest/Get4?Id=5&amp;Url=6&amp;PageId=7
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpGet("Get4")]
         public string Get4(ApiModel model)
@@ -116,12 +120,33 @@ namespace AIStudio.Api.Controllers.Test
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiModel
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         [FromRoute]
         public int Id { get; set; }
+        /// <summary>
+        /// Gets or sets the URL.
+        /// </summary>
+        /// <value>
+        /// The URL.
+        /// </value>
         [FromQuery]
         public string Url { get; set; }
+        /// <summary>
+        /// Gets or sets the page identifier.
+        /// </summary>
+        /// <value>
+        /// The page identifier.
+        /// </value>
         [FromQuery]
         public int? PageId { get; set; }
     }
@@ -129,24 +154,37 @@ namespace AIStudio.Api.Controllers.Test
     /// <summary>
     /// IValuesService
     /// </summary>
-   
+
     public interface IValuesService
     {
+        /// <summary>
+        /// Finds all.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<string> FindAll();
+        /// <summary>
+        /// Finds the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         string Find(int id);
     }
 
     /// <summary>
     /// ValuesService
     /// </summary>
+    /// <seealso cref="AIStudio.Api.Controllers.Test.IValuesService" />
     public class ValuesService : IValuesService
     {
+        /// <summary>
+        /// The logger
+        /// </summary>
         private readonly ILogger<ValuesService> _logger;
 
         /// <summary>
         /// ValuesService
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">The logger.</param>
         public ValuesService(ILogger<ValuesService> logger)
         {
             _logger = logger;
@@ -166,7 +204,7 @@ namespace AIStudio.Api.Controllers.Test
         /// <summary>
         /// Find
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The identifier.</param>
         /// <returns></returns>
         public string Find(int id)
         {

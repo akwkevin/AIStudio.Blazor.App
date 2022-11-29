@@ -118,7 +118,7 @@ namespace AIStudio.Api.Controllers.Test
             Random rnd = new Random();
             string value = rnd.Next(100).ToString();
 
-            _workflowHost.PublishEvent("MyEvent", workflowId, value);
+            await _workflowHost.PublishEvent("MyEvent", workflowId, value);
 
             return "EventSampleWorkflow";
         }

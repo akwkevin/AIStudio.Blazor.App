@@ -1,4 +1,4 @@
-﻿using AIStudio.Business.Base_Manage;
+﻿using AIStudio.Business.OA_Manage.Steps;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
 using AIStudio.Entity.DTO.OA_Manage;
@@ -6,20 +6,14 @@ using AIStudio.Entity.OA_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using AIStudio.Util.DiagramEntity;
 using AIStudio.Util.Helper;
 using AutoMapper;
 using LinqKit;
+using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using System.Collections.Concurrent;
 using WorkflowCore.Interface;
-using WorkflowCore.Services.DefinitionStorage;
-using WorkflowCore.Services;
-using AIStudio.Entity.Base_Manage;
-using AIStudio.Business.OA_Manage.Steps;
-using NetTaste;
-using AIStudio.Common.Service;
-using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace AIStudio.Business.OA_Manage
 {
@@ -88,12 +82,12 @@ namespace AIStudio.Business.OA_Manage
 
             if (!input.Search.userId.IsNullOrEmpty())
             {
-                q = q.Where(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OAStatus.Being);
+                q = q.Where(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OA_Status.Being);
             }
 
             if (!input.Search.applicantUserId.IsNullOrEmpty())
             {
-                q = q.Where(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OAStatus.Being);
+                q = q.Where(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OA_Status.Being);
             }
 
             if (!input.Search.alreadyUserIds.IsNullOrEmpty())
@@ -109,7 +103,7 @@ namespace AIStudio.Business.OA_Manage
             return await q.Select<OA_UserFormDTO>().GetPageResultAsync(input);
         }
 
-        public int GetDataListCount(List<string> jsonids, OAStatus status)
+        public int GetDataListCount(List<string> jsonids, OA_Status status)
         {
             var q = GetIQueryable();
             var where = LinqHelper.True<OA_UserForm>();
@@ -138,7 +132,7 @@ namespace AIStudio.Business.OA_Manage
             var formdto = forms.FirstOrDefault();
 
             var workflow = await _workflowStore.GetWorkflowInstance(id);
-            OAData data = workflow.Data as OAData;
+            OA_Data data = workflow.Data as OA_Data;
             formdto.Steps = data.Steps;
             if (data.CurrentStepIds != null)
             {
@@ -179,12 +173,12 @@ namespace AIStudio.Business.OA_Manage
             return formdto;
         }
 
-        public async Task<List<OAStep>> PreStepAsync(OA_UserFormDTO data)
+        public async Task<List<OA_Step>> PreStepAsync(OA_UserFormDTO data)
         {
             if (data.ContainsProperty("CreatorId"))
                 data.SetPropertyValue("CreatorId", _operator?.UserId);
 
-            OAData oAData = await OAExtension.InitOAStep(data, _serviceProvider);
+            OA_Data oAData = await OAExtension.InitOAStep(data, _serviceProvider);
 
             return oAData.Steps;
         }
@@ -193,7 +187,7 @@ namespace AIStudio.Business.OA_Manage
         {
             if (data.Id.IsNullOrEmpty())
             {
-                OAData oAData = await OAExtension.InitOAStep(data, _serviceProvider);
+                OA_Data oAData = await OAExtension.InitOAStep(data, _serviceProvider);
 
                 //去掉事务，sqlite不支持
                 //var res = await _oA_UserFormBus.RunTransactionAsync(async () =>
@@ -202,7 +196,7 @@ namespace AIStudio.Business.OA_Manage
 
                 var workflowId = await _workflowHost.StartWorkflow(def.Id, oAData);
                 data.Id = workflowId;
-                data.Status = (int)OAStatus.Being;
+                data.Status = (int)OA_Status.Being;
                 await AddDataAsync(data);
 
                 //自动通过第一个节点
@@ -211,7 +205,7 @@ namespace AIStudio.Business.OA_Manage
                 step.UserFormId = workflowId;
                 step.RoleNames = "发起人";
                 step.Remarks = "发起了流程";
-                step.Status = (int)OAStatus.Approve;
+                step.Status = (int)OA_Status.Approve;
 
                 await _oA_UserFormStepBusiness.AddDataAsync(step);
                 //});
@@ -240,7 +234,7 @@ namespace AIStudio.Business.OA_Manage
         public async Task DisCardDataAsync(DisCardInput input)
         {
             var data = await GetTheDataAsync(input.id);
-            data.Status = (int)OAStatus.Discard;
+            data.Status = (int)OA_Status.Discard;
 
             OA_UserFormStep step = new OA_UserFormStep();
             step.UserFormId = input.id;
@@ -249,7 +243,7 @@ namespace AIStudio.Business.OA_Manage
             step.CreateTime = DateTime.Now;
             step.RoleNames = "创建者";
             step.Remarks = input.remark;
-            step.Status = (int)OAStatus.Discard;
+            step.Status = (int)OA_Status.Discard;
 
             //去掉事务，sqlite不支持
             //var res = await _oA_UserFormBus.RunTransactionAsync(async () =>

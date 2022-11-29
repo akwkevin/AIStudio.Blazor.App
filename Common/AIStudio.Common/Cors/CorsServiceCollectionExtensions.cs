@@ -4,13 +4,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// 
+/// </summary>
 public static class CorsServiceCollectionExtensions
 {
     /// <summary>
     /// 添加默认跨域配置
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="setupAction"></param>
+    /// <param name="services">The services.</param>
+    /// <param name="setupAction">The setup action.</param>
     /// <returns></returns>
     public static IServiceCollection AddCors_(this IServiceCollection services, Action<CorsOptions>? setupAction = null)
     {

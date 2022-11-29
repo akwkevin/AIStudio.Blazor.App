@@ -2,6 +2,9 @@
 
 namespace AIStudio.Util.Helper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class EnumHelper
     {
         /// <summary>

@@ -23,8 +23,8 @@ public class JwtHelper
     /// <summary>
     /// 创建Token
     /// </summary>
-    /// <param name="claims"></param>
-    /// <param name="isRefresh"></param>
+    /// <param name="claims">The claims.</param>
+    /// <param name="isRefresh">if set to <c>true</c> [is refresh].</param>
     /// <returns></returns>
     public static string CreateToken(List<Claim> claims, bool isRefresh = false)
     {
@@ -52,8 +52,8 @@ public class JwtHelper
     /// <summary>
     /// 验证 Token
     /// </summary>
-    /// <param name="accessToken"></param>
-    /// <param name="secretKey"></param>
+    /// <param name="accessToken">The access token.</param>
+    /// <param name="secretKey">The secret key.</param>
     /// <returns></returns>
     public static (bool IsValid, JsonWebToken Token, TokenValidationResult validationResult) Validate(string accessToken, string secretKey)
     {
@@ -85,7 +85,7 @@ public class JwtHelper
     /// <summary>
     /// 生成Token验证参数
     /// </summary>
-    /// <param name="secretKey"></param>
+    /// <param name="secretKey">The secret key.</param>
     /// <returns></returns>
     public static TokenValidationParameters CreateTokenValidationParameters(string secretKey)
     {
@@ -116,11 +116,11 @@ public class JwtHelper
     /// <summary>
     /// 通过过期Token 和 刷新Token 换取新的 Token
     /// </summary>
-    /// <param name="expiredToken"></param>
-    /// <param name="refreshToken"></param>
-    /// <param name="secretKey"></param>
-    /// <param name="refreshSecretKey"></param>
-    /// <param name="httpContext"></param>
+    /// <param name="expiredToken">The expired token.</param>
+    /// <param name="refreshToken">The refresh token.</param>
+    /// <param name="secretKey">The secret key.</param>
+    /// <param name="refreshSecretKey">The refresh secret key.</param>
+    /// <param name="httpContext">The HTTP context.</param>
     /// <param name="expiredTime">过期时间（分钟）</param>
     /// <param name="clockSkew">刷新token容差值，秒做单位</param>
     /// <returns></returns>
@@ -182,7 +182,8 @@ public class JwtHelper
     /// <summary>
     /// 生成 Token
     /// </summary>
-    /// <param name="payload"></param>
+    /// <param name="payload">The payload.</param>
+    /// <param name="secretKey">The secret key.</param>
     /// <param name="expiredTime">过期时间（分钟）</param>
     /// <returns></returns>
     public static string Encrypt(IDictionary<string, object> payload, string secretKey, double expiredTime)
@@ -193,9 +194,9 @@ public class JwtHelper
     /// <summary>
     /// 生成 Token
     /// </summary>
-    /// <param name="issuerSigningKey"></param>
-    /// <param name="payload"></param>
-    /// <param name="algorithm"></param>
+    /// <param name="issuerSigningKey">The issuer signing key.</param>
+    /// <param name="payload">The payload.</param>
+    /// <param name="algorithm">The algorithm.</param>
     /// <returns></returns>
     public static string Encrypt(string issuerSigningKey, IDictionary<string, object> payload, string algorithm = SecurityAlgorithms.HmacSha256)
     {
@@ -209,9 +210,9 @@ public class JwtHelper
     /// <summary>
     /// 生成 Token
     /// </summary>
-    /// <param name="issuerSigningKey"></param>
-    /// <param name="payload"></param>
-    /// <param name="algorithm"></param>
+    /// <param name="issuerSigningKey">The issuer signing key.</param>
+    /// <param name="payload">The payload.</param>
+    /// <param name="algorithm">The algorithm.</param>
     /// <returns></returns>
     public static string Encrypt(string issuerSigningKey, string payload, string algorithm = SecurityAlgorithms.HmacSha256)
     {
@@ -229,7 +230,7 @@ public class JwtHelper
     /// <summary>
     /// 组合 Claims 负荷
     /// </summary>
-    /// <param name="payload"></param>
+    /// <param name="payload">The payload.</param>
     /// <param name="expiredTime">过期时间，单位：分钟</param>
     /// <returns></returns>
     private static IDictionary<string, object> CombinePayload(IDictionary<string, object> payload, double expiredTime)
@@ -270,7 +271,7 @@ public class JwtHelper
     /// <summary>
     /// 读取 Token，不含验证
     /// </summary>
-    /// <param name="accessToken"></param>
+    /// <param name="accessToken">The access token.</param>
     /// <returns></returns>
     public static JwtSecurityToken SecurityReadJwtToken(string accessToken)
     {
@@ -285,7 +286,8 @@ public class JwtHelper
     /// <summary>
     /// 生成刷新 Token
     /// </summary>
-    /// <param name="accessToken"></param>
+    /// <param name="accessToken">The access token.</param>
+    /// <param name="SecretKey">The secret key.</param>
     /// <param name="expiredTime">刷新 Token 有效期（分钟）</param>
     /// <returns></returns>
     public static string GenerateRefreshToken(string accessToken, string SecretKey, long expiredTime = 43200)

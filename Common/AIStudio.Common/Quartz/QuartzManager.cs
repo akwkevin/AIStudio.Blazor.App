@@ -9,13 +9,36 @@ using Quartz.Logging;
 
 namespace AIStudio.Common.Quartz;
 
+/// <summary>
+/// 
+/// </summary>
+/// <seealso cref="AIStudio.Common.Quartz.IQuartzManager" />
 public class QuartzManager : IQuartzManager
 {
+    /// <summary>
+    /// The service provider
+    /// </summary>
     private readonly IServiceProvider _serviceProvider;
+    /// <summary>
+    /// The scheduler factory
+    /// </summary>
     private readonly ISchedulerFactory _schedulerFactory;
+    /// <summary>
+    /// The logger
+    /// </summary>
     private readonly ILogger<QuartzManager> _logger;
+    /// <summary>
+    /// The options
+    /// </summary>
     private readonly JobSchedulingOptions _options;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QuartzManager"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <param name="schedulerFactory">The scheduler factory.</param>
+    /// <param name="logger">The logger.</param>
+    /// <param name="options">The options.</param>
     public QuartzManager(IServiceProvider serviceProvider,
                          ISchedulerFactory schedulerFactory,
                          ILogger<QuartzManager> logger,
@@ -27,12 +50,21 @@ public class QuartzManager : IQuartzManager
         _options = options.Value;    
     }
 
+    /// <summary>
+    /// Gets the scheduler.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public async Task<IScheduler> GetScheduler(CancellationToken token = default)
     {
         return await _schedulerFactory.GetScheduler(token);
     }
 
 
+    /// <summary>
+    /// Starts the specified token.
+    /// </summary>
+    /// <param name="token">The token.</param>
     public async Task Start(CancellationToken token = default)
     {
         var scheduler = await GetScheduler();
@@ -46,6 +78,10 @@ public class QuartzManager : IQuartzManager
         if (_options.StartHandle != null) await _options.StartHandle(serviceProvider);
     }
 
+    /// <summary>
+    /// Shuts down this instance.
+    /// </summary>
+    /// <param name="token">The token.</param>
     public async Task Shutdown(CancellationToken token = default)
     {
         var scheduler = await GetScheduler();
@@ -59,6 +95,13 @@ public class QuartzManager : IQuartzManager
         if (_options.ShutdownHandle != null) await _options.ShutdownHandle(serviceProvider);
     }
 
+    /// <summary>
+    /// Checks the exists.
+    /// </summary>
+    /// <param name="jobName">Name of the job.</param>
+    /// <param name="groupName">Name of the group.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public async Task<bool> CheckExists(string jobName, string groupName, CancellationToken token = default)
     {
         var scheduler = await GetScheduler();
@@ -66,11 +109,25 @@ public class QuartzManager : IQuartzManager
         return await scheduler.CheckExists(jobKey, token);
     }
 
+    /// <summary>
+    /// Adds the job.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="jobInfo">The job information.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public Task<JobExcuteResult> AddJob<T>(JobInfo jobInfo, CancellationToken token = default) where T : IJob
     {
         return AddJob(typeof(T), jobInfo, token);
     }
 
+    /// <summary>
+    /// Adds the job.
+    /// </summary>
+    /// <param name="jobType">Type of the job.</param>
+    /// <param name="jobInfo">The job information.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public async Task<JobExcuteResult> AddJob(Type jobType, JobInfo jobInfo, CancellationToken token = default)
     {
         try
@@ -115,6 +172,13 @@ public class QuartzManager : IQuartzManager
         }
     }
 
+    /// <summary>
+    /// Deletes the job.
+    /// </summary>
+    /// <param name="jobName">Name of the job.</param>
+    /// <param name="groupName">Name of the group.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public async Task<JobExcuteResult> DeleteJob(string jobName, string groupName, CancellationToken token = default)
     {
         if (await CheckExists(jobName, groupName))
@@ -152,6 +216,13 @@ public class QuartzManager : IQuartzManager
         }
     }
 
+    /// <summary>
+    /// Pauses the job.
+    /// </summary>
+    /// <param name="jobName">Name of the job.</param>
+    /// <param name="groupName">Name of the group.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public async Task<JobExcuteResult> PauseJob(string jobName, string groupName, CancellationToken token = default)
     {
         if (await CheckExists(jobName, groupName))
@@ -176,6 +247,13 @@ public class QuartzManager : IQuartzManager
         }
     }
 
+    /// <summary>
+    /// Resumes the job.
+    /// </summary>
+    /// <param name="jobName">Name of the job.</param>
+    /// <param name="groupName">Name of the group.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public async Task<JobExcuteResult> ResumeJob(string jobName, string groupName, CancellationToken token = default)
     {
         if (await CheckExists(jobName, groupName))
@@ -203,10 +281,9 @@ public class QuartzManager : IQuartzManager
     /// <summary>
     /// 立即执行一次
     /// </summary>
-    /// <param name="jobName"></param>
-    /// <param name=""></param>
-    /// <param name="groupName"></param>
-    /// <param name="token"></param>
+    /// <param name="jobName">Name of the job.</param>
+    /// <param name="groupName">Name of the group.</param>
+    /// <param name="token">The token.</param>
     /// <returns></returns>
     public async Task<JobExcuteResult> DoJob(string jobName, string groupName, CancellationToken token = default)
     {

@@ -8,7 +8,7 @@ namespace AIStudio.IBusiness.Base_Manage
 {
     public interface IBase_LogVisitBusiness : ISplitTableBaseBusiness<Base_LogVisit>, IEventHandler<VisitEvent>
     {
-        Task Handle(VisitEvent @event);
+ 
     }
 
 

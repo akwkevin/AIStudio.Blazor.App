@@ -8,7 +8,7 @@ namespace AIStudio.IBusiness.Base_Manage
 {
     public interface IBase_LogExceptionBusiness : ISplitTableBaseBusiness<Base_LogException>, IEventHandler<ExceptionEvent>
     {
-        Task Handle(ExceptionEvent @event);
+    
     }
 
 

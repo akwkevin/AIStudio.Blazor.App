@@ -10,6 +10,8 @@ namespace AIStudio.Common.Filter.FilterAttribute
     /// <summary>
     /// 返回结果不进行格式化
     /// </summary>
+    /// <seealso cref="System.Attribute" />
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Filters.IActionFilter" />
     public class NoFormatResponseAttribute : Attribute, IActionFilter
     {
         /// <summary>
@@ -24,13 +26,16 @@ namespace AIStudio.Common.Filter.FilterAttribute
         /// <summary>
         /// Action执行完毕之后执行
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext" />.</param>
         public void OnActionExecuted(ActionExecutedContext context)
         {
 
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class FilterExtentions
     {
         /// <summary>
@@ -38,7 +43,9 @@ namespace AIStudio.Common.Filter.FilterAttribute
         /// </summary>
         /// <typeparam name="T">过滤器类型</typeparam>
         /// <param name="actionExecutingContext">上下文</param>
-        /// <returns></returns>
+        /// <returns>
+        ///   <c>true</c> if the specified action executing context contains filter; otherwise, <c>false</c>.
+        /// </returns>
         public static bool ContainsFilter<T>(this FilterContext actionExecutingContext)
         {
             return actionExecutingContext.Filters.Any(x => x.GetType() == typeof(T));
