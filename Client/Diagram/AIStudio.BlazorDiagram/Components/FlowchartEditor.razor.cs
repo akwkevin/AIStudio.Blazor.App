@@ -70,12 +70,12 @@ namespace AIStudio.BlazorDiagram.Components
 
         protected override void OnParametersSet()
         {
-            DiagramHelper.ToObject(Diagram, Data??"");
+            Diagram.ToObject(Data??"");
         }
 
         public string GetData()
         {
-            var data = DiagramHelper.ToJson(Diagram);
+            var data = Diagram.ToJson();
             return data;
         }
 

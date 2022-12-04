@@ -86,14 +86,14 @@ namespace AIStudio.Util.DiagramEntity
         /// <value>
         /// The links.
         /// </value>
-        public DiagramLink[]? Links { get; set; }
+        public FlowchartLink[]? Links { get; set; }
         /// <summary>
         /// Gets or sets the groups.
         /// </summary>
         /// <value>
         /// The groups.
         /// </value>
-        public DiagramGroup[]? Groups { get; set; }
+        public FlowchartGroup[]? Groups { get; set; }
         #endregion
     }
 

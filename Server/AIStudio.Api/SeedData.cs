@@ -62,7 +62,7 @@ namespace AIStudio.Api
             {
                 admin = new Base_Role
                 {
-                    Id = IdHelper.GetId(),
+                    Id = "Department",
                     RoleName = RoleTypes.部门管理员.ToString(),
                     CreateTime = DateTime.Now,
                     CreatorId = "System",
@@ -78,7 +78,7 @@ namespace AIStudio.Api
             {
                 superadmin = new Base_Role
                 {
-                    Id = IdHelper.GetId(),
+                    Id = "Admin",
                     RoleName = RoleTypes.超级管理员.ToString(),
                     CreateTime = DateTime.Now,
                     CreatorId = "System",
@@ -142,14 +142,14 @@ namespace AIStudio.Api
             }
 
             //alice ,123456,
-            var alice = userBusiness.FirstOrDefault(p => p.UserName == "alice");
+            var alice = userBusiness.FirstOrDefault(p => p.UserName == "Alice");
             if (alice == null)
             {
                 alice = new Base_User
                 {
-                    Id = IdHelper.GetId(),
-                    UserName = "alice",
-                    RealName = "alice",
+                    Id = "Alice",
+                    UserName = "Alice",
+                    RealName = "Alice",
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id2",
                     CreateTime = DateTime.Now,
@@ -173,14 +173,14 @@ namespace AIStudio.Api
             }
 
             //bob ,123456,
-            var bob = userBusiness.FirstOrDefault(p => p.UserName == "bob");
+            var bob = userBusiness.FirstOrDefault(p => p.UserName == "Bob");
             if (bob == null)
             {
                 bob = new Base_User
                 {
-                    Id = IdHelper.GetId(),
-                    UserName = "bob",
-                    RealName = "bob",
+                    Id = "Bob",
+                    UserName = "Bob",
+                    RealName = "Bob",
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id3",
                     CreateTime = DateTime.Now,

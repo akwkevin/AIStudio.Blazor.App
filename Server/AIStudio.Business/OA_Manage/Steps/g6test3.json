@@ -5,26 +5,26 @@
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "node166",
+      "Id": "CDB5E645-6F04-47F7-8F39-6C77A0AE11A7",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "node173",
+      "NextStepId": "C63624F5-1157-4B1B-BA0E-12266A208431",
       "Status": 0,
       "ActRules": {}
     },
     {
-      "Id": "node173",
+      "Id": "C63624F5-1157-4B1B-BA0E-12266A208431",
       "Label": "或签",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "node180",
+      "NextStepId": "3D115269-7BFA-4FB7-9986-14737256EBA7",
       "Status": 0,
       "ActRules": {
-        "UserIds": [ "1267011853830066176", "1267011854366937088", "Admin" ],
+        "UserIds": [ "Admin", "Bob", "Alice" ],
         "ActType": "or"
       }
     },
     {
-      "Id": "node180",
+      "Id": "3D115269-7BFA-4FB7-9986-14737256EBA7",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
       "Status": 0,
@@ -33,118 +33,95 @@
   ],
   "CurrentStepIds": [],
   "Flag": 0.0,
-  "nodes": [
+  "Nodes": [
     {
-      "id": "node166",
-      "name": "开始节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "开始",
-      "offsetX": 103,
-      "offsetY": 24,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/start.e502ed95.svg",
-      "type": "node",
-      "x": 393.5500183105469,
-      "y": 75.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false
+      "Kind": 1,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null,
+      "Id": "cdb5e645-6f04-47f7-8f39-6c77a0ae11a7",
+      "Name": "开始节点",
+      "Color": "#1890ff",
+      "Label": "开始",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 22.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     },
     {
-      "id": "node173",
-      "name": "中间节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "或签",
-      "offsetX": 105,
-      "offsetY": 15,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/jiahao.ecf71c51.svg",
-      "type": "node",
-      "x": 395.5500183105469,
-      "y": 164.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false,
-      "UserIds": [ "1267011853830066176", "1267011854366937088", "Admin" ],
-      "ActType": "or"
+      "Kind": 3,
+      "UserIds": [ "Admin", "Bob", "Alice" ],
+      "RoleIds": null,
+      "ActType": "or",
+      "Id": "c63624f5-1157-4b1b-ba0e-12266a208431",
+      "Name": "中间节点",
+      "Color": "#1890ff",
+      "Label": "或签",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 147.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     },
     {
-      "id": "node180",
-      "name": "结束节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "结束",
-      "offsetX": 94,
-      "offsetY": 16,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/end.dfe4a5ab.svg",
-      "type": "node",
-      "x": 396.5500183105469,
-      "y": 254.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false
+      "Kind": 2,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null,
+      "Id": "3d115269-7bfa-4fb7-9986-14737256eba7",
+      "Name": "结束节点",
+      "Color": "#1890ff",
+      "Label": "结束",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 272.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     }
   ],
-  "edges": [
-    {
-      "id": "edge215",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 395.15675988358055,
-        "y": 146.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 393.9432767375132,
-        "y": 92.5
-      },
-      "shape": "customEdge",
-      "source": "node166",
-      "sourceId": "node166",
-      "target": "node173",
-      "targetId": "node173",
-      "type": "edge"
+  "Links": [
+    {     
+      "Id": "0009f318-211b-4c54-90c7-f46c9f517a9f",
+      "Color": null,
+      "SelectedColor": null,
+      "Width": 2.0,
+      "Label": null,
+      "SourceId": "cdb5e645-6f04-47f7-8f39-6c77a0ae11a7",
+      "TargetId": "c63624f5-1157-4b1b-ba0e-12266a208431",
+      "SourcePortAlignment": "Bottom",
+      "TargetPortAlignment": "Top",
+      "Type": "DiagramLink",
+      "Router": null,
+      "PathGenerator": null,
+      "SourceMarkerPath": null,
+      "SourceMarkerWidth": null,
+      "TargetMarkerPath": null,
+      "TargetMarkerWidth": null
     },
     {
-      "id": "edge253",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 396.3555738661024,
-        "y": 236.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 395.74446275499133,
-        "y": 181.5
-      },
-      "shape": "customEdge",
-      "source": "node173",
-      "sourceId": "node173",
-      "target": "node180",
-      "targetId": "node180",
-      "type": "edge"
+      "Id": "126381bc-fdab-4352-993f-231962054d90",
+      "Color": null,
+      "SelectedColor": null,
+      "Width": 2.0,
+      "Label": null,
+      "SourceId": "c63624f5-1157-4b1b-ba0e-12266a208431",
+      "TargetId": "3d115269-7bfa-4fb7-9986-14737256eba7",
+      "SourcePortAlignment": "Bottom",
+      "TargetPortAlignment": "Top",
+      "Type": "DiagramLink",
+      "Router": null,
+      "PathGenerator": null,
+      "SourceMarkerPath": null,
+      "SourceMarkerWidth": null,
+      "TargetMarkerPath": null,
+      "TargetMarkerWidth": null
     }
-  ],
-  "groups": []
+  ]
 }

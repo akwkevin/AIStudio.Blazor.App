@@ -5,39 +5,39 @@
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "node2",
+      "Id": "35D6B9EB-5A17-4EA5-8B16-F870397C5911",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "node9",
+      "NextStepId": "56C27A71-FF3C-4574-8D43-7DE29D5A4644",
       "Status": 0,
       "ActRules": {}
     },
     {
-      "Id": "node9",
+      "Id": "56C27A71-FF3C-4574-8D43-7DE29D5A4644",
       "Label": "主管审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "node137",
+      "NextStepId": "50A8E547-275B-49DA-9C50-C4DB8753421D",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
     },
     {
-      "Id": "node137",
+      "Id": "50A8E547-275B-49DA-9C50-C4DB8753421D",
       "Label": "人力审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "node144",
+      "NextStepId": "69CB5CBA-FF21-44FD-A67E-ECDBCD6DF0B2",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
     },
     {
-      "Id": "node144",
+      "Id": "69CB5CBA-FF21-44FD-A67E-ECDBCD6DF0B2",
       "Label": "人力归档",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "node61",
+      "NextStepId": "CA74B34E-3B37-4E92-BA6F-295C84F4B12A",
       "Status": 0,
       "ActRules": { "UserIds": [ "Admin" ] }
     },
     {
-      "Id": "node61",
+      "Id": "CA74B34E-3B37-4E92-BA6F-295C84F4B12A",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
       "Status": 0,
@@ -46,207 +46,165 @@
   ],
   "CurrentStepIds": [],
   "Flag": 0.0,
-  "nodes": [
+  "Nodes": [
     {
-      "id": "node2",
-      "name": "开始节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "开始",
-      "offsetX": 85,
-      "offsetY": 26,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/start.e502ed95.svg",
-      "type": "node",
-      "x": 221.55001831054688,
-      "y": 84.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false
+      "Id": "35d6b9eb-5a17-4ea5-8b16-f870397c5911",
+      "Name": "开始节点",
+      "Color": "#1890ff",
+      "Label": "开始",
+      "Width": 100.0, 
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 22.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "Kind": 1,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null
     },
     {
-      "id": "node9",
-      "name": "中间节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "主管审批",
-      "offsetX": 76,
-      "offsetY": 21,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/jiahao.ecf71c51.svg",
-      "type": "node",
-      "x": 220.55001831054688,
-      "y": 161.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false,
-      "UserIds": [ "Admin" ]
+      "Id": "56c27a71-ff3c-4574-8d43-7de29d5a4644",
+      "Name": "中间节点",
+      "Color": "#1890ff",
+      "Label": "主管审批",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 147.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 1,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "Kind": 3,
+      "UserIds": [ "Admin" ],
+      "RoleIds": null,
+      "ActType": "or"
     },
     {
-      "id": "node61",
-      "name": "结束节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "结束",
-      "offsetX": 81,
-      "offsetY": 25,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/end.dfe4a5ab.svg",
-      "type": "node",
-      "x": 218.55001831054688,
-      "y": 408.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false
+      "Id": "50a8e547-275b-49da-9c50-c4db8753421d",
+      "Name": "中间节点",
+      "Color": "#1890ff",
+      "Label": "人力审批",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 272.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 2,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "Kind": 3,
+      "UserIds": [ "Admin" ],
+      "RoleIds": null,
+      "ActType": "or"
     },
     {
-      "id": "node137",
-      "name": "中间节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "人力审批",
-      "offsetX": 116,
-      "offsetY": 20,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/jiahao.ecf71c51.svg",
-      "type": "node",
-      "x": 221.55001831054688,
-      "y": 243.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false,
-      "UserIds": [ "Admin" ]
+      "Id": "69cb5cba-ff21-44fd-a67e-ecdbcd6df0b2",
+      "Name": "中间节点",
+      "Color": "#1890ff",
+      "Label": "人力归档",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 397.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 3,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "Kind": 3,
+      "UserIds": [ "Admin" ],
+      "RoleIds": null,
+      "ActType": "or"
     },
     {
-      "id": "node144",
-      "name": "中间节点",
-      "color": "#1890ff",
-      "image": "/assets/Shape.486da24a.svg",
-      "label": "人力归档",
-      "offsetX": 102,
-      "offsetY": 15,
-      "shape": "customNode",
-      "size": [ 170, 34 ],
-      "stateImage": "/assets/jiahao.ecf71c51.svg",
-      "type": "node",
-      "x": 220.55001831054688,
-      "y": 323.0,
-      "inPoints": [ [ 0.0, 0.5 ] ],
-      "outPoints": [ [ 1.0, 0.5 ] ],
-      "isDoingStart": false,
-      "isDoingEnd": false,
-      "UserIds": [ "Admin" ]
+      "Id": "ca74b34e-3b37-4e92-ba6f-295c84f4b12a",
+      "Name": "结束节点",
+      "Color": "#1890ff",
+      "Label": "结束",
+      "Width": 100.0,
+      "Height": 80.0,
+      "X": 137.5,
+      "Y": 522.5,
+      "Type": "FlowchartNode",
+      "ZIndex": 4,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "Kind": 2,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null
     }
   ],
-  "edges": [
+  "Links": [    
     {
-      "id": "edge56",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 220.77729103781962,
-        "y": 143.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 221.32274558327413,
-        "y": 101.5
-      },
-      "shape": "customEdge",
-      "source": "node2",
-      "sourceId": "node2",
-      "target": "node9",
-      "targetId": "node9",
-      "type": "edge"
+      "Id": "686a8cf4-6809-4fb2-8c0f-420e9cee0b49",
+      "Color": null,
+      "SelectedColor": null,
+      "Width": 2.0,
+      "Label": null,
+      "SourceId": "35d6b9eb-5a17-4ea5-8b16-f870397c5911",
+      "TargetId": "56c27a71-ff3c-4574-8d43-7de29d5a4644",
+      "SourcePortAlignment": "Bottom",
+      "TargetPortAlignment": "Top",
+      "Type": "DiagramLink",
+      "Router": null,
+      "PathGenerator": null,
+      "SourceMarkerPath": null,
+      "SourceMarkerWidth": null,
+      "TargetMarkerPath": null,
+      "TargetMarkerWidth": null
     },
     {
-      "id": "edge180",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 221.33660367640056,
-        "y": 225.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 220.7634329446932,
-        "y": 178.5
-      },
-      "shape": "customEdge",
-      "source": "node9",
-      "sourceId": "node9",
-      "target": "node137",
-      "targetId": "node137",
-      "type": "edge"
+      "Id": "65c60a67-be7f-4a5f-a647-ced57bc45b54",
+      "Color": null,
+      "SelectedColor": null,
+      "Width": 2.0,
+      "Label": null,
+      "SourceId": "56c27a71-ff3c-4574-8d43-7de29d5a4644",
+      "TargetId": "50a8e547-275b-49da-9c50-c4db8753421d",
+      "SourcePortAlignment": "Bottom",
+      "TargetPortAlignment": "Top",
+      "Type": "DiagramLink",
+      "Router": null,
+      "PathGenerator": null,
+      "SourceMarkerPath": null,
+      "SourceMarkerWidth": null,
+      "TargetMarkerPath": null,
+      "TargetMarkerWidth": null
     },
     {
-      "id": "edge219",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 220.76876831054688,
-        "y": 305.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 221.33126831054688,
-        "y": 260.5
-      },
-      "shape": "customEdge",
-      "source": "node137",
-      "sourceId": "node137",
-      "target": "node144",
-      "targetId": "node144",
-      "type": "edge"
+      "Id": "3b5a2696-db10-4501-bb9a-5e12e4ca5a19",
+      "Color": null,
+      "SelectedColor": null,
+      "Width": 2.0,
+      "Label": null,
+      "SourceId": "50a8e547-275b-49da-9c50-c4db8753421d",
+      "TargetId": "69cb5cba-ff21-44fd-a67e-ecdbcd6df0b2",
+      "SourcePortAlignment": "Bottom",
+      "TargetPortAlignment": "Top",
+      "Type": "DiagramLink",
+      "Router": null,
+      "PathGenerator": null,
+      "SourceMarkerPath": null,
+      "SourceMarkerWidth": null,
+      "TargetMarkerPath": null,
+      "TargetMarkerWidth": null
     },
     {
-      "id": "edge261",
-      "end": {
-        "x": 0.0,
-        "y": -17.0
-      },
-      "endPoint": {
-        "x": 218.96178301642922,
-        "y": 390.5
-      },
-      "start": {
-        "x": 0.0,
-        "y": 17.0
-      },
-      "startPoint": {
-        "x": 220.13825360466453,
-        "y": 340.5
-      },
-      "shape": "customEdge",
-      "source": "node144",
-      "sourceId": "node144",
-      "target": "node61",
-      "targetId": "node61",
-      "type": "edge"
+      "Id": "9ee5a219-4d41-4484-b15d-00c645f6b080",
+      "Color": null,
+      "SelectedColor": null,
+      "Width": 2.0,
+      "Label": null,
+      "SourceId": "69cb5cba-ff21-44fd-a67e-ecdbcd6df0b2",
+      "TargetId": "ca74b34e-3b37-4e92-ba6f-295c84f4b12a",
+      "SourcePortAlignment": "Bottom",
+      "TargetPortAlignment": "Top",
+      "Type": "DiagramLink",
+      "Router": null,
+      "PathGenerator": null,
+      "SourceMarkerPath": null,
+      "SourceMarkerWidth": null,
+      "TargetMarkerPath": null,
+      "TargetMarkerWidth": null
     }
-  ],
-  "groups": []
+  ]
 }

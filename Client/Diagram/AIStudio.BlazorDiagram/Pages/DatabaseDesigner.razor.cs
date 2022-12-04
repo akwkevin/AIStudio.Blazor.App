@@ -85,13 +85,13 @@ namespace AIStudio.BlazorDiagram.Pages
 
         private async Task ShowJson()
         {
-            JsonString = DiagramHelper.ToJson(Diagram);
+            JsonString = Diagram.ToJson();
             await JSRuntime.InvokeVoidAsync("console.log", JsonString);
         }
 
         private void LoadJson()
         {
-            DiagramHelper.ToObject(Diagram, JsonString);    
+            Diagram.ToObject(JsonString);    
         }
 
 

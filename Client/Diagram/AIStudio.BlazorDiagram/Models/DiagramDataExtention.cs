@@ -9,10 +9,10 @@ using System.Data;
 
 namespace AIStudio.BlazorDiagram.Models
 {
-    public static class DiagramHelper
+    public static class DiagramDataExtention
     {
         #region ToJson
-        public static string ToJson(Diagram diagram)
+        public static string ToJson(this Diagram diagram)
         {
             var json = JsonConvert.SerializeObject(new
             {
@@ -54,6 +54,7 @@ namespace AIStudio.BlazorDiagram.Models
                 diagramNode = flowchartNode;
                 if (nodeModel is FlowchartNodelModel flowchartNodelModel)
                 {
+                    flowchartNode.Name = flowchartNodelModel.Name;
                     flowchartNode.Color = flowchartNodelModel.Color;
                     flowchartNode.Kind = flowchartNodelModel.Kind;
                     flowchartNode.UserIds = flowchartNodelModel.UserIds;
@@ -128,7 +129,7 @@ namespace AIStudio.BlazorDiagram.Models
 
         #region ToObject
 
-        public static void ToObject(Diagram diagram, string json)
+        public static void ToObject(this Diagram diagram, string json)
         {
             var data = JsonConvert.DeserializeObject<DiagramData>(json, new JsonConverter[] { new DiagramNodeConverter(), new DiagramLinkConverter() });
             if (data != null)
@@ -137,7 +138,7 @@ namespace AIStudio.BlazorDiagram.Models
             }
         }
 
-        public static void ToObject(Diagram diagram, DiagramData data)
+        public static void ToObject(this Diagram diagram, DiagramData data)
         {
             diagram.Nodes.Clear();
             diagram.Links.Clear();
@@ -171,6 +172,7 @@ namespace AIStudio.BlazorDiagram.Models
             {
                 var flowchartNodelModel = new FlowchartNodelModel(flowchartNode.Id);
                 nodeModel = flowchartNodelModel;
+                flowchartNodelModel.Name = flowchartNode.Name;
                 flowchartNodelModel.Color = flowchartNode.Color;
                 flowchartNodelModel.Kind = flowchartNode.Kind;
                 flowchartNodelModel.UserIds = flowchartNode.UserIds;

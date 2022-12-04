@@ -1,7 +1,7 @@
 ﻿namespace AIStudio.Util.DiagramEntity
 {
     /// <summary>
-    /// FlowNode
+    /// DiagramNode
     /// </summary>
     public class DiagramNode
     {
