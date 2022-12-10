@@ -3,6 +3,7 @@ using AIStudio.Business.OA_Manage;
 using AIStudio.Business.OA_Manage.Steps;
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
+using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Service;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.Enum;
@@ -27,7 +28,6 @@ namespace AIStudio.Business.OA_Manage
     public class OA_DefFormBusiness : BaseBusiness<OA_DefForm>, IOA_DefFormBusiness, ITransientDependency
     {
         private readonly IMapper _mapper;
-        private readonly IOA_UserFormBusiness _oA_UserFormBus;
         private readonly ILogger<OA_DefFormBusiness> _logger;
         private readonly IDefinitionLoader _definitionLoader;
 
@@ -39,15 +39,13 @@ namespace AIStudio.Business.OA_Manage
         /// <param name="oA_UserFormBus"></param>
         /// <param name="logger"></param>
         /// <param name="serviceProvider"></param>
-        public OA_DefFormBusiness(ISqlSugarClient db, 
+        public OA_DefFormBusiness(ISqlSugarClient db,
             IMapper mapper,
-            IOA_UserFormBusiness oA_UserFormBus,            
             ILogger<OA_DefFormBusiness> logger,
             IServiceProvider serviceProvider)
             : base(db)
         {
             _mapper = mapper;
-            _oA_UserFormBus = oA_UserFormBus; 
             _logger = logger;
             _definitionLoader = serviceProvider.GetRequiredService<IDefinitionLoader>();
         }
@@ -119,7 +117,7 @@ namespace AIStudio.Business.OA_Manage
         /// <returns></returns>
         public async Task<PageResult<OA_DefFormDTO>> GetDataListAsync(PageInput input)
         {
-            var q = GetIQueryable(input.SearchKeyValues);     
+            var q = GetIQueryable(input.SearchKeyValues);
 
             return await q.Select<OA_DefFormDTO>().GetPageResultAsync(input);
         }
@@ -140,28 +138,26 @@ namespace AIStudio.Business.OA_Manage
         /// <param name="theData">The data.</param>
         public async Task SaveDataAsync(OA_DefFormDTO theData)
         {
+            theData.WorkflowJSON = OAExtension.InitOAData(theData.WorkflowJSON, IdHelper.GetId());
+
+            //去掉事务，sqlite不支持
+            //var res = await _oA_DefFormBus.RunTransactionAsync(async () =>
+            //{
+            var def = _definitionLoader.LoadDefinition(theData.WorkflowJSON, Deserializers.Json);
+            theData.JSONId = def.Id;
+            theData.JSONVersion = def.Version;
+            theData.Status = 0;
             if (theData.Id.IsNullOrEmpty())
             {
-                theData.WorkflowJSON = OAExtension.InitOAData(theData.WorkflowJSON, theData.Id);
-
-                //去掉事务，sqlite不支持
-                //var res = await _oA_DefFormBus.RunTransactionAsync(async () =>
-                //{
-                var def = _definitionLoader.LoadDefinition(theData.WorkflowJSON, Deserializers.Json);
-                theData.JSONId = def.Id;
-                theData.JSONVersion = def.Version;
-                theData.Status = 0;
                 await AddDataAsync(theData);
-
-                //});
-                //if (!res.Success)
-                //    throw res.ex;
             }
             else
             {
-                //修改只能改基础属性
                 await UpdateDataAsync(theData);
-            }
+            }         
+            //});
+            //if (!res.Success)
+            //    throw res.ex;
         }
 
         /// <summary>
@@ -195,11 +191,6 @@ namespace AIStudio.Business.OA_Manage
         /// <exception cref="System.Exception">还有正在使用该流程的审批,不能删除该流程</exception>
         public override async Task DeleteDataAsync(List<string> ids)
         {
-            int count = _oA_UserFormBus.GetDataListCount(ids, OA_Status.Being);
-            if (count > 0)
-            {
-                throw new Exception("还有正在使用该流程的审批,不能删除该流程");
-            }
             await base.DeleteDataAsync(ids);
         }
         #endregion

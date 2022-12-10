@@ -68,6 +68,10 @@ namespace AIStudio.BlazorDiagram.Models
             }
 
             diagramNode.Id = nodeModel.Id;
+            if (nodeModel.Group != null)
+            {
+                diagramNode.ParentId = nodeModel.Group?.Id;
+            }
             diagramNode.Label = nodeModel.Title;
             diagramNode.Width = nodeModel.Size.Width;
             diagramNode.Height = nodeModel.Size.Height;
@@ -78,7 +82,7 @@ namespace AIStudio.BlazorDiagram.Models
 
             return diagramNode;
         }
-    
+
         public static DiagramLink ToDiagramLink(this BaseLinkModel baseLinkModel)
         {
             DiagramLink diagramLink;
@@ -124,7 +128,7 @@ namespace AIStudio.BlazorDiagram.Models
             diagramLink.TargetPortAlignment = baseLinkModel.TargetPort?.Alignment.ToString();
 
             return diagramLink;
-        }     
+        }
         #endregion
 
         #region ToObject
@@ -143,7 +147,7 @@ namespace AIStudio.BlazorDiagram.Models
             diagram.Nodes.Clear();
             diagram.Links.Clear();
 
-            List<NodeModel> nodes = new List<NodeModel>();          
+            List<NodeModel> nodes = new List<NodeModel>();
             if (data.Nodes != null)
             {
                 foreach (var node in data.Nodes)
@@ -197,7 +201,10 @@ namespace AIStudio.BlazorDiagram.Models
             {
                 nodeModel = new NodeModel(diagramNode.Id);
             }
-
+            if (!string.IsNullOrEmpty(diagramNode.ParentId))
+            {
+                //待处理，等Group支持
+            }
             nodeModel.Title = diagramNode.Label;
             nodeModel.Size = new Blazor.Diagrams.Core.Geometry.Size(diagramNode.Width, diagramNode.Height);
             nodeModel.Position = new Blazor.Diagrams.Core.Geometry.Point(diagramNode.X, diagramNode.Y);
@@ -244,6 +251,10 @@ namespace AIStudio.BlazorDiagram.Models
             linkModel.Color = diagramLink.Color;
             linkModel.SelectedColor = diagramLink.SelectedColor;
             linkModel.Width = diagramLink.Width;
+            if (!string.IsNullOrEmpty(diagramLink.Label))
+            {
+                linkModel.Labels.Add(new LinkLabelModel(linkModel, diagramLink.Label));
+            }
             switch (diagramLink.Router)
             {
                 case "Normal": linkModel.Router = Routers.Normal; break;

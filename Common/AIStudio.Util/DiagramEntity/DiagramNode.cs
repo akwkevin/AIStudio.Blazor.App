@@ -12,6 +12,14 @@
         /// The identifier.
         /// </value>
         public string? Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent identifier.
+        /// </summary>
+        /// <value>
+        /// The parent identifier.
+        /// </value>
+        public string? ParentId { get; set; }
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

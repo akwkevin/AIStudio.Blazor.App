@@ -22,21 +22,21 @@ namespace AIStudio.Util.DiagramEntity
         /// <value>
         /// The user ids.
         /// </value>
-        public IEnumerable<string> UserIds { get; set; }
+        public IEnumerable<string>? UserIds { get; set; }
         /// <summary>
         /// Gets or sets the role ids.
         /// </summary>
         /// <value>
         /// The role ids.
         /// </value>
-        public IEnumerable<string> RoleIds { get; set; }
+        public IEnumerable<string>? RoleIds { get; set; }
         /// <summary>
         /// Gets or sets the type of the act.
         /// </summary>
         /// <value>
         /// The type of the act.
         /// </value>
-        public string ActType { get; set; }
+        public string? ActType { get; set; }
 
     }
 

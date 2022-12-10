@@ -10,9 +10,12 @@ namespace AIStudio.Business.OA_Manage
     {
         Task QueueWork(string id);
         Task<string> DequeueWork(string id);
+
+        void LoadDefinition();
+        Task LoadDefinitionAsync();
+
         Task<PageResult<OA_UserFormDTO>> GetDataListAsync(PageInput<OA_UserFormInputDTO> input);
         new Task<OA_UserFormDTO> GetTheDataAsync(string id);
-        int GetDataListCount(List<string> jsonids, OA_Status status);
 
         Task<List<OA_Step>> PreStepAsync(OA_UserFormDTO data);
 

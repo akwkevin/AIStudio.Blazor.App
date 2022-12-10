@@ -1,7 +1,7 @@
 ﻿{
   "Id": "1274620801831669760",
   "Version": 0,
-  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
@@ -86,7 +86,7 @@
       "ActType": null
     }
   ],
-  "Links": [    
+  "Links": [
     {
       "Id": "38b72d9b-ff08-4438-b3d7-3844c963c30a",
       "Color": null,

@@ -423,7 +423,6 @@ namespace AIStudio.Api
             var logger = provider.GetRequiredService<ILogger<SeedData>>();
 
             var oA_DefFormBusiness = provider.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
-            oA_DefFormBusiness.DeleteAll();
             var defformcount = oA_DefFormBusiness.GetIQueryable().Count();
             if (defformcount == 0)
             {

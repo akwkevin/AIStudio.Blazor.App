@@ -13,7 +13,7 @@ namespace AIStudio.Entity.DTO.OA_Manage
     [Map(typeof(OA_DefForm))]
     public class OA_DefFormDTO : OA_DefForm
     {
-        public string[] ValueRoles
+        public string[]? ValueRoles
         {
             get { return Value?.Split(new string[] { "^" }, System.StringSplitOptions.RemoveEmptyEntries); }
             set

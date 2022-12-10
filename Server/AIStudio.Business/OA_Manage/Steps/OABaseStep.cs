@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 using AIStudio.Util.DiagramEntity;
+using AIStudio.Entity.DTO.OA_Manage;
 
 namespace AIStudio.Business.OA_Manage.Steps
 {

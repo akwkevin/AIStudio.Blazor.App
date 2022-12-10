@@ -1,7 +1,7 @@
 {
   "Id": "OATest2",
   "Version": 1,
-  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, Coldairarrow.Util",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "Steps": [
     {
       "Id": "Step1",

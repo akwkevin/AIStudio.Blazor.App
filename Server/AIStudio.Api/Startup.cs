@@ -183,6 +183,9 @@ namespace AIStudio.Api
 
                             var defForm = sp.GetRequiredService<Business.OA_Manage.IOA_DefFormBusiness>();
                             await defForm.LoadDefinitionAsync();
+
+                            var userForm = sp.GetRequiredService<Business.OA_Manage.IOA_UserFormBusiness>();
+                            await userForm.LoadDefinitionAsync();
                         };
                     });
                 }

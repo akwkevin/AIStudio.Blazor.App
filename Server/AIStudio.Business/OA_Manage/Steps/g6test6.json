@@ -1,7 +1,7 @@
 ﻿{
   "Id": "1274623039325081600",
   "Version": 0,
-  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
@@ -83,7 +83,7 @@
       "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     }
   ],
-  "Links": [    
+  "Links": [
     {
       "Id": "3c1d8d36-fdee-4930-97da-ac89753a4dc3",
       "Color": null,

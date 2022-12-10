@@ -2,6 +2,7 @@
 using AIStudio.Common.CurrentUser;
 using AIStudio.Common.DI;
 using AIStudio.Entity.DTO.OA_Manage;
+using AIStudio.Entity.Enum;
 using AIStudio.Entity.OA_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
@@ -11,9 +12,11 @@ using AIStudio.Util.Helper;
 using AutoMapper;
 using LinqKit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SqlSugar;
 using System.Collections.Concurrent;
 using WorkflowCore.Interface;
+using WorkflowCore.Services.DefinitionStorage;
 
 namespace AIStudio.Business.OA_Manage
 {
@@ -22,9 +25,11 @@ namespace AIStudio.Business.OA_Manage
         private readonly IOA_UserFormStepBusiness _oA_UserFormStepBusiness;
         private readonly IBase_DepartmentBusiness _base_DepartmentBusiness;
         private readonly IMapper _mapper;
+        private readonly ILogger<OA_UserFormBusiness> _logger;
         private readonly IServiceProvider _serviceProvider;
 
         private readonly IOperator _operator;
+        private readonly IDefinitionLoader _definitionLoader;
         private readonly IPersistenceProvider _workflowStore;
         private readonly IWorkflowRegistry _workflowRegistry;
         private readonly IWorkflowHost _workflowHost;
@@ -34,6 +39,7 @@ namespace AIStudio.Business.OA_Manage
             IBase_DepartmentBusiness base_DepartmentBusiness,
             IMapper mapper,
             IOperator @operator,
+            ILogger<OA_UserFormBusiness> logger,
             IServiceProvider serviceProvider)
             : base(db)
         {
@@ -41,8 +47,10 @@ namespace AIStudio.Business.OA_Manage
             _base_DepartmentBusiness = base_DepartmentBusiness;
             _mapper = mapper;
             _operator = @operator;
+            _logger = logger;
             _serviceProvider = serviceProvider;
 
+            _definitionLoader = serviceProvider.GetRequiredService<IDefinitionLoader>();
             _workflowStore = serviceProvider.GetRequiredService<IPersistenceProvider>();
             _workflowRegistry = serviceProvider.GetRequiredService<IWorkflowRegistry>();
             _workflowHost = serviceProvider.GetRequiredService<IWorkflowHost>();
@@ -72,7 +80,36 @@ namespace AIStudio.Business.OA_Manage
             return null;
         }
 
+        public async Task LoadDefinitionAsync()
+        {
+            var userForms = await GetIQueryable().Where(p=> p.Status == (int)OA_Status.Being).ToListAsync();
+            LoadDefinition(userForms);
+        }
 
+        public void LoadDefinition()
+        {
+            var userForms = GetList();
+            LoadDefinition(userForms);
+        }
+
+        private void LoadDefinition(List<OA_UserForm> userForms)
+        {
+            foreach (var userForm in userForms)
+            {
+                try
+                {
+                    if (!_workflowRegistry.IsRegistered(userForm.JsonId, userForm.JsonVersion))
+                    {
+                        var def = _definitionLoader.LoadDefinition(userForm.WorkflowJSON, Deserializers.Json);
+                        _logger.Log(Microsoft.Extensions.Logging.LogLevel.Debug, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + def.Id + "-" + def.Version + "加载成功");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + userForm.DefFormName + "-" + ex.Message);
+                }
+            }
+        }
 
         #region 外部接口
 
@@ -101,24 +138,6 @@ namespace AIStudio.Business.OA_Manage
             }
 
             return await q.Select<OA_UserFormDTO>().GetPageResultAsync(input);
-        }
-
-        public int GetDataListCount(List<string> jsonids, OA_Status status)
-        {
-            var q = GetIQueryable();
-            var where = LinqHelper.True<OA_UserForm>();
-
-            if (!jsonids.IsNullOrEmpty())
-            {
-                where = where.And(p => jsonids.Contains(p.DefFormJsonId));
-            }
-
-            if ((int)status >= 0)
-            {
-                where = where.And(p => p.Status == (int)status);
-            }
-
-            return q.Where(where).Count();
         }
 
         public new async Task<OA_UserFormDTO> GetTheDataAsync(string id)
@@ -192,7 +211,7 @@ namespace AIStudio.Business.OA_Manage
                 //去掉事务，sqlite不支持
                 //var res = await _oA_UserFormBus.RunTransactionAsync(async () =>
                 //{
-                var def = _workflowRegistry.GetDefinition(data.DefFormJsonId, data.DefFormJsonVersion);
+                var def = _workflowRegistry.GetDefinition(data.JsonId, data.JsonVersion);
 
                 var workflowId = await _workflowHost.StartWorkflow(def.Id, oAData);
                 data.Id = workflowId;

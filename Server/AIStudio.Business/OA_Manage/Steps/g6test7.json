@@ -1,7 +1,7 @@
 ﻿{
   "Id": "1274623664695808000",
   "Version": 0,
-  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
@@ -184,9 +184,9 @@
       "Type": "FlowchartNode",
       "ZIndex": 0,
       "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
-    }
+    },
   ],
-  "Links": [   
+  "Links": [
     {
       "Id": "9dffa938-59ce-4bab-ac5c-1a48e847a4e0",
       "Color": "#FF808080",
@@ -261,10 +261,10 @@
     },
     {
       "Id": "31b418f0-1b6e-4604-bb16-a088a63d1056",
-      "Color": null,
+      "Color": "#D61F1F",
       "SelectedColor": null,
       "Width": 2.0,
-      "Label": null,
+      "Label": ">3",
       "SourceId": "1fb5eeb0-ebaf-46e6-9666-c89f568e3b21",
       "TargetId": "e213edb9-64da-4536-b588-62e42ad99989",
       "SourcePortAlignment": "Bottom",
@@ -297,10 +297,10 @@
     },
     {
       "Id": "6304da19-ed9a-41ef-a020-97c6b46340ac",
-      "Color": null,
+      "Color": "#3AB70D",
       "SelectedColor": null,
       "Width": 2.0,
-      "Label": null,
+      "Label": "<=3",
       "SourceId": "1fb5eeb0-ebaf-46e6-9666-c89f568e3b21",
       "TargetId": "1e4b0643-c482-47a8-b98e-009d70ce4054",
       "SourcePortAlignment": "Bottom",

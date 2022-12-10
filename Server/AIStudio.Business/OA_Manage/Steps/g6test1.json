@@ -1,7 +1,7 @@
 ﻿{
   "Id": "1274618511506804736",
   "Version": 0,
-  "DataType": "AIStudio.Entity.DTO.OA_Manage.OAData, AIStudio.Entity",
+  "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {

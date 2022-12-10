@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace AIStudio.Util.DiagramEntity
+namespace AIStudio.Entity.DTO.OA_Manage
 {
     /// <summary>
     /// OA_Data
@@ -151,7 +151,7 @@ namespace AIStudio.Util.DiagramEntity
         /// <value>
         /// The act rules.
         /// </value>
-        public ActRule ActRules { get; set; }
+        public ActRule? ActRules { get; set; }
         /// <summary>
         /// Gets or sets the select next step.
         /// </summary>
@@ -172,7 +172,7 @@ namespace AIStudio.Util.DiagramEntity
         /// <value>
         /// The step identifier.
         /// </value>
-        public string StepId { get; set; }
+        public string? StepId { get; set; }
 
         /// <summary>
         /// Gets or sets the step label.
@@ -180,14 +180,14 @@ namespace AIStudio.Util.DiagramEntity
         /// <value>
         /// The step label.
         /// </value>
-        public string StepLabel { get; set; }
+        public string? StepLabel { get; set; }
         /// <summary>
         /// Gets or sets the act rules.
         /// </summary>
         /// <value>
         /// The act rules.
         /// </value>
-        public ActRule ActRules { get; set; }
+        public ActRule? ActRules { get; set; }
     }
 
     /// <summary>
@@ -229,7 +229,7 @@ namespace AIStudio.Util.DiagramEntity
         /// <value>
         /// The type of the act.
         /// </value>
-        public string ActType { get; set; }
+        public string? ActType { get; set; }
     }
 
 
@@ -245,7 +245,7 @@ namespace AIStudio.Util.DiagramEntity
         /// The name of the event.
         /// </value>
         [Required]
-        public string EventName { get; set; }
+        public string? EventName { get; set; }
         /// <summary>
         /// Gets or sets the event key.
         /// </summary>
@@ -253,7 +253,7 @@ namespace AIStudio.Util.DiagramEntity
         /// The event key.
         /// </value>
         [Required]
-        public string EventKey { get; set; }
+        public string? EventKey { get; set; }
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
@@ -268,7 +268,7 @@ namespace AIStudio.Util.DiagramEntity
         /// The remarks.
         /// </value>
         [Required]
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
     }
 
     /// <summary>
@@ -295,7 +295,7 @@ namespace AIStudio.Util.DiagramEntity
         /// <summary>
         /// The data
         /// </summary>
-        public readonly static string Data = "Coldairarrow.Util.OAData, Coldairarrow.Util";
+        public readonly static string Data = "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity";
         /// <summary>
         /// The decide
         /// </summary>
