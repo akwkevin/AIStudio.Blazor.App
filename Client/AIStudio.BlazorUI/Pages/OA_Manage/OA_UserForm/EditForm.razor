@@ -1,0 +1,36 @@
+﻿@inherits BaseEditForm<OA_UserFormDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <FormItem Label="开始时间">
+        <Input @bind-Value="@context.StartTime" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="结束时间">
+        <Input @bind-Value="@context.EndTime" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="摘要">
+        <Input @bind-Value="@context.Text" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="申请人">
+        <Input @bind-Value="@context.ApplicantUserId" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="紧急程度">
+        <Input @bind-Value="@context.Grade" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="备注">
+        <Input @bind-Value="@context.Remarks" AutoComplete=false />
+    </FormItem>
+    <FormItem Label="附件">
+        <Input @bind-Value="@context.Appendix" AutoComplete=false />
+    </FormItem>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "OA_Manage";
+    }
+    
+}

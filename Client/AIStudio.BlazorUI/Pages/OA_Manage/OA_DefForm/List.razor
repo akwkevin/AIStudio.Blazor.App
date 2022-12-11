@@ -1,10 +1,10 @@
-﻿@page "/Quartz_Manage/Quartz_Task/List"
+﻿@page "/OA_Manage/OA_DefForm/List"
 
-@inherits BaseListWithEdit<Quartz_TaskDTO, EditForm>
+@inherits BaseListWithEdit<OA_DefFormDTO, EditForm>
 
 <Space Size="@("small")">
 
-    @if (Operator.HasPerm("Quartz_Task.Add"))
+    @if (Operator.HasPerm("OA_DefForm.Add"))
     {
         <SpaceItem>
             <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
@@ -13,15 +13,13 @@
     @if (Operator.HasPerm("Quartz_Task.Edit"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Pause(null)" disabled=@NoneSelectedItems>暂停</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Stop(null)" disabled=@NoneSelectedItems>停用</Button>
         </SpaceItem>
         <SpaceItem>
             <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start(null)" disabled=@NoneSelectedItems>开启</Button>
-        </SpaceItem>   <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=> ToDo(null)" disabled=@NoneSelectedItems>立即执行</Button>
         </SpaceItem>
     }
-    @if (Operator.HasPerm("Quartz_Task.Delete"))
+    @if (Operator.HasPerm("OA_DefForm.Delete"))
     {
         <SpaceItem>
             <Popconfirm Title="确认删除选中项吗?"
@@ -35,45 +33,76 @@
         </SpaceItem>
     }
     <SpaceItem>
+        <SimpleSelect DefaultActiveFirstOption @bind-Value="@Condition">
+            <SelectOptions>
+                <SimpleSelectOption Value="Type" Label="分类"></SimpleSelectOption>
+                <SimpleSelectOption Value="Name" Label="标题"></SimpleSelectOption>
+                <SimpleSelectOption Value="Text" Label="摘要"></SimpleSelectOption>
+                <SimpleSelectOption Value="CreatorName" Label="创建者"></SimpleSelectOption>
+                <SimpleSelectOption Value="Status" Label="状态"></SimpleSelectOption>
+            </SelectOptions>
+        </SimpleSelect>
+    </SpaceItem>
+    <SpaceItem>
         <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 
 <Table @ref="_table"
-       TItem="Quartz_TaskDTO"
+       TItem="OA_DefFormDTO"
        DataSource="Data"
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
-       ScrollX="1800"
+       ScrollX="1400"
        ScrollBarWidth="5px"
        Size=@TableSize.Small
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
-        <AntDesign.Column Title="作业名称" DataIndex="TaskName" TData="string" />
-        <AntDesign.Column Title="分组" DataIndex="GroupName" TData="string" />
-        <AntDesign.Column Title="启用" DataIndex="IsEnabled" TData="bool" />
-        <AntDesign.Column Title="Cron" DataIndex="Cron" TData="string" />
-        <AntDesign.Column Title="任务类名" DataIndex="ActionClass" TData="string" />
-        <AntDesign.Column Title="描述" DataIndex="Remark" TData="string" />
-        <AntDesign.Column Title="请求方式" DataIndex="RequestType" TData="string" />
-        <AntDesign.Column Title="请求地址" DataIndex="ApiUrl" TData="string" />
-        <AntDesign.Column Title="密匙名" DataIndex="AuthKey" TData="string" />
-        <AntDesign.Column Title="密匙值" DataIndex="AuthValue" TData="string" />
+        <AntDesign.Column Title="分类" DataIndex="Type" TData="System.String" />
+        <AntDesign.Column Title="标题" DataIndex="Name" TData="System.String" />
+        <AntDesign.Column Title="摘要" DataIndex="Text" TData="System.String" />
+        <AntDesign.Column Title="创建者" DataIndex="CreatorName" TData="System.String" />
+        <AntDesign.Column Title="状态" TData="System.String">
+            @if (@context.Status == 0)
+            {
+                <Badge Color="Red" Text="停止" />
+            }
+            else
+            {
+                <Badge Color="#87d068" Text="启动" />
+            }
+        </AntDesign.Column>
+        <AntDesign.Column Title="权限角色" TData="System.String">
+            @context.Value?.Trim('^')?.Replace('^',',')
+        </AntDesign.Column>
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
-                <SpaceItem>
-                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
-                    <Popconfirm Title="确认删除吗?"
+                @if (Operator.HasPerm("OA_DefForm.Edit"))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Link" OnClick="()=>Start(context.Id)">Open</Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Link" OnClick="()=>Stop(context.Id)">Close</Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    </SpaceItem>
+                }
+                @if (Operator.HasPerm("OA_DefForm.Delete"))
+                {
+                    <SpaceItem>
+                        <Popconfirm Title="确认删除吗?"
                                 OnConfirm="()=>Delete(context.Id)"
                                 OnCancel="()=>{}"
                                 OkText="确定"
                                 CancelText="取消">
-                        <Button Danger Type="@ButtonType.Link">Delete</Button>
-                    </Popconfirm>
-                    <Button Type="@ButtonType.Link" OnClick="()=>Log(context)">Log</Button>
-                </SpaceItem>
+                            <Button Danger Type="@ButtonType.Link">Delete</Button>
+                        </Popconfirm>
+                    </SpaceItem>
+                }
             </Space>
         </ActionColumn>
     </ChildContent>
@@ -100,35 +129,8 @@
 {
     public List()
     {
-        Area = "Quartz_Manage";
-    }
-
-    private async void Log(Quartz_TaskDTO para)
-    {
-        var modalConfig = new ModalOptions();
-        modalConfig.Title = "编辑表单";
-        //modalConfig.Style = "top:20px;";
-        // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
-        //modalConfig.BodyStyle += "overflow-y: auto;";
-        modalConfig.DestroyOnClose = true;
-        modalConfig.Centered = true;
-
-        var modalRef = await ModalService.CreateModalAsync<LogForm, string>(modalConfig, para.GroupName + "." + para.TaskName);
-
-    }
-
-    private void Pause(string id)
-    {
-        List<string> ids;
-        if (string.IsNullOrEmpty(id))
-        {
-            ids = SelectedItems.Select(p => p.Id).ToList();
-        }
-        else
-        {
-            ids = new List<string> { id };
-        }
-        Excute("暂停", "PauseData", ids);
+        Area = "OA_Manage";
+        EditWitdh = 1000d;
     }
 
     private void Start(string id)
@@ -140,12 +142,12 @@
         }
         else
         {
-            ids = new List<string> { id };
+            ids = new List<string> {id };
         }
         Excute("开始", "StartData", ids);
     }
 
-    private void ToDo(string id)
+    private void Stop(string id)
     {
         List<string> ids;
         if (string.IsNullOrEmpty(id))
@@ -156,19 +158,18 @@
         {
             ids = new List<string> { id };
         }
-        Excute("立即执行", "ToDoData", ids);
+        Excute("停用", "StopData", ids);
     }
 
     private void Excute(string Text, string Action, List<string> ids)
     {
-
         Func<ModalClosingEventArgs, Task> onOkClick = async (e) =>
         {
             try
             {
                 ShowWait();
 
-                var result = await DataProvider.PostData<AjaxResult>($"/Quartz_Manage/Quartz_Task/{Action}", ids.ToJson());
+                var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_DefForm/{Action}", ids.ToJson());
                 if (!result.Success)
                 {
                     throw new MsgException(result.Msg);
@@ -190,9 +191,9 @@
         {
             var index = 0;
             IEnumerable<KeyValuePair<string, object>> paramenter = new List<KeyValuePair<string, object>>()
-                    {
+                                    {
                 new KeyValuePair<string, object>("Type","check-circle")
-                    };
+                                    };
 
             builder.OpenComponent(index++, typeof(Icon));
             builder.AddMultipleAttributes(index++, paramenter);
@@ -208,6 +209,4 @@
                 OnOk = onOkClick
             });
     }
-
-
 }

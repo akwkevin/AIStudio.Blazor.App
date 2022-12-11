@@ -48,9 +48,19 @@
         <AntDesign.Column Title="所属角色" DataIndex="RoleNames" TData="string" />
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
-                <SpaceItem>
-                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
-                    <Popconfirm Title="确认删除吗?"
+                @if (Operator.HasPerm("Base_User.Edit"))
+                {
+                    <SpaceItem>
+
+                        <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+
+
+                    </SpaceItem>
+                } 
+                @if (Operator.HasPerm("Base_User.Delete"))
+                {
+                    <SpaceItem>
+                        <Popconfirm Title="确认删除吗?"
                                 OnConfirm="()=>Delete(context.Id)"
                                 OnCancel="()=>{}"
                                 OkText="确定"
@@ -58,6 +68,7 @@
                         <Button Danger Type="@ButtonType.Link">Delete</Button>
                     </Popconfirm>
                 </SpaceItem>
+                }
             </Space>
         </ActionColumn>
     </ChildContent>

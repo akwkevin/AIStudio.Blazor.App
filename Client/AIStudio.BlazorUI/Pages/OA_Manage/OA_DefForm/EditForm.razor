@@ -1,0 +1,52 @@
+﻿@using AIStudio.BlazorDiagram.Components
+@inherits BaseEditForm<OA_DefFormDTO>
+
+<Form @ref="_form" Model="@Data"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }">
+    <Row Gutter="24">
+        <GridCol Span="6">
+            <FormItem Label="分类">
+                <Input @bind-Value="@context.Type" AutoComplete=false />
+            </FormItem>
+        </GridCol>  <GridCol Span="6">
+            <FormItem Label="标题">
+                <Input @bind-Value="@context.Name" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="6">
+            <FormItem Label="摘要">
+                <Input @bind-Value="@context.Text" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="6">
+            <FormItem Label="排序">
+                <Input @bind-Value="@context.Sort" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="6">
+            <FormItem Label="权限角色">
+                <Input @bind-Value="@context.Value" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="6">
+            <FormItem Label="流程图">
+                <Input @bind-Value="@context.WorkflowJSON" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+    </Row>
+    <Row>
+        <GridCol Span="24">
+            <FlowchartEditor />
+        </GridCol>
+    </Row>
+</Form>
+
+@code {
+
+    public EditForm()
+    {
+        Area = "OA_Manage";
+    }
+
+}

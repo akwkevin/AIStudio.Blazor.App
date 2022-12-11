@@ -47,7 +47,8 @@ namespace AIStudio.Entity.OA_Manage
         public string? SubType { get; set; }
         [MaxLength(50)]
         public string? Unit { get; set; }
-        public DateTime? ExpectedDate { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         [MaxLength(500)]
         public string? CurrentNode { get; set; }
 

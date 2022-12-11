@@ -17,6 +17,7 @@ namespace AIStudio.BlazorUI.Core
 {
     public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : IKeyBaseEntity where EditForm : FeedbackComponent<string>
     {
+        protected double EditWitdh { get; set; } = 520d;
         protected override async void Edit(TData para)
         {
             var modalConfig = new ModalOptions();
@@ -26,7 +27,7 @@ namespace AIStudio.BlazorUI.Core
             //modalConfig.BodyStyle += "overflow-y: auto;";
             modalConfig.DestroyOnClose = true;
             modalConfig.Centered = true;
-
+            modalConfig.Width = EditWitdh;
             var modalRef = await ModalService.CreateModalAsync<EditForm, string>(modalConfig, para?.Id);
 
             modalRef.OnOk = async () =>

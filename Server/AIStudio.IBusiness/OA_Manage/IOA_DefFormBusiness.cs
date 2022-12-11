@@ -16,8 +16,8 @@ namespace AIStudio.Business.OA_Manage
         new Task<PageResult<OA_DefFormDTO>> GetDataListAsync(PageInput input);
         new Task<OA_DefFormDTO> GetTheDataAsync(string id);
         Task SaveDataAsync(OA_DefFormDTO theData);
-        Task StartDataAsync(IdInputDTO input);
-        Task StopDataAsync(IdInputDTO input);
+        Task StartDataAsync(List<string> ids);
+        Task StopDataAsync(List<string> ids);
     }
 
 

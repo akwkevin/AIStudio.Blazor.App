@@ -29,11 +29,6 @@ namespace AIStudio.Entity.DTO.OA_Manage
             get { return CurrentNode?.Replace("^", "").Trim().Replace(" ", ","); }
         }
 
-
-        public string? ExpectedDateString { get => ExpectedDate?.ToString("yyyy-MM-dd"); }
-
-        public string? WorkflowJSON { get; set; }
-
         public List<OA_UserFormStepDTO>? Comments { get; set; } = new List<OA_UserFormStepDTO>();
 
         public List<OA_Step>? Steps { get; set; } = new List<OA_Step>();
@@ -48,18 +43,18 @@ namespace AIStudio.Entity.DTO.OA_Manage
         /// <summary>
         /// 审批进行中
         /// </summary>
-        public string? userId { get; set; }
+        public string? UserId { get; set; }
         /// <summary>
         /// 等待审批中
         /// </summary>
-        public string? applicantUserId { get; set; }
+        public string? ApplicantUserId { get; set; }
         /// <summary>
         /// 创建的
         /// </summary>
-        public string? creatorId { get; set; }
+        public string? CreatorId { get; set; }
         /// <summary>
         /// 审批过
         /// </summary>
-        public string? alreadyUserIds { get; set; }
+        public string? AlreadyUserIds { get; set; }
     }
 }

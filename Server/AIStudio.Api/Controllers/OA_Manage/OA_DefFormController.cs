@@ -87,21 +87,21 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// <summary>
         /// 启动数据
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="ids"></param>
         [HttpPost]
-        public async Task StartData(IdInputDTO input)
+        public async Task StartData(List<string> ids)
         {
-            await _oA_DefFormBus.StartDataAsync(input);
+            await _oA_DefFormBus.StartDataAsync(ids);
         }
 
         /// <summary>
         /// 停用数据
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="ids"></param>
         [HttpPost]
-        public async Task StopData(IdInputDTO input)
+        public async Task StopData(List<string> ids)
         {
-            await _oA_DefFormBus.StopDataAsync(input);
+            await _oA_DefFormBus.StopDataAsync(ids);
         }
 
         /// <summary>

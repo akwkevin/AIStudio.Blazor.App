@@ -1,0 +1,125 @@
+﻿@page "/OA_Manage/OA_UserForm/List"
+
+@inherits BaseListWithEdit<OA_UserFormDTO, EditForm>
+
+<Space Size="@("small")">
+
+    @if (Operator.HasPerm("OA_UserForm.Delete"))
+    {
+        <SpaceItem>
+            <Popconfirm Title="确认删除选中项吗?"
+                    OnConfirm="()=>Delete()"
+                    OnCancel="()=>{}"
+                    OkText="确定"
+                    CancelText="取消"
+                    disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+            </Popconfirm>
+        </SpaceItem>
+    }
+    <SpaceItem>
+        <SimpleSelect DefaultActiveFirstOption @bind-Value="@Condition">
+            <SelectOptions>
+                <SimpleSelectOption Value="Type" Label="分类"></SimpleSelectOption>
+                <SimpleSelectOption Value="Name" Label="标题"></SimpleSelectOption>
+                <SimpleSelectOption Value="Text" Label="摘要"></SimpleSelectOption>
+                <SimpleSelectOption Value="CreatorName" Label="创建者"></SimpleSelectOption>
+                <SimpleSelectOption Value="Status" Label="状态"></SimpleSelectOption>
+            </SelectOptions>
+        </SimpleSelect>
+    </SpaceItem>
+    <SpaceItem>
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+    </SpaceItem>
+</Space>
+
+<Table @ref="_table"
+       TItem="OA_UserFormDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       @bind-SelectedRows="SelectedItems"
+       ScrollX="2200"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+        <AntDesign.Column Title="分类" DataIndex="Type" TData="System.String" />
+        <AntDesign.Column Title="标题" DataIndex="DefFormName" TData="System.String" />
+        <AntDesign.Column Title="摘要" DataIndex="Text" TData="System.String" />
+        <AntDesign.Column Title="状态" TData="System.String">
+            @if (@context.Status == 0)
+            {
+                <Badge Color="Red" Text="停止" />
+            }
+            else
+            {
+                <Badge Color="#87d068" Text="启动" />
+            }
+        </AntDesign.Column>
+        <AntDesign.Column Title="紧急程度" TData="System.String">
+            @if (@context.Grade == 0)
+            {
+                <Badge Color="Red" Text="停止" />
+            }
+            else
+            {
+                <Badge Color="#87d068" Text="启动" />
+            }
+        </AntDesign.Column>
+        <AntDesign.Column Title="申请人及部门" DataIndex="ApplicantUserAndDepartment" TData="System.String" />
+        <AntDesign.Column Title="当前节点" DataIndex="Current" TData="System.String" />
+        <AntDesign.Column Title="当前审批人" DataIndex="UserNamesAndRoles" TData="System.String" />
+        <AntDesign.Column Title="开始日期" DataIndex="StartTime" Format="yyyy-MM-dd HH:mm:ss" TData="System.String" />
+        <AntDesign.Column Title="结束日期" DataIndex="EndTime" Format="yyyy-MM-dd HH:mm:ss" TData="System.String" />
+        <ActionColumn Title="Action" Fixed="right">
+            <Space Size=@("small")>
+                @if (Operator.HasPerm("OA_UserForm.Edit"))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    </SpaceItem>
+                }
+                @if (Operator.HasPerm("OA_UserForm.Delete"))
+                {
+                    <SpaceItem>
+                        <Popconfirm Title="确认删除吗?"
+                                OnConfirm="()=>Delete(context.Id)"
+                                OnCancel="()=>{}"
+                                OkText="确定"
+                                CancelText="取消">
+                            <Button Danger Type="@ButtonType.Link">Delete</Button>
+                        </Popconfirm>
+                    </SpaceItem>
+                }
+            </Space>
+        </ActionColumn>
+    </ChildContent>
+    <PaginationTemplate>
+        <div style="float:right;margin-top:10px">
+            <Pagination Total="Pagination.Total"
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
+        </div>
+    </PaginationTemplate>
+</Table>
+
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
+
+@code
+{
+    public List()
+    {
+        Area = "OA_Manage";
+        EditWitdh = 1000d;
+    }
+}

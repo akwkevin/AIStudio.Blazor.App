@@ -57,20 +57,20 @@ namespace AIStudio.Api
             }
 
             var roleBusiness = provider.GetRequiredService<IBase_RoleBusiness>();
-            var admin = roleBusiness.FirstOrDefault(p => p.RoleName == RoleTypes.部门管理员.ToString());
-            if (admin == null)
+            var departmentManager = roleBusiness.FirstOrDefault(p => p.RoleName == RoleTypes.部门管理员.ToString());
+            if (departmentManager == null)
             {
-                admin = new Base_Role
+                departmentManager = new Base_Role
                 {
-                    Id = "Department",
+                    Id = "DepartmentManager",
                     RoleName = RoleTypes.部门管理员.ToString(),
                     CreateTime = DateTime.Now,
                     CreatorId = "System",
                     CreatorName = "System",
                 };
-                var result = roleBusiness.Insert(admin);
+                var result = roleBusiness.Insert(departmentManager);
 
-                logger.LogTrace($"Base_Role:{admin.RoleName} created");
+                logger.LogTrace($"Base_Role:{departmentManager.RoleName} created");
             }
 
             var superadmin = roleBusiness.FirstOrDefault(p => p.RoleName == RoleTypes.超级管理员.ToString());
@@ -86,7 +86,7 @@ namespace AIStudio.Api
                 };
                 var result = roleBusiness.Insert(superadmin);
 
-                logger.LogTrace($"Base_Role:{admin.RoleName} created");
+                logger.LogTrace($"Base_Role:{superadmin.RoleName} created");
             }
 
             var departmentBussiness = provider.GetRequiredService<IBase_DepartmentBusiness>();
@@ -95,13 +95,18 @@ namespace AIStudio.Api
             {
                 List<Base_Department> departments = new List<Base_Department>()
                 {
-                    new Base_Department(){  Id="Id1", Name="Wpf控件公司", ParentId = null, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id1", Name="AIStudio", ParentId = null, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Department(){  Id="Id2", Name="UI部门", ParentId="Id1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Department(){  Id="Id2_1", Name="UI子部门1", ParentId="Id2", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Department(){  Id="Id2_2", Name="UI子部门2", ParentId="Id2", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Department(){  Id="Id3", Name="C#部门", ParentId="Id1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Department(){  Id="Id3_1", Name="C#子部门1", ParentId="Id3", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
-                    new Base_Department(){  Id="Id3_2", Name="C#子部门2", ParentId="Id3", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3", Name="WPF部门", ParentId="Id1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3_1", Name="WPF子部门1", ParentId="Id3", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3_2", Name="WPF子部门2", ParentId="Id3", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3_1_1", Name="WPF控件部", ParentId="Id3_1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id3_1_2", Name="WPF流程图", ParentId="Id3_1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id4", Name="ASP部门", ParentId="Id1", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id4_1", Name="ASP子部门1", ParentId="Id4", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Department(){  Id="Id4_2", Name="ASP子部门2", ParentId="Id4", CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                 };
 
                 var result = departmentBussiness.Insert(departments);
@@ -161,8 +166,8 @@ namespace AIStudio.Api
                 var aliceUserRole = new Base_UserRole
                 {
                     Id = IdHelper.GetId(),
-                    UserId = adminUser.Id,
-                    RoleId = alice.Id,
+                    UserId = alice.Id,
+                    RoleId = departmentManager.Id,
                     CreateTime = DateTime.Now,
                     CreatorId = "System",
                     CreatorName = "System",
@@ -172,24 +177,268 @@ namespace AIStudio.Api
                 logger.LogTrace($"Base_User:{alice.UserName} created");
             }
 
-            //bob ,123456,
-            var bob = userBusiness.FirstOrDefault(p => p.UserName == "Bob");
-            if (bob == null)
+            //bob1 ,123456,
+            var bob1 = userBusiness.FirstOrDefault(p => p.UserName == "Bob1");
+            if (bob1 == null)
             {
-                bob = new Base_User
+                bob1 = new Base_User
                 {
-                    Id = "Bob",
-                    UserName = "Bob",
-                    RealName = "Bob",
+                    Id = "Bob1",
+                    UserName = "Bob1",
+                    RealName = "Bob1",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id2_1",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(bob1);
+
+                var bob1UserRole = new Base_UserRole
+                {
+                    Id = IdHelper.GetId(),
+                    UserId = bob1.Id,
+                    RoleId = departmentManager.Id,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result2 = userroleBusiness.Insert(bob1UserRole);
+
+                logger.LogTrace($"Base_User:{bob1.UserName} created");
+            }
+
+            //bob2 ,123456,
+            var bob2 = userBusiness.FirstOrDefault(p => p.UserName == "Bob2");
+            if (bob2 == null)
+            {
+                bob2 = new Base_User
+                {
+                    Id = "Bob2",
+                    UserName = "Bob2",
+                    RealName = "Bob2",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id2_1",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(bob2);               
+
+                logger.LogTrace($"Base_User:{bob2.UserName} created");
+            }
+
+            //Luffy ,123456,
+            var luffy = userBusiness.FirstOrDefault(p => p.UserName == "Luffy");
+            if (luffy == null)
+            {
+                luffy = new Base_User
+                {
+                    Id = "Luffy",
+                    UserName = "Luffy",
+                    RealName = "Luffy",
                     Password = "123456".ToMD5String(),
                     DepartmentId = "Id3",
                     CreateTime = DateTime.Now,
                     CreatorId = "System",
                     CreatorName = "System",
                 };
-                var result = userBusiness.Insert(bob);
+                var result = userBusiness.Insert(luffy);
 
-                logger.LogTrace($"Base_User:{bob.UserName} created");
+                var luffyUserRole = new Base_UserRole
+                {
+                    Id = IdHelper.GetId(),
+                    UserId = luffy.Id,
+                    RoleId = departmentManager.Id,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result2 = userroleBusiness.Insert(luffyUserRole);
+
+                logger.LogTrace($"Base_User:{luffy.UserName} created");
+            }
+
+            //Nami ,123456,
+            var nami = userBusiness.FirstOrDefault(p => p.UserName == "Nami");
+            if (nami == null)
+            {
+                nami = new Base_User
+                {
+                    Id = "Nami",
+                    UserName = "Nami",
+                    RealName = "Nami",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_1",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(nami);
+
+                var namiUserRole = new Base_UserRole
+                {
+                    Id = IdHelper.GetId(),
+                    UserId = nami.Id,
+                    RoleId = departmentManager.Id,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result2 = userroleBusiness.Insert(namiUserRole);
+
+                logger.LogTrace($"Base_User:{nami.UserName} created");
+            }
+
+            //Zoro ,123456,
+            var zoro = userBusiness.FirstOrDefault(p => p.UserName == "Zoro");
+            if (zoro == null)
+            {
+                zoro = new Base_User
+                {
+                    Id = "Zoro",
+                    UserName = "Zoro",
+                    RealName = "Zoro",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_1",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(zoro);               
+
+                logger.LogTrace($"Base_User:{zoro.UserName} created");
+            }
+
+            //Sanji ,123456,
+            var sanji = userBusiness.FirstOrDefault(p => p.UserName == "Sanji");
+            if (sanji == null)
+            {
+                sanji = new Base_User
+                {
+                    Id = "Sanji",
+                    UserName = "Sanji",
+                    RealName = "Sanji",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_1",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(sanji);
+
+                logger.LogTrace($"Base_User:{sanji.UserName} created");
+            }
+
+            //Usoppu ,123456,
+            var usoppu = userBusiness.FirstOrDefault(p => p.UserName == "Usoppu");
+            if (usoppu == null)
+            {
+                usoppu = new Base_User
+                {
+                    Id = "Usoppu",
+                    UserName = "Usoppu",
+                    RealName = "Usoppu",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_1_1",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(usoppu);
+
+                logger.LogTrace($"Base_User:{usoppu.UserName} created");
+            }
+
+            //Chopper ,123456,
+            var chopper = userBusiness.FirstOrDefault(p => p.UserName == "Chopper");
+            if (chopper == null)
+            {
+                chopper = new Base_User
+                {
+                    Id = "Chopper",
+                    UserName = "Chopper",
+                    RealName = "Chopper",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_1_2",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(chopper);
+
+                logger.LogTrace($"Base_User:{chopper.UserName} created");
+            }
+
+            //NicoRobin ,123456,
+            var nicoRobin = userBusiness.FirstOrDefault(p => p.UserName == "NicoRobin");
+            if (nicoRobin == null)
+            {
+                nicoRobin = new Base_User
+                {
+                    Id = "NicoRobin",
+                    UserName = "NicoRobin",
+                    RealName = "NicoRobin",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_2",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(nicoRobin);
+
+                var nicoRobinUserRole = new Base_UserRole
+                {
+                    Id = IdHelper.GetId(),
+                    UserId = nicoRobin.Id,
+                    RoleId = departmentManager.Id,
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result2 = userroleBusiness.Insert(nicoRobinUserRole);
+
+                logger.LogTrace($"Base_User:{nicoRobin.UserName} created");
+            }
+
+            //Franky ,123456,
+            var franky = userBusiness.FirstOrDefault(p => p.UserName == "Franky");
+            if (franky == null)
+            {
+                franky = new Base_User
+                {
+                    Id = "Franky",
+                    UserName = "Franky",
+                    RealName = "Franky",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_2",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(franky);
+
+                logger.LogTrace($"Base_User:{franky.UserName} created");
+            }
+
+            //Brook ,123456,
+            var brook = userBusiness.FirstOrDefault(p => p.UserName == "Brook");
+            if (brook == null)
+            {
+                brook = new Base_User
+                {
+                    Id = "Brook",
+                    UserName = "Brook",
+                    RealName = "Brook",
+                    Password = "123456".ToMD5String(),
+                    DepartmentId = "Id3_2",
+                    CreateTime = DateTime.Now,
+                    CreatorId = "System",
+                    CreatorName = "System",
+                };
+                var result = userBusiness.Insert(brook);
+
+                logger.LogTrace($"Base_User:{brook.UserName} created");
             }
 
             var actionBusiness = provider.GetRequiredService<IBase_ActionBusiness>();
@@ -298,7 +547,7 @@ namespace AIStudio.Api
                     new Base_Dictionary(){ Id="Id13_2",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项", Text = "紧急", Value="1", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Dictionary(){ Id="Id13_3",Deleted = false, ParentId="Id13", Type = DictionaryType.数据集, Category = "选项", Text = "特级", Value="2", Code ="",  Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
 
-                    new Base_Dictionary(){ Id="Id1000",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "流程", ControlType = ControlType.ComboBox,  Text = "分类", Value="分类", Code = "", Sort=1000, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
+                    new Base_Dictionary(){ Id="Id1000",Deleted = false, ParentId=null,  Type = DictionaryType.字典项, Category = "流程", ControlType = ControlType.ComboBox,  Text = "流程分类", Value="流程分类", Code = "", Sort=1000, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_1",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "请假", Value="请假", Code = "", Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_2",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "报销", Value="报销", Code = "", Sort=2, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },
                     new Base_Dictionary(){ Id="Id1000_3",Deleted = false, ParentId="Id1000",  Type = DictionaryType.数据集, Category = "流程", Text = "顺序", Value="顺序", Code = "", Sort=3, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System", },

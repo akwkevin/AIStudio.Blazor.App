@@ -1,0 +1,38 @@
+﻿@page "/OA_Manage/OA_DefForm/TreeList"
+
+@inherits BaseList<OA_DefFormTree>
+
+<Tree TItem="OA_DefFormTree"
+      DataSource="Data"
+      ChildrenExpression="node=>node.DataItem.Children"
+      IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+      TitleExpression="node=>node.DataItem.Text"
+      KeyExpression="node=>node.DataItem.Id"
+      DefaultExpandAll>
+    <TitleTemplate>
+        <Space>
+            <Split>
+                <Divider Type="DirectionVHType.Vertical" />
+            </Split>
+            <ChildContent>
+                <SpaceItem>
+                    @context.DataItem.Text
+                </SpaceItem>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>{}">创建</Button>
+                </SpaceItem>
+                <SpaceItem>
+                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>{}">查看流程图</Button>
+                </SpaceItem>
+            </ChildContent>
+        </Space>
+    </TitleTemplate>
+</Tree>
+
+@code {
+    public TreeList()
+    {
+        Area = "OA_Manage";
+        GetDataList = "GetTreeDataList";
+    }
+}

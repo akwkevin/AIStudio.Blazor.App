@@ -101,12 +101,12 @@ namespace AIStudio.Business.OA_Manage
                     if (!_workflowRegistry.IsRegistered(userForm.JsonId, userForm.JsonVersion))
                     {
                         var def = _definitionLoader.LoadDefinition(userForm.WorkflowJSON, Deserializers.Json);
-                        _logger.Log(Microsoft.Extensions.Logging.LogLevel.Debug, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + def.Id + "-" + def.Version + "加载成功");
+                        _logger.Log(Microsoft.Extensions.Logging.LogLevel.Debug, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流 " + userForm.DefFormName + "-" + def.Id + "-" + def.Version + "加载成功");
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + userForm.DefFormName + "-" + ex.Message);
+                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流 " + userForm.DefFormName + "-" + ex.Message);
                 }
             }
         }
@@ -117,24 +117,24 @@ namespace AIStudio.Business.OA_Manage
         {
             var q = GetIQueryable(input.SearchKeyValues);
 
-            if (!input.Search.userId.IsNullOrEmpty())
+            if (!input.Search.UserId.IsNullOrEmpty())
             {
-                q = q.Where(p => p.UserIds.Contains("^" + input.Search.userId + "^") && p.Status == (int)OA_Status.Being);
+                q = q.Where(p => p.UserIds.Contains("^" + input.Search.UserId + "^") && p.Status == (int)OA_Status.Being);
             }
 
-            if (!input.Search.applicantUserId.IsNullOrEmpty())
+            if (!input.Search.ApplicantUserId.IsNullOrEmpty())
             {
-                q = q.Where(p => p.ApplicantUserId == input.Search.applicantUserId && p.Status == (int)OA_Status.Being);
+                q = q.Where(p => p.ApplicantUserId == input.Search.ApplicantUserId && p.Status == (int)OA_Status.Being);
             }
 
-            if (!input.Search.alreadyUserIds.IsNullOrEmpty())
+            if (!input.Search.AlreadyUserIds.IsNullOrEmpty())
             {
-                q = q.Where(p => p.AlreadyUserIds.Contains("^" + input.Search.alreadyUserIds + "^"));
+                q = q.Where(p => p.AlreadyUserIds.Contains("^" + input.Search.AlreadyUserIds + "^"));
             }
 
-            if (!input.Search.creatorId.IsNullOrEmpty())
+            if (!input.Search.CreatorId.IsNullOrEmpty())
             {
-                q = q.Where(p => p.CreatorId == input.Search.creatorId);
+                q = q.Where(p => p.CreatorId == input.Search.CreatorId);
             }
 
             return await q.Select<OA_UserFormDTO>().GetPageResultAsync(input);

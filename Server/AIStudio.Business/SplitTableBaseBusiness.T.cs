@@ -381,7 +381,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return Db.Queryable<T>().GetSplitTable(null).First(predicate);
+            return GetIQueryable().GetSplitTable(null).First(predicate);
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
-            return await Db.Queryable<T>().GetSplitTable(null).FirstAsync(predicate);
+            return await GetIQueryable().GetSplitTable(null).FirstAsync(predicate);
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public T GetEntity(params object[] keyValue)
         {
-            return Db.Queryable<T>().In(keyValue).GetSplitTable(null).First();
+            return GetIQueryable().In(keyValue).GetSplitTable(null).First();
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<T> GetEntityAsync(params object[] keyValue)
         {
-            return await Db.Queryable<T>().In(keyValue).GetSplitTable(null).FirstAsync();
+            return await GetIQueryable().In(keyValue).GetSplitTable(null).FirstAsync();
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public List<T> GetList()
         {
-            return Db.Queryable<T>().GetSplitTable(null).ToList();
+            return GetIQueryable().GetSplitTable(null).ToList();
         }
 
         /// <summary>
@@ -429,7 +429,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<List<T>> GetListAsync()
         {
-            return await Db.Queryable<T>().GetSplitTable(null).ToListAsync();
+            return await GetIQueryable().GetSplitTable(null).ToListAsync();
         }
 
         public ISugarQueryable<T> GetIQueryable()

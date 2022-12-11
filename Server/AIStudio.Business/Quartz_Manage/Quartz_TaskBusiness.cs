@@ -108,7 +108,7 @@ namespace AIStudio.Business.Quartz_Manage
 
         public override async Task DeleteDataAsync(List<string> ids)
         {
-            var list = await Db.Queryable<Quartz_Task>().In(ids).ToListAsync();
+            var list = await GetIQueryable().In(ids).ToListAsync();
 
             foreach (var item in list)
             {
@@ -146,7 +146,7 @@ namespace AIStudio.Business.Quartz_Manage
       
         public async Task StartDataAsync(List<string> ids)
         {
-            var list = await Db.Queryable<Quartz_Task>().In(ids).ToListAsync();
+            var list = await GetIQueryable().In(ids).ToListAsync();
 
             foreach (var item in list)
             {
@@ -187,7 +187,7 @@ namespace AIStudio.Business.Quartz_Manage
         }
         public async Task PauseDataAsync(List<string> ids)
         {
-            var list = await Db.Queryable<Quartz_Task>().In(ids).ToListAsync();
+            var list = await GetIQueryable().In(ids).ToListAsync();
 
             foreach (var item in list)
             {
@@ -205,7 +205,7 @@ namespace AIStudio.Business.Quartz_Manage
         }
         public async Task TodoDataAsync(List<string> ids)
         {
-            var list = await Db.Queryable<Quartz_Task>().In(ids).ToListAsync();
+            var list = await GetIQueryable().In(ids).ToListAsync();
 
             foreach (var item in list)
             {

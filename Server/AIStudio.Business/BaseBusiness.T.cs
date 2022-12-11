@@ -540,7 +540,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return Db.Queryable<T>().First(predicate);
+            return GetIQueryable().First(predicate);
         }
 
         /// <summary>
@@ -550,7 +550,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
-            return await Db.Queryable<T>().FirstAsync(predicate);
+            return await GetIQueryable().FirstAsync(predicate);
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public T GetEntity(params object[] keyValue)
         {
-            return Db.Queryable<T>().In(keyValue).First();
+            return GetIQueryable().In(keyValue).First();
         }
 
         /// <summary>
@@ -570,7 +570,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<T> GetEntityAsync(params object[] keyValue)
         {
-            return await Db.Queryable<T>().In(keyValue).FirstAsync();
+            return await GetIQueryable().In(keyValue).FirstAsync();
         }
 
         /// <summary>
@@ -579,7 +579,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public List<T> GetList()
         {
-            return Db.Queryable<T>().ToList();
+            return GetIQueryable().ToList();
         }
 
         /// <summary>
@@ -588,7 +588,7 @@ namespace AIStudio.Business
         /// <returns></returns>
         public async Task<List<T>> GetListAsync()
         {
-            return await Db.Queryable<T>().ToListAsync();
+            return await GetIQueryable().ToListAsync();
         }
 
         /// <summary>

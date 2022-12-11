@@ -87,13 +87,6 @@ namespace AIStudio.Business.OA_Manage.Steps
             string nextstepid = oAStartStep.NextStepId;
             oaData.Steps.AddRange(GetNextStep(oASteps, nextstepid));
 
-            //var oAEndStep = oaData.Steps.FirstOrDefault(p => p.StepType == StepType.End);
-            //if (oAEndStep != null)
-            //{
-            //    oaData.Steps.Remove(oAEndStep);
-            //    oaData.Steps.Add(oAEndStep);
-            //}
-
             return JsonConvert.SerializeObject(oaData);
         }
 
@@ -165,17 +158,20 @@ namespace AIStudio.Business.OA_Manage.Steps
             IBase_UserRoleBusiness _base_UserRoleBusiness = serviceProvider.GetRequiredService<IBase_UserRoleBusiness>();
             Base_Department department = null;
 
+            var userlist = await _base_UserBusiness.GetListAsync();
+            var rolelist = await _base_RoleBusiness.GetListAsync();
+            var userrolelist = await _base_UserRoleBusiness.GetListAsync();
+            var departmentlist = await _base_DepartmentBusiness.GetListAsync();
+
             if (!string.IsNullOrEmpty(data.ApplicantDepartmentId))
             {
-                department = await _base_DepartmentBusiness.GetEntityAsync(data.ApplicantDepartmentId);
+                department = departmentlist.FirstOrDefault(p => p.Id == data.ApplicantDepartmentId);
                 if (department != null)
                 {
                     data.ApplicantDepartment = department.Name;
                 }
             }
-            var userlist = await _base_UserBusiness.GetListAsync();
-            var rolelist = await _base_RoleBusiness.GetListAsync();
-            var userrolelist = await _base_UserRoleBusiness.GetListAsync();
+
             OA_Data oAData = data.WorkflowJSON.ToObject<OA_Data>();
             oAData.Flag = data.Flag;
 
@@ -228,32 +224,34 @@ namespace AIStudio.Business.OA_Manage.Steps
                     step.ActRules.RoleNames = theroles.Select(p => p.RoleName).ToList();
                     step.ActRules.RoleIds = theroles.Select(p => p.Id).ToList();
 
-                    //待处理部门审批
-                    //var departmentids = department.ParentIds.Split(new string[] { "^" }, StringSplitOptions.RemoveEmptyEntries).Reverse().ToList();
-                    //departmentids.Insert(0, department.Id);
-                    //var userroles = userrolelist.Where(p => step.ActRules.RoleIds.Contains(p.RoleId)).ToList();
+                    //待处理部门审批                 
+                    var userroles = userrolelist.Where(p => step.ActRules.RoleIds.Contains(p.RoleId)).ToList();
 
-                    //bool success = false;
-                    //foreach (var departmentid in departmentids)
-                    //{
-                    //    var roleuser = userlist.FirstOrDefault(p => p.DepartmentId == departmentid && userroles.Any(q => q.UserId == p.Id));
-                    //    if (roleuser != null)
-                    //    {
-                    //        step.ActRules.UserNames = new List<string> { roleuser.UserName };
-                    //        step.ActRules.UserIds = new List<string> { roleuser.Id };
-                    //        success = true;
-                    //        break;
-                    //    }
-                    //}
+                    bool success = false;
+                    var roleDepartment = department;
+                    while(roleDepartment != null)
+                    {
+                        var roleuser = userlist.FirstOrDefault(p => p.DepartmentId == roleDepartment.Id && userroles.Any(q => q.UserId == p.Id));
+                        if (roleuser != null)
+                        {
+                            step.ActRules.UserNames = new List<string> { roleuser.UserName };
+                            step.ActRules.UserIds = new List<string> { roleuser.Id };
+                            success = true;
+                            break;
+                        }
 
-                    //if (success == false)
-                    //{
-                    //    throw new Exception(string.Format("流程异常，无法找到{0}的角色为{1}的OA审批人", step.Id, step.ActRules?.RoleNames));
-                    //}
-                    //else
-                    //{
-                    //    continue;
-                    //}
+                        //指向父级部门进行查找
+                        roleDepartment = departmentlist.FirstOrDefault(p => p.Id == roleDepartment.ParentId);
+                    }
+
+                    if (success == false)
+                    {
+                        throw new Exception(string.Format("流程异常，无法找到{0}的角色为{1}的OA审批人", step.Id, step.ActRules?.RoleNames));
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
 
                 Type type = Type.GetType(step.StepType, true, true);
@@ -268,7 +266,7 @@ namespace AIStudio.Business.OA_Manage.Steps
                     throw new Exception(string.Format("流程异常，{0}没有设置OA审批人", step.Id));
                 }
 
-                //最后找不到的，如果需要审批那么会指向系统管理员
+                //最后找不到的，如果需要审批那么会指向系统管理员 ToDo
             }
 
             return oAData;

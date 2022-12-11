@@ -8,6 +8,7 @@ using AIStudio.Common.Service;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Entity.Enum;
 using AIStudio.Entity.OA_Manage;
+using AIStudio.Entity.Quartz_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using AIStudio.Util.DiagramEntity;
@@ -53,13 +54,13 @@ namespace AIStudio.Business.OA_Manage
         #region 外部接口
         public async Task LoadDefinitionAsync()
         {
-            var defForms = await GetListAsync();
+            var defForms = await GetIQueryable().Where(p => p.Status == 1).ToListAsync();
             LoadDefinition(defForms);
         }
 
         public void LoadDefinition()
         {
-            var defForms = GetList();
+            var defForms = GetIQueryable().Where(p => p.Status == 1).ToList();
             LoadDefinition(defForms);
         }
 
@@ -70,18 +71,18 @@ namespace AIStudio.Business.OA_Manage
                 try
                 {
                     var def = _definitionLoader.LoadDefinition(defform.WorkflowJSON, Deserializers.Json);
-                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Debug, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + def.Id + "-" + def.Version + "加载成功");
+                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Debug, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流 " + defform.Name + "-" + def.Id + "-" + def.Version + "加载成功");
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流" + defform.Name + "-" + ex.Message);
+                    _logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, new EventId((int)UserLogType.工作流程, UserLogType.工作流程.ToString()), "工作流 " + defform.Name + "-" + ex.Message);
                 }
             }
         }
 
         public async Task<List<OA_DefFormTree>> GetTreeDataListAsync(SearchInput input)
         {
-            var list = await GetIQueryable(input.SearchKeyValues).ToListAsync();
+            var list = await GetIQueryable(input.SearchKeyValues).Where(p => p.Status == 1).ToListAsync();
 
             List<OA_DefFormTree> treeList = new List<OA_DefFormTree>();
             foreach (var data in list.GroupBy(p => p.Type))
@@ -138,15 +139,19 @@ namespace AIStudio.Business.OA_Manage
         /// <param name="theData">The data.</param>
         public async Task SaveDataAsync(OA_DefFormDTO theData)
         {
-            theData.WorkflowJSON = OAExtension.InitOAData(theData.WorkflowJSON, IdHelper.GetId());
+            if (string.IsNullOrEmpty(theData.JSONId))//重新编辑过的，清除jsonid
+            {
+                theData.WorkflowJSON = OAExtension.InitOAData(theData.WorkflowJSON, IdHelper.GetId());
 
-            //去掉事务，sqlite不支持
-            //var res = await _oA_DefFormBus.RunTransactionAsync(async () =>
-            //{
-            var def = _definitionLoader.LoadDefinition(theData.WorkflowJSON, Deserializers.Json);
-            theData.JSONId = def.Id;
-            theData.JSONVersion = def.Version;
-            theData.Status = 0;
+                //去掉事务，sqlite不支持
+                //var res = await _oA_DefFormBus.RunTransactionAsync(async () =>
+                //{
+                var def = _definitionLoader.LoadDefinition(theData.WorkflowJSON, Deserializers.Json);
+                theData.JSONId = def.Id;
+                theData.JSONVersion = def.Version;
+                theData.Status = 1;
+            }
+
             if (theData.Id.IsNullOrEmpty())
             {
                 await AddDataAsync(theData);
@@ -154,7 +159,7 @@ namespace AIStudio.Business.OA_Manage
             else
             {
                 await UpdateDataAsync(theData);
-            }         
+            }
             //});
             //if (!res.Success)
             //    throw res.ex;
@@ -164,24 +169,28 @@ namespace AIStudio.Business.OA_Manage
         /// Starts the data asynchronous.
         /// </summary>
         /// <param name="input">The input.</param>
-        public async Task StartDataAsync(IdInputDTO input)
+        public async Task StartDataAsync(List<string> ids)
         {
-            var data = await GetTheDataAsync(input.id);
-            data.Status = 1;
-
-            await SaveDataAsync(data);
+            var list = await GetIQueryable().In(ids).ToListAsync();
+            list.ForEach(async p => 
+            {
+                p.Status = 1;
+                await SaveDataAsync(p);
+            });
         }
 
         /// <summary>
         /// Stops the data asynchronous.
         /// </summary>
         /// <param name="input">The input.</param>
-        public async Task StopDataAsync(IdInputDTO input)
+        public async Task StopDataAsync(List<string> ids)
         {
-            var data = await GetTheDataAsync(input.id);
-            data.Status = 0;
-
-            await SaveDataAsync(data);
+            var list = await GetIQueryable().In(ids).ToListAsync();
+            list.ForEach(async p =>
+            {
+                p.Status = 0;
+                await SaveDataAsync(p);
+            });
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace AIStudio.BlazorUI.Core
 
         protected string IndexUrl { get; set; }
 
-        protected AIStudio.Util.Common.Pagination Pagination { get; set; } = new AIStudio.Util.Common.Pagination() { PageRows = 100 };
+        protected AIStudio.Util.Common.Pagination Pagination { get; set; } = new AIStudio.Util.Common.Pagination() { PageRows = 20 };
         protected virtual Func<PaginationTotalContext, string> ShowTotal { get; set; } = ctx => $"总数：{ctx.Total}   当前：{ctx.Range.from}-{ctx.Range.to}";
 
         protected virtual async Task PageIndexChanged(PaginationEventArgs paginationEvent)
