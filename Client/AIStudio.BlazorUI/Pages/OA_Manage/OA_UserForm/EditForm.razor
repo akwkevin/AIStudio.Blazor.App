@@ -1,36 +1,216 @@
 ﻿@inherits BaseEditForm<OA_UserFormDTO>
 
-<Form @ref="_form" Model="@Data"
-      LabelCol="new ColLayoutParam { Span = 8 }"
-      WrapperCol="new ColLayoutParam { Span = 16 }">
-    <FormItem Label="开始时间">
-        <Input @bind-Value="@context.StartTime" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="结束时间">
-        <Input @bind-Value="@context.EndTime" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="摘要">
-        <Input @bind-Value="@context.Text" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="申请人">
-        <Input @bind-Value="@context.ApplicantUserId" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="紧急程度">
-        <Input @bind-Value="@context.Grade" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="备注">
-        <Input @bind-Value="@context.Remarks" AutoComplete=false />
-    </FormItem>
-    <FormItem Label="附件">
-        <Input @bind-Value="@context.Appendix" AutoComplete=false />
-    </FormItem>
+@if (Data.Steps?.Count > 0)
+{
+    <Steps ProgressDot=@customDot>
+        @foreach (var item in Data.Steps)
+        {
+            <Step Status="@StatusToStep(@item.Status)" Title="@item.Label" Description="@item.ActRules?.ToString()" />
+        }
+    </Steps>
+}
+
+
+<Form @ref="_form" Model="@Data" Class="ant-advanced-search-form">
+    <Row Gutter="24">
+        <GridCol Span="6">
+            <FormItem Label="开始时间">
+                <DatePicker @bind-Value="@context.StartTime" TValue="DateTime?" ShowTime="true" Format="yyyy-MM-dd HH:mm:ss" AllowClear />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="6">
+            <FormItem Label="结束时间">
+                <DatePicker @bind-Value="@context.EndTime" TValue="DateTime?" ShowTime="true" Format="yyyy-MM-dd HH:mm:ss" AllowClear />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="12">
+            <FormItem Label="摘要">
+                <Input @bind-Value="@context.Text" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+    </Row>
+    <Row Gutter="24">
+        <GridCol Span="6">
+            <FormItem Label="申请人">
+                <Select TItem="SelectOption"
+                        TItemValue="string"
+                        @bind-Value="@context.ApplicantUserId"
+                        AllowClear
+                        DataSource="Users"
+                        LabelName="@nameof(SelectOption.Text)"
+                        ValueName="@nameof(SelectOption.Value)"
+                        Placeholder="请选择申请人" />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="6">
+            <FormItem Label="紧急程度">
+                <Select TItem="SelectOption"
+                        TItemValue="string"
+                        @bind-Value="@context.GradeString"
+                        AllowClear
+                        DataSource="Grades"
+                        LabelName="@nameof(SelectOption.Text)"
+                        ValueName="@nameof(SelectOption.Value)"
+                        Placeholder="请选择紧急程度" />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="12">
+            <FormItem Label="备注">
+                <Input @bind-Value="@context.Remarks" AutoComplete=false />
+            </FormItem>
+        </GridCol>
+    </Row>
+    <Row Gutter="24">
+        <GridCol Span="12">
+            <FormItem Label="附件">
+                <UploadFile File="@context.Appendix" MaxCount="1" />
+            </FormItem>
+        </GridCol>
+    </Row>
+
 </Form>
 
-@code {
+@if (Data.Comments?.Count > 0)
+{
+    <AntList DataSource="@Data.Comments" TItem="OA_UserFormStepDTO">
+        <ListItem>           
+            <ListItemMeta Description="@context.Remarks">
+                <TitleTemplate>
+                    @context.CreatorName @context.RoleNames @context.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") @StatusToText(@context.Status)
+                </TitleTemplate>
+            </ListItemMeta>
+        </ListItem>
+    </AntList>
+}
+@if (Data.Status == 1)
+{
+    <Row>
+        <GridCol Span="24">
+            <RadioGroup @bind-Value="@Status">
+                <Radio Value="100">通过</Radio>
+                <Radio Value="2">驳回上一级</Radio>
+                <Radio Value="3">驳回重提</Radio>
+                <Radio Value="4">否决</Radio>
+            </RadioGroup>
+            <Input @bind-Value="@Remark" Placeholder="意见" AutoComplete=false />
+        </GridCol>
+    </Row>
+}
 
+<style>
+    [data-theme='compact'] .ant-advanced-search-form,
+    .ant-advanced-search-form {
+        padding: 24px;
+        background: #fbfbfb;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+    }
+
+        [data-theme='compact'] .ant-advanced-search-form .ant-form-item,
+        .ant-advanced-search-form .ant-form-item {
+            display: flex;
+        }
+
+        [data-theme='compact'] .ant-advanced-search-form .ant-form-item-control-wrapper,
+        .ant-advanced-search-form .ant-form-item-control-wrapper {
+            flex: 1;
+        }
+</style>
+
+@code
+{
     public EditForm()
     {
         Area = "OA_Manage";
     }
-    
+    RenderFragment customDot = @<span>
+        step {index} status: {status}
+        </span>
+    ;
+    private List<SelectOption> Users { get; set; }
+    private List<SelectOption> Types { get; set; }
+    private List<SelectOption> Grades { get; set; }
+    private List<OA_UserFormStepDTO>? Comments { get; set; }
+    private int Status { get; set; } = 100;
+    private string Remark;
+
+    public string StatusToStep(int status)
+    {
+        switch (status)
+        {
+            case 100:
+                return "finish";
+            case 1:
+            case 7:
+            case 6:
+            case 10:
+            case 99:
+                return "process";
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 8:
+                return "error";
+            default:
+                return "wait";
+        }
+    }
+
+    public string StatusToText(int status)
+    {
+        switch (status)
+        {
+            case 100:
+                return "通过";
+            case 1: 
+                return "审批中";
+            case 6:
+                return "挂起";
+            case 7:
+                return "恢复";
+            case 10:
+                return "审批中";
+            case 99:
+                return "部分审批";
+            case 2:
+                return "驳回上一级";
+            case 3:
+                return "驳回重提";
+            case 4:
+                return "否决";
+            case 5:
+                return "废弃";
+            case 8:
+                return "错误";
+            default:
+                return "等待";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetTypes();
+        GetGrades();
+        await GetUsers();
+        await base.OnInitializedAsync();
+    }
+
+    private void GetTypes()
+    {
+        UserData.ItemSource.TryGetValue("流程分类", out var types);
+
+        Types = new List<SelectOption>(types ?? new List<SelectOption>());
+    }
+    private void GetGrades()
+    {
+        UserData.ItemSource.TryGetValue("Grade", out var grades);
+        Grades = new List<SelectOption>(grades ?? new List<SelectOption>());
+    }
+
+    private async Task GetUsers()
+    {
+        Users = await UserData.GetBase_User();
+    }
+
 }

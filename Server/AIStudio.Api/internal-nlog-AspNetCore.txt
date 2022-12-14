@@ -3962,3 +3962,27 @@
 2022-12-11 13:29:30.1572 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
 2022-12-11 13:29:39.7406 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
 2022-12-11 13:29:39.9555 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-12 22:45:08.9988 Info Message Template Auto Format enabled
+2022-12-12 22:45:09.0688 Info Loading assembly: NLog.Web.AspNetCore
+2022-12-12 22:45:09.1602 Info Adding target FileTarget(Name=allfile)
+2022-12-12 22:45:09.1602 Info Adding target FileTarget(Name=ownFile-web)
+2022-12-12 22:45:09.1776 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-12-12 22:45:09.2864 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-12-12 22:45:09.3511 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-12 22:45:22.3251 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-12 22:45:25.7564 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-12 22:45:25.7742 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-12 22:46:00.6230 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-12 22:46:00.9314 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-13 21:21:21.4725 Info Message Template Auto Format enabled
+2022-12-13 21:21:21.5119 Info Loading assembly: NLog.Web.AspNetCore
+2022-12-13 21:21:21.5655 Info Adding target FileTarget(Name=allfile)
+2022-12-13 21:21:21.5768 Info Adding target FileTarget(Name=ownFile-web)
+2022-12-13 21:21:21.5768 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-12-13 21:21:21.6609 Info Adding target ColoredConsoleTarget(Name=colorConsole)
+2022-12-13 21:21:21.6888 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-13 21:21:23.3432 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-13 21:21:23.8326 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-13 21:21:23.8416 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-13 21:21:37.0171 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config
+2022-12-13 21:21:37.3292 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, colorConsole, ConfigItems=85, FilePath=F:\AIStudio.Blazor.App\Server\AIStudio.Api\bin\Debug\net7.0\NLog.config

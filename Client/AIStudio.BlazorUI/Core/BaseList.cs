@@ -18,6 +18,8 @@ namespace AIStudio.BlazorUI.Core
 
         [Inject] 
         protected IDataProvider DataProvider { get; set; }
+        [Inject]
+        protected IUserData UserData { get; set; }
         [Inject] 
         protected MessageService MessageService { get; set; }
         [Inject] 

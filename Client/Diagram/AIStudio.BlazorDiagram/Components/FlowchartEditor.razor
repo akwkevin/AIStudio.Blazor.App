@@ -1,4 +1,7 @@
-﻿<link id="theme-style" rel="stylesheet" href="_content/AIStudio.BlazorDiagram/css/diagram.css">
+﻿@using AIStudio.Util.DiagramEntity;
+@using AIStudio.Util;
+
+<link id="theme-style" rel="stylesheet" href="_content/AIStudio.BlazorDiagram/css/diagram.css">
 
 <div class="wrapper">
     <CascadingValue Value="Diagram">
@@ -11,7 +14,7 @@
             </div>
             <div class="default-node" style="width:80px;height:60px;margin:10px" draggable="true" @ondragstart='() => OnDragStart(AIStudio.Util.DiagramEntity.NodeKinds.Middle)'>
                 <span>中间节点</span>
-            </div>   
+            </div>
             <div class="default-node" style="width:80px;height:60px;margin:10px;border-radius:30px" draggable="true" @ondragstart='() => OnDragStart(AIStudio.Util.DiagramEntity.NodeKinds.Decide)'>
                 <span>条件节点</span>
             </div>
@@ -25,6 +28,108 @@
         <div class="diagram-container" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
             <DiagramCanvas></DiagramCanvas>
         </div>
-        <FlowchartProperty Users="@Users" Roles="@Roles"></FlowchartProperty>
+        <div class="sidebar" style="width:200px;height:@Height">
+            <FlowchartProperty Users="@Users" Roles="@Roles"></FlowchartProperty>
+        </div>
     </CascadingValue>
 </div>
+
+<style>
+    .wrapper {
+        display: flex;
+        width: @Width;
+        height: @Height;
+    }
+
+    .toolbar {
+        float: left;
+        width: 120px;
+        height: @Height;
+        background-color: #f8f9fa;
+        border-right: 1px solid #a9afb8;
+        padding: 1rem;
+    }
+
+    .diagram-container {
+        flex: 1;
+        height: @Height;
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgb(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(0, 0, 0, 0.05) 1px, transparent 1px);
+    }
+</style>
+
+@code {
+    private readonly Diagram Diagram = new Diagram();
+    private NodeKinds? _draggedType;
+
+    [Parameter]
+    public string Data { get; set; }
+
+    [Parameter]
+    public string Mode { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DataChanged { get; set; }
+
+    [Parameter]
+    public List<Util.Common.SelectOption> Users { get; set; } = new List<Util.Common.SelectOption>();
+
+    [Parameter]
+    public List<Util.Common.SelectOption> Roles { get; set; } = new List<Util.Common.SelectOption>();
+
+    [Parameter]
+    public string Width { get; set; } = "auto";
+
+    [Parameter]
+    public string Height { get; set; } = "calc(100vh - 120px)";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Diagram.RegisterModelComponent<FlowchartNodelModel, FlowchartWidget>();
+    }
+
+    private void OnDragStart(NodeKinds key)
+    {
+        // Can also use transferData, but this is probably "faster"
+        _draggedType = key;
+    }
+
+    private void OnDrop(DragEventArgs e)
+    {
+        if (_draggedType == null) // Unkown item
+            return;
+
+        var position = Diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
+        var node = NewNode(position, _draggedType.Value);
+
+        node.AddPort(PortAlignment.Top);
+        node.AddPort(PortAlignment.Bottom);
+        Diagram.Nodes.Add(node);
+        _draggedType = null;
+    }
+
+    private NodeModel NewNode(Blazor.Diagrams.Core.Geometry.Point position, NodeKinds nodeKinds)
+    {
+        var node = new FlowchartNodelModel(position);
+        node.Kind = nodeKinds;
+        node.Title = nodeKinds.GetDescription();
+        node.AddPort(PortAlignment.Bottom);
+        node.AddPort(PortAlignment.Top);
+        node.AddPort(PortAlignment.Left);
+        node.AddPort(PortAlignment.Right);
+        return node;
+    }
+
+    protected override void OnParametersSet()
+    {
+        Diagram.ToObject(Data ?? "");
+    }
+
+    public string GetData()
+    {
+        var data = Diagram.ToJson();
+        return data;
+    }
+}

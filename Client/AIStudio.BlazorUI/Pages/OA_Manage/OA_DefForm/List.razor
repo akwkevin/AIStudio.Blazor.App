@@ -75,20 +75,31 @@
             }
         </AntDesign.Column>
         <AntDesign.Column Title="权限角色" TData="System.String">
-            @context.Value?.Trim('^')?.Replace('^',',')
+           @if (context.ValueRoles?.Count() > 0)
+           {
+                @foreach (var item in Roles)
+                {
+                    @if (@context.ValueRoles.Contains(item.Value))
+                    {
+                        <Tag Color="success">
+                            @item.Text;                        
+                        </Tag>
+                    }
+                }
+           }
         </AntDesign.Column>
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 @if (Operator.HasPerm("OA_DefForm.Edit"))
                 {
                     <SpaceItem>
-                        <Button Type="@ButtonType.Link" OnClick="()=>Start(context.Id)">Open</Button>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Start(context.Id)">Open</Button>
                     </SpaceItem>
                     <SpaceItem>
-                        <Button Type="@ButtonType.Link" OnClick="()=>Stop(context.Id)">Close</Button>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Stop(context.Id)">Close</Button>
                     </SpaceItem>
                     <SpaceItem>
-                        <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context)">Edit</Button>
                     </SpaceItem>
                 }
                 @if (Operator.HasPerm("OA_DefForm.Delete"))
@@ -99,7 +110,7 @@
                                 OnCancel="()=>{}"
                                 OkText="确定"
                                 CancelText="取消">
-                            <Button Danger Type="@ButtonType.Link">Delete</Button>
+                            <Button Danger Type="@ButtonType.Link" Style="padding:0px">Delete</Button>
                         </Popconfirm>
                     </SpaceItem>
                 }
@@ -133,6 +144,8 @@
         EditWitdh = 1000d;
     }
 
+    private List<SelectOption> Roles { get; set; }
+
     private void Start(string id)
     {
         List<string> ids;
@@ -142,7 +155,7 @@
         }
         else
         {
-            ids = new List<string> {id };
+            ids = new List<string> { id };
         }
         Excute("开始", "StartData", ids);
     }
@@ -191,9 +204,9 @@
         {
             var index = 0;
             IEnumerable<KeyValuePair<string, object>> paramenter = new List<KeyValuePair<string, object>>()
-                                    {
+                                                {
                 new KeyValuePair<string, object>("Type","check-circle")
-                                    };
+                                                };
 
             builder.OpenComponent(index++, typeof(Icon));
             builder.AddMultipleAttributes(index++, paramenter);
@@ -208,5 +221,16 @@
                 Centered = true,
                 OnOk = onOkClick
             });
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetRoles();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task GetRoles()
+    {
+        Roles = await UserData.GetBase_Role();
     }
 }

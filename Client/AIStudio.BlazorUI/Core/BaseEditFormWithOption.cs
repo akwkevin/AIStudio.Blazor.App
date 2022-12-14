@@ -23,9 +23,18 @@ namespace AIStudio.BlazorUI.Core
         protected bool Loading { get; set; }
         protected string Area { get; set; }
 
-        protected TData Data { get; set; } = System.Activator.CreateInstance<TData>();
+        protected TData Data { get; set; }
 
         protected Form<TData> _form;
+
+        public BaseEditFormWithOption()
+        {
+            try
+            {
+                Data = System.Activator.CreateInstance<TData>();
+            }
+            catch(Exception ex) { }
+        }
 
         protected virtual async Task GetDataAsync(Option id)
         {

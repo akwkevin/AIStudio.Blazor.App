@@ -1,4 +1,5 @@
 ﻿using AIStudio.Util.DiagramEntity;
+using Google.Protobuf.WellKnownTypes;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -230,6 +231,11 @@ namespace AIStudio.Entity.DTO.OA_Manage
         /// The type of the act.
         /// </value>
         public string? ActType { get; set; }
+
+        public override string? ToString()
+        {
+            return string.Join(".", RoleNames??new List<string>()) + " " + string.Join(".", UserNames ?? new List<string>());
+        }
     }
 
 

@@ -3,11 +3,11 @@
 @inherits AntDomComponentBase
 
 <Space Class="@ClassMapper.Class" Size="@("24")">
-@*    <SpaceItem>
-        <AIStudio.BlazorUI.Components.AvatarDropdown Name="@Operator.UserName"
-            Avatar="@Operator.Avatar"
-            MenuItems="@AvatarMenuItems"
-            OnItemSelected="HandleSelectUser" />
+    @*    <SpaceItem>
+    <AIStudio.BlazorUI.Components.AvatarDropdown Name="@Operator.UserName"
+    Avatar="@Operator.Avatar"
+    MenuItems="@AvatarMenuItems"
+    OnItemSelected="HandleSelectUser" />
     </SpaceItem>*@
 
     <SpaceItem>
@@ -22,7 +22,7 @@
     </SpaceItem>
 </Space>
 
-@code{
+@code {
     RenderFragment _popoverMenu;
 
     RenderFragment CreateMenu()
@@ -33,24 +33,28 @@
 
     public AvatarMenuItem[] AvatarMenuItems { get; set; } = new AvatarMenuItem[]
     {
-            new() { Key = "center", IconType = "user", Option = "个人中心"},
-            new() { Key = "setting", IconType = "setting", Option = "个人设置"},
-            new() { Key = "layoutsetting", IconType = "tool", Option = "布局设置"},
-            new() { Key = "changePwd", IconType = "lock", Option = "修改密码"},
-            new() { IsDivider = true },
-            new() { Key = "logout", IconType = "logout", Option = "退出登录"}
+        new() { Key = "center", IconType = "user", Option = "个人中心"},
+        new() { Key = "setting", IconType = "setting", Option = "个人设置"},
+        new() { Key = "refresh", IconType = "reload", Option = "内存刷新"},
+        new() { Key = "layoutsetting", IconType = "tool", Option = "布局设置"},
+        new() { Key = "changePwd", IconType = "lock", Option = "修改密码"},
+        new() { IsDivider = true },
+        new() { Key = "logout", IconType = "logout", Option = "退出登录"}
     };
 
-    [Inject] 
+    [Inject]
     NavigationManager NavigationManager { get; set; }
 
-    [Inject] 
+    [Inject]
     MessageService MessageService { get; set; }
 
-    [Inject] 
+    [Inject]
     ModalService ModalService { get; set; }
 
-    [Inject] 
+    [Inject]
+    protected IUserData UserData { get; set; }
+
+    [Inject]
     IOperator Operator { get; set; }
 
     [Inject]
@@ -61,6 +65,7 @@
         await base.OnInitializedAsync();
         SetClassMap();
         _popoverMenu = CreateMenu();
+        await RefreshUserData();
     }
 
     protected void SetClassMap()
@@ -95,10 +100,18 @@
                     var modalRef = await ModalService.CreateModalAsync<ChangePwd, ChangePwdInputDTO>(modalConfig, new ChangePwdInputDTO());
                     break;
                 }
+            case "refresh":
+                await RefreshUserData();
+                break;
             case "logout":
                 await AuthStateProvider.Logout();
                 NavigationManager.NavigateTo("/Home/Login");
                 break;
         }
+    }
+
+    private async Task RefreshUserData()
+    {
+        await UserData.Init();
     }
 }

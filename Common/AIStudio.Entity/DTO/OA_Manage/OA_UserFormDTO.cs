@@ -36,6 +36,8 @@ namespace AIStudio.Entity.DTO.OA_Manage
         public int CurrentStepIndex { get; set; }
         public string? CurrentStepId { get; set; }
         public string? Avatar { get; set; }
+
+        public string GradeString { get { return Grade.ToString(); } set{ Grade = int.Parse(value); } }
     }
 
     public class OA_UserFormInputDTO 

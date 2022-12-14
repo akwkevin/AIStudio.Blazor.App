@@ -1,24 +1,33 @@
 ﻿@using AIStudio.BlazorDiagram.Components
 @inherits BaseEditForm<OA_DefFormDTO>
 
-<Form @ref="_form" Model="@Data"
-      LabelCol="new ColLayoutParam { Span = 8 }"
-      WrapperCol="new ColLayoutParam { Span = 16 }">
+<Form @ref="_form" Model="@Data" Class="ant-advanced-search-form">
     <Row Gutter="24">
         <GridCol Span="6">
             <FormItem Label="分类">
-                <Input @bind-Value="@context.Type" AutoComplete=false />
+                <Select TItem="SelectOption"
+                        TItemValue="string"
+                        @bind-Value="@context.Type"
+                        AllowClear
+                        DataSource="Types"
+                        LabelName="@nameof(SelectOption.Text)"
+                        ValueName="@nameof(SelectOption.Value)"
+                        Placeholder="请选择分类">
+                </Select>
             </FormItem>
-        </GridCol>  <GridCol Span="6">
+        </GridCol>
+        <GridCol Span="6">
             <FormItem Label="标题">
                 <Input @bind-Value="@context.Name" AutoComplete=false />
             </FormItem>
         </GridCol>
-        <GridCol Span="6">
+        <GridCol Span="12">
             <FormItem Label="摘要">
                 <Input @bind-Value="@context.Text" AutoComplete=false />
             </FormItem>
         </GridCol>
+    </Row>
+    <Row>
         <GridCol Span="6">
             <FormItem Label="排序">
                 <Input @bind-Value="@context.Sort" AutoComplete=false />
@@ -26,10 +35,19 @@
         </GridCol>
         <GridCol Span="6">
             <FormItem Label="权限角色">
-                <Input @bind-Value="@context.Value" AutoComplete=false />
+                <Select TItem="SelectOption"
+                        TItemValue="string"
+                        @bind-Values="@SelectedRoles"
+                        AllowClear
+                        DataSource="Roles"
+                        Placeholder="请选择角色"
+                        LabelName="@nameof(SelectOption.Text)"
+                        ValueName="@nameof(SelectOption.Value)"
+                        Mode="multiple">
+                </Select>
             </FormItem>
         </GridCol>
-        <GridCol Span="6">
+        <GridCol Span="12">
             <FormItem Label="流程图">
                 <Input @bind-Value="@context.WorkflowJSON" AutoComplete=false />
             </FormItem>
@@ -37,10 +55,30 @@
     </Row>
     <Row>
         <GridCol Span="24">
-            <FlowchartEditor />
+            <FlowchartEditor @ref="@_flowchartEditor" Data="@FlowchartModel" Users="@Users" Roles="@Roles" Mode="@Mode" Height="450px" />
         </GridCol>
     </Row>
 </Form>
+
+<style>
+    [data-theme='compact'] .ant-advanced-search-form,
+    .ant-advanced-search-form {
+        padding: 24px;
+        background: #fbfbfb;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+    }
+
+        [data-theme='compact'] .ant-advanced-search-form .ant-form-item,
+        .ant-advanced-search-form .ant-form-item {
+            display: flex;
+        }
+
+        [data-theme='compact'] .ant-advanced-search-form .ant-form-item-control-wrapper,
+        .ant-advanced-search-form .ant-form-item-control-wrapper {
+            flex: 1;
+        }
+</style>
 
 @code {
 
@@ -49,4 +87,72 @@
         Area = "OA_Manage";
     }
 
+    private FlowchartEditor? _flowchartEditor;
+
+    private string FlowchartModel { get; set; } = "{}";
+    private OA_Data OAData { get; set; }
+    private List<SelectOption> Types { get; set; }
+
+    private string Mode { get; set; } = "Edit";
+
+    private IEnumerable<string> SelectedRoles { get; set; }
+
+    private List<SelectOption> Roles { get; set; }
+
+    private List<SelectOption> Users { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetTypes();
+        await GetRoles();
+        await GetUsers();
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task GetDataAsync(string id)
+    {
+        await base.GetDataAsync(id);
+
+        if (Data.ValueRoles != null)
+        {
+            SelectedRoles = Data.ValueRoles;
+        }
+        if (string.IsNullOrEmpty(Data.WorkflowJSON))
+        {
+            Data.WorkflowJSON = "{}";
+        }
+        OAData = Data.WorkflowJSON.ToObject<OA_Data>();
+        FlowchartModel = Data.WorkflowJSON;
+    }
+
+    protected override async Task SaveData(OA_DefFormDTO para)
+    {
+        var json = _flowchartEditor?.GetData();
+        var data = json.ToObject<OA_Data>();
+        OAData.Nodes = data.Nodes;
+        OAData.Links = data.Links;
+        OAData.Groups = data.Groups;
+        para.JSONId = string.Empty;
+        para.WorkflowJSON = OAData.ToJson();
+        para.ValueRoles = SelectedRoles?.ToArray();
+
+        await base.SaveData(para);
+    }
+
+    private void GetTypes()
+    {
+        UserData.ItemSource.TryGetValue("流程分类", out var types);
+
+        Types = new List<SelectOption>(types ?? new List<SelectOption>());
+    }
+
+    private async Task GetRoles()
+    {
+        Roles = await UserData.GetBase_Role();   
+    }
+
+    private async Task GetUsers()
+    {
+        Users = await UserData.GetBase_User();
+    }
 }
