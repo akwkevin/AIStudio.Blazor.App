@@ -1,4 +1,4 @@
-﻿@inherits BaseEditForm<OA_UserFormDTO>
+﻿@inherits BaseEditFormWithOption<OA_UserFormDTO, object>
 
 @if (Data.Steps?.Count > 0)
 {
@@ -73,7 +73,7 @@
 @if (Data.Comments?.Count > 0)
 {
     <AntList DataSource="@Data.Comments" TItem="OA_UserFormStepDTO">
-        <ListItem>           
+        <ListItem>
             <ListItemMeta Description="@context.Remarks">
                 <TitleTemplate>
                     @context.CreatorName @context.RoleNames @context.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") @StatusToText(@context.Status)
@@ -97,6 +97,31 @@
     </Row>
 }
 
+<div>
+    <Space Size="@("small")" style="margin-top:10px">
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">查看流程图</Button>
+        </SpaceItem>
+    </Space>
+    <Space Size="@("small")" style="float:right;margin-top:10px">
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">预览流程</Button>
+        </SpaceItem>
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" Danger OnClick="()=>OpenEditor()">废弃</Button>
+        </SpaceItem>
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">审批</Button>
+        </SpaceItem>
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">提交</Button>
+        </SpaceItem>
+        <SpaceItem>
+            <Button Type="@ButtonType.Primary" OnClick="()=>Close()">关闭</Button>
+        </SpaceItem>
+    </Space>
+</div>
+
 <style>
     [data-theme='compact'] .ant-advanced-search-form,
     .ant-advanced-search-form {
@@ -119,13 +144,16 @@
 
 @code
 {
+    [Inject]
+    protected ModalService ModalService { get; set; }
+
     public EditForm()
     {
         Area = "OA_Manage";
     }
     RenderFragment customDot = @<span>
         step {index} status: {status}
-        </span>
+    </span>
     ;
     private List<SelectOption> Users { get; set; }
     private List<SelectOption> Types { get; set; }
@@ -163,7 +191,7 @@
         {
             case 100:
                 return "通过";
-            case 1: 
+            case 1:
                 return "审批中";
             case 6:
                 return "挂起";
@@ -213,4 +241,28 @@
         Users = await UserData.GetBase_User();
     }
 
+    private async void OpenEditor()
+    {
+        var modalConfig = new ModalOptions();
+        modalConfig.Title = "编辑表单";
+        //modalConfig.Style = "top:20px;";
+        // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
+        //modalConfig.BodyStyle += "overflow-y: auto;";
+        modalConfig.DestroyOnClose = true;
+        modalConfig.Centered = true;
+        modalConfig.Width = 1000d;
+        modalConfig.Footer = null;
+
+        var modalRef = await ModalService.CreateModalAsync<OA_DefForm.TreeEditForm, object>(modalConfig, Data?.WorkflowJSON);
+
+        modalRef.OnOk = () =>
+        {
+            return Task.CompletedTask;
+        };
+    }
+
+    private void Close()
+    {
+        _ = base.FeedbackRef.CloseAsync();
+    }
 }

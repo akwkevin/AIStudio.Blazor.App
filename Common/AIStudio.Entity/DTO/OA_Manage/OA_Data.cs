@@ -275,6 +275,10 @@ namespace AIStudio.Entity.DTO.OA_Manage
         /// </value>
         [Required]
         public string? Remarks { get; set; }
+
+        public string? UserId { get; set; }
+
+        public string? UserName { get; set; }
     }
 
     /// <summary>

@@ -15,9 +15,10 @@ using Microsoft.JSInterop;
 
 namespace AIStudio.BlazorUI.Core
 {
-    public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : IKeyBaseEntity where EditForm : FeedbackComponent<string>
+    public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : IKeyBaseEntity where EditForm : FeedbackComponent<object>
     {
         protected double EditWitdh { get; set; } = 520d;
+        protected bool DefaultFooter { get; set; } = true;
         protected override async void Edit(TData para)
         {
             var modalConfig = new ModalOptions();
@@ -28,7 +29,11 @@ namespace AIStudio.BlazorUI.Core
             modalConfig.DestroyOnClose = true;
             modalConfig.Centered = true;
             modalConfig.Width = EditWitdh;
-            var modalRef = await ModalService.CreateModalAsync<EditForm, string>(modalConfig, para?.Id);
+            if (DefaultFooter == false)
+            {
+                modalConfig.Footer = null;
+            }
+            var modalRef = await ModalService.CreateModalAsync<EditForm, object>(modalConfig, para?.Id);
 
             modalRef.OnOk = async () =>
             {

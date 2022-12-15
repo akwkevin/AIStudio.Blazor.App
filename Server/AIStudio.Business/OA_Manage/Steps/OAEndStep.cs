@@ -13,7 +13,7 @@ namespace AIStudio.Business.OA_Manage.Steps
     /// </summary>
     public class OAEndStep : OABaseStep, IEndStep, ITransientDependency
     {
-        public OAEndStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
+        public OAEndStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry) : base(userFormStepBusiness, userFormBusiness, registry)
         {
         }
 

@@ -13,7 +13,7 @@
   }
 }
 .main__b__0 ::deep .login :global .ant-tabs .ant-tabs-nav {
-  margin-bottom: 24px;
+  margin: 0;
   text-align: center;
   border-bottom: 0;
 }

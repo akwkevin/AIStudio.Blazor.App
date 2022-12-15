@@ -13,7 +13,7 @@ namespace AIStudio.Business.OA_Manage.Steps.Test
 {
     public class OAGoodbyeWorld: OAEndStep, ITransientDependency
     {
-        public OAGoodbyeWorld(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
+        public OAGoodbyeWorld(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry) : base(userFormStepBusiness, userFormBusiness, registry)
         {
         }
 

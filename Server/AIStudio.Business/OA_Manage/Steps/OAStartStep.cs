@@ -18,7 +18,7 @@ namespace AIStudio.Business.OA_Manage.Steps
         /// <param name="userFormBusiness"></param>
         /// <param name="registry"></param>
         /// <param name="operator"></param>
-        public OAStartStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry, IOperator @operator) : base(userFormStepBusiness, userFormBusiness, registry, @operator)
+        public OAStartStep(IOA_UserFormStepBusiness userFormStepBusiness, IOA_UserFormBusiness userFormBusiness, IWorkflowRegistry registry) : base(userFormStepBusiness, userFormBusiness, registry)
         {
         }
 

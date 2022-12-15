@@ -30,33 +30,58 @@
 </Tree>
 
 @code {
-        public TreeList()
-        {
-            Area = "OA_Manage";
-            GetDataList = "GetTreeDataList";
-        }
-
-        protected override void Edit(OA_DefFormTree para)
-        {
-
-        }
-
-        protected async void OpenEditor(OA_DefFormTree para)
-        {
-            var modalConfig = new ModalOptions();
-            modalConfig.Title = "编辑表单";
-            //modalConfig.Style = "top:20px;";
-            // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
-            //modalConfig.BodyStyle += "overflow-y: auto;";
-            modalConfig.DestroyOnClose = true;
-            modalConfig.Centered = true;
-            modalConfig.Width = 1000d;
-
-            var modalRef = await ModalService.CreateModalAsync<TreeEditForm, string>(modalConfig, para?.json);
-
-            modalRef.OnOk = () =>
-            {
-                return Task.CompletedTask;
-            };
-        }
+    public TreeList()
+    {
+        Area = "OA_Manage";
+        GetDataList = "GetTreeDataList";
     }
+
+    protected override async void Edit(OA_DefFormTree para)
+    {
+        var modalConfig = new ModalOptions();
+        modalConfig.Title = "编辑表单";
+        //modalConfig.Style = "top:20px;";
+        // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
+        //modalConfig.BodyStyle += "overflow-y: auto;";
+        modalConfig.DestroyOnClose = true;
+        modalConfig.Centered = true;
+        modalConfig.Width = 1000d;
+
+        var modalRef = await ModalService.CreateModalAsync<OA_UserForm.EditForm, object>(modalConfig, 
+            new OA_UserFormDTO()
+                {
+                    Type = para.type,
+                    DefFormId = para.key,
+                    DefFormName = para.title,
+                    JsonId = para.jsonId,
+                    JsonVersion = para.jsonVersion,
+                    WorkflowJSON = para.json,
+                    ApplicantUserId = Operator?.UserId
+                });
+
+        modalRef.OnOk = () =>
+        {
+            return Task.CompletedTask;
+        };
+    }
+
+    protected async void OpenEditor(OA_DefFormTree para)
+    {
+        var modalConfig = new ModalOptions();
+        modalConfig.Title = "编辑表单";
+        //modalConfig.Style = "top:20px;";
+        // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
+        //modalConfig.BodyStyle += "overflow-y: auto;";
+        modalConfig.DestroyOnClose = true;
+        modalConfig.Centered = true;
+        modalConfig.Width = 1000d;
+        modalConfig.Footer = null;
+
+        var modalRef = await ModalService.CreateModalAsync<TreeEditForm, object>(modalConfig, para?.json);
+
+        modalRef.OnOk = () =>
+        {
+            return Task.CompletedTask;
+        };
+    }
+}

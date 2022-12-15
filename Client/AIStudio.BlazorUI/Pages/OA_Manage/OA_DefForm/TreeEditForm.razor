@@ -1,15 +1,14 @@
 ﻿@using AIStudio.BlazorDiagram.Components
-@inherits BaseEditFormWithOption<string, string>
+@inherits BaseEditForm<string>
 
 <div>
     <FlowchartEditor Data="@Data" Users="@Users" Roles="@Roles" Height="450px" />
 </div>
 
 @code {
-
     protected override async Task OnInitializedAsync()
     {
-        Data = this.Options;
+        Data = this.Options.ToString();
         await GetRoles();
         await GetUsers();
     }

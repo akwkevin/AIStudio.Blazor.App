@@ -36,24 +36,31 @@ namespace AIStudio.BlazorUI.Core
             catch(Exception ex) { }
         }
 
-        protected virtual async Task GetDataAsync(Option id)
+        protected virtual async Task GetDataAsync(Option option)
         {
             try
             {
                 ShowWait();
 
-                if (id == null)
+                if (option == null)
                 {
                     Data = System.Activator.CreateInstance<TData>();
                 }
                 else
                 {
-                    var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
-                    if (!result.Success)
+                    if (option is string id)
                     {
-                        throw new MsgException(result.Msg);
+                        var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
+                        if (!result.Success)
+                        {
+                            throw new MsgException(result.Msg);
+                        }
+                        Data = result.Data;
                     }
-                    Data = result.Data;
+                    else if (option is TData data)
+                    {     
+                        Data = data;
+                    }
                 }
                
             }

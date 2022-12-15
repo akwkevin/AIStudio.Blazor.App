@@ -94,7 +94,8 @@ namespace AIStudio.Common.CurrentUser
         /// <returns></returns>
         public virtual Claim? FindClaim(string claimType)
         {
-            return _httpContextAccessor?.HttpContext?.User?.Claims.FirstOrDefault(c => c.Type == claimType);
+            var value = _httpContextAccessor?.HttpContext?.User?.Claims.FirstOrDefault(c => c.Type == claimType);
+            return value;
         }
 
         /// <summary>

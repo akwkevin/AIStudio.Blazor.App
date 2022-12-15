@@ -239,6 +239,8 @@ namespace AIStudio.Business.OA_Manage
 
         public async Task<AjaxResult> EventDataAsync(MyEvent eventData)
         {
+            eventData.UserId = _operator.UserId;
+            eventData.UserName = _operator.UserName;
             await _workflowHost.PublishEvent(eventData.EventName, eventData.EventKey, eventData);
             var result = await DequeueWork(eventData.EventKey);
             AjaxResult res = new AjaxResult

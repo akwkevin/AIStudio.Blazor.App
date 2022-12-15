@@ -1,6 +1,6 @@
 ﻿namespace AIStudio.BlazorUI.Core
 {
-    public class BaseEditForm<TData> : BaseEditFormWithOption<TData, string>
+    public class BaseEditForm<TData> : BaseEditFormWithOption<TData, object>
     {
         
     }
