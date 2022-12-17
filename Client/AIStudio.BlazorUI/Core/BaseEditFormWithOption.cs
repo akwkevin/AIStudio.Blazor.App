@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace AIStudio.BlazorUI.Core
 {
-    public class BaseEditFormWithOption<TData,Option> : FeedbackComponent<Option>
+    public class BaseEditFormWithOption<TData, Option> : FeedbackComponent<Option>
     {
         [Inject]
         protected IDataProvider DataProvider { get; set; }
@@ -33,7 +33,7 @@ namespace AIStudio.BlazorUI.Core
             {
                 Data = System.Activator.CreateInstance<TData>();
             }
-            catch(Exception ex) { }
+            catch (Exception ex) { }
         }
 
         protected virtual async Task GetDataAsync(Option option)
@@ -42,27 +42,24 @@ namespace AIStudio.BlazorUI.Core
             {
                 ShowWait();
 
-                if (option == null)
+                if (option is string id)
                 {
-                    Data = System.Activator.CreateInstance<TData>();
+                    var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
+                    if (!result.Success)
+                    {
+                        throw new MsgException(result.Msg);
+                    }
+                    Data = result.Data;
+                }
+                else if (option is TData data)
+                {
+                    Data = data;
                 }
                 else
                 {
-                    if (option is string id)
-                    {
-                        var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
-                        if (!result.Success)
-                        {
-                            throw new MsgException(result.Msg);
-                        }
-                        Data = result.Data;
-                    }
-                    else if (option is TData data)
-                    {     
-                        Data = data;
-                    }
+                    Data = System.Activator.CreateInstance<TData>();
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -108,10 +105,8 @@ namespace AIStudio.BlazorUI.Core
         protected override async Task OnInitializedAsync()
         {
             var id = this.Options;
-            if (id != null)
-            {
-                await GetDataAsync(id);
-            }
+            await GetDataAsync(id);
+
             await base.OnInitializedAsync();
         }
 
@@ -165,6 +160,11 @@ namespace AIStudio.BlazorUI.Core
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+        }
+
+        protected void Close()
+        {
+            _ = base.FeedbackRef.CloseAsync();
         }
 
         public AntDesign.RadioOption<enumT>[] GetRadioOptions<enumT>() where enumT : Enum

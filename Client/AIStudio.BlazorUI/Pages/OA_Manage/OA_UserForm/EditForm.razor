@@ -1,6 +1,6 @@
 ﻿@inherits BaseEditFormWithOption<OA_UserFormDTO, object>
 
-@if (Data.Steps?.Count > 0)
+@if (Data?.Steps?.Count > 0)
 {
     <Steps ProgressDot=@customDot>
         @foreach (var item in Data.Steps)
@@ -9,7 +9,6 @@
         }
     </Steps>
 }
-
 
 <Form @ref="_form" Model="@Data" Class="ant-advanced-search-form">
     <Row Gutter="24">
@@ -70,7 +69,7 @@
 
 </Form>
 
-@if (Data.Comments?.Count > 0)
+@if (Data?.Comments?.Count > 0)
 {
     <AntList DataSource="@Data.Comments" TItem="OA_UserFormStepDTO">
         <ListItem>
@@ -82,7 +81,7 @@
         </ListItem>
     </AntList>
 }
-@if (Data.Status == 1)
+@if (Data?.Status == 1)
 {
     <Row>
         <GridCol Span="24">
@@ -104,18 +103,27 @@
         </SpaceItem>
     </Space>
     <Space Size="@("small")" style="float:right;margin-top:10px">
-        <SpaceItem>
-            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">预览流程</Button>
-        </SpaceItem>
-        <SpaceItem>
-            <Button Type="@ButtonType.Primary" Danger OnClick="()=>OpenEditor()">废弃</Button>
-        </SpaceItem>
-        <SpaceItem>
-            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">审批</Button>
-        </SpaceItem>
-        <SpaceItem>
-            <Button Type="@ButtonType.Primary" OnClick="()=>OpenEditor()">提交</Button>
-        </SpaceItem>
+        @if (Data?.Status == 1)
+        {
+            if (Data?.CreatorId == Operator.UserId)
+            {
+                <SpaceItem>
+                    <Button Type="@ButtonType.Primary" Danger OnClick="()=>DisCard()">废弃</Button>
+                </SpaceItem>
+            }
+            <SpaceItem>
+                <Button Type="@ButtonType.Primary" OnClick="()=>EventData()">审批</Button>
+            </SpaceItem>
+        }
+        @if (Data?.Status == 0)
+        {
+            <SpaceItem>
+                <Button Type="@ButtonType.Primary" OnClick="()=>PreStep()">预览流程</Button>
+            </SpaceItem>
+            <SpaceItem>
+                <Button Type="@ButtonType.Primary" OnClick="()=>SaveData()">提交</Button>
+            </SpaceItem>
+        }
         <SpaceItem>
             <Button Type="@ButtonType.Primary" OnClick="()=>Close()">关闭</Button>
         </SpaceItem>
@@ -146,6 +154,8 @@
 {
     [Inject]
     protected ModalService ModalService { get; set; }
+    [Inject]
+    protected IOperator Operator { get; set; }
 
     public EditForm()
     {
@@ -153,7 +163,7 @@
     }
     RenderFragment customDot = @<span>
         step {index} status: {status}
-    </span>
+        </span>
     ;
     private List<SelectOption> Users { get; set; }
     private List<SelectOption> Types { get; set; }
@@ -261,8 +271,100 @@
         };
     }
 
-    private void Close()
+    private async void PreStep()
     {
-        _ = base.FeedbackRef.CloseAsync();
+        try
+        {
+            ShowWait();
+            var result = await DataProvider.PostData<List<OA_Step>>($"/OA_Manage/OA_UserForm/PreStep", Data.ToJson());
+            if (!result.Success)
+            {
+                throw new Exception(result.Msg);
+            }
+            Data.Steps = result.Data;
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+        finally
+        {
+            HideWait();
+        }
+    }
+
+    private async void DisCard()
+    {
+        try
+        {
+            ShowWait();
+            var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_UserForm/DisCardData", (new { id = Data.Id, remark = Data.Remarks }).ToJson());
+            if (!result.Success)
+            {
+                throw new Exception(result.Msg);
+            }
+            Close();
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+        finally
+        {
+            HideWait();
+        }
+    }
+
+    private async void EventData()
+    {
+        try
+        {
+            ShowWait();
+            var data = new
+            {
+                eventName = "MyEvent",
+                eventKey = Data.Id + Data.CurrentStepId,
+                Status = Status,
+                Remarks = Remark
+            };
+            var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_UserForm/EventData", data.ToJson());
+            if (!result.Success)
+            {
+                throw new Exception(result.Msg);
+            }
+            await MessageService.Success(result.Msg);
+            Close();
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+        finally
+        {
+            HideWait();
+        }
+    }
+
+    private async void SaveData()
+    {
+        try
+        {
+            ShowWait();
+
+            var result = await DataProvider.PostData<AjaxResult>("/OA_Manage/OA_UserForm/SaveData", Data.ToJson());
+            if (!result.Success)
+            {
+                throw new Exception(result.Msg);
+            }
+            await MessageService.Info("操作成功");
+        }
+        catch (Exception ex)
+        {
+            await Error.ProcessError(ex);
+        }
+        finally
+        {
+            HideWait();
+        }
     }
 }

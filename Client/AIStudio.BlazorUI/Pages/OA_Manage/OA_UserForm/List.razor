@@ -61,11 +61,15 @@
         <AntDesign.Column Title="紧急程度" TData="System.String">
             @if (@context.Grade == 0)
             {
-                <Badge Color="Red" Text="停止" />
+                <Badge Status="processing" Text="正常" />
+            }
+            else if (@context.Grade == 1)
+            {
+                <Badge Status="warning" Text="紧急" />
             }
             else
             {
-                <Badge Color="#87d068" Text="启动" />
+                <Badge Status="error" Text="特急" />
             }
         </AntDesign.Column>
         <AntDesign.Column Title="申请人及部门" DataIndex="ApplicantUserAndDepartment" TData="System.String" />

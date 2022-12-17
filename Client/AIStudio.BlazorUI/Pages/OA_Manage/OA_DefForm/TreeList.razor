@@ -46,6 +46,7 @@
         modalConfig.DestroyOnClose = true;
         modalConfig.Centered = true;
         modalConfig.Width = 1000d;
+        modalConfig.Footer = null;
 
         var modalRef = await ModalService.CreateModalAsync<OA_UserForm.EditForm, object>(modalConfig, 
             new OA_UserFormDTO()
