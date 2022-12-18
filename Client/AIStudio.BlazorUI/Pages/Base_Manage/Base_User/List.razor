@@ -7,7 +7,7 @@
     @if (Operator.HasPerm("Base_User.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Base_User.Delete"))
@@ -94,5 +94,7 @@
     {
         Area = "Base_Manage";
         Condition = "UserName";
+        NewTitle = "新建用户";
+        EditTitle = "编辑用户";
     }
 }

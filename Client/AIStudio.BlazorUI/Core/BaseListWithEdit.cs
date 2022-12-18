@@ -15,14 +15,17 @@ using Microsoft.JSInterop;
 
 namespace AIStudio.BlazorUI.Core
 {
-    public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : IKeyBaseEntity where EditForm : FeedbackComponent<object>
+    public class BaseListWithEdit<TData, EditForm> : BaseList<TData> where TData : class, IKeyBaseEntity where EditForm : FeedbackComponent<object>
     {
         protected double EditWitdh { get; set; } = 520d;
         protected bool DefaultFooter { get; set; } = true;
-        protected override async void Edit(TData para)
+        protected string NewTitle { get; set; } = "新建表单";
+        protected string EditTitle  { get; set; } = "编辑表单";
+
+        protected override async void Edit(TData? para = null)
         {
             var modalConfig = new ModalOptions();
-            modalConfig.Title = "编辑表单";
+            modalConfig.Title = para == null ? NewTitle : EditTitle;
             //modalConfig.Style = "top:20px;";
             // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
             //modalConfig.BodyStyle += "overflow-y: auto;";

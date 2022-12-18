@@ -77,6 +77,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _appSecretBus.DeleteDataAsync(ids);

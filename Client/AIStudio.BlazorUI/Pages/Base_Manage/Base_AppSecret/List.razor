@@ -7,7 +7,7 @@
     @if (Operator.HasPerm("Base_AppSecret.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Base_AppSecret.Delete"))
@@ -83,6 +83,8 @@
     {
         Area = "Base_Manage";
         Condition = "AppName";
+        NewTitle = "新建密钥";
+        EditTitle = "编辑密钥";
     }
 
     protected override string GetDataJson()
@@ -95,7 +97,7 @@
         await base.GetData();
     }
 
-    protected override void Edit(Base_AppSecretDTO para)
+    protected override void Edit(Base_AppSecretDTO para = null)
     {
         base.Edit(para);
     }

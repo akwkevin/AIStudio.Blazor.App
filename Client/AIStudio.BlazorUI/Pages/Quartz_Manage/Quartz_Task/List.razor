@@ -7,18 +7,18 @@
     @if (Operator.HasPerm("Quartz_Task.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Quartz_Task.Edit"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Pause(null)" disabled=@NoneSelectedItems>暂停</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Pause()" disabled=@NoneSelectedItems>暂停</Button>
         </SpaceItem>
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start(null)" disabled=@NoneSelectedItems>开启</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start()" disabled=@NoneSelectedItems>开启</Button>
         </SpaceItem>   <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=> ToDo(null)" disabled=@NoneSelectedItems>立即执行</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=> ToDo()" disabled=@NoneSelectedItems>立即执行</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Quartz_Task.Delete"))
@@ -101,12 +101,14 @@
     public List()
     {
         Area = "Quartz_Manage";
+        NewTitle = "新建任务";
+        EditTitle = "编辑任务";
     }
 
     private async void Log(Quartz_TaskDTO para)
     {
         var modalConfig = new ModalOptions();
-        modalConfig.Title = "编辑表单";
+        modalConfig.Title = "查看日志";
         //modalConfig.Style = "top:20px;";
         // In order for Dispose in ConfirmTemplateDemo to take effect every time it is closed
         //modalConfig.BodyStyle += "overflow-y: auto;";
@@ -117,7 +119,7 @@
 
     }
 
-    private void Pause(string id)
+    private void Pause(string? id = null)
     {
         List<string> ids;
         if (string.IsNullOrEmpty(id))
@@ -131,7 +133,7 @@
         Excute("暂停", "PauseData", ids);
     }
 
-    private void Start(string id)
+    private void Start(string? id = null)
     {
         List<string> ids;
         if (string.IsNullOrEmpty(id))
@@ -145,7 +147,7 @@
         Excute("开始", "StartData", ids);
     }
 
-    private void ToDo(string id)
+    private void ToDo(string? id = null)
     {
         List<string> ids;
         if (string.IsNullOrEmpty(id))

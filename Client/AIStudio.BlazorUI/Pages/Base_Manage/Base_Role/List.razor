@@ -7,7 +7,7 @@
     @if (Operator.HasPerm("Base_Role.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Base_Role.Delete"))
@@ -81,5 +81,7 @@
     {
         Area = "Base_Manage";
         Condition = "RoleName";
+        NewTitle = "新建角色";
+        EditTitle = "编辑角色";
     }
 }

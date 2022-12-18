@@ -7,7 +7,7 @@
     @if (Operator.HasPerm("Base_DbLink.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Base_DbLink.Delete"))
@@ -83,5 +83,7 @@
     {
         Area = "Base_Manage";
         Condition = "LinkName";
+        NewTitle = "新建连接";
+        EditTitle = "编辑连接";
     }
 }

@@ -5,7 +5,9 @@ using AIStudio.Entity.Base_Manage;
 using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Api.Controllers.Base_Manage
 {
@@ -63,6 +65,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(Base_Test theData)
         {
             await _Base_TestBus.SaveDataAsync(theData);
@@ -74,6 +77,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _Base_TestBus.DeleteDataAsync(ids);

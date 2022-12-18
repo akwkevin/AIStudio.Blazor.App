@@ -7,7 +7,7 @@
     @if (Operator.HasPerm("Base_Action.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Base_Action.Delete"))
@@ -35,7 +35,7 @@
        DefaultExpandAllRows
        Loading="Loading"
        HidePagination
-       PageSize="int.MaxValue"
+       PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
        ScrollX="1600"
        ScrollBarWidth="5px"
@@ -97,5 +97,8 @@
     {
         Area = "Base_Manage";
         GetDataList = "GetMenuTreeList";
+        NewTitle = "新建权限";
+        EditTitle = "编辑权限";
+        Pagination.PageRows = Int32.MaxValue;
     }
 }

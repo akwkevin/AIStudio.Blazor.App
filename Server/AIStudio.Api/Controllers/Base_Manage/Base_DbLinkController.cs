@@ -8,6 +8,7 @@ using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Common.Filters;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Api.Controllers.Base_Manage
 {
@@ -65,6 +66,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <param name="theData">保存的数据</param>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(Base_DbLink theData)
         {
             await _dbLinkBus.SaveDataAsync(theData);
@@ -76,6 +78,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <param name="ids">id数组,JSON数组</param>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _dbLinkBus.DeleteDataAsync(ids);

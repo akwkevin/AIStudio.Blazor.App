@@ -5,9 +5,11 @@ using AIStudio.Entity.DTO.Quartz_Manage;
 using AIStudio.Entity.Quartz_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Quartz;
 using Simple.Common.Filters;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -58,6 +60,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(Quartz_Task theData)
         {
             await _quartz_TaskBusiness.SaveDataAsync(theData);
@@ -70,6 +73,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _quartz_TaskBusiness.DeleteDataAsync(ids);
@@ -82,6 +86,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize("Edit")]
         public async Task PauseData(List<string> ids)
         {
             await _quartz_TaskBusiness.PauseDataAsync(ids);
@@ -94,6 +99,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize("Edit")]
         public async Task StartData(List<string> ids)
         {
             await _quartz_TaskBusiness.StartDataAsync(ids);
@@ -106,6 +112,7 @@ namespace AIStudio.Api.Controllers.Quartz_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize("Edit")]
         public async Task TodoData(List<string> ids)
         {
             await _quartz_TaskBusiness.TodoDataAsync(ids);

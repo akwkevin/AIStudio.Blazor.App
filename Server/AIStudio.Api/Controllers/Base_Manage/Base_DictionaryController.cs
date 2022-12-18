@@ -11,6 +11,7 @@ using AIStudio.Util.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Common.Filters;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Api.Controllers.Base_Manage
 {
@@ -79,6 +80,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(Base_Dictionary data)
         {
             await _base_DictionaryBus.SaveDataAsync(data);
@@ -91,6 +93,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         /// <returns></returns>
         [RequestRecord]
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _base_DictionaryBus.DeleteDataAsync(ids);

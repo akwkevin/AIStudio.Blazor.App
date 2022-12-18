@@ -8,8 +8,10 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using AIStudio.Util.DiagramEntity;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkflowCore.Interface;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Api.Controllers.OA_Manage
 {
@@ -80,6 +82,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="data">保存的数据</param>
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(OA_UserFormDTO data)
         {
             await _oA_UserFormBus.SaveDataAsync(data);
@@ -90,6 +93,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _oA_UserFormBus.DeleteDataAsync(ids);

@@ -7,16 +7,16 @@
     @if (Operator.HasPerm("OA_DefForm.Add"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit(null)">新建</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()">新建</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Quartz_Task.Edit"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Stop(null)" disabled=@NoneSelectedItems>停用</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Stop()" disabled=@NoneSelectedItems>停用</Button>
         </SpaceItem>
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start(null)" disabled=@NoneSelectedItems>开启</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start()" disabled=@NoneSelectedItems>开启</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("OA_DefForm.Delete"))
@@ -142,11 +142,13 @@
     {
         Area = "OA_Manage";
         EditWitdh = 1000d;
+        NewTitle = "新建流程";
+        EditTitle = "编辑流程";
     }
 
     private List<SelectOption> Roles { get; set; }
 
-    private void Start(string id)
+    private void Start(string? id = null)
     {
         List<string> ids;
         if (string.IsNullOrEmpty(id))
@@ -160,7 +162,7 @@
         Excute("开始", "StartData", ids);
     }
 
-    private void Stop(string id)
+    private void Stop(string? id = null)
     {
         List<string> ids;
         if (string.IsNullOrEmpty(id))

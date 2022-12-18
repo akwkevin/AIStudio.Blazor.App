@@ -5,9 +5,11 @@ using AIStudio.Common.Swagger;
 using AIStudio.Entity.DTO.OA_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkflowCore.Interface;
 using WorkflowCore.Services.DefinitionStorage;
+using static AIStudio.Common.Authentication.Jwt.JwtHelper;
 
 namespace AIStudio.Api.Controllers.OA_Manage
 {
@@ -79,6 +81,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="data">保存的数据</param>
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task SaveData(OA_DefFormDTO data)
         {
             await _oA_DefFormBus.SaveDataAsync(data);           
@@ -89,6 +92,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="ids"></param>
         [HttpPost]
+        [Authorize("Edit")]
         public async Task StartData(List<string> ids)
         {
             await _oA_DefFormBus.StartDataAsync(ids);
@@ -99,6 +103,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="ids"></param>
         [HttpPost]
+        [Authorize("Edit")]
         public async Task StopData(List<string> ids)
         {
             await _oA_DefFormBus.StopDataAsync(ids);
@@ -109,6 +114,7 @@ namespace AIStudio.Api.Controllers.OA_Manage
         /// </summary>
         /// <param name="ids">id数组,JSON数组</param>
         [HttpPost]
+        [Authorize(Permissions.Auto)]
         public async Task DeleteData(List<string> ids)
         {
             await _oA_DefFormBus.DeleteDataAsync(ids);
