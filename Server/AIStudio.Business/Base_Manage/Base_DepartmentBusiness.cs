@@ -93,7 +93,7 @@ namespace AIStudio.Business.Base_Manage
         [DataRepeatValidate(new string[] { "Name" }, new string[] { "部门名" })]
         public override async Task SaveDataAsync(Base_Department theData)
         {
-            await base.UpdateDataAsync(theData);
+            await base.SaveDataAsync(theData);
         }
 
         public override async Task DeleteDataAsync(List<string> ids)

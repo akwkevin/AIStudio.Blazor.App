@@ -96,8 +96,9 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task AddDataAsync(Base_RoleEditInputDTO input)
         {
-            await InsertAsync(_mapper.Map<Base_Role>(input));
-            await SetRoleActionAsync(input.Id, input.Actions);
+            var role = _mapper.Map<Base_Role>(input);
+            await InsertAsync(role);
+            await SetRoleActionAsync(role.Id, input.Actions);
         }
 
         /// <summary>
@@ -108,8 +109,9 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task UpdateDataAsync(Base_RoleEditInputDTO input)
         {
-            await UpdateAsync(_mapper.Map<Base_Role>(input));
-            await SetRoleActionAsync(input.Id, input.Actions);
+            var role = _mapper.Map<Base_Role>(input);
+            await UpdateAsync(role);
+            await SetRoleActionAsync(role.Id, input.Actions);
         }
 
         /// <summary>

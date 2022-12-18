@@ -22,7 +22,7 @@
 
 @code {
 
-    public EditForm() : base()
+    public EditForm()
     {
         Area = "Base_Manage";
     }
@@ -51,7 +51,7 @@
         }
         catch (Exception ex)
         {
-            await Error.ProcessError(ex);
+            await MessageService.Error(ex.Message);
         }
     }
 }

@@ -15,10 +15,8 @@ namespace AIStudio.BlazorUI.Core
         protected IUserData UserData { get; set; }
         [Inject]
         protected MessageService MessageService { get; set; }
-
-        [CascadingParameter]
-        public Error? Error { get; set; }
-
+   
+     
         protected bool Disabled { get; set; }
         protected bool Loading { get; set; }
         protected string Area { get; set; }
@@ -35,7 +33,6 @@ namespace AIStudio.BlazorUI.Core
             }
             catch (Exception ex) { }
         }
-
         protected virtual async Task GetDataAsync(Option option)
         {
             try
@@ -57,13 +54,13 @@ namespace AIStudio.BlazorUI.Core
                 }
                 else
                 {
-                    Data = System.Activator.CreateInstance<TData>();
+                   
                 }
 
             }
             catch (Exception ex)
             {
-                await Error.ProcessError(ex);
+                await MessageService.Error(ex.Message);
             }
             finally
             {
@@ -84,7 +81,7 @@ namespace AIStudio.BlazorUI.Core
             }
             catch (Exception ex)
             {
-                await Error.ProcessError(ex);
+                await MessageService.Error(ex.Message);
             }
             finally
             {

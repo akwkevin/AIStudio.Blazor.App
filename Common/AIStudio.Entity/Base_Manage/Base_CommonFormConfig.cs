@@ -44,8 +44,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 格式化
         /// </summary>
-        public string StringFormat
-        { get; set; }
+        public string? StringFormat { get; set; }
         /// <summary>
         /// 是否显示 Visible = 0,Hidden = 1,Collapsed = 2
         /// </summary>
@@ -70,22 +69,22 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 字典名
         /// </summary>
-        public string ItemSource { get; set; }
+        public string? ItemSource { get; set; }
 
         /// <summary>
         /// 默认值
         /// </summary>
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// 正则校验表达式
         /// </summary>
-        public string Regex { get; set; }
+        public string? Regex { get; set; }
 
         /// <summary>
         /// 错误信息
         /// </summary>
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
         #endregion
 
         #region 列表专用
@@ -93,17 +92,17 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 排序名
         /// </summary>
-        public string SortMemberPath { get; set; }
+        public string? SortMemberPath { get; set; }
 
         /// <summary>
         /// 转换器
         /// </summary>
-        public string Converter { get; set; }
+        public string? Converter { get; set; }
 
         /// <summary>
         /// 转换参数
         /// </summary>
-        public string ConverterParameter { get; set; }
+        public string? ConverterParameter { get; set; }
 
         /// <summary>
         /// 对齐方式 Left = 0,Center = 1,Right = 2,Stretch = 3
@@ -123,7 +122,7 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 列表宽度
         /// </summary>
-        public string Width { get; set; }
+        public string? Width { get; set; }
 
         /// <summary>
         /// 是否可以重排
@@ -143,21 +142,21 @@ namespace AIStudio.Entity.Base_Manage
         /// <summary>
         /// 单元格样式，暂未实现
         /// </summary>
-        public string CellStyle { get; set; }
+        public string? CellStyle { get; set; }
 
         /// <summary>
         /// 列头样式，赞未实现
         /// </summary>
-        public string HeaderStyle { get; set; }
+        public string? HeaderStyle { get; set; }
 
         /// <summary>
         /// 背景颜色触发公式
         /// </summary>
-        public string BackgroundExpression { get; set; }
+        public string? BackgroundExpression { get; set; }
         /// <summary>
         /// 前景颜色触发公式
         /// </summary>
-        public string ForegroundExpression { get; set; }
+        public string? ForegroundExpression { get; set; }
         #endregion
 
 

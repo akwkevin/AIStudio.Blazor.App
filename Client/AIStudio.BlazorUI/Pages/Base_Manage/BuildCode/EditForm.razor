@@ -23,9 +23,10 @@
         Area = "Base_Manage";
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         Data = this.Options;
+        return Task.CompletedTask;
     }
 
     protected override async Task SaveData(BuildInputDTO para)
@@ -41,7 +42,7 @@
         }
         catch (Exception ex)
         {
-            await Error.ProcessError(ex);
+            await MessageService.Error(ex.Message);
         }
         finally
         {

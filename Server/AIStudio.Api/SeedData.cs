@@ -223,7 +223,7 @@ namespace AIStudio.Api
                     CreatorId = "System",
                     CreatorName = "System",
                 };
-                var result = userBusiness.Insert(bob2);               
+                var result = userBusiness.Insert(bob2);
 
                 logger.LogTrace($"Base_User:{bob2.UserName} created");
             }
@@ -305,7 +305,7 @@ namespace AIStudio.Api
                     CreatorId = "System",
                     CreatorName = "System",
                 };
-                var result = userBusiness.Insert(zoro);               
+                var result = userBusiness.Insert(zoro);
 
                 logger.LogTrace($"Base_User:{zoro.UserName} created");
             }
@@ -477,6 +477,12 @@ namespace AIStudio.Api
                     new Base_Action(){ Id="Id1_5_1",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Department.Add",   NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_5_2",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Department.Edit",  NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_5_3",Deleted = false, ParentId="Id1_5", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Department.Delete",NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_6_1",Deleted = false, ParentId="Id1_6", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_Dictionary.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_6_2",Deleted = false, ParentId="Id1_6", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_Dictionary.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_6_3",Deleted = false, ParentId="Id1_6", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_Dictionary.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_7_1",Deleted = false, ParentId="Id1_7", Type = ActionType.权限, Name="增",   Url=null,                               Value="Base_CommonFormConfig.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_7_2",Deleted = false, ParentId="Id1_7", Type = ActionType.权限, Name="改",   Url=null,                               Value="Base_CommonFormConfig.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
+                    new Base_Action(){ Id="Id1_7_3",Deleted = false, ParentId="Id1_7", Type = ActionType.权限, Name="删",   Url=null,                               Value="Base_CommonFormConfig.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_9_1",Deleted = false, ParentId="Id1_9", Type = ActionType.权限, Name="增",   Url=null,                               Value="Quartz_Task.Add",       NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_9_2",Deleted = false, ParentId="Id1_9", Type = ActionType.权限, Name="改",   Url=null,                               Value="Quartz_Task.Edit",      NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},
                     new Base_Action(){ Id="Id1_9_3",Deleted = false, ParentId="Id1_9", Type = ActionType.权限, Name="删",   Url=null,                               Value="Quartz_Task.Delete",    NeedAction=true,    Icon=null,             Sort=1, CreateTime=DateTime.Now, CreatorId = "System", CreatorName = "System",},

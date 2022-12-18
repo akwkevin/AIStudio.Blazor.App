@@ -32,7 +32,7 @@ namespace AIStudio.Business.AOP
             List<string> whereList = new List<string>();
             var properties = _validateFields
                 .Where(x => !data.GetPropertyValue(x.Key).IsNullOrEmpty())
-                .ToList(); 
+                .ToList();
 
             var q = context.InvocationTarget.GetType().GetMethod("GetIQueryableDynamic").Invoke(context.InvocationTarget, new object[] { }) as ISugarQueryable<dynamic>;
 
@@ -55,15 +55,12 @@ namespace AIStudio.Business.AOP
                 }
                 conditionalList.Add(new KeyValuePair<WhereType, ConditionalModel>(whereType, new ConditionalModel() { FieldName = aProperty.Key, ConditionalType = ConditionalType.Equal, FieldValue = data.GetPropertyValue(aProperty.Key).ObjToString() }));
             }
-            conModels.Add(new ConditionalCollections() { ConditionalList = conditionalList });            
+            conModels.Add(new ConditionalCollections() { ConditionalList = conditionalList });
 
             var list = q.Where(conModels).ToList();
             if (list.Count > 0)
             {
-                var repeatList = properties
-                    .Where(x => list.Any(y => !((IDictionary<String, Object>)y)[x.Key].IsNullOrEmpty()))
-                    .Select(x => x.Value)
-                    .ToList();
+                var repeatList = properties.Select(x => x.Value).ToList();
 
                 throw AjaxResultException.Status403Forbidden($"数据重复：{string.Join(_matchOr ? "或" : "与", repeatList)}已存在!");
             }

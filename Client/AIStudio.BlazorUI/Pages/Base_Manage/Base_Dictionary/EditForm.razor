@@ -28,7 +28,7 @@
         </RadioGroup>
     </FormItem>
     <FormItem Label="数据类型">
-        <EnumRadioGroup TEnum="ControlType" @bind-Value="@context.ControlType" Options="GetRadioOptions<ControlType>()"></EnumRadioGroup>
+        <EnumSelect TEnum="ControlType" @bind-Value="@context.ControlType"></EnumSelect>
     </FormItem>
     <FormItem Label="描述">
         <Input @bind-Value="@context.Remark" AutoComplete=false />
@@ -69,7 +69,7 @@
         }
         catch (Exception ex)
         {
-            await Error.ProcessError(ex);
+            await MessageService.Error(ex.Message);
         }
     }
 }

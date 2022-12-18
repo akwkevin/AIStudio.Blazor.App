@@ -75,7 +75,7 @@
         }
         catch (Exception ex)
         {
-            await Error.ProcessError(ex);
+            await MessageService.Error(ex.Message);
         }
     }
 

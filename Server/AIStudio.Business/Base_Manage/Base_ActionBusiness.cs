@@ -100,15 +100,17 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task AddDataAsync(Base_ActionEditInputDTO input)
         {
-            await InsertAsync(_mapper.Map<Base_Action>(input));
-            await SavePermissionAsync(input.Id, input.permissionList);
+            var action = _mapper.Map<Base_Action>(input);
+            await InsertAsync(action);
+            await SavePermissionAsync(action.Id, input.permissionList);
         }      
 
         [Transactional]
         public async Task UpdateDataAsync(Base_ActionEditInputDTO input)
         {
-            await UpdateAsync(_mapper.Map<Base_Action>(input));
-            await SavePermissionAsync(input.Id, input.permissionList);
+            var action = _mapper.Map<Base_Action>(input);
+            await UpdateAsync(action);
+            await SavePermissionAsync(action.Id, input.permissionList);
         }
 
         public async Task SaveDataAsync(Base_ActionEditInputDTO input)
