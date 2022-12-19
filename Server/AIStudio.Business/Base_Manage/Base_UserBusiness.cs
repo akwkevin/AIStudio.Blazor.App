@@ -103,8 +103,9 @@ namespace AIStudio.Business.Base_Manage
         [Transactional]
         public async Task AddDataAsync(Base_UserEditInputDTO input)
         {
-            await InsertAsync(_mapper.Map<Base_User>(input));
-            await SetUserRoleAsync(input.Id, input.RoleIdList);
+            var user = _mapper.Map<Base_User>(input);
+            await InsertAsync(user);
+            await SetUserRoleAsync(user.Id, input.RoleIdList);
         }
 
         [DataRepeatValidate(new string[] { "UserName" }, new string[] { "用户名" })]
@@ -114,8 +115,9 @@ namespace AIStudio.Business.Base_Manage
             if (input.Id == AdminTypes.Admin.ToString() && _operator?.UserId != input.Id)
                 throw AjaxResultException.Status403Forbidden("禁止更改超级管理员！");
 
-            await UpdateAsync(_mapper.Map<Base_User>(input));
-            await SetUserRoleAsync(input.Id, input.RoleIdList);
+            var user = _mapper.Map<Base_User>(input);
+            await UpdateAsync(user);
+            await SetUserRoleAsync(user.Id, input.RoleIdList);
         }
 
         [DataRepeatValidate(new string[] { "UserName" }, new string[] { "用户名" })]

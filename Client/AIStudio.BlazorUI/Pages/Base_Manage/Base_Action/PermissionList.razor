@@ -61,8 +61,8 @@
     [Inject]
     protected IDataProvider DataProvider { get; set; }
 
-    [CascadingParameter]
-    public Error? Error { get; set; }
+    [Inject]
+    protected MessageService MessageService { get; set; }
 
     public List<Base_ActionDTO> permissionList { get; set; } = new List<Base_ActionDTO>();
 
@@ -110,7 +110,7 @@
         }
         catch (Exception ex)
         {
-            await Error.ProcessError(ex);
+            await MessageService.Error(ex.Message);
         }
     }
 }

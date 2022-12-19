@@ -81,7 +81,15 @@
 
     public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
     {
-        Data.permissionList = _permissionList.permissionList;
-        await base.OnFeedbackOkAsync(args);
+        if (_permissionList.permissionList.GroupBy(p => p.Value).Where(q => q.Count() > 1).Count() >= 1)
+        {
+            await MessageService.Error("权限值不能有重复值");
+            args.Cancel = true;
+        }
+        else
+        {
+            Data.permissionList = _permissionList.permissionList;
+            await base.OnFeedbackOkAsync(args);
+        }
     }
 }
