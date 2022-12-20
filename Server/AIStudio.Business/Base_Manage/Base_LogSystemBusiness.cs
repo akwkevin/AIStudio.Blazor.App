@@ -26,6 +26,7 @@ namespace AIStudio.Business.Base_Manage
                 CreatorName = @event.CreatorName,
                 TenantId = @event.TenantId,
                 LogType = @event.LogType,
+                Name = @event.Name,
                 Message = @event.Message
             };
             await InsertAsync(log);

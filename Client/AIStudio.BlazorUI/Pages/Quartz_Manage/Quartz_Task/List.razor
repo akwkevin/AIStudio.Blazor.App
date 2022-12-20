@@ -61,7 +61,7 @@
         <AntDesign.Column Title="请求地址" DataIndex="ApiUrl" TData="string" />
         <AntDesign.Column Title="密匙名" DataIndex="AuthKey" TData="string" />
         <AntDesign.Column Title="密匙值" DataIndex="AuthValue" TData="string" />
-        <ActionColumn Title="Action" Fixed="right">
+        <ActionColumn Title="Action" Fixed="right" Width="300">
             <Space Size=@("small")>
                 <SpaceItem>
                     <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
@@ -114,7 +114,7 @@
         //modalConfig.BodyStyle += "overflow-y: auto;";
         modalConfig.DestroyOnClose = true;
         modalConfig.Centered = true;
-
+        modalConfig.Width = 1000d;
         var modalRef = await ModalService.CreateModalAsync<LogForm, string>(modalConfig, para.GroupName + "." + para.TaskName);
 
     }

@@ -11,7 +11,7 @@ namespace AIStudio.Entity.Enum
     /// </summary>
     public enum UserLogType
     {
-        系统任务,  //aistudio
+        系统任务,  
         工作流程
     }
 }

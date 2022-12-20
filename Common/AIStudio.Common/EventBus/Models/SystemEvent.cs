@@ -36,6 +36,7 @@ namespace AIStudio.Common.EventBus.Models
         /// </value>
         [MaxLength(64)]
         public string? TenantId { get; set; }
+
         /// <summary>
         /// 日志类型
         /// </summary>
@@ -43,6 +44,15 @@ namespace AIStudio.Common.EventBus.Models
         /// The type of the log.
         /// </value>
         public string? LogType { get; set; }
+
+        /// <summary>
+        /// 日志名称
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        [MaxLength(128)]
+        public string Name { get; set; } = "";
 
         /// <summary>
         /// 日志内容

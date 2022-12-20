@@ -2,13 +2,14 @@
 using AIStudio.Common.EventBus.EventHandlers;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Quartz.Extensions;
+using AIStudio.Entity.Enum;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using System.ComponentModel.DataAnnotations;
 
-namespace AIStudio.Common.Quartz
+namespace AIStudio.Business.Quartz_Manage.Jobs
 {
     /// <summary>
     /// 
@@ -57,11 +58,12 @@ namespace AIStudio.Common.Quartz
             var creatorId = jobdatamap.Get("CreatorId") as string;
             var creatorName = jobdatamap.Get("CreatorName") as string;
 
-            var message = $"{trigger.JobKey.Name}-{trigger.JobKey.Group} Execute TestJob";
+            var message = $"{trigger.JobKey.Group}.{trigger.JobKey.Name} Execute TestJob";
             _logger.LogDebug(message);
 
             var eventModel = new SystemEvent();
-            eventModel.LogType = "系统任务执行";
+            eventModel.LogType = UserLogType.系统任务.ToString();
+            eventModel.Name = trigger.JobKey.Group + "." + trigger.JobKey.Name;
             eventModel.Message = message;
             eventModel.TenantId = tenantId;
             eventModel.CreatorId = creatorId;

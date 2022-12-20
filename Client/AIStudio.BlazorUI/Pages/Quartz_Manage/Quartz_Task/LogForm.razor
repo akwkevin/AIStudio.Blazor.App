@@ -1,39 +1,43 @@
-﻿@inherits FeedbackComponent<string>
+﻿@using AIStudio.Entity.Enum;
+@inherits FeedbackBase
 
-<div>
-    <Timeline>
-        @if (Data != null)
-        {
-            @for (var i = 0; i < Data.Count; i++)
-            {
-                <TimelineItem Color="green">
-                    <Space Size="@("small")">
-                        <SpaceItem>
-                            GetNum(i)
-                        </SpaceItem>
-                        <SpaceItem>
-                            @Data[i].CreateTime
-                        </SpaceItem>
-                        <SpaceItem>
-                            @Data[i].Message
-                        </SpaceItem>
-                    </Space>
-                </TimelineItem>
-            }
-        }
+<Table @ref="_table"
+       TItem="Base_LogSystemDTO"
+       DataSource="Data"
+       Loading="Loading"
+       @bind-PageSize="Pagination.PageRows"
+       ScrollX="800"
+       ScrollBarWidth="5px"
+       Size=@TableSize.Small
+       RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
+    <ChildContent>
+        <Selection Key="@(context.Id)" />
+        <AntDesign.Column Ellipsis Title="内容" DataIndex="Message" TData="string" />
+        <AntDesign.Column Ellipsis Title="类别" DataIndex="LogType" TData="string" />
+        <AntDesign.Column Ellipsis Title="名称" DataIndex="Name" TData="string" />
+        <AntDesign.Column Ellipsis Title="操作人" DataIndex="CreatorName" TData="string" />
+        <AntDesign.Column Ellipsis Title="时间" DataIndex="CreateTime" TData="DateTime" Format="yyyy-MM-dd HH:mm:ss" />
+    </ChildContent>
+    <PaginationTemplate>
+        <div style="float:right;margin-top:10px">
+            <Pagination Total="Pagination.Total"
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
+        </div>
+    </PaginationTemplate>
+</Table>
 
-    </Timeline>
+<style>
+    .gray-2 {
+        background-color: #fafafa;
+    }
+</style>
 
-    <Pagination Total="Pagination.Total"
-                ShowTotal="ShowTotal"
-                ShowSizeChanger
-                PageSize="Pagination.PageRows"
-                Current="Pagination.PageIndex"
-                OnChange="GetData"
-                OnShowSizeChange="GetData" />
-</div>
-
-@code {  
+@code {
 
     [Inject]
     protected IDataProvider DataProvider { get; set; }
@@ -45,74 +49,71 @@
 
     Func<PaginationTotalContext, string> ShowTotal { get; set; } = ctx => $"总数：{ctx.Total}   当前：{ctx.Range.from}-{ctx.Range.to}";
 
-    Util.Common.Pagination Pagination { get; set; } = new Util.Common.Pagination() { PageRows = 100 };
+    Util.Common.Pagination Pagination { get; set; } = new Util.Common.Pagination() { PageRows = 20 };
 
-    List<Base_LogOperatingDTO> Data { get; set; }
-
+    List<Base_LogSystemDTO> Data { get; set; }
+    protected Table<Base_LogSystemDTO>? _table;
     [Parameter]
     public string FullName { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        FullName = this.Options;
-        await GetData();
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            FullName = this.Options;
+            await GetData();
 
-        await base.OnInitializedAsync();
+            await base.OnInitializedAsync();
+        }
     }
-
-    protected void ShowWait()
-    {
-        Loading = true;
-    }
-
-    protected void HideWait()
-    {
-        Loading = false;
-    }
-
-
 
     private async Task GetData()
     {
         try
         {
-            ShowWait();
-
             var data = new
             {
                 PageIndex = Pagination.PageIndex,
                 PageRows = Pagination.PageRows,
                 SortField = Pagination.SortField,
                 SortType = Pagination.SortType,
-                Search = new
+                SearchKeyValues = new Dictionary<string, object>()
                 {
-                    logType = "系统任务",
-                    logContent = FullName,
+                    {"LogType", UserLogType.系统任务.ToString() },
+                    {"Name", FullName}
                 }
             };
 
-            var result = await DataProvider.PostData<List<Base_LogOperatingDTO>>($"/Base_Manage/Base_UserLog/GetLogList", data.ToJson());
+            var result = await DataProvider.PostData<List<Base_LogSystemDTO>>($"/Base_Manage/Base_LogSystem/GetDataList", data.ToJson());
             if (!result.Success)
             {
                 throw new MsgException(result.Msg);
             }
             Pagination.Total = result.Total;
-            Data = new List<Base_LogOperatingDTO>(result.Data);
+            Data = new List<Base_LogSystemDTO>(result.Data);
 
         }
         catch (Exception ex)
         {
             await Error.ProcessError(ex);
         }
-        finally
+    }
+
+    protected virtual async Task PageIndexChanged(PaginationEventArgs paginationEvent)
+    {
+        if (Pagination.PageIndex != paginationEvent.Page)
         {
-            HideWait();
+            Pagination.PageIndex = paginationEvent.Page;
+            await GetData();
         }
     }
 
-    int GetNum(int index)
+    protected virtual async Task PageSizeChanged(PaginationEventArgs paginationEvent)
     {
-        return (Pagination.PageIndex - 1) * Pagination.PageCount + index + 1;
+        if (Pagination.PageRows != paginationEvent.PageSize)
+        {
+            Pagination.PageRows = paginationEvent.PageSize;
+            await GetData();
+        }
     }
-
 }

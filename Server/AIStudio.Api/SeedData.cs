@@ -1,4 +1,5 @@
 ﻿using AIStudio.Business.Quartz_Manage;
+using AIStudio.Business.Quartz_Manage.Jobs;
 using AIStudio.Common.AppSettings;
 using AIStudio.Common.IdGenerator;
 using AIStudio.Common.Quartz;

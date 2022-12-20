@@ -1,6 +1,7 @@
 ﻿using AIStudio.Common.EventBus.Abstract;
 using AIStudio.Common.EventBus.Models;
 using AIStudio.Common.Quartz.Extensions;
+using AIStudio.Entity.Enum;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
@@ -9,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Policy;
 using System.ServiceModel.Channels;
 
-namespace AIStudio.Common.Quartz
+namespace AIStudio.Business.Quartz_Manage.Jobs
 {
     /// <summary>
     /// 
@@ -93,11 +94,12 @@ namespace AIStudio.Common.Quartz
                 httpMessage = ex.Message;
             }
 
-            var message = $"{trigger.JobKey.Name}-{trigger.JobKey.Group} Execute:{httpMessage}";
+            var message = $"{trigger.JobKey.Group}.{trigger.JobKey.Name} Execute:{httpMessage}";
             _logger.LogInformation(message);
 
             var eventModel = new SystemEvent();
-            eventModel.LogType = "系统任务执行";
+            eventModel.LogType = UserLogType.系统任务.ToString();
+            eventModel.Name = trigger.JobKey.Group + "." + trigger.JobKey.Name;
             eventModel.Message = message;
             eventModel.TenantId = tenantId;
             eventModel.CreatorId = creatorId;

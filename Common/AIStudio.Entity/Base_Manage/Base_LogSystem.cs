@@ -1,4 +1,5 @@
 ﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIStudio.Entity.Base_Manage
@@ -14,6 +15,12 @@ namespace AIStudio.Entity.Base_Manage
         /// 日志类型
         /// </summary>
         public string? LogType { get; set; }
+
+        /// <summary>
+        /// 日志名称
+        /// </summary>
+        [MaxLength(128)]
+        public string Name { get; set; } = "";
 
         /// <summary>
         /// 日志内容

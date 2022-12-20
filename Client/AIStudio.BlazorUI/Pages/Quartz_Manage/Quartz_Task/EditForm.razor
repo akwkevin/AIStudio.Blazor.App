@@ -16,7 +16,12 @@
         <Input @bind-Value="@context.Cron" AutoComplete=false />
     </FormItem>
     <FormItem Label="任务类名">
-        <Input @bind-Value="@context.ActionClass" AutoComplete=false />
+        <SimpleSelect 
+                @bind-Value="@context.ActionClass"
+                AllowClear
+                DataSource="@JobOptions"
+                Placeholder="请选择类名">
+        </SimpleSelect>
     </FormItem>   
     <FormItem Label="描述">
         <Input @bind-Value="@context.Remark" AutoComplete=false />
@@ -43,4 +48,31 @@
         Area = "Quartz_Manage";
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            await GetJobOptions();
+            await base.OnInitializedAsync();
+        }
+    }
+
+    private  List<string> JobOptions { get; set; }
+
+    protected async Task GetJobOptions()
+    {
+        try
+        {
+            var result = await DataProvider.PostData<List<string>>($"/Quartz_Manage/Quartz_Task/GetJobOptions");
+            if (!result.Success)
+            {
+                throw new Exception(result.Msg);
+            }
+            JobOptions = result.Data;
+        }
+        catch (Exception ex)
+        {
+            await MessageService.Error(ex.Message);
+        }
+    }
 }

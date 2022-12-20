@@ -1,4 +1,5 @@
 ﻿using AIStudio.Business.AOP;
+using AIStudio.Business.Quartz_Manage.Jobs;
 using AIStudio.Common.DI;
 using AIStudio.Common.Quartz;
 using AIStudio.Common.Quartz.Models;
