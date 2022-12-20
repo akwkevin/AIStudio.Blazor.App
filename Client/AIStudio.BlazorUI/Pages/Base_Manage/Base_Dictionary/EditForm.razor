@@ -49,8 +49,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetParentIdTreeData();
-        await base.OnInitializedAsync();
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            await GetParentIdTreeData();
+            await base.OnInitializedAsync();
+        }
     }
 
     private async Task GetParentIdTreeData()

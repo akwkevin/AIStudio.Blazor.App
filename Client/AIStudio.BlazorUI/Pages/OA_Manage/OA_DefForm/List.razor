@@ -180,25 +180,22 @@
     {
         Func<ModalClosingEventArgs, Task> onOkClick = async (e) =>
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-
-                var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_DefForm/{Action}", ids.ToJson());
-                if (!result.Success)
+                try
                 {
-                    throw new MsgException(result.Msg);
+                    var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_DefForm/{Action}", ids.ToJson());
+                    if (!result.Success)
+                    {
+                        throw new MsgException(result.Msg);
+                    }
+                    await GetData();
+                    StateHasChanged();
                 }
-                await GetData();
-                StateHasChanged();
-            }
-            catch (Exception ex)
-            {
-                await Error.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
+                catch (Exception ex)
+                {
+                    await Error.ProcessError(ex);
+                }
             }
         };
 

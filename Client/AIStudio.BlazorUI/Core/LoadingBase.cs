@@ -2,21 +2,18 @@
 
 namespace AIStudio.BlazorUI.Core
 {
-    public class LoadingBase : ComponentBase, IDisposable
+    public class LoadingBase : ComponentBase, IDisposable, ILoading
     {  
-        protected bool Loading { get; set; }
-        protected void ShowWait()
-        {
-            Loading = true;
-        }
-
-        protected void HideWait()
-        {
-            Loading = false;
-        }
+        public bool Loading { get; set; }
+      
         public virtual void Dispose()
         {
           
         }
+    }
+
+    public interface ILoading
+    {
+        bool Loading { get; set; }
     }
 }

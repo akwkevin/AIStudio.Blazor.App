@@ -31,22 +31,20 @@
 
     protected override async Task SaveData(BuildInputDTO para)
     {
-        try
+        using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            ShowWait();
-            var result = await DataProvider.PostData<AjaxResult>($"/{Area}/BuildCode/Build", para.ToJson());
-            if (!result.Success)
+            try
             {
-                throw new MsgException(result.Msg);
+                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/BuildCode/Build", para.ToJson());
+                if (!result.Success)
+                {
+                    throw new MsgException(result.Msg);
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            await MessageService.Error(ex.Message);
-        }
-        finally
-        {
-            HideWait();
+            catch (Exception ex)
+            {
+                await MessageService.Error(ex.Message);
+            }
         }
     }
 }

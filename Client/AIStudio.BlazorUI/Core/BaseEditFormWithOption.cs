@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace AIStudio.BlazorUI.Core
 {
-    public class BaseEditFormWithOption<TData, Option> : FeedbackComponent<Option>
+    public class BaseEditFormWithOption<TData, Option> : FeedbackComponent<Option>, ILoading
     {
         [Inject]
         protected IDataProvider DataProvider { get; set; }
@@ -18,7 +18,7 @@ namespace AIStudio.BlazorUI.Core
    
      
         protected bool Disabled { get; set; }
-        protected bool Loading { get; set; }
+        public bool Loading { get; set; }
         protected string Area { get; set; }
 
         protected TData Data { get; set; }
@@ -35,68 +35,53 @@ namespace AIStudio.BlazorUI.Core
         }
         protected virtual async Task GetDataAsync(Option option)
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-
-                if (option is string id)
+                try
                 {
-                    var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
-                    if (!result.Success)
+                    if (option is string id)
                     {
-                        throw new MsgException(result.Msg);
+                        var result = await DataProvider.PostData<TData>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/GetTheData", (new { id = id }).ToJson());
+                        if (!result.Success)
+                        {
+                            throw new MsgException(result.Msg);
+                        }
+                        Data = result.Data;
                     }
-                    Data = result.Data;
-                }
-                else if (option is TData data)
-                {
-                    Data = data;
-                }
-                else
-                {
-                   
-                }
+                    else if (option is TData data)
+                    {
+                        Data = data;
+                    }
+                    else
+                    {
 
-            }
-            catch (Exception ex)
-            {
-                await MessageService.Error(ex.Message);
-            }
-            finally
-            {
-                HideWait();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    await MessageService.Error(ex.Message);
+                }
             }
         }
 
         protected virtual async Task SaveData(TData para)
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/SaveData", para.ToJson());
-                if (!result.Success)
+                try
                 {
-                    throw new MsgException(result.Msg);
+                    var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "")}/SaveData", para.ToJson());
+                    if (!result.Success)
+                    {
+                        throw new MsgException(result.Msg);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await MessageService.Error(ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                await MessageService.Error(ex.Message);
-            }
-            finally
-            {
-                HideWait();
-            }
-        }
-
-        protected void ShowWait()
-        {
-            Loading = true;
-        }
-
-        protected void HideWait()
-        {
-            Loading = false;
         }
 
         protected override async Task OnInitializedAsync()

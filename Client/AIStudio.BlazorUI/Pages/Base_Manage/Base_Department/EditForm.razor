@@ -5,20 +5,19 @@
       WrapperCol="new ColLayoutParam { Span = 16 }">
     <FormItem Label="部门名">
         <Input @bind-Value="@context.Name" AutoComplete=false />
-    </FormItem>   
+    </FormItem>
     <FormItem Label="部门">
-        <TreeSelect  
-            TItem="TreeModel"
-            @bind-Value="@context.ParentId"
-            AllowClear
-            DataSource="Departments"            
-            Placeholder="请选择部门"
-            ChildrenExpression="node=>node.DataItem.Children"
-            TitleExpression="node=>node.DataItem.Text"
-            KeyExpression="node=>node.DataItem.Id"
-            IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
-            TreeDefaultExpandAll />
-    </FormItem>    
+        <TreeSelect TItem="TreeModel"
+                    @bind-Value="@context.ParentId"
+                    AllowClear
+                    DataSource="Departments"
+                    Placeholder="请选择部门"
+                    ChildrenExpression="node=>node.DataItem.Children"
+                    TitleExpression="node=>node.DataItem.Text"
+                    KeyExpression="node=>node.DataItem.Id"
+                    IsLeafExpression="node => !(node.DataItem.Children?.Count > 0)"
+                    TreeDefaultExpandAll />
+    </FormItem>
 </Form>
 
 @code {
@@ -31,13 +30,23 @@
     private List<TreeModel> Departments { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {     
-        await GetDepartment();
-        await base.OnInitializedAsync();
+    {
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            await GetDepartment();
+            await base.OnInitializedAsync();
+        }
     }
 
     private async Task GetDepartment()
     {
-        Departments = (await UserData.GetBase_DepartmentTree());
+        try
+        {
+            Departments = (await UserData.GetBase_DepartmentTree());
+        }
+        catch (Exception ex)
+        {
+            await MessageService.Error(ex.Message);
+        }
     }
 }

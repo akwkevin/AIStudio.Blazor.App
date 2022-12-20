@@ -59,32 +59,30 @@ namespace AIStudio.BlazorUI.Core
 
         protected override async Task GetData()
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
+                try
+                {
 
-                var result = await DataProvider.PostData<List<TData>>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree","")}/{GetDataList}", GetDataJson());
-                if (!result.Success)
-                {
-                    throw new MsgException(result.Msg);
-                }
-                else
-                {
-                    Pagination.Total = result.Total;
-                    Data = result.Data;
-                    if (Data.Any())
+                    var result = await DataProvider.PostData<List<TData>>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree", "")}/{GetDataList}", GetDataJson());
+                    if (!result.Success)
                     {
-                        SelectedItem = Data.FirstOrDefault();
+                        throw new MsgException(result.Msg);
+                    }
+                    else
+                    {
+                        Pagination.Total = result.Total;
+                        Data = result.Data;
+                        if (Data.Any())
+                        {
+                            SelectedItem = Data.FirstOrDefault();
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                await Error.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
+                catch (Exception ex)
+                {
+                    await Error.ProcessError(ex);
+                }
             }
         }
 
@@ -108,24 +106,21 @@ namespace AIStudio.BlazorUI.Core
 
         protected virtual async Task Delete(List<string> ids)
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-
-                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree", "")}/DeleteData", ids.ToJson());
-                if (!result.Success)
+                try
                 {
-                    throw new MsgException(result.Msg);
+                    var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{typeof(TData).Name.Replace("DTO", "").Replace("Tree", "")}/DeleteData", ids.ToJson());
+                    if (!result.Success)
+                    {
+                        throw new MsgException(result.Msg);
+                    }
+                    await GetData();
                 }
-                await GetData();
-            }
-            catch (Exception ex)
-            {
-                await Error.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
+                catch (Exception ex)
+                {
+                    await Error.ProcessError(ex);
+                }
             }
         }
 

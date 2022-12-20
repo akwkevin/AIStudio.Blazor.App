@@ -228,16 +228,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        GetTypes();
-        GetGrades();
-        await GetUsers();
-        await base.OnInitializedAsync();
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            GetTypes();
+            GetGrades();
+            await GetUsers();
+            await base.OnInitializedAsync();
+        }
     }
 
     private void GetTypes()
     {
         UserData.ItemSource.TryGetValue("流程分类", out var types);
-
         Types = new List<SelectOption>(types ?? new List<SelectOption>());
     }
     private void GetGrades()
@@ -248,7 +250,14 @@
 
     private async Task GetUsers()
     {
-        Users = await UserData.GetBase_User();
+        try
+        {
+            Users = await UserData.GetBase_User();
+        }
+        catch (Exception ex)
+        {
+            await MessageService.Error(ex.Message);
+        }
     }
 
     private async void OpenEditor()
@@ -273,98 +282,89 @@
 
     private async void PreStep()
     {
-        try
+        using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            ShowWait();
-            var result = await DataProvider.PostData<List<OA_Step>>($"/OA_Manage/OA_UserForm/PreStep", Data.ToJson());
-            if (!result.Success)
+            try
             {
-                throw new Exception(result.Msg);
+                var result = await DataProvider.PostData<List<OA_Step>>($"/OA_Manage/OA_UserForm/PreStep", Data.ToJson());
+                if (!result.Success)
+                {
+                    throw new Exception(result.Msg);
+                }
+                Data.Steps = result.Data;
             }
-            Data.Steps = result.Data;
-        }
-        catch (Exception ex)
-        {
-            await MessageService.Error(ex.Message);
-        }
-        finally
-        {
-            HideWait();
+            catch (Exception ex)
+            {
+                await MessageService.Error(ex.Message);
+            }
         }
     }
 
     private async void DisCard()
     {
-        try
+        using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            ShowWait();
-            var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_UserForm/DisCardData", (new { id = Data.Id, remark = Data.Remarks }).ToJson());
-            if (!result.Success)
+            try
             {
-                throw new Exception(result.Msg);
+                var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_UserForm/DisCardData", (new { id = Data.Id, remark = Data.Remarks }).ToJson());
+                if (!result.Success)
+                {
+                    throw new Exception(result.Msg);
+                }
+                Close();
             }
-            Close();
-        }
-        catch (Exception ex)
-        {
-            await MessageService.Error(ex.Message);
-        }
-        finally
-        {
-            HideWait();
+            catch (Exception ex)
+            {
+                await MessageService.Error(ex.Message);
+            }
         }
     }
 
     private async void EventData()
     {
-        try
+        using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            ShowWait();
-            var data = new
+            try
             {
-                eventName = "MyEvent",
-                eventKey = Data.Id + Data.CurrentStepId,
-                Status = Status,
-                Remarks = Remark
-            };
-            var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_UserForm/EventData", data.ToJson());
-            if (!result.Success)
-            {
-                throw new Exception(result.Msg);
+                var data = new
+                {
+                    eventName = "MyEvent",
+                    eventKey = Data.Id + Data.CurrentStepId,
+                    Status = Status,
+                    Remarks = Remark
+                };
+                var result = await DataProvider.PostData<AjaxResult>($"/OA_Manage/OA_UserForm/EventData", data.ToJson());
+                if (!result.Success)
+                {
+                    throw new Exception(result.Msg);
+                }
+                await MessageService.Success(result.Msg);
+                Close();
             }
-            await MessageService.Success(result.Msg);
-            Close();
-        }
-        catch (Exception ex)
-        {
-            await MessageService.Error(ex.Message);
-        }
-        finally
-        {
-            HideWait();
+            catch (Exception ex)
+            {
+                await MessageService.Error(ex.Message);
+            }
         }
     }
 
     private async void SaveData()
     {
-        try
+        using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            ShowWait();
-
-            var result = await DataProvider.PostData<AjaxResult>("/OA_Manage/OA_UserForm/SaveData", Data.ToJson());
-            if (!result.Success)
+            try
             {
-                throw new Exception(result.Msg);
+                var result = await DataProvider.PostData<AjaxResult>("/OA_Manage/OA_UserForm/SaveData", Data.ToJson());
+                if (!result.Success)
+                {
+                    throw new Exception(result.Msg);
+                }
+                await MessageService.Info("操作成功");
             }
-            await MessageService.Info("操作成功");
-        }
-        catch (Exception ex)
-        {
-            await MessageService.Error(ex.Message);
-        }
-        finally
-        {
-            HideWait();
+            catch (Exception ex)
+            {
+                await MessageService.Error(ex.Message);
+            }
         }
     }
 }

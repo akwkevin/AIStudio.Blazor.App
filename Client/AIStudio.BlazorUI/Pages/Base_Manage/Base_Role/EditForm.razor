@@ -31,8 +31,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetActionsTreeData();
-        await base.OnInitializedAsync();
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            await GetActionsTreeData();
+            await base.OnInitializedAsync();
+        }
     }
 
     private async Task GetActionsTreeData()

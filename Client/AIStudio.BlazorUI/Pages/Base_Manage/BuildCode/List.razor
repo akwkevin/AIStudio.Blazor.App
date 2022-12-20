@@ -3,8 +3,6 @@
 @inherits BaseList<DbTableInfo>
 
 <Space Size="@("small")">
-
-
     <SpaceItem>
         <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
     </SpaceItem>
@@ -61,8 +59,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetDbTableInfo();
-        await base.OnInitializedAsync();
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            await GetDbTableInfo();
+            await base.OnInitializedAsync();
+        }
     }
 
     private async Task GetDbTableInfo()
@@ -93,28 +94,25 @@
 
     protected override async Task GetData()
     {
-        try
+        using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            ShowWait();
-
-            var result = await DataProvider.PostData<List<DbTableInfo>>($"/{Area}/BuildCode/GetDbTableList", (new { linkId = LinkId }).ToJson());
-            if (!result.Success)
+            try
             {
-                throw new MsgException(result.Msg);
+                var result = await DataProvider.PostData<List<DbTableInfo>>($"/{Area}/BuildCode/GetDbTableList", (new { linkId = LinkId }).ToJson());
+                if (!result.Success)
+                {
+                    throw new MsgException(result.Msg);
+                }
+                else
+                {
+                    Pagination.Total = result.Total;
+                    Data = new List<DbTableInfo>(result.Data);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Pagination.Total = result.Total;
-                Data = new List<DbTableInfo>(result.Data);
+                await Error.ProcessError(ex);
             }
-        }
-        catch (Exception ex)
-        {
-            await Error.ProcessError(ex);
-        }
-        finally
-        {
-            HideWait();
         }
     }
 

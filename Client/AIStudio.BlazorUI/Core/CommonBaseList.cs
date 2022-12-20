@@ -70,10 +70,13 @@ namespace AIStudio.BlazorUI.Core
             Area = items[0];
             Name = items[1];
 
-            await GetConfig();
-            await GetData();
+            using (var waitfor = WaitFor.GetWaitFor(this))
+            {
+                await GetConfig();
+                await GetData();
 
-            await base.OnParametersSetAsync();
+                await base.OnParametersSetAsync();
+            }
         }
 
         protected override async Task OnInitializedAsync()
@@ -94,8 +97,6 @@ namespace AIStudio.BlazorUI.Core
         {
             try
             {
-                ShowWait();
-
                 var data = new
                 {
                     PageIndex = 0,
@@ -140,12 +141,6 @@ namespace AIStudio.BlazorUI.Core
             {
                 await Error?.ProcessError(ex);
             }
-            finally
-            {
-
-                HideWait();
-
-            }
         }
 
         protected virtual string GetDataJson()
@@ -164,64 +159,61 @@ namespace AIStudio.BlazorUI.Core
 
         protected override async Task GetData()
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-
-                var result = await DataProvider.PostData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
-                if (!result.Success)
+                try
                 {
-                    throw new MsgException(result.Msg);
-                }
-                else
-                {
-                    Pagination.Total = result.Total;
-
-                    object id = null;
-                    if (SelectedItem != null && SelectedItem.Table.Columns.Contains(IdName))
+                    var result = await DataProvider.PostData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
+                    if (!result.Success)
                     {
-                        id = SelectedItem[IdName];
+                        throw new MsgException(result.Msg);
                     }
-
-                    DataTable.Rows.Clear();
-                    if (result.Data != null)
+                    else
                     {
-                        foreach (var item in result.Data)
-                        {
-                            var dictionary = (IDictionary<string, object>)item;
-                            if (DataTable.Columns.Count == 0)
-                            {
-                                foreach (string current in dictionary.Keys)
-                                {
-                                    DataTable.Columns.Add(current, dictionary[current]?.GetType() ?? typeof(object));
-                                }
-                            }
+                        Pagination.Total = result.Total;
 
-                            //Rows
-                            DataRow dataRow = DataTable.NewRow();
-                            foreach (string key in dictionary.Keys)
+                        object id = null;
+                        if (SelectedItem != null && SelectedItem.Table.Columns.Contains(IdName))
+                        {
+                            id = SelectedItem[IdName];
+                        }
+
+                        DataTable.Rows.Clear();
+                        if (result.Data != null)
+                        {
+                            foreach (var item in result.Data)
                             {
-                                if (DataTable.Columns.Contains(key))
-                                    dataRow[key] = dictionary[key];
+                                var dictionary = (IDictionary<string, object>)item;
+                                if (DataTable.Columns.Count == 0)
+                                {
+                                    foreach (string current in dictionary.Keys)
+                                    {
+                                        DataTable.Columns.Add(current, dictionary[current]?.GetType() ?? typeof(object));
+                                    }
+                                }
+
+                                //Rows
+                                DataRow dataRow = DataTable.NewRow();
+                                foreach (string key in dictionary.Keys)
+                                {
+                                    if (DataTable.Columns.Contains(key))
+                                        dataRow[key] = dictionary[key];
+                                }
+                                DataTable.Rows.Add(dataRow); //循环添加行到DataTable中
                             }
-                            DataTable.Rows.Add(dataRow); //循环添加行到DataTable中
+                        }
+
+                        SelectedItem = DataTable.Rows.OfType<DataRow>().FirstOrDefault();
+                        if (id != null && DataTable.Columns.Contains(IdName))
+                        {
+                            SelectedItem = DataTable.Rows.OfType<DataRow>().FirstOrDefault(p => p[IdName]?.ToString() == id.ToString());
                         }
                     }
-
-                    SelectedItem = DataTable.Rows.OfType<DataRow>().FirstOrDefault();
-                    if (id != null && DataTable.Columns.Contains(IdName))
-                    {                        
-                        SelectedItem = DataTable.Rows.OfType<DataRow>().FirstOrDefault(p => p[IdName]?.ToString() == id.ToString());                       
-                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                await Error?.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
+                catch (Exception ex)
+                {
+                    await Error?.ProcessError(ex);
+                }
             }
         }
 
@@ -257,47 +249,44 @@ namespace AIStudio.BlazorUI.Core
 
         protected virtual async Task SaveData()
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-
-                DataRow obj;
-                if (SelectedItem == null)
+                try
                 {
-                    obj = DataTable.NewRow();
+                    DataRow obj;
+                    if (SelectedItem == null)
+                    {
+                        obj = DataTable.NewRow();
+                    }
+                    else
+                    {
+                        obj = SelectedItem;
+                    }
+
+                    var dictionary = obj.Table.Columns.Cast<DataColumn>().ToDictionary(column => column.ColumnName, column => obj[column]);
+
+                    BaseControlItem.ListToObject(dictionary, EditFormItems);
+
+                    if (dictionary.ContainsKey("Error") && !string.IsNullOrEmpty(dictionary["Error"]?.ToString()))
+                    {
+                        await Error?.ProcessError(new MsgException(dictionary["Error"]?.ToString()));
+                        return;
+                    }
+
+                    dictionary = dictionary.Where(p => p.Value != DBNull.Value).ToDictionary(p => p.Key, p => p.Value);
+
+                    var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/SaveData", dictionary.ToJson());
+                    if (!result.Success)
+                    {
+                        throw new MsgException(result.Msg);
+                    }
+                    await GetData();
+                    StateHasChanged();
                 }
-                else
+                catch (Exception ex)
                 {
-                    obj = SelectedItem;
+                    await Error?.ProcessError(ex);
                 }
-
-                var dictionary = obj.Table.Columns.Cast<DataColumn>().ToDictionary(column => column.ColumnName, column => obj[column]);
-
-                BaseControlItem.ListToObject(dictionary, EditFormItems);
-
-                if (dictionary.ContainsKey("Error") && !string.IsNullOrEmpty(dictionary["Error"]?.ToString()))
-                {
-                    await Error?.ProcessError(new MsgException(dictionary["Error"]?.ToString()));
-                    return;
-                }
-
-                dictionary = dictionary.Where(p => p.Value != DBNull.Value).ToDictionary(p => p.Key, p => p.Value);
-
-                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/SaveData", dictionary.ToJson());
-                if (!result.Success)
-                {
-                    throw new MsgException(result.Msg);
-                }
-                await GetData();
-                StateHasChanged();
-            }
-            catch (Exception ex)
-            {
-                await Error?.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
             }
         }
 
@@ -311,24 +300,22 @@ namespace AIStudio.BlazorUI.Core
 
         protected virtual async Task Delete(List<string> ids)
         {
-            try
+            using (var waitfor = WaitFor.GetWaitFor(this))
             {
-                ShowWait();
-
-                var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/DeleteData", ids.ToJson());
-                if (!result.Success)
+                try
                 {
-                    throw new MsgException(result.Msg);
+
+                    var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/DeleteData", ids.ToJson());
+                    if (!result.Success)
+                    {
+                        throw new MsgException(result.Msg);
+                    }
+                    await GetData();
                 }
-                await GetData();
-            }
-            catch (Exception ex)
-            {
-                await Error?.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
+                catch (Exception ex)
+                {
+                    await Error?.ProcessError(ex);
+                }
             }
         }
 

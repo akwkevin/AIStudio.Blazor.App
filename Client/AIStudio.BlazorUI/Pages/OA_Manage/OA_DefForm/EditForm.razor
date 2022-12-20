@@ -103,10 +103,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        GetTypes();
-        await GetRoles();
-        await GetUsers();
-        await base.OnInitializedAsync();
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            GetTypes();
+            await GetRoles();
+            await GetUsers();
+            await base.OnInitializedAsync();
+        }
     }
 
     protected override async Task GetDataAsync(object id)
@@ -148,11 +151,25 @@
 
     private async Task GetRoles()
     {
-        Roles = await UserData.GetBase_Role();   
+        try
+        {
+            Roles = await UserData.GetBase_Role();
+        }
+        catch (Exception ex)
+        {
+            await MessageService.Error(ex.Message);
+        }
     }
 
     private async Task GetUsers()
     {
-        Users = await UserData.GetBase_User();
+        try
+        {
+            Users = await UserData.GetBase_User();
+        }
+        catch (Exception ex)
+        {
+            await MessageService.Error(ex.Message);
+        }
     }
 }

@@ -165,27 +165,24 @@
     {
 
         Func<ModalClosingEventArgs, Task> onOkClick = async (e) =>
-        {
-            try
             {
-                ShowWait();
-
-                var result = await DataProvider.PostData<AjaxResult>($"/Quartz_Manage/Quartz_Task/{Action}", ids.ToJson());
-                if (!result.Success)
+                using (var waitfor = WaitFor.GetWaitFor(this))
                 {
-                    throw new MsgException(result.Msg);
+                    try
+                    {
+                        var result = await DataProvider.PostData<AjaxResult>($"/Quartz_Manage/Quartz_Task/{Action}", ids.ToJson());
+                        if (!result.Success)
+                        {
+                            throw new MsgException(result.Msg);
+                        }
+                        await GetData();
+                        StateHasChanged();
+                    }
+                    catch (Exception ex)
+                    {
+                        await Error.ProcessError(ex);
+                    }
                 }
-                await GetData();
-                StateHasChanged();
-            }
-            catch (Exception ex)
-            {
-                await Error.ProcessError(ex);
-            }
-            finally
-            {
-                HideWait();
-            }
         };
 
         RenderFragment icon = (builder) =>

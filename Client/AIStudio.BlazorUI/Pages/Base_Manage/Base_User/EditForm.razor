@@ -57,10 +57,13 @@
     private List<TreeModel> Departments { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {   
-        await GetRoles();
-        await GetDepartment();   
-        await base.OnInitializedAsync();
+    {
+        using (var waitfor = WaitFor.GetWaitFor(this))
+        {
+            await GetRoles();
+            await GetDepartment();
+            await base.OnInitializedAsync();
+        }
     }
 
     private async Task GetRoles()
