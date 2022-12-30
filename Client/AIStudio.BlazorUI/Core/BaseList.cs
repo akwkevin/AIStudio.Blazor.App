@@ -59,7 +59,8 @@ namespace AIStudio.BlazorUI.Core
 
         protected override async Task GetData()
         {
-            using (var waitfor = WaitFor.GetWaitFor(this))
+            Loading = true;
+            //using (var waitfor = WaitFor.GetWaitFor(this))
             {
                 try
                 {
@@ -84,6 +85,7 @@ namespace AIStudio.BlazorUI.Core
                     await Error.ProcessError(ex);
                 }
             }
+            Loading = false;
         }
 
         protected virtual void Edit(TData para)

@@ -100,13 +100,16 @@ namespace AIStudio.Common.SqlSuger
                                     column.Length = length;
                                 }
 
-                                if (column.Length == 0)
+                                if (item.DbType == DbType.SqlServer.ToString())
                                 {
-                                    column.DataType = "Nvarchar(Max)";
-                                }
-                                else
-                                {
-                                    column.DataType = "Nvarchar";
+                                    if (column.Length == 0)
+                                    {
+                                        column.DataType = "Nvarchar(Max)";
+                                    }
+                                    else
+                                    {
+                                        column.DataType = "Nvarchar";
+                                    }
                                 }
                             }
                             else if (typeof(IEnumerable).IsAssignableFrom(type.PropertyType))

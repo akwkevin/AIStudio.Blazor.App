@@ -30,14 +30,14 @@ namespace AIStudio.BlazorUI.Core
         public WaitFor(ILoading loading)
         {
             LoadingComponent = loading;
-            LoadingComponent.Loading = true;
+            //LoadingComponent.ShowLoading();
         }
 
         public void Dispose()
         {
             if (Interlocked.Decrement(ref Counter) == 0)
             {
-                LoadingComponent.Loading = false;
+                //LoadingComponent.HideLoading();
                 WaitForList.TryRemove(LoadingComponent, out var waitFor);
             }
         }

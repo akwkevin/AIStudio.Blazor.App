@@ -35,7 +35,6 @@ namespace AIStudio.BlazorUI.Services
             services.AddScoped<IOperator, Operator>();
             services.AddScoped<IUserData, UserData>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IChartService, ChartService>();
             //services.AddScoped<BrowserResizeService>();
 
             //services.AddScoped<IValueConverter, ObjectToStringConverter>();
