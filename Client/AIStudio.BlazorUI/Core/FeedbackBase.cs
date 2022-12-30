@@ -10,14 +10,5 @@ namespace AIStudio.BlazorUI.Core
     public class FeedbackBase : FeedbackComponent<string>, ILoading
     {
         public bool Loading { get; set; }
-
-        public void ShowLoading()
-        {
-            Loading = true;
-        }
-        public void HideLoading()
-        {
-            Loading = false;
-        }
     }
 }

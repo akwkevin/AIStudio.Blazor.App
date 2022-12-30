@@ -25,15 +25,6 @@ namespace AIStudio.BlazorUI.Core
 
         protected Form<TData> _form;
 
-        public void ShowLoading()
-        {
-            Loading = true;
-        }
-        public void HideLoading()
-        {
-            Loading = false;
-        }
-
         public BaseEditFormWithOption()
         {
             try
