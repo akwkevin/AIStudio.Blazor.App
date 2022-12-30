@@ -212,8 +212,8 @@
             OnCancel="()=>{}"
             OkText="确定"
             CancelText="取消"
-            disabled=@NoneSelectedItems>
-            <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>@Item.Header?.ToString()</Button>
+            Disabled=@NoneSelectedItems>
+            <Button Type="@ButtonType.Primary" Danger Icon="minus" Disabled=@NoneSelectedItems>@Item.Header?.ToString()</Button>
         </Popconfirm>
 
     }

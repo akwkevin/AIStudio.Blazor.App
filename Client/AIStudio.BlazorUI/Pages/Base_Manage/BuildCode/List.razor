@@ -4,10 +4,10 @@
 
 <Space Size="@("small")">
     <SpaceItem>
-        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
+        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()">刷新</Button>
     </SpaceItem>
     <SpaceItem>
-        <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()" disabled=@NoneSelectedItems>生成代码</Button>
+        <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Edit()" Disabled=@NoneSelectedItems>生成代码</Button>
     </SpaceItem>
     <SpaceItem>
         <Select TItem="Base_DbLinkDTO"

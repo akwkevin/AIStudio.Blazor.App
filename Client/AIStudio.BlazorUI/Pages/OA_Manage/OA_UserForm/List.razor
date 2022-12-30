@@ -38,7 +38,7 @@
         </SimpleSelect>
     </SpaceItem>
     <SpaceItem>
-        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 
@@ -56,7 +56,7 @@
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="分类" DataIndex="Type" TData="System.String" />
-       @* <AntDesign.Column Title="标题" DataIndex="DefFormName" TData="System.String" />
+        <AntDesign.Column Title="标题" DataIndex="DefFormName" TData="System.String" />
         <AntDesign.Column Title="摘要" DataIndex="Text" TData="System.String" />
         <AntDesign.Column Title="状态" TData="System.String">
             @if (@context.Status == 0)
@@ -108,7 +108,7 @@
                     </SpaceItem>
                 }
             </Space>
-        </ActionColumn>*@
+        </ActionColumn>
     </ChildContent>
     <PaginationTemplate>
         <div style="float:right;margin-top:10px">

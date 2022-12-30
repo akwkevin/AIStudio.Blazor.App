@@ -13,10 +13,10 @@
     @if (Operator.HasPerm("Quartz_Task.Edit"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Stop()" disabled=@NoneSelectedItems>停用</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Stop()" Disabled=@NoneSelectedItems>停用</Button>
         </SpaceItem>
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start()" disabled=@NoneSelectedItems>开启</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start()" Disabled=@NoneSelectedItems>开启</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("OA_DefForm.Delete"))
@@ -44,7 +44,7 @@
         </SimpleSelect>
     </SpaceItem>
     <SpaceItem>
-        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 

@@ -13,12 +13,12 @@
     @if (Operator.HasPerm("Quartz_Task.Edit"))
     {
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Pause()" disabled=@NoneSelectedItems>暂停</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Pause()" Disabled=@NoneSelectedItems>暂停</Button>
         </SpaceItem>
         <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start()" disabled=@NoneSelectedItems>开启</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=>Start()" Disabled=@NoneSelectedItems>开启</Button>
         </SpaceItem>   <SpaceItem>
-            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=> ToDo()" disabled=@NoneSelectedItems>立即执行</Button>
+            <Button Type="@ButtonType.Primary" Icon="plus" OnClick="()=> ToDo()" Disabled=@NoneSelectedItems>立即执行</Button>
         </SpaceItem>
     }
     @if (Operator.HasPerm("Quartz_Task.Delete"))
@@ -29,13 +29,13 @@
                     OnCancel="()=>{}"
                     OkText="确定"
                     CancelText="取消"
-                    disabled=@NoneSelectedItems>
-                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+                    Disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" Disabled=@NoneSelectedItems>删除</Button>
             </Popconfirm>
         </SpaceItem>
     }
     <SpaceItem>
-        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="关键字" EnterButton="true" @bind-Value="@KeyWord" OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 

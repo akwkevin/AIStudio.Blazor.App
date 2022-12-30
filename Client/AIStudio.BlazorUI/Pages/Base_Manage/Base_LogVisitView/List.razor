@@ -10,7 +10,7 @@
         <RangePicker TValue="DateTime?[]" @bind-Value="@RangeTime" Format="yyyy-MM-dd HH:mm:ss" />
     </SpaceItem>
     <SpaceItem>
-        <Search Placeholder="内容" EnterButton="true" @bind-Value="@KeyWord" disabled=@Loading OnSearch="()=>Refresh()" />
+        <Search Placeholder="内容" EnterButton="true" @bind-Value="@KeyWord" OnSearch="()=>Refresh()" />
     </SpaceItem>
 </Space>
 

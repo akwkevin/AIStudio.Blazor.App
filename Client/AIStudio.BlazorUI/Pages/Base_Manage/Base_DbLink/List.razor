@@ -18,13 +18,13 @@
                     OnCancel="()=>{}"
                     OkText="确定"
                     CancelText="取消"
-                    disabled=@NoneSelectedItems>
-                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+                    Disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" Disabled=@NoneSelectedItems>删除</Button>
             </Popconfirm>
         </SpaceItem>
     }
     <SpaceItem>
-        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" disabled=@Loading>刷新</Button>
+        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()" >刷新</Button>
     </SpaceItem>
 </Space>
 
