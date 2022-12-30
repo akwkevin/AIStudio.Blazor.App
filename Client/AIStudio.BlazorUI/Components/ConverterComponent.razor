@@ -24,9 +24,10 @@
     protected override void OnParametersSet()
     {
         if (ValueConverter == null)
-        {
-            //ValueConverter = ServiceProvider.GetNamedService<IValueConverter>(Converter);
-            ValueConverter = ServiceProvider.GetService<IValueConverter>();
+        { 
+            //ValueConverter = ServiceProvider.GetService<IValueConverter>();
+            //目前仅注册了ObjectToStringConverter
+            ValueConverter = ServiceProvider.GetNamedService<IValueConverter>(Converter);     
         }
         Result = ValueConverter.Convert(Value, typeof(object), ConverterParameter, System.Globalization.CultureInfo.CurrentCulture)?.ToString();
     }

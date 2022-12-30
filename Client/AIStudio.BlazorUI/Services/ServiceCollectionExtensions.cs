@@ -1,6 +1,7 @@
 ﻿using AIStudio.BlazorUI.Converter;
 using AIStudio.BlazorUI.Models.Settings;
 using AIStudio.BlazorUI.Services.Auth;
+using AIStudio.BlazorUI.Services.Exstensions;
 using AIStudio.Client.Business;
 using AntDesign;
 using Blazored.LocalStorage;
@@ -37,8 +38,8 @@ namespace AIStudio.BlazorUI.Services
             services.AddScoped<IChartService, ChartService>();
             //services.AddScoped<BrowserResizeService>();
 
-            services.AddScoped<IValueConverter, ObjectToStringConverter>();
-            // services.AddNamedSingleton<IValueConverter, ObjectToStringConverter>(nameof(ObjectToStringConverter));
+            //services.AddScoped<IValueConverter, ObjectToStringConverter>();
+            services.AddNamedSingleton<IValueConverter, ObjectToStringConverter>(nameof(ObjectToStringConverter));
         }
     }
 }

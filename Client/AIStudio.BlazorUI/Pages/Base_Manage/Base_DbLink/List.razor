@@ -31,12 +31,13 @@
 <Table @ref="_table"
        TItem="Base_DbLinkDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
        ScrollX="800"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
@@ -46,13 +47,13 @@
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
-                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context)">Edit</Button>
                     <Popconfirm Title="确认删除吗?"
                                 OnConfirm="()=>Delete(context.Id)"
                                 OnCancel="()=>{}"
                                 OkText="确定"
                                 CancelText="取消">
-                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                        <Button Danger Type="@ButtonType.Link" Style="padding:0px">Delete</Button>
                     </Popconfirm>
                 </SpaceItem>
             </Space>

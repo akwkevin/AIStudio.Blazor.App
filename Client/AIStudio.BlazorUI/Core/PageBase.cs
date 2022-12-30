@@ -51,7 +51,7 @@ namespace AIStudio.BlazorUI.Core
             await Task.CompletedTask;
         }
 
-        protected virtual async Task Refresh()
+        protected virtual async void Refresh()
         {
             Pagination.PageIndex = 0;
             await GetData();

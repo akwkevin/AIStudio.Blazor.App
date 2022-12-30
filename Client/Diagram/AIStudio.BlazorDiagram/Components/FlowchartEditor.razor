@@ -102,10 +102,9 @@
             return;
 
         var position = Diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
+        position = new Blazor.Diagrams.Core.Geometry.Point(Math.Max(0, position.X), Math.Max(0, position.Y));
         var node = NewNode(position, _draggedType.Value);
 
-        node.AddPort(PortAlignment.Top);
-        node.AddPort(PortAlignment.Bottom);
         Diagram.Nodes.Add(node);
         _draggedType = null;
     }

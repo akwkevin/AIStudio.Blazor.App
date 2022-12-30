@@ -25,13 +25,14 @@
 <Table @ref="_table"
        TItem="DbTableInfo"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        HidePagination
        PageSize="int.MaxValue"
        @bind-SelectedRows="SelectedItems"
        ScrollX="400"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.TableName)" />

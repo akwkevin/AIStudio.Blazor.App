@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
 
 namespace AIStudio.Client.Business
 {
@@ -209,21 +210,17 @@ namespace AIStudio.Client.Business
                 if (tree.Type == 0)
                 {
                     dics.Add(tree.Value, tree);
+                }
 
-                    if (tree.Children != null)
+                if (tree.Children?.Count > 0)
+                {
+                    var datas = tree.Children.Where(p => p.Type == 1);
+                    if (datas.Count() > 0)
                     {
-                        var datas = tree.Children.Where(p => p.Type == 1);
-                        if (datas.Count() > 0)
-                        {
-                            items.Add(tree.Value, new List<SelectOption>(datas.Select(p => new SelectOption() { Value = p.Value, Text = p.Text })));
-                        }
-
-                        var subtrees = tree.Children.Where(p => p.Type == 0);
-                        if (subtrees.Count() > 0)
-                        {
-                            BuildDictionary(items, dics, subtrees);
-                        }
+                        items.Add(tree.Value, new List<SelectOption>(datas.Select(p => new SelectOption() { Value = p.Value, Text = p.Text})));
                     }
+
+                    BuildDictionary(items, dics, tree.Children);
                 }
             }
         }

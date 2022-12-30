@@ -2,15 +2,7 @@
 @inherits BaseEditForm<string>
 
 <div>
-    <FlowchartEditor Data="@Data" Users="@Users" Roles="@Roles" Height="450px" />
-</div>
-
-<div>
-    <Space Size="@("small")" style="float:right;margin-top:10px">
-        <SpaceItem>
-            <Button Type="@ButtonType.Primary" OnClick="()=>Close()">关闭</Button>
-        </SpaceItem>
-    </Space>
+    <FlowchartEditor Data="@Data" Users="@Users" Roles="@Roles" Height="650px" />
 </div>
 
 @code {

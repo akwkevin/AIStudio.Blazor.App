@@ -3,9 +3,7 @@
     <div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")">
         <div class="divleft">
             <span class="spancenter">
-                @(
-                    Node.Title
-                    )
+                @Node.Title
             </span>
         </div>
 
@@ -18,7 +16,7 @@
 else
 {
     <div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")" style="border-radius: 30px">
-        Node.Title
+        @Node.Title
         @foreach (var port in Node.Ports)
         {
             <PortRenderer Port="port" Class="default"></PortRenderer>

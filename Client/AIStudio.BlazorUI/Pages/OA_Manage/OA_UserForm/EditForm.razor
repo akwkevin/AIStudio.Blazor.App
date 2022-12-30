@@ -60,6 +60,23 @@
         </GridCol>
     </Row>
     <Row Gutter="24">
+        <GridCol Span="6">
+            <FormItem>
+                <LabelTemplate>
+                    <Select TItem="SelectOption"
+                            TItemValue="string"
+                            @bind-Value="@context.SubType"
+                            AllowClear
+                            DataSource="Types"
+                            LabelName="@nameof(SelectOption.Text)"
+                            ValueName="@nameof(SelectOption.Value)"
+                            style="min-width:100px" />
+                </LabelTemplate>
+                <ChildContent>
+                    <Input @bind-Value="@context.Flag" AutoComplete=false />
+                </ChildContent>
+            </FormItem>
+        </GridCol>
         <GridCol Span="12">
             <FormItem Label="附件">
                 <UploadFile File="@context.Appendix" MaxCount="1" />
@@ -163,7 +180,7 @@
     }
     RenderFragment customDot = @<span>
         step {index} status: {status}
-        </span>
+    </span>
     ;
     private List<SelectOption> Users { get; set; }
     private List<SelectOption> Types { get; set; }
@@ -230,16 +247,16 @@
     {
         using (var waitfor = WaitFor.GetWaitFor(this))
         {
-            GetTypes();
-            GetGrades();
             await GetUsers();
             await base.OnInitializedAsync();
+            GetTypes();
+            GetGrades();
         }
     }
 
     private void GetTypes()
     {
-        UserData.ItemSource.TryGetValue("流程分类", out var types);
+        UserData.ItemSource.TryGetValue(Data?.Type, out var types);
         Types = new List<SelectOption>(types ?? new List<SelectOption>());
     }
     private void GetGrades()
@@ -360,6 +377,7 @@
                     throw new Exception(result.Msg);
                 }
                 await MessageService.Info("操作成功");
+                Close();
             }
             catch (Exception ex)
             {

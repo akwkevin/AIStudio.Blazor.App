@@ -4,6 +4,14 @@
 
 <Space Size="@("small")">
 
+    <RadioGroup @bind-Value="Status">
+        <Radio RadioButton Value="@("processing")">进行中</Radio>
+        <Radio RadioButton Value="@("waiting")">等待中</Radio>
+        <Radio RadioButton Value="@("finish")">审批过</Radio>
+        <Radio RadioButton Value="@("created")">创建的</Radio>
+        <Radio RadioButton Value="@("all")">全部</Radio>
+    </RadioGroup>
+
     @if (Operator.HasPerm("OA_UserForm.Delete"))
     {
         <SpaceItem>
@@ -12,8 +20,8 @@
                     OnCancel="()=>{}"
                     OkText="确定"
                     CancelText="取消"
-                    disabled=@NoneSelectedItems>
-                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+                    Disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" Disabled=@NoneSelectedItems>删除</Button>
             </Popconfirm>
         </SpaceItem>
     }
@@ -21,10 +29,11 @@
         <SimpleSelect DefaultActiveFirstOption @bind-Value="@Condition">
             <SelectOptions>
                 <SimpleSelectOption Value="Type" Label="分类"></SimpleSelectOption>
-                <SimpleSelectOption Value="Name" Label="标题"></SimpleSelectOption>
+                <SimpleSelectOption Value="DefFormName" Label="标题"></SimpleSelectOption>
                 <SimpleSelectOption Value="Text" Label="摘要"></SimpleSelectOption>
                 <SimpleSelectOption Value="CreatorName" Label="创建者"></SimpleSelectOption>
-                <SimpleSelectOption Value="Status" Label="状态"></SimpleSelectOption>
+                <SimpleSelectOption Value="ApplicantUser" Label="申请人"></SimpleSelectOption>
+                <SimpleSelectOption Value="UserNames" Label="审批人"></SimpleSelectOption>
             </SelectOptions>
         </SimpleSelect>
     </SpaceItem>
@@ -36,17 +45,18 @@
 <Table @ref="_table"
        TItem="OA_UserFormDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
        ScrollX="2200"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
         <AntDesign.Column Title="分类" DataIndex="Type" TData="System.String" />
-        <AntDesign.Column Title="标题" DataIndex="DefFormName" TData="System.String" />
+       @* <AntDesign.Column Title="标题" DataIndex="DefFormName" TData="System.String" />
         <AntDesign.Column Title="摘要" DataIndex="Text" TData="System.String" />
         <AntDesign.Column Title="状态" TData="System.String">
             @if (@context.Status == 0)
@@ -75,8 +85,8 @@
         <AntDesign.Column Title="申请人及部门" DataIndex="ApplicantUserAndDepartment" TData="System.String" />
         <AntDesign.Column Title="当前节点" DataIndex="Current" TData="System.String" />
         <AntDesign.Column Title="当前审批人" DataIndex="UserNamesAndRoles" TData="System.String" />
-        <AntDesign.Column Title="开始日期" DataIndex="StartTime" Format="yyyy-MM-dd HH:mm:ss" TData="System.String" />
-        <AntDesign.Column Title="结束日期" DataIndex="EndTime" Format="yyyy-MM-dd HH:mm:ss" TData="System.String" />
+        <AntDesign.Column Title="开始日期" DataIndex="StartTime" Format="yyyy-MM-dd HH:mm:ss" TData="System.DateTime" />
+        <AntDesign.Column Title="结束日期" DataIndex="EndTime" Format="yyyy-MM-dd HH:mm:ss" TData="System.DateTime" />
         <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 @if (Operator.HasPerm("OA_UserForm.Edit"))
@@ -98,7 +108,7 @@
                     </SpaceItem>
                 }
             </Space>
-        </ActionColumn>
+        </ActionColumn>*@
     </ChildContent>
     <PaginationTemplate>
         <div style="float:right;margin-top:10px">
@@ -124,8 +134,55 @@
     public List()
     {
         Area = "OA_Manage";
-        EditWitdh = 1000d;
-        DefaultFooter = false;
+        EditWitdh = 1200d;
         EditTitle = "审批流程";
+        DefaultFooter = false;
     }
-}
+
+    private string _status = "processing";
+    protected string Status
+    {
+        get { return _status; }
+        set
+        {
+            if (_status != value)
+            {
+                _status = value;
+                //Refresh();
+            }
+        }
+    }
+
+    protected override string GetDataJson()
+    {
+        var searchKeyValues = new Dictionary<string, object>();
+        if (!string.IsNullOrEmpty(Condition) && !string.IsNullOrEmpty(KeyWord))
+        {
+            searchKeyValues.Add(Condition, KeyWord);
+        }
+
+        var userId = Status == "processing" ? Operator?.Property.Id : "";
+        var applicantUserId = Status == "waiting" ? Operator?.Property.Id : "";
+        var alreadyUserIds = Status == "finish" ? Operator?.Property.Id : "";
+        var creatorId = Status == "created" ? Operator?.Property.Id : "";
+
+        var data = new
+        {
+            PageIndex = Pagination.PageIndex,
+            PageRows = Pagination.PageRows,
+            SortField = Pagination.SortField,
+            SortType = Pagination.SortType,
+            SearchKeyValues = searchKeyValues,
+            Search = new
+            {
+                UserId = userId,
+                ApplicantUserId = applicantUserId,
+                CreatorId = creatorId,
+                AlreadyUserIds = alreadyUserIds,
+            }
+        };
+
+        return data.ToJson();
+    }
+
+ }

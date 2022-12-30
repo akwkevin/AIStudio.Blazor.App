@@ -42,7 +42,7 @@
        @bind-PageSize="Pagination.PageRows" 
        @bind-SelectedRows="SelectedItems"
        ScrollX="1800"
-       ScrollBarWidth="5px"
+       ScrollBarWidth="12px"
        Size=@TableSize.Small
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>

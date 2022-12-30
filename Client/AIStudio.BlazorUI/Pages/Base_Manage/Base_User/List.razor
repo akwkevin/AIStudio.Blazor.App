@@ -31,12 +31,13 @@
 <Table @ref="_table"
        TItem="Base_UserDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
        ScrollX="1400"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
@@ -51,7 +52,7 @@
                 @if (Operator.HasPerm("Base_User.Edit"))
                 {
                     <SpaceItem>
-                        <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context)">Edit</Button>
                     </SpaceItem>
                 } 
                 @if (Operator.HasPerm("Base_User.Delete"))
@@ -62,7 +63,7 @@
                                 OnCancel="()=>{}"
                                 OkText="确定"
                                 CancelText="取消">
-                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                            <Button Danger Type="@ButtonType.Link" Style="padding:0px">Delete</Button>
                     </Popconfirm>
                 </SpaceItem>
                 }

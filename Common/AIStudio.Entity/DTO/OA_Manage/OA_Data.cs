@@ -202,28 +202,28 @@ namespace AIStudio.Entity.DTO.OA_Manage
         /// <value>
         /// The user ids.
         /// </value>
-        public List<string> UserIds { get; set; }
+        public List<string>? UserIds { get; set; }
         /// <summary>
         /// Gets or sets the user names.
         /// </summary>
         /// <value>
         /// The user names.
         /// </value>
-        public List<string> UserNames { get; set; }
+        public List<string>? UserNames { get; set; }
         /// <summary>
         /// Gets or sets the role ids.
         /// </summary>
         /// <value>
         /// The role ids.
         /// </value>
-        public List<string> RoleIds { get; set; }
+        public List<string>? RoleIds { get; set; }
         /// <summary>
         /// Gets or sets the role names.
         /// </summary>
         /// <value>
         /// The role names.
         /// </value>
-        public List<string> RoleNames { get; set; }
+        public List<string>? RoleNames { get; set; }
         /// <summary>
         /// Gets or sets the type of the act.
         /// </summary>

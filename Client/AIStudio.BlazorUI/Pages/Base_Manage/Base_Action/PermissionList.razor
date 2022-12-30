@@ -5,7 +5,8 @@
 </Space>
 
 <Table TItem="Base_ActionDTO" 
-    DataSource="permissionList" 
+    DataSource="permissionList"
+    EnableVirtualization
     HidePagination
     PageSize="int.MaxValue">
     <ChildContent>
@@ -34,18 +35,18 @@
                 <SpaceItem>
                     @if (!@context.editable)
                     {
-                        <Button Type="@ButtonType.Link" OnClick="()=>startEdit(context)">Edit</Button>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>startEdit(context)">Edit</Button>
                     }
                     else
                     {
-                        <Button Type="@ButtonType.Link" OnClick="()=>saveEdit(context)">Save</Button>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>saveEdit(context)">Save</Button>
                     }
                     <Popconfirm Title="确认删除吗?"
                                 OnConfirm="()=>Delete(context)"
                                 OnCancel="()=>{}"
                                 OkText="确定"
                                 CancelText="取消">
-                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                        <Button Danger Type="@ButtonType.Link" Style="padding:0px">Delete</Button>
                     </Popconfirm>
                 </SpaceItem>
             </Space>

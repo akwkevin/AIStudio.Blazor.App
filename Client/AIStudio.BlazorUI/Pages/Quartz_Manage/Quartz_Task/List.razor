@@ -42,12 +42,13 @@
 <Table @ref="_table"
        TItem="Quartz_TaskDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
        ScrollX="1800"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
@@ -61,18 +62,18 @@
         <AntDesign.Column Title="请求地址" DataIndex="ApiUrl" TData="string" />
         <AntDesign.Column Title="密匙名" DataIndex="AuthKey" TData="string" />
         <AntDesign.Column Title="密匙值" DataIndex="AuthValue" TData="string" />
-        <ActionColumn Title="Action" Fixed="right" Width="300">
+        <ActionColumn Title="Action" Fixed="right">
             <Space Size=@("small")>
                 <SpaceItem>
-                    <Button Type="@ButtonType.Link" OnClick="()=>Edit(context)">Edit</Button>
-                    <Popconfirm Title="确认删除吗?"
+                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context)">Edit</Button>
+                    <Popconfirm Title="确认删除吗?" 
                                 OnConfirm="()=>Delete(context.Id)"
                                 OnCancel="()=>{}"
                                 OkText="确定"
                                 CancelText="取消">
-                        <Button Danger Type="@ButtonType.Link">Delete</Button>
+                        <Button Danger Type="@ButtonType.Link" Style="padding:0px">Delete</Button>
                     </Popconfirm>
-                    <Button Type="@ButtonType.Link" OnClick="()=>Log(context)">Log</Button>
+                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Log(context)">Log</Button>
                 </SpaceItem>
             </Space>
         </ActionColumn>

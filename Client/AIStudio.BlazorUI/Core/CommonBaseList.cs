@@ -4,6 +4,7 @@ using AIStudio.BlazorUI.Models.Settings;
 using AIStudio.Client.Business;
 using AIStudio.Entity;
 using AIStudio.Entity.DTO.Base_Manage;
+using AIStudio.Entity.Enum;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using AntDesign;
@@ -35,34 +36,30 @@ namespace AIStudio.BlazorUI.Core
         protected string ConfigUrl { get; set; } = "/Base_Manage/Base_CommonFormConfig/GetDataList";
         protected string GetDataList { get; set; } = "GetDataList";
 
-        protected DataTable DataTable = new DataTable();
+        protected List<Dictionary<string, object>> Data { get; set; }
 
-        protected DataRow[] Data => DataTable?.AsEnumerable().ToArray();
-
-        private DataRow _selectedItem;
-        protected DataRow SelectedItem
+        private Dictionary<string, object> _selectedItem;
+        protected Dictionary<string, object> SelectedItem
         {
             get => _selectedItem;
             set { _selectedItem = value; BaseControlItem.ObjectToList(_selectedItem, EditFormItems); }
         }
 
-        protected IEnumerable<DataRow> SelectedItems { get; set; }
+        protected IEnumerable<Dictionary<string, object>> SelectedItems { get; set; }
 
         protected bool NoneSelectedItems { get { return !(SelectedItems?.Count() > 0); } }
 
-        protected AntDesign.Table<DataRow> _table;
+        protected AntDesign.Table<Dictionary<string, object>>? _table;
 
         protected List<QueryConditionItem> QueryConditionItems { get; set; }
         protected List<DataGridColumnCustom> DataGridColumns { get; set; }
         protected List<EditFormItem> EditFormItems { get; set; }
 
-        protected int BodyHeight { get; set; } = 800;
-
-        protected bool IsReadOnly { get; set; }
+        protected int ScrollX { get; set; } = 1000;
+        protected int ScrollY { get; set; } = 800;
 
         protected string IdName { get; set; } = "Id";
-
-        protected bool IsNew { get { return SelectedItem == null || !SelectedItem.Table.Columns.Contains(IdName) || string.IsNullOrEmpty(SelectedItem[IdName]?.ToString()); } }
+        protected bool IsNew { get { return SelectedItem == null || !SelectedItem.ContainsKey(IdName) || string.IsNullOrEmpty(SelectedItem[IdName]?.ToString()); } }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -85,7 +82,7 @@ namespace AIStudio.BlazorUI.Core
         }
 
 
-        protected virtual void OnRowClick(RowData<DataRow> dataRow)
+        protected virtual void OnRowClick(RowData<Dictionary<string, object>> dataRow)
         {
             if (dataRow == null || dataRow.Data == null)
                 return;
@@ -101,10 +98,9 @@ namespace AIStudio.BlazorUI.Core
                 {
                     PageIndex = 0,
                     PageRows = 500,
-                    Search = new
+                    SearchKeyValues = new Dictionary<string, object>()
                     {
-                        keyword = Name,
-                        condition = "Table",
+                        {"Table", Name }
                     }
                 };
 
@@ -114,28 +110,17 @@ namespace AIStudio.BlazorUI.Core
                     throw new MsgException(result.Msg);
                 }
 
-                if (result.Data.Any(p => p.PropertyName == IdName))
-                {
-                    IsReadOnly = false;
-                }
-                else
-                {
-                    IsReadOnly = true;
-                }
-
                 QueryConditionItems = new List<QueryConditionItem>(result.Data.Where(p => p.Type == 0).OrderBy(p => p.DisplayIndex).Select((p, index) => GetQueryConditionItem(p)));
-                QueryConditionItems.Add(new QueryConditionItem() { Header = "新增", ControlType = ControlType.Add, Visibility = 0, IsReadOnly = IsReadOnly });
-                QueryConditionItems.Add(new QueryConditionItem() { Header = "复制", ControlType = ControlType.Copy, Visibility = 0, IsReadOnly = IsReadOnly });
-                QueryConditionItems.Add(new QueryConditionItem() { Header = "删除", ControlType = ControlType.Delete, Visibility = 0, IsReadOnly = IsReadOnly });
+                QueryConditionItems.Add(new QueryConditionItem() { Header = "新增", ControlType = ControlType.Add, Visibility = 0 });
+                QueryConditionItems.Add(new QueryConditionItem() { Header = "复制", ControlType = ControlType.Copy, Visibility = 0});
+                QueryConditionItems.Add(new QueryConditionItem() { Header = "删除", ControlType = ControlType.Delete, Visibility = 0 });
                 QueryConditionItems.Add(new QueryConditionItem() { Header = "查询", ControlType = ControlType.Query, Visibility = 0 });
 
                 DataGridColumns = new List<DataGridColumnCustom>(result.Data.Where(p => p.Type == 1).OrderBy(p => p.DisplayIndex).Select((p, index) => GetDataGridColumnCustom(p)));
-
+                ScrollX = DataGridColumns.Count * 200;
 
                 EditFormItems = new List<EditFormItem>(result.Data.Where(p => p.Type == 1).OrderBy(p => p.DisplayIndex).Select((p, index) => GetEditFormItem(p)));
-                EditFormItems.Add(new EditFormItem() { Header = "提交", ControlType = ControlType.Submit, Visibility = 0, IsReadOnly = IsReadOnly });
-
-
+                EditFormItems.Add(new EditFormItem() { Header = "提交", ControlType = ControlType.Submit, Visibility = 0 });
             }
             catch (Exception ex)
             {
@@ -163,7 +148,7 @@ namespace AIStudio.BlazorUI.Core
             {
                 try
                 {
-                    var result = await DataProvider.PostData<List<ExpandoObject>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
+                    var result = await DataProvider.PostData<List<Dictionary<string, object>>>($"/{Area}/{Name}/{GetDataList}", GetDataJson());
                     if (!result.Success)
                     {
                         throw new MsgException(result.Msg);
@@ -171,42 +156,19 @@ namespace AIStudio.BlazorUI.Core
                     else
                     {
                         Pagination.Total = result.Total;
+                        Data = result.Data;
 
-                        object id = null;
-                        if (SelectedItem != null && SelectedItem.Table.Columns.Contains(IdName))
+                        if (SelectedItem != null && SelectedItem.ContainsKey(IdName))
                         {
-                            id = SelectedItem[IdName];
+                            SelectedItem = Data.FirstOrDefault(p => p[IdName] == SelectedItem[IdName]);
                         }
-
-                        DataTable.Rows.Clear();
-                        if (result.Data != null)
+                        else if (Data?.Any() == true)
                         {
-                            foreach (var item in result.Data)
-                            {
-                                var dictionary = (IDictionary<string, object>)item;
-                                if (DataTable.Columns.Count == 0)
-                                {
-                                    foreach (string current in dictionary.Keys)
-                                    {
-                                        DataTable.Columns.Add(current, dictionary[current]?.GetType() ?? typeof(object));
-                                    }
-                                }
-
-                                //Rows
-                                DataRow dataRow = DataTable.NewRow();
-                                foreach (string key in dictionary.Keys)
-                                {
-                                    if (DataTable.Columns.Contains(key))
-                                        dataRow[key] = dictionary[key];
-                                }
-                                DataTable.Rows.Add(dataRow); //循环添加行到DataTable中
-                            }
+                            SelectedItem = Data.FirstOrDefault();
                         }
-
-                        SelectedItem = DataTable.Rows.OfType<DataRow>().FirstOrDefault();
-                        if (id != null && DataTable.Columns.Contains(IdName))
+                        else
                         {
-                            SelectedItem = DataTable.Rows.OfType<DataRow>().FirstOrDefault(p => p[IdName]?.ToString() == id.ToString());
+                            SelectedItem = null;
                         }
                     }
                 }
@@ -221,7 +183,25 @@ namespace AIStudio.BlazorUI.Core
         {
             Func<ModalClosingEventArgs, Task> onOkClick = async (e) =>
             {
-                await SaveData();
+                var obj = SelectedItem;
+                if (SelectedItem == null)
+                {
+                    obj = new Dictionary<string, object>();
+                }
+                else
+                {
+                    obj = SelectedItem.DeepClone();
+                }
+
+                BaseControlItem.ListToObject(obj, EditFormItems);
+
+                if (obj.ContainsKey("Error") && !string.IsNullOrEmpty(obj["Error"]?.ToString()))
+                {
+                    await Error?.ProcessError(new MsgException(obj["Error"]?.ToString()));
+                    return;
+                }
+
+                await SaveData(obj);
             };
 
             RenderFragment icon = (builder) =>
@@ -239,7 +219,7 @@ namespace AIStudio.BlazorUI.Core
             };
             ModalService.Confirm(new ConfirmOptions()
             {
-                Title = SelectedItem== null? "新增数据": "修改数据",
+                Title = SelectedItem == null ? "新增数据" : "修改数据",
                 Icon = icon,
                 Content = SelectedItem == null ? "确定要提交新增数据？" : "确定要提交修改数据？",
                 Centered = true,
@@ -247,35 +227,13 @@ namespace AIStudio.BlazorUI.Core
             });
         }
 
-        protected virtual async Task SaveData()
+        protected virtual async Task SaveData(Dictionary<string, object> para)
         {
             using (var waitfor = WaitFor.GetWaitFor(this))
             {
                 try
                 {
-                    DataRow obj;
-                    if (SelectedItem == null)
-                    {
-                        obj = DataTable.NewRow();
-                    }
-                    else
-                    {
-                        obj = SelectedItem;
-                    }
-
-                    var dictionary = obj.Table.Columns.Cast<DataColumn>().ToDictionary(column => column.ColumnName, column => obj[column]);
-
-                    BaseControlItem.ListToObject(dictionary, EditFormItems);
-
-                    if (dictionary.ContainsKey("Error") && !string.IsNullOrEmpty(dictionary["Error"]?.ToString()))
-                    {
-                        await Error?.ProcessError(new MsgException(dictionary["Error"]?.ToString()));
-                        return;
-                    }
-
-                    dictionary = dictionary.Where(p => p.Value != DBNull.Value).ToDictionary(p => p.Key, p => p.Value);
-
-                    var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/SaveData", dictionary.ToJson());
+                    var result = await DataProvider.PostData<AjaxResult>($"/{Area}/{Name}/SaveData", para.ToJson());
                     if (!result.Success)
                     {
                         throw new MsgException(result.Msg);
@@ -292,7 +250,7 @@ namespace AIStudio.BlazorUI.Core
 
         protected virtual async Task Delete()
         {
-            if (SelectedItems != null && DataTable.Columns.Contains(IdName))
+            if (SelectedItems?.Count() > 0 && SelectedItems.First().ContainsKey(IdName))
             {
                 await Delete(SelectedItems.Select(p => p[IdName]?.ToString()).ToList());
             }
@@ -323,7 +281,7 @@ namespace AIStudio.BlazorUI.Core
         {
             switch (type)
             {
-                case ControlType.Query: await Refresh(); break;
+                case ControlType.Query: Refresh(); break;
                 case ControlType.Delete: await Delete(); break;
                 case ControlType.Submit: Submit(); break;
                 case ControlType.Add:

@@ -16,16 +16,18 @@
 
 
 <Table @ref="_table"
-       TItem="System.Data.DataRow"
+       TItem="Dictionary<string, object>"
        DataSource="Data"
+       EnableVirtualization
+       Loading="Loading"
        @bind-SelectedRows="SelectedItems"
        OnRowClick="OnRowClick"
        HidePagination
        PageSize="Pagination.PageRows"
        PageIndex="Pagination.PageIndex"
-       ScrollY="@BodyHeight.ToString()"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollX="@ScrollX.ToString()"
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        Responsive
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <Selection />
@@ -37,11 +39,11 @@
             {
                 @if (string.IsNullOrEmpty(column.Converter))
                 {
-                    <AntDesign.Column TData="object" Title="@column.Header.ToString()" DataIndex=@($"['{column.PropertyName}']") Filterable Sortable=@column.CanUserSort Format="@column.StringFormat"></AntDesign.Column>
+                    <AntDesign.Column TData="object" Title="@column.Header.ToString()" DataIndex=@($"['{column.PropertyName}']") Filterable Sortable=@column.CanUserSort Format="@column.StringFormat" Ellipsis></AntDesign.Column>
                 }
                 else
                 {
-                    <AntDesign.Column Title="@column.Header.ToString()" Filterable Sortable=@column.CanUserSort TData="string">
+                    <AntDesign.Column Title="@column.Header.ToString()" Filterable Sortable=@column.CanUserSort TData="string" Ellipsis>
                         <ConverterComponent Converter="@column.Converter" ConverterParameter="@column.ConverterParameter" Value="@context[column.PropertyName]" />
                     </AntDesign.Column>
                 }
@@ -51,25 +53,19 @@
 </Table>
 <div style="float:right;margin-top:10px">
     <AntDesign.Pagination Total="Pagination.Total"
-                          ShowTotal="ShowTotal"
-                          ShowSizeChanger
-                          PageSize="Pagination.PageRows"
-                          Current="Pagination.PageIndex"
-                          OnChange="PageIndexChanged"
-                          OnShowSizeChange="PageSizeChanged" />
+                        ShowTotal="ShowTotal"
+                        ShowSizeChanger
+                        PageSize="Pagination.PageRows"
+                        Current="Pagination.PageIndex"
+                        OnChange="PageIndexChanged"
+                        OnShowSizeChange="PageSizeChanged" />
 </div>
 
 <Space Size=@(("5", "10")) Wrap style="margin-top:10px">
 
     @if (EditFormItems != null)
     {
-        @if (IsReadOnly)
-        {
-            <SpaceItem>
-                <Icon Type="read" Theme="outline" />
-            </SpaceItem>
-        }
-        else if (IsNew)
+        if (IsNew)
         {
             <SpaceItem>
                 <Icon Type="file" Theme="outline" Style="color: red;" />

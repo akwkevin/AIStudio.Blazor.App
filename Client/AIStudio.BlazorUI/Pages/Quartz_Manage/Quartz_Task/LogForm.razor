@@ -4,14 +4,14 @@
 <Table @ref="_table"
        TItem="Base_LogSystemDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        ScrollX="800"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
-        <Selection Key="@(context.Id)" />
         <AntDesign.Column Ellipsis Title="内容" DataIndex="Message" TData="string" />
         <AntDesign.Column Ellipsis Title="类别" DataIndex="LogType" TData="string" />
         <AntDesign.Column Ellipsis Title="名称" DataIndex="Name" TData="string" />

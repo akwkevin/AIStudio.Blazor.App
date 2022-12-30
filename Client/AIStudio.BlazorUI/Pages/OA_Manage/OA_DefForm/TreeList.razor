@@ -18,12 +18,15 @@
                 <SpaceItem>
                     @context.DataItem.Text
                 </SpaceItem>
-                <SpaceItem>
-                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context.DataItem)">创建</Button>
-                </SpaceItem>
-                <SpaceItem>
-                    <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>OpenEditor(context.DataItem)">查看流程图</Button>
-                </SpaceItem>
+                @if (!string.IsNullOrEmpty(context.DataItem.jsonId))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context.DataItem)">创建</Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>OpenEditor(context.DataItem)">查看流程图</Button>
+                    </SpaceItem>
+                }
             </ChildContent>
         </Space>
     </TitleTemplate>
@@ -45,10 +48,10 @@
         //modalConfig.BodyStyle += "overflow-y: auto;";
         modalConfig.DestroyOnClose = true;
         modalConfig.Centered = true;
-        modalConfig.Width = 1000d;
+        modalConfig.Width = 1200d;
         modalConfig.Footer = null;
 
-        var modalRef = await ModalService.CreateModalAsync<OA_UserForm.EditForm, object>(modalConfig, 
+        var modalRef = await ModalService.CreateModalAsync<OA_UserForm.EditForm, object>(modalConfig,
             new OA_UserFormDTO()
                 {
                     Type = para.type,
@@ -75,7 +78,7 @@
         //modalConfig.BodyStyle += "overflow-y: auto;";
         modalConfig.DestroyOnClose = true;
         modalConfig.Centered = true;
-        modalConfig.Width = 1000d;
+        modalConfig.Width = 1200d;
         modalConfig.Footer = null;
 
         var modalRef = await ModalService.CreateModalAsync<TreeEditForm, object>(modalConfig, para?.json);

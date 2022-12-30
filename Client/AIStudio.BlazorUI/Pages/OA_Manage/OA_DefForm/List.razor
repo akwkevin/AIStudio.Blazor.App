@@ -27,8 +27,8 @@
                     OnCancel="()=>{}"
                     OkText="确定"
                     CancelText="取消"
-                    disabled=@NoneSelectedItems>
-                <Button Type="@ButtonType.Primary" Danger Icon="minus" disabled=@NoneSelectedItems>删除</Button>
+                    Disabled=@NoneSelectedItems>
+                <Button Type="@ButtonType.Primary" Danger Icon="minus" Disabled=@NoneSelectedItems>删除</Button>
             </Popconfirm>
         </SpaceItem>
     }
@@ -51,12 +51,13 @@
 <Table @ref="_table"
        TItem="OA_DefFormDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"
        ScrollX="1400"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
@@ -82,7 +83,7 @@
                     @if (@context.ValueRoles.Contains(item.Value))
                     {
                         <Tag Color="success">
-                            @item.Text;                        
+                            @item.Text                      
                         </Tag>
                     }
                 }
@@ -92,12 +93,6 @@
             <Space Size=@("small")>
                 @if (Operator.HasPerm("OA_DefForm.Edit"))
                 {
-                    <SpaceItem>
-                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Start(context.Id)">Open</Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Stop(context.Id)">Close</Button>
-                    </SpaceItem>
                     <SpaceItem>
                         <Button Type="@ButtonType.Link" Style="padding:0px" OnClick="()=>Edit(context)">Edit</Button>
                     </SpaceItem>
@@ -141,7 +136,7 @@
     public List()
     {
         Area = "OA_Manage";
-        EditWitdh = 1000d;
+        EditWitdh = 1200d;
         NewTitle = "新建流程";
         EditTitle = "编辑流程";
     }

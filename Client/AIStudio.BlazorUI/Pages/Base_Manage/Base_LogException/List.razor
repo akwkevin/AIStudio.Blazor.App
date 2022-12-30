@@ -17,12 +17,13 @@
 <Table @ref="_table"
        TItem="Base_LogExceptionDTO"
        DataSource="Data"
+       EnableVirtualization
        Loading="Loading"
        @bind-PageSize="Pagination.PageRows"
        @bind-SelectedRows="SelectedItems"       
        ScrollX="2000"
-       ScrollBarWidth="5px"
-       Size=@TableSize.Small
+       ScrollBarWidth="12px"
+       Size="TableSize.Small"
        RowClassName="@(x => x.RowIndex % 2 == 0 ?"gray-2":"")">
     <ChildContent>
         <Selection Key="@(context.Id)" />
@@ -61,6 +62,7 @@
     public List()
     {
         Area = "Base_Manage";
+        Condition = "Message";
     }
 
     string? CreatorName { get; set; }
