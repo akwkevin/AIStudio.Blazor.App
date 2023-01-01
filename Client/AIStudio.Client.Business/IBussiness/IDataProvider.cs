@@ -17,9 +17,9 @@ namespace AIStudio.Client.Business
         Task<AjaxResult<string>> GetToken(string userName, string password);
 
         Task<AjaxResult> ClearToken();
-        //[LogHandler]
+     
         Task<AjaxResult<T>> PostData<T>(string url, Dictionary<string, string> data);
-        //[LogHandler]
+     
         Task<AjaxResult<T>> PostData<T>(string url, string json = "{}");
 
         Task<AjaxResult<T>> PostData<T>(string url, object data);
