@@ -19,9 +19,9 @@ namespace AIStudio.BlazorUI.Services
             //services.Configure<ProSettings>(configuration.GetSection("ProSettings"));
             services.Configure<LayoutSettings>(configuration.GetSection("LayoutSettings"));
 
-            services.AddAntDesign();   // 这句关键代码			
+            services.AddAntDesign();   // 这句关键代码
 
-			services.AddScoped<ModalService>();
+            services.AddScoped<ModalService>();
             services.AddScoped<MessageService>();
 
             services.AddScoped<IDataProvider, ApiDataProvider>();

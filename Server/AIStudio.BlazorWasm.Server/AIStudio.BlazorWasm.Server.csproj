@@ -12,13 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="aistudio.pfx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="aistudio.pfx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="appsettings.Development.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -34,6 +27,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Client\Application\AIStudio.BlazorWasm.Client\AIStudio.BlazorWasm.Client.csproj" />
     <ProjectReference Include="..\AIStudio.Api\AIStudio.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="aistudio.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 
