@@ -46,12 +46,19 @@ API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https:
     ├─AIStudio.IBusiness
 ```
 
-### 快速启动
+### 快速启动（Wasm宿主在API中）
 选择AIStudio.BlazorWasm.Server，直接运行即可。
 ![image](https://user-images.githubusercontent.com/27945492/210239186-f890f44b-0c90-470d-9aa9-21c419ff66fe.png)
 用户名：Admin 密码：Admin
 主界面如下：
 ![image](https://user-images.githubusercontent.com/27945492/210239274-b7f54270-25b1-4f63-9ad1-e032a1d7528a.png)
+
+### 快速启动2（如果您的项目完全为前后台分离）
+选择AIStudio.API运行
+![image](https://user-images.githubusercontent.com/27945492/210241023-70bfc82d-fd60-4dee-a885-7d2ca87b3623.png)
+
+### 框架知识点介绍：
+待完善
 
 ### 以为部分界面的截图：
 权限管理
@@ -83,6 +90,15 @@ API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https:
 ![image](https://user-images.githubusercontent.com/27945492/210239987-a5059f97-baf8-4a9c-90d8-54aebdba49d6.png)
 我的流程
 ![image](https://user-images.githubusercontent.com/27945492/210240040-f5d654bf-e712-40af-a235-96325a2b14d1.png)
+
+
+### 嵌入在winform中的运行效果
+![image](https://user-images.githubusercontent.com/27945492/210240738-32123971-b162-4b01-bf7e-027a61cb7da4.png)
+
+
+### 嵌入在wpf中的运行效果
+![image](https://user-images.githubusercontent.com/27945492/210240827-1c946ede-28ab-4c08-a7e7-91bdf75628a9.png)
+
 
 ### 同后台CS框架（WPF） https://gitee.com/akwkevin/aistudio.-wpf.-aclient
 ![image](https://user-images.githubusercontent.com/27945492/210240299-45d725ef-e776-400f-a21a-200dcd453ace.png)
