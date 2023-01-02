@@ -61,7 +61,7 @@ API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https:
 ### 框架知识点介绍：
 待完善
 
-### 以为部分界面的截图：
+### 以下为部分界面的截图：
 权限管理
 ![image](https://user-images.githubusercontent.com/27945492/210239431-27382105-ca5e-44f5-81a0-53997077fd24.png)
 用户管理
