@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Server/AIStudio.BlazorWasm.Server/internal-nlog-AspNetCore.txt
+/Server/AIStudio.Api/internal-nlog-AspNetCore.txt
