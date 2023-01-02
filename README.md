@@ -48,8 +48,9 @@ API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https:
 
 ### 快速启动（Wasm宿主在API中）
 选择AIStudio.BlazorWasm.Server，直接运行即可。
-![image](https://user-images.githubusercontent.com/27945492/210239186-f890f44b-0c90-470d-9aa9-21c419ff66fe.png)
+![image](https://user-images.githubusercontent.com/27945492/210241264-b558d763-4889-45a5-a361-92b030be96b8.png)
 用户名：Admin 密码：Admin
+
 主界面如下：
 ![image](https://user-images.githubusercontent.com/27945492/210239274-b7f54270-25b1-4f63-9ad1-e032a1d7528a.png)
 
