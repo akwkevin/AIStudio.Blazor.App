@@ -48,6 +48,44 @@ API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https:
 
 ### 快速启动
 选择AIStudio.BlazorWasm.Server，直接运行即可。
+![image](https://user-images.githubusercontent.com/27945492/210239186-f890f44b-0c90-470d-9aa9-21c419ff66fe.png)
+用户名：Admin 密码：Admin
+主界面如下：
+![image](https://user-images.githubusercontent.com/27945492/210239274-b7f54270-25b1-4f63-9ad1-e032a1d7528a.png)
+
+### 以为部分界面的截图：
+权限管理
+![image](https://user-images.githubusercontent.com/27945492/210239431-27382105-ca5e-44f5-81a0-53997077fd24.png)
+用户管理
+![image](https://user-images.githubusercontent.com/27945492/210239487-cd0ecbfe-1f07-41b5-b563-31fa41b1a595.png)
+角色管理
+![image](https://user-images.githubusercontent.com/27945492/210239502-28ba4035-dc38-4d82-9e2f-0c0e91bc183d.png)
+部门管理
+![image](https://user-images.githubusercontent.com/27945492/210239529-8cc77a6f-29b8-440a-9561-377d80adcff4.png)
+字典管理
+![image](https://user-images.githubusercontent.com/27945492/210239556-32c0a0c8-be6c-48b1-adcb-023d4c6d17f0.png)
+表单配置
+![image](https://user-images.githubusercontent.com/27945492/210239595-86d39071-62b9-4a06-92be-38babbebe64a.png)
+任务管理
+![image](https://user-images.githubusercontent.com/27945492/210239618-e238aa11-de9a-4f1a-b08e-b21f8a0fd0be.png)
+异常日志
+![image](https://user-images.githubusercontent.com/27945492/210239670-ee5ebf2f-805e-4d07-b6f8-967202affa62.png)
+访问日志
+![image](https://user-images.githubusercontent.com/27945492/210239716-27bcfda2-c586-4ed1-8642-b99b9f057729.png)
+操作日志
+![image](https://user-images.githubusercontent.com/27945492/210239733-82fe0f50-3e14-4b94-834e-4cb7fa701720.png)
+系统日志
+![image](https://user-images.githubusercontent.com/27945492/210239759-9a7308a3-a79d-4490-b2fd-ef92983fe108.png)
+流程管理
+![image](https://user-images.githubusercontent.com/27945492/210239913-ee57ccc8-cdbf-4b1a-bc7b-de2d9d52ec0f.png)
+发起流程
+![image](https://user-images.githubusercontent.com/27945492/210239952-253b73b6-e70d-4fcc-a44f-ff9dcf43ea3a.png)
+![image](https://user-images.githubusercontent.com/27945492/210239987-a5059f97-baf8-4a9c-90d8-54aebdba49d6.png)
+我的流程
+![image](https://user-images.githubusercontent.com/27945492/210240040-f5d654bf-e712-40af-a235-96325a2b14d1.png)
+
+### 同后台CS框架（WPF） https://gitee.com/akwkevin/aistudio.-wpf.-aclient
+![image](https://user-images.githubusercontent.com/27945492/210240299-45d725ef-e776-400f-a21a-200dcd453ace.png)
 
 
 
