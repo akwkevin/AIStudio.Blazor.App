@@ -1,5 +1,5 @@
 # AIStudio.Blazor.App
-
+```
 ├─Client  (客户端部分)
 │  ├─AIStudio.BlazorUI （客户端页面）
 │  ├─AIStudio.Client.Business （向后台请求方法）
@@ -32,3 +32,4 @@
     ├─AIStudio.BlazorWasm.Server （WASM托管在API中的启动项目）
     ├─AIStudio.Business 
     ├─AIStudio.IBusiness
+```
