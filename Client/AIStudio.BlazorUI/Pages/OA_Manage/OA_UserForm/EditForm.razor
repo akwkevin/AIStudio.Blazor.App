@@ -7,7 +7,7 @@
         {
             <Step Status="@StatusToStep(@item.Status)" Title="@item.Label" Description="@item.ActRules?.ToString()" />
         }
-    </Steps>
+        </Steps>
 }
 
 <Form @ref="_form" Model="@Data" Class="ant-advanced-search-form">
@@ -328,7 +328,7 @@
                 {
                     throw new Exception(result.Msg);
                 }
-                Close();
+                OK(new MouseEventArgs());
             }
             catch (Exception ex)
             {
@@ -356,7 +356,8 @@
                     throw new Exception(result.Msg);
                 }
                 await MessageService.Success(result.Msg);
-                Close();
+                OK(new MouseEventArgs());
+
             }
             catch (Exception ex)
             {

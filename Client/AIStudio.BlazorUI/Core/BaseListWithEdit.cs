@@ -43,6 +43,7 @@ namespace AIStudio.BlazorUI.Core
                 await GetData();
                 StateHasChanged();
             };
+       
         }
     }
 }

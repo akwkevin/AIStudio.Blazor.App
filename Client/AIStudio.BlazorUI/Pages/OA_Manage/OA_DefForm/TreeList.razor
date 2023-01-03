@@ -2,6 +2,13 @@
 
 @inherits BaseList<OA_DefFormTree>
 
+<Space Size="@("small")">
+    <SpaceItem>
+        <Button Type="@ButtonType.Primary" Icon="reload" OnClick="()=>Refresh()">刷新</Button>
+    </SpaceItem>
+</Space>
+
+
 <Tree TItem="OA_DefFormTree"
       DataSource="Data"
       ChildrenExpression="node=>node.DataItem.Children"

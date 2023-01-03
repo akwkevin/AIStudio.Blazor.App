@@ -4,6 +4,7 @@ using AIStudio.Util;
 using AIStudio.Util.Common;
 using AntDesign;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace AIStudio.BlazorUI.Core
 {
@@ -147,6 +148,12 @@ namespace AIStudio.BlazorUI.Core
         protected void Close()
         {
             _ = base.FeedbackRef.CloseAsync();
+        }
+
+        protected void OK(MouseEventArgs e)
+        {
+            ModalClosingEventArgs modalClosingEventArgs = new ModalClosingEventArgs(e, false);
+            _= base.OkCancelRef.OkAsync(modalClosingEventArgs);
         }
 
         public AntDesign.RadioOption<enumT>[] GetRadioOptions<enumT>() where enumT : Enum
