@@ -118,6 +118,11 @@ namespace AIStudio.Common.AppSettings
         public static string[] AllowCors => Configuration.GetSection("AllowCors").Get<string[]>();
 
         /// <summary>
+        /// 发布的地址与端口
+        /// </summary>
+        public static string urls => Configuration.GetValue<string>("urls");
+
+        /// <summary>
         /// Jwt 配置
         /// </summary>
         public static class JwtOptions
@@ -198,6 +203,25 @@ namespace AIStudio.Common.AppSettings
             /// IdHelper的WorkerId
             /// </summary>
             public static int WorkerId => Configuration.GetValue<int>("SnowId:WorkerId");
+        }
+
+        /// <summary>
+        /// https证书配置
+        /// </summary>
+        public static class CertificateOptions
+        {
+            /// <summary>
+            /// 证书地址
+            /// </summary>
+            public static string Path => Configuration["Certificate:Path"];
+            /// <summary>
+            /// 证书密码
+            /// </summary>
+            public static string Password => Configuration["Certificate:Password"];
+            /// <summary>
+            /// 证书Key
+            /// </summary>
+            public static string Key => Configuration["Certificate:Key"];
         }
     }
 }

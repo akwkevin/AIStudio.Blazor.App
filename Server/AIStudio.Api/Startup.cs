@@ -16,6 +16,7 @@ using AIStudio.Common.Swagger;
 using AIStudio.Common.Types;
 using AIStudio.Common.Workflow;
 using AIStudio.Util;
+using AIStudio.Util.Helper;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting.WindowsServices;
@@ -37,7 +38,7 @@ namespace AIStudio.Api
         /// <param name="serviceAction"></param>
         /// <param name="applicationAction"></param>
         public static void Run(string[] args, Action<IServiceCollection>? serviceAction = null, Action<WebApplication>? applicationAction = null)
-        {
+        {           
             var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             logger.Debug("启动中……");
 
@@ -66,15 +67,29 @@ namespace AIStudio.Api
                 {
                     builder.WebHost.UseKestrel(options =>
                     {
-                        options.Listen(System.Net.IPAddress.Any, 5000);
-                        options.Listen(System.Net.IPAddress.Any, 5001,
-                         listenOptions =>
-                         {
-                             //var x509ca = new X509Certificate2("aistudio.pfx", "aistudio");
-                             //listenOptions.UseHttps(x509ca);
-                             listenOptions.UseHttps("aistudio.pfx", "aistudio");
+                        var urls = AppSettingsConfig.urls.Split(":");
+                        foreach(var url in urls)
+                        {
+                            if (url.StartsWith("http:"))
+                            {
+                                var port = url.Substring(url.LastIndexOf(":") + 1);
+                                options.Listen(System.Net.IPAddress.Any, int.Parse(port));
+                            }
+                            else if (url.StartsWith("https:"))
+                            {
+                                var port = url.Substring(url.LastIndexOf(":") + 1);
+                                options.Listen(System.Net.IPAddress.Any, int.Parse(port),
+                                     listenOptions =>
+                                     {
+                                         //var x509ca = new X509Certificate2("aistudio.pfx", "aistudio");
+                                         //listenOptions.UseHttps(x509ca);
 
-                         });
+                                         //var password = AesHelper.AesEncryptor("aistudio", "aistudiov1_54eeff444ferfkny6oxi8");
+                                         listenOptions.UseHttps(AppSettingsConfig.CertificateOptions.Path, AesHelper.AesDecryptor(AppSettingsConfig.CertificateOptions.Password, AppSettingsConfig.CertificateOptions.Key));
+
+                                     });
+                            }
+                        }
                     });
                 }
 
