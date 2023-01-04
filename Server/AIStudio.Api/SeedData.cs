@@ -691,7 +691,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test1.json"),
-                    JSONId = "1274618511506804736",
+                    JSONId = "371405902270533",
                     Type = "请假",
                     Name = "请假流程",
                     Text = "最简单的请假流程",
@@ -704,7 +704,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test2.json"),
-                    JSONId = "1274620801831669760",
+                    JSONId = "371406339383365",
                     Type = "报销",
                     Name = "报销审批-与签",
                     Text = "所有审批人都要同意",
@@ -717,7 +717,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test3.json"),
-                    JSONId = "1274621154383892480",
+                    JSONId = "371406356226117",
                     Type = "报销",
                     Name = "报销审批-或签",
                     Text = "只要有一个人审批就行",
@@ -730,7 +730,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test4.json"),
-                    JSONId = "1274621654579810304",
+                    JSONId = "371406373367877",
                     Type = "顺序",
                     Name = "部门领导审批",
                     Text = "根据申请人所在部门自动查找生成审批人",
@@ -743,7 +743,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test5.json"),
-                    JSONId = "1274622508779180032",
+                    JSONId = "371406388228165",
                     Type = "报销",
                     Name = "并行流程",
                     Text = "两个分管部门同时进行审批",
@@ -756,7 +756,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test6.json"),
-                    JSONId = "1274623039325081600",
+                    JSONId = "371406466879557",
                     Type = "顺序",
                     Name = "有创建权限的流程",
                     Text = "只有管理员能创建的流程",
@@ -770,7 +770,7 @@ namespace AIStudio.Api
                 {
                     Id = id,
                     WorkflowJSON = File.ReadAllText($"{directory}/OA_Manage/Steps/g6test7.json"),
-                    JSONId = "1274623664695808000",
+                    JSONId = "371406650073157",
                     Type = "请假",
                     Name = "请假流程-条件",
                     Text = "根据请假天数是否需要分管领导审批",

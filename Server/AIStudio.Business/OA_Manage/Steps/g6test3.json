@@ -1,37 +1,60 @@
 ﻿{
-  "Id": "1274621154383892480",
+  "Id": "371406356226117",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "CDB5E645-6F04-47F7-8F39-6C77A0AE11A7",
+      "Id": "cdb5e645-6f04-47f7-8f39-6c77a0ae11a7",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "C63624F5-1157-4B1B-BA0E-12266A208431",
+      "PreStepId": null,
+      "NextStepId": "c63624f5-1157-4b1b-ba0e-12266a208431",
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "C63624F5-1157-4B1B-BA0E-12266A208431",
+      "Id": "c63624f5-1157-4b1b-ba0e-12266a208431",
       "Label": "或签",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "3D115269-7BFA-4FB7-9986-14737256EBA7",
+      "PreStepId": null,
+      "NextStepId": "3d115269-7bfa-4fb7-9986-14737256eba7",
       "Status": 0,
       "ActRules": {
         "UserIds": [ "Admin", "Bob", "Alice" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
         "ActType": "or"
-      }
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "3D115269-7BFA-4FB7-9986-14737256EBA7",
+      "Id": "3d115269-7bfa-4fb7-9986-14737256eba7",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
+      "PreStepId": null,
+      "NextStepId": null,
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     }
   ],
   "CurrentStepIds": [],
+  "MyEvent": null,
   "Flag": 0.0,
   "Nodes": [
     {
@@ -40,6 +63,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "cdb5e645-6f04-47f7-8f39-6c77a0ae11a7",
+      "ParentId": null,
       "Name": "开始节点",
       "Color": "#1890ff",
       "Label": "开始",
@@ -57,6 +81,7 @@
       "RoleIds": null,
       "ActType": "or",
       "Id": "c63624f5-1157-4b1b-ba0e-12266a208431",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "或签",
@@ -74,6 +99,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "3d115269-7bfa-4fb7-9986-14737256eba7",
+      "ParentId": null,
       "Name": "结束节点",
       "Color": "#1890ff",
       "Label": "结束",
@@ -123,5 +149,6 @@
       "TargetMarkerPath": null,
       "TargetMarkerWidth": null
     }
-  ]
+  ],
+  "Groups": null
 }

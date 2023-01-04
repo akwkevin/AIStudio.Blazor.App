@@ -114,6 +114,7 @@
         var node = new FlowchartNodelModel(position);
         node.Kind = nodeKinds;
         node.Title = nodeKinds.GetDescription();
+        node.Color = "#1890ff";
         node.AddPort(PortAlignment.Bottom);
         node.AddPort(PortAlignment.Top);
         node.AddPort(PortAlignment.Left);

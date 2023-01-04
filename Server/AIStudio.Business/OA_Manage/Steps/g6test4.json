@@ -1,38 +1,69 @@
 ﻿{
-  "Id": "1274621654579810304",
+  "Id": "371406373367877",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "EB7FA360-E2FE-473A-8B37-8C314D52DC03",
+      "Id": "eb7fa360-e2fe-473a-8b37-8c314d52dc03",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "706DD2E2-AF36-42F8-907A-80BB898639B2",
+      "PreStepId": null,
+      "NextStepId": "706dd2e2-af36-42f8-907a-80bb898639b2",
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "706DD2E2-AF36-42F8-907A-80BB898639B2",
+      "Id": "706dd2e2-af36-42f8-907a-80bb898639b2",
       "Label": "角色审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "7F9807EE-5D95-4A7E-B85D-A987E68F425A",
+      "PreStepId": null,
+      "NextStepId": "7f9807ee-5d95-4a7e-b85d-a987e68f425a",
       "Status": 0,
-      "ActRules": { "RoleIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": [ "Admin" ],
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "7F9807EE-5D95-4A7E-B85D-A987E68F425A",
+      "Id": "7f9807ee-5d95-4a7e-b85d-a987e68f425a",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
+      "PreStepId": null,
+      "NextStepId": null,
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     }
   ],
   "CurrentStepIds": [],
+  "MyEvent": null,
   "Flag": 0.0,
   "Nodes": [
     {
+      "Kind": 1,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null,
       "Id": "eb7fa360-e2fe-473a-8b37-8c314d52dc03",
+      "ParentId": null,
       "Name": "开始节点",
       "Color": "#1890ff",
       "Label": "开始",
@@ -42,14 +73,15 @@
       "Y": 22.5,
       "Type": "FlowchartNode",
       "ZIndex": 0,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
-      "Kind": 1,
-      "UserIds": null,
-      "RoleIds": null,
-      "ActType": null
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     },
     {
+      "Kind": 3,
+      "UserIds": null,
+      "RoleIds": [ "Admin" ],
+      "ActType": null,
       "Id": "706dd2e2-af36-42f8-907a-80bb898639b2",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "角色审批",
@@ -59,14 +91,15 @@
       "Y": 147.5,
       "Type": "FlowchartNode",
       "ZIndex": 0,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
-      "Kind": 3,
-      "UserIds": null,
-      "RoleIds": [ "Admin" ],
-      "ActType": null
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     },
     {
+      "Kind": 2,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null,
       "Id": "7f9807ee-5d95-4a7e-b85d-a987e68f425a",
+      "ParentId": null,
       "Name": "结束节点",
       "Color": "#1890ff",
       "Label": "结束",
@@ -76,11 +109,7 @@
       "Y": 272.5,
       "Type": "FlowchartNode",
       "ZIndex": 0,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
-      "Kind": 2,
-      "UserIds": null,
-      "RoleIds": null,
-      "ActType": null
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     }
   ],
   "Links": [
@@ -156,5 +185,6 @@
       "TargetMarkerPath": null,
       "TargetMarkerWidth": null
     }
-  ]
+  ],
+  "Groups": null
 }

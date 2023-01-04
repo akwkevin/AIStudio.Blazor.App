@@ -1,34 +1,60 @@
 ﻿{
-  "Id": "1274623039325081600",
+  "Id": "371406466879557",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "8B938BCB-B74E-4424-89A5-3BB2F06DE69F",
+      "Id": "8b938bcb-b74e-4424-89a5-3bb2f06de69f",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "C7900F8F-5F0B-44A5-ADCC-62E554BAD597",
+      "PreStepId": null,
+      "NextStepId": "c7900f8f-5f0b-44a5-adcc-62e554bad597",
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "C7900F8F-5F0B-44A5-ADCC-62E554BAD597",
+      "Id": "c7900f8f-5f0b-44a5-adcc-62e554bad597",
       "Label": "节点",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "B39A3576-5555-4879-8FBB-7F8AC819DFBF",
+      "PreStepId": null,
+      "NextStepId": "b39a3576-5555-4879-8fbb-7f8ac819dfbf",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "B39A3576-5555-4879-8FBB-7F8AC819DFBF",
+      "Id": "b39a3576-5555-4879-8fbb-7f8ac819dfbf",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
+      "PreStepId": null,
+      "NextStepId": null,
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     }
   ],
   "CurrentStepIds": [],
+  "MyEvent": null,
   "Flag": 0.0,
   "Nodes": [
     {
@@ -37,6 +63,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "8b938bcb-b74e-4424-89a5-3bb2f06de69f",
+      "ParentId": null,
       "Name": "开始节点",
       "Color": "#1890ff",
       "Label": "开始",
@@ -54,6 +81,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "c7900f8f-5f0b-44a5-adcc-62e554bad597",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "节点",
@@ -71,6 +99,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "b39a3576-5555-4879-8fbb-7f8ac819dfbf",
+      "ParentId": null,
       "Name": "结束节点",
       "Color": "#1890ff",
       "Label": "结束",
@@ -120,5 +149,6 @@
       "TargetMarkerPath": null,
       "TargetMarkerWidth": null
     }
-  ]
+  ],
+  "Groups": null
 }

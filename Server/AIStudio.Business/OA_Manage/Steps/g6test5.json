@@ -1,77 +1,143 @@
 ﻿{
-  "Id": "1274622508779180032",
+  "Id": "371406388228165",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "F7DF330E-6B82-4590-BA43-4713E34F65F8",
+      "Id": "f7df330e-6b82-4590-ba43-4713e34f65f8",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "B12336D8-6F8C-476A-8F49-23323E911B17",
+      "PreStepId": null,
+      "NextStepId": "b12336d8-6f8c-476a-8f49-23323e911b17",
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "B12336D8-6F8C-476A-8F49-23323E911B17",
+      "Id": "b12336d8-6f8c-476a-8f49-23323e911b17",
       "Label": "并行开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OACOBeginStep, AIStudio.Business",
+      "PreStepId": null,
+      "NextStepId": null,
       "Status": 0,
-      "ActRules": {},
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
       "SelectNextStep": {
-        "5F6A3F7F-A11D-48B8-88E0-6BE0A34F02D2": "True",
-        "8C144350-E54B-4B35-A6B5-7BD12EE8AC28": "True"
+        "5f6a3f7f-a11d-48b8-88e0-6be0a34f02d2": "True",
+        "8c144350-e54b-4b35-a6b5-7bd12ee8ac28": "True"
       }
     },
     {
-      "Id": "5F6A3F7F-A11D-48B8-88E0-6BE0A34F02D2",
+      "Id": "5f6a3f7f-a11d-48b8-88e0-6be0a34f02d2",
       "Label": "财务审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "1C2351B6-545B-4097-BF51-26BE3D5FBCBF",
+      "PreStepId": null,
+      "NextStepId": "1c2351b6-545b-4097-bf51-26be3d5fbcbf",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "1C2351B6-545B-4097-BF51-26BE3D5FBCBF",
+      "Id": "1c2351b6-545b-4097-bf51-26be3d5fbcbf",
       "Label": "财务主管审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "A0494580-B135-46F6-8088-B210FD7673BF",
+      "PreStepId": null,
+      "NextStepId": "a0494580-b135-46f6-8088-b210fd7673bf",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "8C144350-E54B-4B35-A6B5-7BD12EE8AC28",
+      "Id": "8c144350-e54b-4b35-a6b5-7bd12ee8ac28",
       "Label": "人力审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "801893B1-909F-4637-8F1B-5282146D2749",
+      "PreStepId": null,
+      "NextStepId": "801893b1-909f-4637-8f1b-5282146d2749",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "801893B1-909F-4637-8F1B-5282146D2749",
+      "Id": "801893b1-909f-4637-8f1b-5282146d2749",
       "Label": "人力主管审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "A0494580-B135-46F6-8088-B210FD7673BF",
+      "PreStepId": null,
+      "NextStepId": "a0494580-b135-46f6-8088-b210fd7673bf",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "A0494580-B135-46F6-8088-B210FD7673BF",
+      "Id": "a0494580-b135-46f6-8088-b210fd7673bf",
       "Label": "并行结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OACOEndStep, AIStudio.Business",
-      "NextStepId": "040A158C-977D-4933-BCC5-7A530B031EB2",
+      "PreStepId": null,
+      "NextStepId": "040a158c-977d-4933-bcc5-7a530b031eb2",
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "040A158C-977D-4933-BCC5-7A530B031EB2",
+      "Id": "040a158c-977d-4933-bcc5-7a530b031eb2",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
+      "PreStepId": null,
+      "NextStepId": null,
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     }
   ],
   "CurrentStepIds": [],
+  "MyEvent": null,
   "Flag": 0.0,
   "Nodes": [
     {
@@ -80,6 +146,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "f7df330e-6b82-4590-ba43-4713e34f65f8",
+      "ParentId": null,
       "Name": "开始节点",
       "Color": "#1890ff",
       "Label": "开始",
@@ -97,6 +164,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "5f6a3f7f-a11d-48b8-88e0-6be0a34f02d2",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "财务审批",
@@ -114,6 +182,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "b12336d8-6f8c-476a-8f49-23323e911b17",
+      "ParentId": null,
       "Name": "并行开始节点",
       "Color": "#1890ff",
       "Label": "并行开始",
@@ -131,6 +200,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "1c2351b6-545b-4097-bf51-26be3d5fbcbf",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "财务主管审批",
@@ -148,6 +218,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "8c144350-e54b-4b35-a6b5-7bd12ee8ac28",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "人力审批",
@@ -165,6 +236,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "801893b1-909f-4637-8f1b-5282146d2749",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "人力主管审批",
@@ -182,6 +254,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "a0494580-b135-46f6-8088-b210fd7673bf",
+      "ParentId": null,
       "Name": "并行结束节点",
       "Color": "#1890ff",
       "Label": "并行结束",
@@ -199,6 +272,7 @@
       "RoleIds": null,
       "ActType": null,
       "Id": "040a158c-977d-4933-bcc5-7a530b031eb2",
+      "ParentId": null,
       "Name": "结束节点",
       "Color": "#1890ff",
       "Label": "结束",
@@ -356,5 +430,6 @@
       "TargetMarkerPath": null,
       "TargetMarkerWidth": null
     }
-  ]
+  ],
+  "Groups": null
 }

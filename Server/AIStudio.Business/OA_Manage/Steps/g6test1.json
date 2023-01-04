@@ -1,71 +1,119 @@
 ﻿{
-  "Id": "1274618511506804736",
+  "Id": "371405902270533",
   "Version": 0,
   "DataType": "AIStudio.Entity.DTO.OA_Manage.OA_Data, AIStudio.Entity",
   "FirstStart": true,
   "Steps": [
     {
-      "Id": "35D6B9EB-5A17-4EA5-8B16-F870397C5911",
+      "Id": "35d6b9eb-5a17-4ea5-8b16-f870397c5911",
       "Label": "开始",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAStartStep, AIStudio.Business",
-      "NextStepId": "56C27A71-FF3C-4574-8D43-7DE29D5A4644",
+      "PreStepId": null,
+      "NextStepId": "56c27a71-ff3c-4574-8d43-7de29d5a4644",
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "56C27A71-FF3C-4574-8D43-7DE29D5A4644",
+      "Id": "56c27a71-ff3c-4574-8d43-7de29d5a4644",
       "Label": "主管审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "50A8E547-275B-49DA-9C50-C4DB8753421D",
+      "PreStepId": null,
+      "NextStepId": "50a8e547-275b-49da-9c50-c4db8753421d",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": "or"
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "50A8E547-275B-49DA-9C50-C4DB8753421D",
+      "Id": "50a8e547-275b-49da-9c50-c4db8753421d",
       "Label": "人力审批",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "69CB5CBA-FF21-44FD-A67E-ECDBCD6DF0B2",
+      "PreStepId": null,
+      "NextStepId": "69cb5cba-ff21-44fd-a67e-ecdbcd6df0b2",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": "or"
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "69CB5CBA-FF21-44FD-A67E-ECDBCD6DF0B2",
+      "Id": "69cb5cba-ff21-44fd-a67e-ecdbcd6df0b2",
       "Label": "人力归档",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAMiddleStep, AIStudio.Business",
-      "NextStepId": "CA74B34E-3B37-4E92-BA6F-295C84F4B12A",
+      "PreStepId": null,
+      "NextStepId": "ca74b34e-3b37-4e92-ba6f-295c84f4b12a",
       "Status": 0,
-      "ActRules": { "UserIds": [ "Admin" ] }
+      "ActRules": {
+        "UserIds": [ "Admin" ],
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": "or"
+      },
+      "SelectNextStep": {}
     },
     {
-      "Id": "CA74B34E-3B37-4E92-BA6F-295C84F4B12A",
+      "Id": "ca74b34e-3b37-4e92-ba6f-295c84f4b12a",
       "Label": "结束",
       "StepType": "AIStudio.Business.OA_Manage.Steps.OAEndStep, AIStudio.Business",
+      "PreStepId": null,
+      "NextStepId": null,
       "Status": 0,
-      "ActRules": {}
+      "ActRules": {
+        "UserIds": null,
+        "UserNames": null,
+        "RoleIds": null,
+        "RoleNames": null,
+        "ActType": null
+      },
+      "SelectNextStep": {}
     }
   ],
   "CurrentStepIds": [],
+  "MyEvent": null,
   "Flag": 0.0,
   "Nodes": [
     {
+      "Kind": 1,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null,
       "Id": "35d6b9eb-5a17-4ea5-8b16-f870397c5911",
+      "ParentId": null,
       "Name": "开始节点",
       "Color": "#1890ff",
       "Label": "开始",
-      "Width": 100.0, 
+      "Width": 100.0,
       "Height": 80.0,
       "X": 137.5,
       "Y": 22.5,
       "Type": "FlowchartNode",
       "ZIndex": 0,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
-      "Kind": 1,
-      "UserIds": null,
-      "RoleIds": null,
-      "ActType": null
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     },
     {
+      "Kind": 3,
+      "UserIds": [ "Admin" ],
+      "RoleIds": null,
+      "ActType": "or",
       "Id": "56c27a71-ff3c-4574-8d43-7de29d5a4644",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "主管审批",
@@ -74,15 +122,16 @@
       "X": 137.5,
       "Y": 147.5,
       "Type": "FlowchartNode",
-      "ZIndex": 1,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
+    },
+    {
       "Kind": 3,
       "UserIds": [ "Admin" ],
       "RoleIds": null,
-      "ActType": "or"
-    },
-    {
+      "ActType": "or",
       "Id": "50a8e547-275b-49da-9c50-c4db8753421d",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "人力审批",
@@ -91,15 +140,16 @@
       "X": 137.5,
       "Y": 272.5,
       "Type": "FlowchartNode",
-      "ZIndex": 2,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
+    },
+    {
       "Kind": 3,
       "UserIds": [ "Admin" ],
       "RoleIds": null,
-      "ActType": "or"
-    },
-    {
+      "ActType": "or",
       "Id": "69cb5cba-ff21-44fd-a67e-ecdbcd6df0b2",
+      "ParentId": null,
       "Name": "中间节点",
       "Color": "#1890ff",
       "Label": "人力归档",
@@ -108,15 +158,16 @@
       "X": 137.5,
       "Y": 397.5,
       "Type": "FlowchartNode",
-      "ZIndex": 3,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
-      "Kind": 3,
-      "UserIds": [ "Admin" ],
-      "RoleIds": null,
-      "ActType": "or"
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     },
     {
+      "Kind": 2,
+      "UserIds": null,
+      "RoleIds": null,
+      "ActType": null,
       "Id": "ca74b34e-3b37-4e92-ba6f-295c84f4b12a",
+      "ParentId": null,
       "Name": "结束节点",
       "Color": "#1890ff",
       "Label": "结束",
@@ -125,15 +176,11 @@
       "X": 137.5,
       "Y": 522.5,
       "Type": "FlowchartNode",
-      "ZIndex": 4,
-      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ],
-      "Kind": 2,
-      "UserIds": null,
-      "RoleIds": null,
-      "ActType": null
+      "ZIndex": 0,
+      "PortAlignmentList": [ "Top", "Bottom", "Left", "Right", "Top", "Bottom", "Left", "Right" ]
     }
   ],
-  "Links": [    
+  "Links": [
     {
       "Id": "686a8cf4-6809-4fb2-8c0f-420e9cee0b49",
       "Color": null,
@@ -206,5 +253,6 @@
       "TargetMarkerPath": null,
       "TargetMarkerWidth": null
     }
-  ]
+  ],
+  "Groups": null
 }
