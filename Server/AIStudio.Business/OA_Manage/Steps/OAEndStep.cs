@@ -31,7 +31,7 @@ namespace AIStudio.Business.OA_Manage.Steps
             var node = oAData.Nodes?.FirstOrDefault(p => p.Id == OAStep.Id);
             if (node != null)
             {
-                node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen);
+                node.Color = "#90EE90";
             }
 
             var form = await _userFormBusiness.GetEntityAsync(context.Workflow.Id);

@@ -53,8 +53,20 @@ namespace AIStudio.BlazorDiagram.Components
             Model.Refresh();
         }
 
+        private void OnColorChanged(ChangeEventArgs e)
+        {
+            if (Model == null)
+                return;
+
+            Model.Color = e.Value.ToString();
+            Model.Refresh();
+        }
+
         private void OnActTypeChanged(string value)
         {
+            if (Model == null)
+                return;
+
             Model.ActType = value;
             Model.Refresh();
         }

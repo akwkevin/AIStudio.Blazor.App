@@ -66,7 +66,7 @@ namespace AIStudio.Business.OA_Manage.Steps
                     var node = oAData.Nodes.FirstOrDefault(p => p.Id == OAStep.Id);
                     if (node != null)
                     {
-                        node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Orange);
+                        node.Color = "#FFA500";
                     }
                 }
 
@@ -255,14 +255,14 @@ namespace AIStudio.Business.OA_Manage.Steps
                 {
                     case OA_Status.Approve:
                         {
-                            node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.LightGreen); break;
+                            node.Color = "#90EE90"; break;
                         }
                     case OA_Status.Discard:
                     case OA_Status.Reject:
                     case OA_Status.Goback:
                     case OA_Status.Restart:
                         {
-                             node.Color = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.Red); break;
+                            node.Color = "#FF0000"; break;
                         }
                 }
 

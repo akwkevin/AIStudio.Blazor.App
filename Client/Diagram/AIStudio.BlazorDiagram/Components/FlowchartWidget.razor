@@ -1,7 +1,7 @@
 ﻿@if (Node.Kind != AIStudio.Util.DiagramEntity.NodeKinds.Decide)
 {
     <div class="default-node @(Node.Group != null ? "grouped" : "") @(Node.Selected ? "selected" : "")">
-        <div class="divleft">
+        <div class="divleft" style="border-left: 6px solid @Node.Color;">
             <span class="spancenter">
                 @Node.Title
             </span>
@@ -31,8 +31,7 @@ else
         float: left;
         width: 100%;
         height: 100%;
-        border-radius: 10px;
-        border-left: 6px solid @Node.Color;
+        border-radius: 10px;        
         display: flex;
         align-items: center;
         justify-content: center;

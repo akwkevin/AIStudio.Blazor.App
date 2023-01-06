@@ -35,12 +35,22 @@
                         <Input Placeholder="Title" @bind-Value="@Model.Title" @oninput="OnTitleChanged" />
                     </td>
                 </tr>
+            @*    <tr>
+                    <td>
+                        <div class="center">
+                            <label for="color">Color</label>
+                        </div>
+                    </td>
+                    <td>
+                        <Input Placeholder="Color" @bind-Value="@Model.Color" @oninput="OnColorChanged" />
+                    </td>
+                </tr>*@
                 @if (Model.Kind == AIStudio.Util.DiagramEntity.NodeKinds.Middle)
                 {
                     <tr>
                         <td>
                             <div class="center">
-                                <label for="title">用户名</label>
+                                <label>用户名</label>
                             </div>
                         </td>
                         <td>
@@ -59,7 +69,7 @@
                     <tr>
                         <td>
                             <div class="center">
-                                <label for="title">角色名</label>
+                                <label>角色名</label>
                             </div>
                         </td>
                         <td>
@@ -78,7 +88,7 @@
                     <tr>
                         <td>
                             <div class="center">
-                                <label for="title">or/and</label>
+                                <label>or/and</label>
                             </div>
                         </td>
                         <td>
