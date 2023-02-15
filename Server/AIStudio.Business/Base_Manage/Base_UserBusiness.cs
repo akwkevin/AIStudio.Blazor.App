@@ -120,8 +120,6 @@ namespace AIStudio.Business.Base_Manage
             await SetUserRoleAsync(user.Id, input.RoleIdList);
         }
 
-        [DataRepeatValidate(new string[] { "UserName" }, new string[] { "用户名" })]
-        [Transactional]
         public async Task SaveDataAsync(Base_UserEditInputDTO input)
         {
             if (!input.newPwd.IsNullOrEmpty())
