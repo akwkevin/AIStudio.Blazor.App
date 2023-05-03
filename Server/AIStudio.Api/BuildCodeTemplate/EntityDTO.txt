@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace AIStudio.Entity.DTO.%areaName%
 {
     [Map(typeof(%entityName%))]
-    public class %entityName%DTO : %entityName%
+    public class %entityName%DTO : %entityName%, IKeyBaseEntity
     {
 
     }
