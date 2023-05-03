@@ -114,12 +114,6 @@ namespace AIStudio.Business.Base_Manage
             await SetRoleActionAsync(role.Id, input.Actions);
         }
 
-        /// <summary>
-        /// Saves the data asynchronous.
-        /// </summary>
-        /// <param name="input">The input.</param>
-        [DataRepeatValidate(new string[] { "RoleName" }, new string[] { "角色名" })]
-        [Transactional]
         public async Task SaveDataAsync(Base_RoleEditInputDTO input)
         {
             if (input.Id.IsNullOrEmpty())
