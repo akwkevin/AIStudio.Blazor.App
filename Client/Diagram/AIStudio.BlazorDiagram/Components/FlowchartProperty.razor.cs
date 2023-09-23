@@ -13,6 +13,7 @@ namespace AIStudio.BlazorDiagram.Components
     public partial class FlowchartProperty : IDisposable
     {
         private FlowchartNodelModel Model;
+        private LinkLabelModel LinkLabelModel;
 
         [CascadingParameter]
         public Diagram Diagram { get; set; }
@@ -42,6 +43,11 @@ namespace AIStudio.BlazorDiagram.Components
                 Model = model.Selected ? flowchartNodelModel : null;
                 StateHasChanged();
             }
+            else if(model is Blazor.Diagrams.Core.Models.LinkModel linkmodel)
+            {
+                LinkLabelModel = linkmodel.Selected ? linkmodel.Labels.FirstOrDefault() : null;
+                StateHasChanged();
+            }
         }
 
         private void OnTitleChanged(ChangeEventArgs e)
@@ -51,6 +57,18 @@ namespace AIStudio.BlazorDiagram.Components
 
             Model.Title = e.Value.ToString();
             Model.Refresh();
+        }
+
+        private void OnContentChanged(ChangeEventArgs e)
+        {
+            
+            if (LinkLabelModel == null)
+                return;
+
+            LinkLabelModel.Content = e.Value.ToString();
+            LinkLabelModel.Parent.Refresh();
+            //编辑不成功，待续
+        
         }
 
         private void OnColorChanged(ChangeEventArgs e)

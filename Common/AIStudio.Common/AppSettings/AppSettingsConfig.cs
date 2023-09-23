@@ -122,6 +122,9 @@ namespace AIStudio.Common.AppSettings
         /// </summary>
         public static string urls => Configuration.GetValue<string>("urls");
 
+
+        public static string webUrl => Configuration.GetValue<string>("webUrl");
+
         /// <summary>
         /// Jwt 配置
         /// </summary>

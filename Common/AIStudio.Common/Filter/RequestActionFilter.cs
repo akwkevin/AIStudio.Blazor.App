@@ -91,6 +91,9 @@ public class RequestActionFilter : IAsyncActionFilter, IOrderedFilter
         if (actionDescriptor == null) isSkipRecord = true;
         if (AppSettingsConfig.RecordRequestOptions.IsSkipGetMethod && request.Method.ToUpper() == "GET") isSkipRecord = true;
 
+        if (isSkipRecord == false)
+            isSkipRecord = context.ContainsFilter<IgnoreRequestRecordAttribute>();
+
         //如果没有请求记录属性则跳过
         var requestRecord = context.ContainsFilter<RequestRecordAttribute>();
         if (!requestRecord)
@@ -209,7 +212,7 @@ ContentType:{request.ContentType}
 Body:{body}
 Message:{message}
 Result:{result}
-"};
+" };
         await _publisher.PublishAsync(testEventModel);
     }
 }
