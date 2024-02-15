@@ -1,8 +1,9 @@
 # AIStudio.Blazor.App
 
-### 稳定版本见分支master
-
 ### 框架介绍：
+
+最新版本为8.0, 稳定版本见分支master
+
 CS架构的AIStudio.Wpf.AClient的后端，同时内嵌wasm的bs客户端。
 
 采用ASP.NET Core 8.0的框架，内部实现有jwt验证，DI自动注入，nlog日志，事件总线，SqlSugar，aop拦截，quartz等。
