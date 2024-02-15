@@ -1,9 +1,11 @@
 # AIStudio.Blazor.App
 
+### 稳定版本见分支master
+
 ### 框架介绍：
 CS架构的AIStudio.Wpf.AClient的后端，同时内嵌wasm的bs客户端。
 
-采用ASP.NET Core 7.0的框架，内部实现有jwt验证，DI自动注入，nlog日志，事件总线，SqlSugar，aop拦截，quartz等。
+采用ASP.NET Core 8.0的框架，内部实现有jwt验证，DI自动注入，nlog日志，事件总线，SqlSugar，aop拦截，quartz等。
 blazor客户端采用 https://ant-design-blazor.gitee.io/zh-CN/components/overview 组件库
 
 API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https://gitee.com/lisheng741/simpleapp https://gitee.com/hgflydream/Gardener https://gitee.com/zhengguojing/magic-net https://gitee.com/Cherryblossoms/caviar 等，感谢上诉作者的开源作品。
