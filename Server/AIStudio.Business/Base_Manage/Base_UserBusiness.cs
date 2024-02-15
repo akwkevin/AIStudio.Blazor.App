@@ -10,12 +10,9 @@ using AIStudio.IBusiness.Base_Manage;
 using AIStudio.Util;
 using AIStudio.Util.Common;
 using AutoMapper;
-using Newtonsoft.Json.Linq;
 using Simple.Common;
 using SqlSugar;
 using System.Linq.Dynamic.Core;
-using Yitter.IdGenerator;
-using static Google.Protobuf.WireFormat;
 
 namespace AIStudio.Business.Base_Manage
 {

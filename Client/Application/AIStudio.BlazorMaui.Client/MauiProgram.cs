@@ -1,9 +1,4 @@
-﻿using AIStudio.BlazorUI.Models;
-using AIStudio.BlazorUI.Models.Charts;
-using AIStudio.BlazorUI.Services;
-using AIStudio.Util;
-using AIStudio.Util.Helper;
-using Microsoft.AspNetCore.Components;
+﻿using AIStudio.BlazorUI.Services;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 

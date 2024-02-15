@@ -8,14 +8,12 @@ using AIStudio.Util;
 using AIStudio.Util.Mapper;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
-using Org.BouncyCastle.Crypto;
 using SqlSugar;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace AIStudio.Common.SqlSuger
 {

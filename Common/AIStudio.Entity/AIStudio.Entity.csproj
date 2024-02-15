@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.3.32" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.142" />
   </ItemGroup>
 
   <ItemGroup>
