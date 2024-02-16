@@ -34,7 +34,7 @@ namespace AIStudio.Business.Base_Manage
             return q;
         }
 
-        public async Task<List<Base_ActionTree>> GetTreeDataListAsync(Base_ActionsInputDTO input)
+        public async Task<List<Base_ActionTree>> GetActionTreeListAsync(Base_ActionsInputDTO input)
         {
             var qList = await GetDataListAsync(input);
             var treeList = qList.Select(x => new Base_ActionTree
@@ -88,7 +88,7 @@ namespace AIStudio.Business.Base_Manage
         {
             input.Types = new ActionType[] { ActionType.菜单, ActionType.页面 };
 
-            return await GetTreeDataListAsync(input);
+            return await GetActionTreeListAsync(input);
         }
 
         public async Task<List<Base_Action>> GetPermissionListAsync(Base_ActionsInputDTO input)

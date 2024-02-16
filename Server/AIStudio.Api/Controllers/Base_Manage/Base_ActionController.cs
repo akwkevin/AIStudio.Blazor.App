@@ -64,7 +64,7 @@ namespace AIStudio.Api.Controllers.Base_Manage
         [HttpPost]
         public async Task<List<Base_ActionTree>> GetActionTreeList(Base_ActionsInputDTO input)
         {
-            return await _actionBus.GetTreeDataListAsync(input);
+            return await _actionBus.GetActionTreeListAsync(input);
         }
 
         /// <summary>

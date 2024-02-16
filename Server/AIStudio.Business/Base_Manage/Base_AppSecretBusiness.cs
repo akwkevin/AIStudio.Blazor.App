@@ -49,7 +49,7 @@ namespace AIStudio.Business.Base_Manage
         /// </summary>
         /// <param name="theData">The data.</param>
         [DataRepeatValidate(new string[] { "AppId" }, new string[] { "应用Id" })]
-        public async Task SaveDataAsync(Base_AppSecret theData)
+        public override async Task SaveDataAsync(Base_AppSecret theData)
         {
             await base.SaveDataAsync(theData);
         }

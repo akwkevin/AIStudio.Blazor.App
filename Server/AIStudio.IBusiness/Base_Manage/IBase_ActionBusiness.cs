@@ -11,7 +11,7 @@ namespace AIStudio.IBusiness.Base_Manage
     public interface IBase_ActionBusiness : IBaseBusiness<Base_Action>
     {
         Task<List<Base_Action>> GetDataListAsync(Base_ActionsInputDTO input);
-        Task<List<Base_ActionTree>> GetTreeDataListAsync(Base_ActionsInputDTO input);
+        Task<List<Base_ActionTree>> GetActionTreeListAsync(Base_ActionsInputDTO input);
         Task<List<Base_Action>> GetAllActionListAsync();
         Task<List<Base_ActionTree>> GetMenuTreeListAsync(Base_ActionsInputDTO input);
         Task<List<Base_Action>> GetPermissionListAsync(Base_ActionsInputDTO input);
