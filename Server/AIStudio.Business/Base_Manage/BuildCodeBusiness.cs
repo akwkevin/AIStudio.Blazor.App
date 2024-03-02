@@ -17,9 +17,13 @@ namespace AIStudio.Business.Base_Manage
         public BuildCodeBusiness(ISqlSugarClient db, IHostEnvironment env)
             : base(db)
         {
-            var projectPath = env.ContentRootPath;
-            var root = GetDirectory(projectPath);
-            _solutionPath = root.FullName;
+            try
+            {
+                var projectPath = env.ContentRootPath;
+                var root = GetDirectory(projectPath);
+                _solutionPath = root.FullName;
+            }
+            catch { }
         }
 
         //找到工程根目录
