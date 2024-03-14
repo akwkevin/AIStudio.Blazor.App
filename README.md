@@ -13,6 +13,8 @@ API参照框架有https://github.com/Coldairarrow/Colder.Admin.AntdVue ，https:
 
 参照上述框架的同时，尽量保证框架简洁，实现功能的同时，不参杂过多的复杂技术。
 
+### AIStudio框架汇总：[https://gitee.com/akwkevin/aistudio.-introduce](https://gitee.com/akwkevin/aistudio.-introduce)
+
 ### 框架结构如下：
 ```
 ├─Client  (客户端部分)
